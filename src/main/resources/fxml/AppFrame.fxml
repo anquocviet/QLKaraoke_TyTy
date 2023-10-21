@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AppFrame" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.AppFrameController" >
+    <children>
+        <fx:include fx:id="TrangChu" source="TrangChu.fxml" />
+        <MenuBar layoutY="1.0" prefWidth="1280.0">
+            <menus>
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Trang Chủ" onAction="#openHomePage"  />
+                        <MenuItem mnemonicParsing="false" text="Tài Khoản" />
+                        <MenuItem mnemonicParsing="false" text="Trợ Giúp" />
+                        <MenuItem mnemonicParsing="false" text="Đăng Xuất" />
+                        <MenuItem mnemonicParsing="false" text="Thoát" />
+                    </items>
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/gear.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Menu>
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Danh Mục">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Khách Hàng" onAction="#openGUICustomerManager"   />
+                        <MenuItem mnemonicParsing="false" text="Nhân Viên" onAction="#openGUICustomerEmployee" />
+                        <MenuItem mnemonicParsing="false" text="Phòng" />
+                        <MenuItem mnemonicParsing="false" text="Dịch Vụ" />
+                        <MenuItem mnemonicParsing="false" text="Khuyến Mãi" />
+                    </items>
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/folder.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Menu>
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Xử Lý">
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/wrench.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Menu>
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Tìm Kiếm">
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/search.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Menu>
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Theo Ngày" />
+                        <MenuItem mnemonicParsing="false" text="Theo Tháng" />
+                        <MenuItem mnemonicParsing="false" text="Theo Quý" />
+                        <MenuItem mnemonicParsing="false" text="Theo Năm" />
+                        <MenuItem mnemonicParsing="false" text="Theo Khách Hàng" />
+                    </items>
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/chart.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Menu>
+            </menus>
+            <padding>
+                <Insets bottom="6.0" top="6.0" />
+            </padding>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </MenuBar>
+        
+        <Pane layoutX="709.0" prefHeight="54.0" prefWidth="559.0">
+            <children>
+                <Text layoutX="343.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QL: An Quốc Việt">
+                    <font>
+                        <Font name="Arial" size="20.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="511.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../image/profile.png" />
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ImageView>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
