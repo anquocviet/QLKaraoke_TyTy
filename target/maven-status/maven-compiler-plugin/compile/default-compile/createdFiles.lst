@@ -1,5 +1,5 @@
-main/App.class
-controllers/AppFrameController.class
-controllers/GD_QuanLyKhachHangController.class
+controllers\GD_QuanLyKhachHangController.class
 module-info.class
-controllers/GD_QuanLyNhanVienController.class
+controllers\GD_QuanLyNhanVienController.class
+controllers\AppFrameController.class
+main\App.class
