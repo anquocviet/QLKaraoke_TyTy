@@ -1,6 +1,6 @@
 controllers\GD_ThuePhongController.class
-controllers\AppFrameController.class
 controllers\GD_QuanLyKhachHangController.class
-main\App.class
 module-info.class
 controllers\GD_QuanLyNhanVienController.class
+controllers\AppFrameController.class
+main\App.class
