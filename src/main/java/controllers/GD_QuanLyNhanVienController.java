@@ -15,7 +15,7 @@ import main.App;
 /**
  * FXML Controller class
  *
- * @author vie
+ * @author fil
  */
 public class GD_QuanLyNhanVienController implements Initializable {
 
@@ -25,7 +25,7 @@ public class GD_QuanLyNhanVienController implements Initializable {
 
     @FXML
     private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
+        App.setRoot("GD_QuanLyKhachHang");
     }
 
 }
