@@ -24,22 +24,22 @@ public class AppFrameController implements Initializable {
     }
     
     @FXML
-    private void openHomePage(ActionEvent event) throws IOException {
+    private void moTrangChu(ActionEvent event) throws IOException {
         App.setRoot("TrangChu");
     }
 
     @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_DatDichVu");
+    private void moGDQLKhachHang(ActionEvent event) throws IOException {
+        App.setRoot("GD_QuanLyKhachHang");
     }
     
     @FXML
-    private void openGUICustomerEmployee(ActionEvent event) throws IOException {
+    private void moGDQLNhanVien(ActionEvent event) throws IOException {
         App.setRoot("GD_QuanLyNhanVien");
     }
     
     @FXML
-    private void openGUIOrderService(ActionEvent event) throws IOException {
+    private void moGDQLDatDichVu(ActionEvent event) throws IOException {
         App.setRoot("GD_DatDichVu");
     }
 
