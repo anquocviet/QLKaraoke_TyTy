@@ -30,12 +30,17 @@ public class AppFrameController implements Initializable {
 
     @FXML
     private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
+        App.setRoot("GD_DatDichVu");
     }
     
     @FXML
     private void openGUICustomerEmployee(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyNhanVien");
+        App.setRoot("GD_QuanLyNhanVien");
+    }
+    
+    @FXML
+    private void openGUIOrderService(ActionEvent event) throws IOException {
+        App.setRoot("GD_DatDichVu");
     }
 
 }
