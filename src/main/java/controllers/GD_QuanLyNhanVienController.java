@@ -23,9 +23,4 @@ public class GD_QuanLyNhanVienController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QuanLyKhachHang");
-    }
-
 }
