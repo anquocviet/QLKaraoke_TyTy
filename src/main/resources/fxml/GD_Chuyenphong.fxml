@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane id="AnchorPane" stylesheets="@../styles/base.css" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_ChuyenPhongController" >
    <children>
       <Text layoutX="257.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
          <font>
