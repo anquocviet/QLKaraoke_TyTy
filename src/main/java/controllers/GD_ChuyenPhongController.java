@@ -15,9 +15,9 @@ import main.App;
 /**
  * FXML Controller class
  *
- * @author fil
+ * @author thach
  */
-public class GD_QuanLyNhanVienController implements Initializable {
+public class GD_ChuyenPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

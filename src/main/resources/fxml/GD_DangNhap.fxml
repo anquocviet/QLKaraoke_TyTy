@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../styles/base.css" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DangNhapController" >
+   <children>
+      <ImageView fitHeight="68.0" fitWidth="732.0" pickOnBounds="true">
+         <image>
+            <Image url="@../image/Screenshot%202023-10-04%20162447.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="174.0" fitWidth="182.0" layoutX="267.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Screenshot%202023-10-04%20162017.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="169.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="118.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên đăng nhập" />
+      <Text fill="#c11c1c" layoutX="556.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quên mật khẩu?" />
+      <Text layoutX="118.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu" />
+      <ImageView fitHeight="30.0" fitWidth="25.0" layoutX="86.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/user.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="30.0" fitWidth="25.0" layoutX="86.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="30.0" fitWidth="25.0" layoutX="86.0" layoutY="348.0">
+         <image>
+            <Image url="@../image/key.png" />
+         </image>
+      </ImageView>
+      <TextField layoutX="86.0" layoutY="306.0" prefHeight="26.0" prefWidth="580.0" text="AnQuocViet" />
+      <TextField layoutX="86.0" layoutY="393.0" prefHeight="26.0" prefWidth="580.0" text="*********" />
+      <Button layoutX="546.0" layoutY="462.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="126.0" text="Đăng nhập" onAction="#dangNhap"  />
+   </children>
+</Pane>

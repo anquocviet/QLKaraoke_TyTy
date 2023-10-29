@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" stylesheets="@../styles/base.css" prefHeight="531.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+   <children>
+      <Text fill="#df1616" layoutX="268.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextField layoutX="628.0" layoutY="2.0" text="         mã phòng" />
+      <Text layoutX="39.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã phòng" />
+      <Text layoutX="38.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sức chứa" />
+      <Text layoutX="34.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tình trạng" />
+      <Text layoutX="35.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loại phòng " />
+      <Text layoutX="33.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giá phòng" />
+      <TextField layoutX="119.0" layoutY="137.0" text="P102VIP" />
+      <TextField layoutX="120.0" layoutY="176.0" text="10" />
+      <TextField layoutX="121.0" layoutY="213.0" text="Phòng trống" />
+      <TextField layoutX="120.0" layoutY="291.0" text="90k/h" />
+      <TableView layoutX="343.0" layoutY="129.0" prefHeight="404.0" prefWidth="434.0">
+        <columns>
+          <TableColumn prefWidth="28.800048828125" text="#" />
+          <TableColumn prefWidth="92.0" text="Mã phòng" />
+            <TableColumn prefWidth="70.39996337890625" text="Sức chứa" />
+            <TableColumn prefWidth="80.800048828125" text="Tình trạng" />
+            <TableColumn prefWidth="72.7999267578125" text="Loại phòng" />
+            <TableColumn prefWidth="107.2000732421875" text="Giá phòng" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="17.0" fitWidth="26.0" layoutX="638.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/search.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="483.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH PHÒNG" />
+      <ComboBox layoutX="120.0" layoutY="253.0" prefWidth="150.0" promptText="VIP" />
+   </children>
+</AnchorPane>
