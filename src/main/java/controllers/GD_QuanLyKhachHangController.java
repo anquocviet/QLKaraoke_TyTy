@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import main.App;
 
 /**
@@ -21,6 +23,7 @@ public class GD_QuanLyKhachHangController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ToggleGroup genderGroup = new ToggleGroup();
     }
 
     @FXML
