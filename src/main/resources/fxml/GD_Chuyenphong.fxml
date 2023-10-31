@@ -10,49 +10,50 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane id="AnchorPane" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
    <children>
-      <Text layoutX="257.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
+      <Text fill="#bf0a0a" layoutX="261.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
          <font>
-            <Font size="16.0" />
+            <Font size="30.0" />
          </font>
       </Text>
-      <TableView layoutX="-2.0" layoutY="134.0" prefHeight="222.0" prefWidth="620.0">
+      <TableView layoutX="3.0" layoutY="150.0" prefHeight="450.0" prefWidth="794.0" style="-fx-background-color: pink;">
         <columns>
-          <TableColumn prefWidth="120.79998624324799" text="Mã phòng" />
-          <TableColumn minWidth="8.79998779296875" prefWidth="113.59998321533203" text="Loại phòng" />
-            <TableColumn minWidth="8.79998779296875" prefWidth="128.79998779296875" text="Số người" />
-            <TableColumn minWidth="8.79998779296875" prefWidth="145.5999755859375" text="Trạng thái" />
-            <TableColumn minWidth="8.79998779296875" prefWidth="97.60003662109375" text="Giá tiền mỗi giờ" />
+          <TableColumn prefWidth="139.20001220703125" sortable="false" text="Mã phòng" />
+          <TableColumn minWidth="8.79998779296875" prefWidth="168.0" text="Loại phòng" />
+            <TableColumn minWidth="8.79998779296875" prefWidth="188.0" text="Số người" />
+            <TableColumn minWidth="4.0" prefWidth="154.4000244140625" text="Trạng thái" />
+            <TableColumn minWidth="8.79998779296875" prefWidth="536.7999877929688" text="Giá tiền mỗi giờ" />
         </columns>
       </TableView>
-      <Button layoutX="373.0" layoutY="361.0" mnemonicParsing="false" text="Thoát" />
-      <Button layoutX="446.0" layoutY="361.0" mnemonicParsing="false" text="Tải lại" />
-      <Button layoutX="521.0" layoutY="361.0" mnemonicParsing="false" text="Chuyển phòng" />
-      <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số" />
-      <TextField layoutX="124.0" layoutY="72.0" prefHeight="26.0" prefWidth="78.0" text="        search" />
-      <Button layoutX="225.0" layoutY="72.0" mnemonicParsing="false" text="Tìm" />
-      <TextField layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="637.0" />
-      <TextField layoutX="532.0" layoutY="66.0" prefHeight="26.0" prefWidth="89.0" />
-      <Text layoutX="367.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng hiện tại: 001" />
-      <Text layoutX="308.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Được hiển thị khi nhân viên click vào biểu tượng chọn phòng">
+      <Button layoutX="292.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: red;" text="Thoát" />
+      <Button layoutX="472.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Tải lại" />
+      <Button layoutX="625.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: orange;" text="Chuyển phòng" />
+      <Text layoutX="22.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số" wrappingWidth="105.59999999999997" />
+      <TextField layoutX="147.0" layoutY="93.0" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: orange;" text="        search" />
+      <Button layoutX="261.0" layoutY="93.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" text="Tìm" />
+      <TextField layoutX="640.0" layoutY="103.0" prefHeight="27.0" prefWidth="147.0" style="-fx-background-color: orange;" />
+      <Text layoutX="437.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng hiện tại: 001">
          <font>
-            <Font size="8.0" />
+            <Font size="14.0" />
+         </font></Text>
+      <Text layoutX="376.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Được hiển thị khi nhân viên click vào biểu tượng chọn phòng">
+         <font>
+            <Font size="9.0" />
          </font>
       </Text>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="137.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="159.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/search.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="609.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="30.0" layoutX="767.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" style="-fx-color: red;">
          <image>
             <Image url="@../image/close.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="500.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="50.0" fitWidth="30.0" layoutX="610.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/right-arrow.png" />
          </image>
