@@ -48,6 +48,11 @@ public class AppFrameController implements Initializable {
     private void moGDQLPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLPhong");
     }
+    
+    @FXML
+    private void moGDTraCuuHoaDon(ActionEvent event) throws IOException {
+        App.setRoot("GD_TraCuuHoaDon");
+    }
 
     @FXML
     private void moGDDangKy(ActionEvent event) throws IOException {
