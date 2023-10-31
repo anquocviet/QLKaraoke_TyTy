@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane id="GD_TraCuuHoaDon" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_TraCuuHoaDonController" >
    <children>
       <Label alignment="CENTER" layoutX="259.0" layoutY="14.0" text="TRA CỨU HÓA ĐƠN" textFill="RED">
          <font>

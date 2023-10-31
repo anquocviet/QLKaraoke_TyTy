@@ -31,12 +31,12 @@ public class AppFrameController implements Initializable {
 
     @FXML
     private void moGDQLKhachHang(ActionEvent event) throws IOException {
-        App.setRoot("GD_QuanLyKhachHang");
+        App.setRoot("GD_QLKhachHang");
     }
 
     @FXML
     private void moGDQLNhanVien(ActionEvent event) throws IOException {
-        App.setRoot("GD_QuanLyNhanVien");
+        App.setRoot("GD_QLNhanVien");
     }
 
     @FXML
@@ -47,6 +47,11 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDQLPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLPhong");
+    }
+    
+    @FXML
+    private void moGDQuanLyKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLKinhDoanhPhong");
     }
     
     @FXML

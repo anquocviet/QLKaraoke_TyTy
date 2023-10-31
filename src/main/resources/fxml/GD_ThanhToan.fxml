@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane id="GD_ThanhToan" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_ThanhToanController" >
    <children>
       <Label layoutX="199.0" layoutY="4.0" prefWidth="183.0" text="HOÁN ĐƠN THANH TOÁN" textAlignment="CENTER" textFill="RED">
          <font>

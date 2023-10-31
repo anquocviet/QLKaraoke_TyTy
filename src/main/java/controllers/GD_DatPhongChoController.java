@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import main.App;
 
 /**
@@ -19,16 +17,10 @@ import main.App;
  *
  * @author vie
  */
-public class GD_QuanLyKhachHangController implements Initializable {
+public class GD_DatPhongChoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ToggleGroup genderGroup = new ToggleGroup();
-    }
-
-    @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
     }
 
 }
