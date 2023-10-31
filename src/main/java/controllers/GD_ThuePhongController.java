@@ -17,7 +17,7 @@ import main.App;
  *
  * @author fil
  */
-public class GD_QuanLyNhanVienController implements Initializable {
+public class GD_ThuePhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
