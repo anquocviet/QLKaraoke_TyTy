@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_QuanLyKinhDoanhPhong" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.8" prefWidth="1280.0" style="-fx-background-color: 9fc5f8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="GD_QuanLyKinhDoanhPhong" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.8" prefWidth="1280.0" style="-fx-background-color: 9fc5f8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QuanLyKinhDoanhPhongController">
    <children>
       <Pane layoutY="144.4" prefHeight="54.4" prefWidth="620.0" style="-fx-background-color: blue;">
          <children>
@@ -87,37 +87,37 @@
       <Line endX="1264.0" endY="-6.103515625E-5" layoutX="13.0" layoutY="618.0" startX="-15.999992370605469" startY="-6.103515625E-5" stroke="#c4baba" />
       <Pane layoutX="2.0" layoutY="619.0" prefHeight="105.0" prefWidth="1280.0">
          <children>
-            <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" text="Đặt phòng ngay(F1)">
+            <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Đặt phòng ngay(F1)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="357.0" layoutY="7.0" mnemonicParsing="false" text="Đặt phòng chờ (F2)">
+            <Button layoutX="357.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Đặt phòng chờ (F2)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="653.0" layoutY="7.0" mnemonicParsing="false" text="Nhận phòng chờ (F3)">
+            <Button layoutX="653.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Nhận phòng chờ (F3)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="971.0" layoutY="7.0" mnemonicParsing="false" text="Hủy phòng chờ (F4)">
+            <Button layoutX="971.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Hủy phòng chờ (F4)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="510.0" layoutY="56.0" mnemonicParsing="false" text="Chuyển phòng (F6)">
+            <Button layoutX="510.0" layoutY="56.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Chuyển phòng (F6)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="226.0" layoutY="57.0" mnemonicParsing="false" text="Đặt dịch vụ (F5)">
+            <Button layoutX="226.0" layoutY="57.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Đặt dịch vụ (F5)">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="788.0" layoutY="55.0" mnemonicParsing="false" text="Trả phòng và thanh toán (F7)">
+            <Button layoutX="788.0" layoutY="55.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Trả phòng và thanh toán (F7)">
                <font>
                   <Font size="18.0" />
                </font>
@@ -141,52 +141,52 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Button layoutX="327.0" layoutY="301.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Tải lại">
+      <Button layoutX="327.0" layoutY="301.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Tải lại">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="450.0" layoutY="301.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Tìm phòng">
+      <Button layoutX="450.0" layoutY="301.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Tìm phòng">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <TextField layoutX="160.0" layoutY="81.0" prefHeight="30.0" prefWidth="345.0">
+      <TextField layoutX="160.0" layoutY="81.0" prefHeight="30.0" prefWidth="345.0" style="-fx-font-size: 18;">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <CheckBox layoutX="160.0" layoutY="171.0" mnemonicParsing="false" text="Tất cả">
+      <CheckBox layoutX="160.0" layoutY="171.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Tất cả">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="261.0" layoutY="171.0" mnemonicParsing="false" text="Phòng thường">
+      <CheckBox layoutX="261.0" layoutY="171.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Phòng thường">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="449.0" layoutY="171.0" mnemonicParsing="false" text="Phòng VIP">
+      <CheckBox layoutX="449.0" layoutY="171.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="150.0" style="-fx-font-size: 18;" text="Phòng VIP">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="160.0" layoutY="246.0" mnemonicParsing="false" text="Tất cả">
+      <CheckBox layoutX="160.0" layoutY="246.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Tất cả">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="261.0" layoutY="246.0" mnemonicParsing="false" text="Trống">
+      <CheckBox layoutX="261.0" layoutY="246.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Trống">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="365.0" layoutY="246.0" mnemonicParsing="false" text="Chờ">
+      <CheckBox layoutX="365.0" layoutY="246.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Chờ">
          <font>
             <Font size="20.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="450.0" layoutY="245.0" mnemonicParsing="false" text="Đang sử dụng">
+      <CheckBox layoutX="450.0" layoutY="245.0" mnemonicParsing="false" style="-fx-font-size: 18;" text="Đang sử dụng">
          <font>
             <Font size="20.0" />
          </font>

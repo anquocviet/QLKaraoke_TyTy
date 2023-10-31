@@ -60,4 +60,9 @@ public class AppFrameController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
+    
+    @FXML
+    private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QuanLyKinhDoanhPhong");
+    }
 }

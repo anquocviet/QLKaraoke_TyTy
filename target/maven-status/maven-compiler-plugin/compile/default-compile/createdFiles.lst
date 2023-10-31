@@ -1,4 +1,5 @@
 controllers\GD_QuanLyKhachHangController.class
+controllers\GD_QuanLyKinhDoanhPhongController.class
 controllers\GD_QuanLyNhanVienController.class
 controllers\GD_DangKyController.class
 controllers\AppFrameController.class
