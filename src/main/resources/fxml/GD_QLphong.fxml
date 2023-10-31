@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane id="AnchorPane" stylesheets="@../styles/base.css" prefHeight="531.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<AnchorPane id="GD_QLPhong" stylesheets="@../styles/base.css" prefHeight="531.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_QLPhongController" >
    <children>
       <Text fill="#df1616" layoutX="268.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG">
          <font>

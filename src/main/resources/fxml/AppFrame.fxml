@@ -49,7 +49,8 @@
                         </ImageView>
                     </graphic>
                 </Menu>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Xử Lý" onAction="#moGDQLKinhDoanhPhong">
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Xử Lý">
+                    <MenuItem mnemonicParsing="false" text="Quản lý kinh doanh phòng" onAction="#moGDQuanLyKinhDoanhPhong"  />
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -59,6 +60,7 @@
                     </graphic>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Tìm Kiếm">
+                    <MenuItem mnemonicParsing="false" text="Tra cứu hóa đơn" onAction="#moGDTraCuuHoaDon" />
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -69,7 +71,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Theo Ngày"  onAction="#moGDQLKinhDoanhPhong"/>
+                        <MenuItem mnemonicParsing="false" text="Theo Ngày" />
                         <MenuItem mnemonicParsing="false" text="Theo Tháng" />
                         <MenuItem mnemonicParsing="false" text="Theo Quý" />
                         <MenuItem mnemonicParsing="false" text="Theo Năm" />
