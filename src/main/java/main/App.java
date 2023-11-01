@@ -38,7 +38,7 @@ public class App extends Application {
         stage.show();
 
 //        Open Modal Login
-        openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
+//        openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
     }
 
     public static void openModal(String fxml, int width, int height) throws IOException {

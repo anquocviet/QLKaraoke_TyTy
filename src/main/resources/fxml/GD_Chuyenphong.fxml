@@ -10,26 +10,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
+<AnchorPane id="GD_ChuyenPhong" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
+
    <children>
       <Text fill="#bf0a0a" layoutX="261.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
          <font>
             <Font size="30.0" />
          </font>
       </Text>
-      <TableView layoutX="3.0" layoutY="150.0" prefHeight="450.0" prefWidth="794.0" style="-fx-background-color: pink;">
+      <TableView layoutX="27.0" layoutY="161.0" prefHeight="450.0" prefWidth="745.0" style="-fx-background-color: pink;">
         <columns>
           <TableColumn prefWidth="139.20001220703125" sortable="false" text="Mã phòng" />
           <TableColumn minWidth="8.79998779296875" prefWidth="168.0" text="Loại phòng" />
-            <TableColumn minWidth="8.79998779296875" prefWidth="188.0" text="Số người" />
-            <TableColumn minWidth="4.0" prefWidth="154.4000244140625" text="Trạng thái" />
-            <TableColumn minWidth="8.79998779296875" prefWidth="536.7999877929688" text="Giá tiền mỗi giờ" />
+            <TableColumn minWidth="8.79998779296875" prefWidth="140.79998779296875" text="Số người" />
+            <TableColumn minWidth="0.0" prefWidth="143.2000732421875" text="Trạng thái" />
+            <TableColumn minWidth="8.79998779296875" prefWidth="148.7999267578125" text="Giá tiền mỗi giờ" />
         </columns>
       </TableView>
       <Button layoutX="292.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: red;" text="Thoát" />
       <Button layoutX="472.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Tải lại" />
       <Button layoutX="625.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: orange;" text="Chuyển phòng" />
-      <Text layoutX="22.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số" wrappingWidth="105.59999999999997" />
+      <Text layoutX="26.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số:" wrappingWidth="120.654296875">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
       <TextField layoutX="147.0" layoutY="93.0" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: orange;" text="        search" />
       <Button layoutX="261.0" layoutY="93.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" text="Tìm" />
       <TextField layoutX="640.0" layoutY="103.0" prefHeight="27.0" prefWidth="147.0" style="-fx-background-color: orange;" />
@@ -46,11 +50,6 @@
       <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="159.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/search.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="100.0" fitWidth="30.0" layoutX="767.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" style="-fx-color: red;">
-         <image>
-            <Image url="@../image/close.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="50.0" fitWidth="30.0" layoutX="610.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
