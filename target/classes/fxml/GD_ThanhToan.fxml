@@ -1,11 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+   <children>
+      <Label layoutX="199.0" layoutY="4.0" prefWidth="183.0" text="HOÁN ĐƠN THANH TOÁN" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextArea layoutX="14.0" layoutY="39.0" prefHeight="198.0" prefWidth="302.0" />
+      <Line endX="401.8929443359375" endY="-11.599998474121094" layoutX="199.0" layoutY="43.0" startX="-198.99998474121094" startY="-11.599998474121094" />
+      <TextArea layoutX="13.0" layoutY="242.0" prefHeight="150.0" prefWidth="302.0" />
+      <TextArea layoutX="331.0" layoutY="40.0" prefHeight="354.0" prefWidth="262.0" />
+      <Button layoutX="462.0" layoutY="362.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: Tomato;" text="Xác nhận thanh toán" textAlignment="RIGHT" />
+      <Label layoutX="20.0" layoutY="38.0" prefHeight="26.0" prefWidth="104.0" text="Hoán đơn Phòng">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="251.0" text="Hóa đơn dịch vụ">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="430.0" layoutY="45.0" text="Tổng tiền" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="337.0" layoutY="80.0" prefHeight="18.0" prefWidth="67.0" text="Mã hóa đơn:" />
+      <Label layoutX="337.0" layoutY="107.0" text="Nhân viên lập:" />
+      <Label layoutX="337.0" layoutY="134.0" text="Khách hàng:" />
+      <Label layoutX="337.0" layoutY="161.0" prefHeight="18.0" prefWidth="50.0" text="Ngày lập:" />
+      <Label layoutX="337.0" layoutY="188.0" prefHeight="18.0" prefWidth="63.0" text="Tiền phòng:" />
+      <Label layoutX="337.0" layoutY="215.0" text="Tiền dịch vụ:" />
+      <Label layoutX="337.0" layoutY="242.0" text="Mã khuyến mãi:" />
+      <Label layoutX="337.0" layoutY="269.0" text="Tổng tiền:" />
+      <Label layoutX="337.0" layoutY="296.0" text="Tiền nhận:" />
+      <Label layoutX="337.0" layoutY="323.0" text="Tiền thừa:" />
+      <TextField layoutX="429.0" layoutY="238.0" prefHeight="1.0" prefWidth="88.0" />
+      <TextField layoutX="429.0" layoutY="292.0" prefHeight="18.0" prefWidth="88.0" />
+      <TableView layoutX="21.0" layoutY="84.0" prefHeight="150.0" prefWidth="287.0" AnchorPane.bottomAnchor="166.0" AnchorPane.topAnchor="84.0">
+        <columns>
+          <TableColumn prefWidth="138.39999961853027" text="Thông tin" />
+          <TableColumn prefWidth="147.99998474121094" text="Nội dung" />
+        </columns>
+      </TableView>
+      <TableView layoutX="17.0" layoutY="267.0" prefHeight="119.0" prefWidth="294.0">
+        <columns>
+          <TableColumn prefWidth="79.19997978210449" text="Tên Dịch vụ" />
+          <TableColumn prefWidth="56.00006866455078" text="Số lượng" />
+            <TableColumn minWidth="0.0" prefWidth="72.0" text="Đơn vị tính" />
+            <TableColumn prefWidth="99.99998474121094" sortType="DESCENDING" text="Thành tiền" />
+        </columns>
+      </TableView>
+      <CheckBox layoutX="405.0" layoutY="366.0" mnemonicParsing="false" selected="true" />
+      <ImageView fitHeight="18.0" fitWidth="17.0" layoutX="429.0" layoutY="367.0">
+         <image>
+            <Image url="@../image/print.png" />
+         </image>
+      </ImageView>
+    <Button defaultButton="true" layoutX="21.0" layoutY="60.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" text="Phòng 1" />
+      <ButtonBar layoutX="16.0" layoutY="53.0" prefHeight="40.0" prefWidth="139.0">
+        <buttons>
+          <Button mnemonicParsing="false" text="Phòng 2" />
+        </buttons>
+      </ButtonBar>
+   </children>
 </AnchorPane>
