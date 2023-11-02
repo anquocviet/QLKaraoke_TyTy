@@ -23,7 +23,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //ToggleGroup 
+        ToggleGroup typeRoomGroup = new ToggleGroup();
+        ToggleGroup statusRoomGroup = new ToggleGroup();
     }
     
     @FXML
