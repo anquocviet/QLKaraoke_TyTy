@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 import main.App;
 
 /**
@@ -22,6 +23,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //ToggleGroup 
     }
     
     @FXML
