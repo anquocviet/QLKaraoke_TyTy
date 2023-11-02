@@ -77,7 +77,7 @@ public class AppFrameController implements Initializable {
     }
     
     @FXML
-    private void moGDCTKhuyenMai(ActionEvent event) throws IOException {
+    private void moGDQLCTKhuyenMai(ActionEvent event) throws IOException {
         App.setRoot("GD_QLCTKhuyenMai");
     }
 }

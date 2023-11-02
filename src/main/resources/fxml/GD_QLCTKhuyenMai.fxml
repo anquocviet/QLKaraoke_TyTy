@@ -13,11 +13,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLCTKhuyenMaiController">
    <children>
       <Pane layoutX="1.0" layoutY="54.4" prefHeight="89.0" prefWidth="1280.0" style="-fx-background-color: #cccccc;">
          <children>
-            <Text fill="#ef0000" layoutX="390.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ CHƯƠNG TRÌNH KHUYẾN MÃI">
+            <Text fill="#ef0000" layoutX="360.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ CHƯƠNG TRÌNH KHUYẾN MÃI">
                <font>
                   <Font size="32.0" />
                </font>
@@ -37,25 +37,25 @@
                </font>
             </Text>
             <TextField layoutX="192.0" layoutY="37.0" prefHeight="31.0" prefWidth="229.0" style="-fx-font-size: 15;" />
-            <TextField layoutX="192.0" layoutY="119.0" prefHeight="31.0" prefWidth="291.0" style="-fx-font-size: 15;" />
-            <Text layoutX="600.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày bắt đầu:">
+            <TextField layoutX="192.0" layoutY="117.0" prefHeight="31.0" prefWidth="291.0" style="-fx-font-size: 15;" />
+            <Text layoutX="614.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày bắt đầu:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="508.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượt sử dụng còn lại:">
+            <Text layoutX="522.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượt sử dụng còn lại:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <DatePicker layoutX="767.0" layoutY="37.0" prefHeight="30.0" prefWidth="200.0" />
-            <ComboBox editable="true" layoutX="767.0" layoutY="124.0" prefHeight="20.0" prefWidth="200.0" promptText="Tăng dần" />
-            <Button layoutX="1040.0" layoutY="37.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <DatePicker layoutX="759.0" layoutY="37.0" prefHeight="30.0" prefWidth="200.0" />
+            <ComboBox editable="true" layoutX="759.0" layoutY="123.0" prefHeight="20.0" prefWidth="200.0" promptText="Tăng dần" />
+            <Button layoutX="1025.0" layoutY="37.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="1039.0" layoutY="110.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <Button layoutX="1024.0" layoutY="110.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
                <font>
                   <Font size="20.0" />
                </font>
@@ -75,7 +75,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="1278.0">
                <children>
-                  <TitledPane prefHeight="394.0" prefWidth="1282.0" text="Danh sách chương trình khuyến mãi">
+                  <TitledPane animated="false" collapsible="false" prefHeight="394.0" prefWidth="1282.0" text="Danh sách chương trình khuyến mãi">
                      <content>
                         <TableView prefHeight="300.0" prefWidth="1281.0">
                            <columns>
