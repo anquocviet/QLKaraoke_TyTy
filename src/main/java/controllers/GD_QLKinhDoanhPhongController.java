@@ -16,17 +16,37 @@ import main.App;
 /**
  * FXML Controller class
  *
- * @author vie
+ * @author thangnood
  */
 public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+    
+    @FXML
+    private void moGDThuePhong(ActionEvent event) throws IOException {
+        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+    }
 
     @FXML
-    private void moModal(ActionEvent event) throws IOException {
-        App.setRoot("");
+    private void moGDChuyenPhong(ActionEvent event) throws IOException {
+        App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
+    }
+    
+    @FXML
+    private void moGDDatDichVu(ActionEvent event) throws IOException {
+        App.setRoot("GD_DatDichVu");
+    }
+    
+    @FXML
+    private void moGDDatPhongCho(ActionEvent event) throws IOException {
+        App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+    }
+    
+    @FXML
+    private void moGDThanhToan(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThanhToan");
     }
 
     

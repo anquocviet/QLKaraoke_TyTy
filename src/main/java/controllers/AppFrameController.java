@@ -62,13 +62,18 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDDangKy(ActionEvent event) throws IOException {
         App.setRoot("GD_DangKy");
-//        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+//       App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
     }
 
     @FXML
     private void dongUngDung(ActionEvent event) throws IOException, Exception {
         Platform.exit();
         System.exit(0);
+    }
+    
+    @FXML
+    private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QuanLyKinhDoanhPhong");
     }
 }
 
