@@ -23,9 +23,9 @@
                 <Font size="32.0" />
             </font>
         </Text>
-        <TitledPane animated="false" collapsible="false" layoutY="210.0" prefHeight="602.0" prefWidth="514.0" style="-fx-font-size: 18;" text="Thông tin khách hàng">
+        <TitledPane animated="false" collapsible="false" layoutY="166.0" prefHeight="597.0" prefWidth="514.0" style="-fx-font-size: 18;" text="Thông tin khách hàng">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="538.0" prefWidth="512.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
                     <children>
                         <Text layoutX="17.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khách hàng:" />
                         <TextField disable="true" layoutX="183.0" layoutY="14.0" prefHeight="32.0" prefWidth="312.0" />
@@ -77,11 +77,11 @@
                 <Font size="18.0" />
             </font>
         </TitledPane>
-        <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="210.0" prefHeight="602.0" prefWidth="738.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
+        <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="166.0" prefHeight="602.0" prefWidth="740.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="738.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
                <children>
-                  <TableView prefHeight="568.0" prefWidth="736.0">
+                  <TableView prefHeight="565.0" prefWidth="736.0">
                     <columns>
                       <TableColumn prefWidth="52.3333740234375" resizable="false" text="#" />
                       <TableColumn prefWidth="100.66668701171875" resizable="false" text="Mã KH" />
