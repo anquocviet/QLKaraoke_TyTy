@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
 import connect.ConnectDB;
+import javafx.scene.control.MenuItem;
 
 /**
  * FXML Controller class
@@ -23,7 +24,7 @@ public class AppFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConnectDB.getInstance().connect();
+//        ConnectDB.getInstance().connect();
     }
 
     @FXML
