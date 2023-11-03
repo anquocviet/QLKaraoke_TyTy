@@ -1,3 +1,4 @@
+/Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLCTKhuyenMaiController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_DangKyController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_DatDichVuController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_DatPhongChoController.java
@@ -9,6 +10,7 @@
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLPhongController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLKinhDoanhPhongController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/module-info.java
+/Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/connect/ConnectDB.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLNhanVienController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ChuyenPhongController.java
 /Volumes/VIE_Data/Study/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThanhToanController.java

@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -125,12 +126,15 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <RadioButton layoutX="185.0" layoutY="544.0" mnemonicParsing="false" text="Nam">
+                        <RadioButton layoutX="185.0" layoutY="544.0" mnemonicParsing="false" selected="true" text="Nam">
                             <font>
                                 <Font size="20.0" />
                             </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="genderGroup" />
+                     </toggleGroup>
                         </RadioButton>
-                        <RadioButton layoutX="315.0" layoutY="544.0" mnemonicParsing="false" text="Nữ">
+                        <RadioButton layoutX="315.0" layoutY="544.0" mnemonicParsing="false" text="Nữ" toggleGroup="$genderGroup">
                             <font>
                                 <Font size="20.0" />
                             </font>
