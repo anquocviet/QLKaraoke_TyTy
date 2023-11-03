@@ -28,13 +28,13 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="538.0" prefWidth="512.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
                     <children>
                         <Text layoutX="17.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khách hàng:" />
-                        <TextField disable="true" layoutX="183.0" layoutY="14.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField id="txtMaKhachHang" disable="true" layoutX="183.0" layoutY="14.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khách hàng:" />
-                        <TextField layoutX="183.0" layoutY="69.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField id="txtTenKhachHang" layoutX="183.0" layoutY="69.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại:" />
-                        <TextField layoutX="183.0" layoutY="119.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField id="txtSDT" layoutX="183.0" layoutY="119.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Năm sinh:" />
-                        <Spinner editable="true" layoutX="183.0" layoutY="174.0" />
+                        <Spinner id="spinnerNamSinh" editable="true" layoutX="183.0" layoutY="174.0" />
                         <Text layoutX="14.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giới tính:" />
                         
                         <RadioButton fx:id="radioButtonNam" layoutX="179.0" layoutY="231.0" selected="true" text="Nam">
@@ -45,7 +45,7 @@
                         <RadioButton fx:id="radioButtonNu" layoutX="276.0" layoutY="231.0" text="Nữ" toggleGroup="$genderGroup" />
                         <Button layoutX="183.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
-                                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView id="btnThem" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/add-user.png" />
                                     </image>
@@ -54,7 +54,7 @@
                         </Button>
                         <Button layoutX="273.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
-                                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView id="btnSua" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/service.png" />
                                     </image>
@@ -63,7 +63,7 @@
                         </Button>
                         <Button layoutX="363.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
-                                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView id="btnLamMoi" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/undo-arrow.png" />
                                     </image>
@@ -81,7 +81,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="738.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
                <children>
-                  <TableView  prefHeight="565.0" prefWidth="736.0">
+                  <TableView id="table" prefHeight="565.0" prefWidth="736.0">
                     <columns>
                       <TableColumn prefWidth="52.3333740234375" resizable="false" text="#" />
                       <TableColumn prefWidth="100.66668701171875" resizable="false" text="Mã KH" />
@@ -99,7 +99,7 @@
         </TitledPane>
         <Pane layoutX="941.0" layoutY="94.0" prefHeight="33.0" prefWidth="304.0">
             <children>
-                <TextField prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT">
+                <TextField id="inputTimKiem" prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT">
                     <font>
                         <Font size="18.0" />
                     </font>
