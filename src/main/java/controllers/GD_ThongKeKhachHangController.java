@@ -4,25 +4,23 @@
  */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import main.App;
 
 /**
  * FXML Controller class
  *
- * @author thach
+ * @author nktng
  */
-public class GD_DangKyController implements Initializable {
+public class GD_ThongKeKhachHangController implements Initializable {
 
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
     
-    
-
 }

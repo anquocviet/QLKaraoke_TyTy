@@ -17,7 +17,7 @@
         <fx:include fx:id="TrangChu" source="TrangChu.fxml" />
         <MenuBar layoutY="1.0" prefWidth="1280.0">
             <menus>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống">
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống" >
                     <items>
                         <MenuItem mnemonicParsing="false" text="Trang Chủ" onAction="#moTrangChu"/>
                         <MenuItem mnemonicParsing="false" text="Tài Khoản" onAction="#moGDDangKy"  />
@@ -39,7 +39,7 @@
                         <MenuItem mnemonicParsing="false" text="Nhân Viên" onAction="#moGDQLNhanVien" />
                         <MenuItem mnemonicParsing="false" text="Phòng" onAction="#moGDQLPhong"  />
                         <MenuItem mnemonicParsing="false" text="Dịch Vụ" />
-                        <MenuItem mnemonicParsing="false" text="Khuyến Mãi" />
+                        <MenuItem mnemonicParsing="false" text="Khuyến Mãi" onAction="#moGDQLCTKhuyenMai"/>
                     </items>
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">

@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
+import connect.ConnectDB;
 
 /**
  * FXML Controller class
@@ -22,6 +23,7 @@ public class AppFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ConnectDB.getInstance().connect();
     }
 
     @FXML
@@ -62,13 +64,23 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDDangKy(ActionEvent event) throws IOException {
         App.setRoot("GD_DangKy");
-//        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+//       App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
     }
 
     @FXML
     private void dongUngDung(ActionEvent event) throws IOException, Exception {
         Platform.exit();
         System.exit(0);
+    }
+    
+    @FXML
+    private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QuanLyKinhDoanhPhong");
+    }
+    
+    @FXML
+    private void moGDQLCTKhuyenMai(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLCTKhuyenMai");
     }
 }
 
