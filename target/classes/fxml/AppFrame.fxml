@@ -69,16 +69,16 @@
                         </ImageView>
                     </graphic>
                 </Menu>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê" onAction="#dongUngDung">
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" >
                             <image>
                                 <Image url="@../image/chart.png" />
                             </image>
                         </ImageView>
                     </graphic>
                     <items>
-                        <MenuItem visible="false" mnemonicParsing="false" text="Thống kê" />
+                        <MenuItem mnemonicParsing="false" text="Thống kê" onAction="#moGDThongKeKhachHang"  />
                     </items>
                 </Menu>
             </menus>

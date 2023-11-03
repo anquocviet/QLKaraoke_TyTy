@@ -51,12 +51,12 @@ public class AppFrameController implements Initializable {
     private void moGDQLPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLPhong");
     }
-    
+
     @FXML
     private void moGDQuanLyKinhDoanhPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLKinhDoanhPhong");
     }
-    
+
     @FXML
     private void moGDTraCuuHoaDon(ActionEvent event) throws IOException {
         App.setRoot("GD_TraCuuHoaDon");
@@ -73,15 +73,39 @@ public class AppFrameController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-    
+
     @FXML
     private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QuanLyKinhDoanhPhong");
     }
-    
+
     @FXML
     private void moGDQLCTKhuyenMai(ActionEvent event) throws IOException {
         App.setRoot("GD_QLCTKhuyenMai");
     }
-}
 
+    @FXML
+    private void moGDThongKeNgay(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKeNgay");
+    }
+
+    @FXML
+    private void moGDThongKeThang(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKeThang");
+    }
+
+    @FXML
+    private void moGDThongKeQuy(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKeQuy");
+    }
+
+    @FXML
+    private void moGDThongKeNam(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKeNam");
+    }
+
+    @FXML
+    private void moGDThongKeKhachHang(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKeKhachHang");
+    }
+}
