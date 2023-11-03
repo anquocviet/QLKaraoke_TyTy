@@ -6,11 +6,13 @@ controllers\AppFrameController.class
 controllers\GD_QLKhachHangController.class
 main\App.class
 controllers\GD_DatPhongChoController.class
+connect\ConnectDB.class
 controllers\GD_ThuePhongController.class
 controllers\GD_QLNhanVienController.class
 controllers\GD_DatDichVuController.class
 controllers\GD_ChuyenPhongController.class
 module-info.class
 controllers\GD_TraCuuHoaDonController.class
+entity\CT_KhuyenMai.class
 controllers\GD_ThanhToanController.class
 controllers\GD_DangNhapController.class

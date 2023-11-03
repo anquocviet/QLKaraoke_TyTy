@@ -1,6 +1,7 @@
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_TraCuuHoaDonController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ChuyenPhongController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLNhanVienController.java
+T:\PTUD Project\QLKaraoke_TyTy\src\main\java\entity\CT_KhuyenMai.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DatPhongChoController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLCTKhuyenMaiController.java
@@ -11,6 +12,7 @@ T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\main\App.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKhachHangController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\AppFrameController.java
+T:\PTUD Project\QLKaraoke_TyTy\src\main\java\connect\ConnectDB.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DangNhapController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\module-info.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DatDichVuController.java
