@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -50,25 +52,53 @@
             </Text>
             <DatePicker layoutX="759.0" layoutY="37.0" prefHeight="30.0" prefWidth="200.0" />
             <ComboBox editable="true" layoutX="759.0" layoutY="123.0" prefHeight="20.0" prefWidth="200.0" promptText="Tăng dần" />
-            <Button layoutX="1025.0" layoutY="37.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <Button layoutX="1030.0" layoutY="31.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-font-size: 20;">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button layoutX="1024.0" layoutY="110.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <Button layoutX="1146.0" layoutY="32.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-font-size: 20;">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/reload.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button layoutX="1138.0" layoutY="108.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <Button layoutX="1144.0" layoutY="117.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-font-size: 20;">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/recycle-bin.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button layoutX="1136.0" layoutY="38.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Button">
+            <Button layoutX="1029.0" layoutY="117.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-font-size: 20;">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/wrench.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children></Pane>
       <ScrollPane layoutX="-1.0" layoutY="343.0" prefHeight="398.0" prefWidth="1282.0">
@@ -79,13 +109,13 @@
                      <content>
                         <TableView prefHeight="300.0" prefWidth="1281.0">
                            <columns>
-                              <TableColumn prefWidth="75.0" text="STT" />
-                              <TableColumn prefWidth="209.60006713867188" text="Mã khuyến mãi" />
-                              <TableColumn prefWidth="268.79998779296875" text="Tên khuyến mãi" />
-                              <TableColumn prefWidth="181.5999755859375" text="Ngày bắt đầu" />
-                              <TableColumn prefWidth="182.39996337890625" text="Ngày kết thúc" />
-                              <TableColumn prefWidth="180.7999267578125" text="Lượt sử dụng" />
-                              <TableColumn prefWidth="182.4000244140625" text="Chiết khấu" />
+                              <TableColumn prefWidth="75.0" resizable="false" text="STT" />
+                              <TableColumn prefWidth="209.60006713867188" resizable="false" text="Mã khuyến mãi" />
+                              <TableColumn prefWidth="268.79998779296875" resizable="false" text="Tên khuyến mãi" />
+                              <TableColumn prefWidth="181.5999755859375" resizable="false" text="Ngày bắt đầu" />
+                              <TableColumn prefWidth="182.39996337890625" resizable="false" text="Ngày kết thúc" />
+                              <TableColumn prefWidth="180.7999267578125" resizable="false" text="Lượt sử dụng" />
+                              <TableColumn prefWidth="182.4000244140625" resizable="false" text="Chiết khấu" />
                            </columns>
                         </TableView>
                      </content>
