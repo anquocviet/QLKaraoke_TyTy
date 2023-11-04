@@ -14,10 +14,10 @@
    <children>
       <TableView layoutX="15.0" layoutY="179.0" prefHeight="526.0" prefWidth="711.0" style="-fx-background-color: pink;">
         <columns>
-          <TableColumn prefWidth="129.60001373291016" style="-fx-color: orange;" text="Số thứ tự" />
-          <TableColumn prefWidth="174.39993286132812" style="-fx-color: orange;" text="Tên" />
-            <TableColumn prefWidth="203.199951171875" style="-fx-color: orange;" text="Tên đăng nhập" />
-            <TableColumn prefWidth="189.5999755859375" style="-fx-color: orange;" text="Mật khẩu" />
+          <TableColumn prefWidth="129.60001373291016" resizable="false" style="-fx-color: orange;" text="Số thứ tự" />
+          <TableColumn prefWidth="174.39993286132812" resizable="false" style="-fx-color: orange;" text="Tên" />
+            <TableColumn prefWidth="203.199951171875" resizable="false" style="-fx-color: orange;" text="Tên đăng nhập" />
+            <TableColumn prefWidth="201.5999755859375" resizable="false" style="-fx-color: orange;" text="Mật khẩu" />
         </columns>
       </TableView>
       <Text fill="#dc0a0a" layoutX="125.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH NHÂN VIÊN" wrappingWidth="503.9197998046875">
@@ -30,7 +30,7 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Text>
-      <Button layoutX="1065.0" layoutY="639.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" style="-fx-background-color: pink;" text="Thêm" textFill="#634c4c">
+      <Button layoutX="1065.0" layoutY="639.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="Thêm" textFill="#634c4c">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -50,16 +50,16 @@
          <font>
             <Font size="20.0" />
          </font></Text>
-      <ComboBox layoutX="808.0" layoutY="577.0" prefHeight="36.0" prefWidth="244.0" promptText="NV001-An Quốc Việt" style="-fx-background-color: pink;" />
-      <TextField alignment="CENTER" layoutX="812.0" layoutY="214.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink;" text="An Quốc Việt">
+      <ComboBox layoutX="808.0" layoutY="577.0" prefHeight="36.0" prefWidth="244.0" promptText="NV001-An Quốc Việt" style="-fx-background-color: pink; -fx-font-size: 20;" />
+      <TextField alignment="CENTER" layoutX="812.0" layoutY="214.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="An Quốc Việt">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField alignment="CENTER" layoutX="812.0" layoutY="309.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink;" text="QuocViet123">
+      <TextField alignment="CENTER" layoutX="812.0" layoutY="309.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="QuocViet123">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <PasswordField alignment="CENTER" layoutX="812.0" layoutY="406.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink;" text="12345678" />
-      <PasswordField alignment="CENTER" layoutX="812.0" layoutY="509.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink;" text="12345678" />
+      <PasswordField alignment="CENTER" layoutX="812.0" layoutY="406.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
+      <PasswordField alignment="CENTER" layoutX="812.0" layoutY="509.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
    </children>
 </AnchorPane>
