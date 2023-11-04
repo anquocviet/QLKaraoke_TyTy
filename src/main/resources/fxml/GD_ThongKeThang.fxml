@@ -1,131 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="740.0" prefWidth="1280.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThongKeThangController">
-    <stylesheets>
-        <URL value="@/styles/base.css" />
-    </stylesheets>
-   <children>
-      <Text fill="RED" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30;" text="THỐNG KÊ DOANH THU" textAlignment="CENTER" wrappingWidth="1280.0">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Pane layoutX="8.0" layoutY="97.0" prefHeight="56.0" prefWidth="742.0">
+<TitledPane id="GD_ThongKeThang" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0" style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO THÁNG" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <Button layoutX="15.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Ngày" textAlignment="CENTER">
+            <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê doanh thu theo tháng:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="139.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Tháng" textAlignment="CENTER">
+            </Label>
+            <DatePicker layoutX="328.0" layoutY="17.0" />
+            <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="272.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Quý" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="386.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Năm" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="15.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn theo tháng:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="507.0" layoutY="7.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="221.0" style="-fx-font-size: 20;" text="Theo Khách Hàng" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
+            </Label>
+            <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu theo tháng:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <StackedBarChart layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </StackedBarChart>
          </children>
-      </Pane>
-      <TitledPane animated="false" collapsible="false" layoutY="160.0" prefHeight="580.0" prefWidth="1287.0" style="-fx-font-size: 14;" text="THỐNG KÊ DOANH THU THEO THÁNG">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê doanh thu theo tháng:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <DatePicker layoutX="328.0" layoutY="17.0" />
-                  <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="15.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn theo tháng:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="15.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu theo tháng:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <StackedBarChart layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </StackedBarChart>
-               </children>
-            </AnchorPane>
-         </content>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TitledPane>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </content>
+   <font>
+      <Font size="14.0" />
+   </font>
+</TitledPane>

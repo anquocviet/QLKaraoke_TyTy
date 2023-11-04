@@ -21,6 +21,6 @@ public class GD_ThongKeNamController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }
