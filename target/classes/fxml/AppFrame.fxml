@@ -17,13 +17,13 @@
         <fx:include fx:id="TrangChu" source="TrangChu.fxml" />
         <MenuBar layoutY="1.0" prefWidth="1280.0">
             <menus>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống" >
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Trang Chủ" onAction="#moTrangChu"/>
-                        <MenuItem mnemonicParsing="false" text="Tài Khoản" onAction="#moGDDangKy"  />
+                        <MenuItem mnemonicParsing="false" onAction="#moTrangChu" text="Trang Chủ" />
+                        <MenuItem mnemonicParsing="false" onAction="#moGDDangKy" text="Tài Khoản" />
                         <MenuItem mnemonicParsing="false" text="Trợ Giúp" />
                         <MenuItem mnemonicParsing="false" text="Đăng Xuất" />
-                        <MenuItem mnemonicParsing="false" text="Thoát" onAction="#dongUngDung"  />
+                        <MenuItem mnemonicParsing="false" onAction="#dongUngDung" text="Thoát" />
                     </items>
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -35,11 +35,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Danh Mục">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Khách Hàng" onAction="#moGDQLKhachHang" />
-                        <MenuItem mnemonicParsing="false" text="Nhân Viên" onAction="#moGDQLNhanVien" />
-                        <MenuItem mnemonicParsing="false" text="Phòng" onAction="#moGDQLPhong"  />
+                        <MenuItem mnemonicParsing="false" onAction="#moGDQLKhachHang" text="Khách Hàng" />
+                        <MenuItem mnemonicParsing="false" onAction="#moGDQLNhanVien" text="Nhân Viên" />
+                        <MenuItem mnemonicParsing="false" onAction="#moGDQLPhong" text="Phòng" />
                         <MenuItem mnemonicParsing="false" text="Dịch Vụ" />
-                        <MenuItem mnemonicParsing="false" text="Khuyến Mãi" onAction="#moGDQLCTKhuyenMai"/>
+                        <MenuItem mnemonicParsing="false" onAction="#moGDQLCTKhuyenMai" text="Khuyến Mãi" />
                     </items>
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -50,7 +50,7 @@
                     </graphic>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Xử Lý">
-                    <MenuItem mnemonicParsing="false" text="Quản lý kinh doanh phòng" onAction="#moGDQuanLyKinhDoanhPhong"  />
+                    <MenuItem mnemonicParsing="false" onAction="#moGDQuanLyKinhDoanhPhong" text="Quản lý kinh doanh phòng" />
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -60,7 +60,7 @@
                     </graphic>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Tìm Kiếm">
-                    <MenuItem mnemonicParsing="false" text="Tra cứu hóa đơn" onAction="#moGDTraCuuHoaDon" />
+                    <MenuItem mnemonicParsing="false" onAction="#moGDTraCuuHoaDon" text="Tra cứu hóa đơn" />
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -70,28 +70,24 @@
                     </graphic>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Theo Ngày" />
-                        <MenuItem mnemonicParsing="false" text="Theo Tháng" />
-                        <MenuItem mnemonicParsing="false" text="Theo Quý" />
-                        <MenuItem mnemonicParsing="false" text="Theo Năm" />
-                        <MenuItem mnemonicParsing="false" text="Theo Khách Hàng" />
-                    </items>
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" >
                             <image>
                                 <Image url="@../image/chart.png" />
                             </image>
                         </ImageView>
                     </graphic>
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Thống kê" onAction="#moGDThongKeKhachHang"  />
+                    </items>
                 </Menu>
             </menus>
-            <padding>
-                <Insets bottom="6.0" top="6.0" />
-            </padding>
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
+            <padding>
+                <Insets bottom="6.0" top="6.0" />
+            </padding>
         </MenuBar>
         
         <Pane layoutX="709.0" prefHeight="54.0" prefWidth="559.0">
