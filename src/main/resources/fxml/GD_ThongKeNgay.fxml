@@ -1,133 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="740.0" prefWidth="1280.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThongKeNgayController">
-    <stylesheets>
-        <URL value="@/styles/base.css" />
-    </stylesheets>
-   <children>
-      <Text fill="RED" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30;" text="THỐNG KÊ DOANH THU" textAlignment="CENTER" wrappingWidth="1280.0">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <TitledPane animated="false" collapsible="false" layoutY="160.0" prefHeight="580.0" prefWidth="1287.0" style="-fx-font-size: 14;" text="THỐNG KÊ DOANH THU THEO NGÀY">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê doanh thu theo ngày:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <DatePicker layoutX="328.0" layoutY="17.0" />
-                  <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="15.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn theo ngày:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="15.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu theo ngày:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TableView layoutX="1.0" layoutY="158.0" prefHeight="395.0" prefWidth="1286.0">
-                    <columns>
-                      <TableColumn prefWidth="180.80006003379822" style="-fx-font-size: 20;" text="Mã hóa đơn" />
-                      <TableColumn prefWidth="119.19996643066406" style="-fx-font-size: 20;" text="Mã phòng" />
-                        <TableColumn prefWidth="261.0666809082031" style="-fx-font-size: 20;" text="Số điện thoại KH" />
-                        <TableColumn prefWidth="282.933349609375" style="-fx-font-size: 20;" text="Tên khách hàng" />
-                        <TableColumn prefWidth="102.4000244140625" style="-fx-font-size: 20;" text="Giờ vào" />
-                        <TableColumn prefWidth="128.79998779296875" style="-fx-font-size: 20;" text="Giờ ra" />
-                        <TableColumn prefWidth="214.933349609375" style="-fx-font-size: 20;" text="Thành tiền" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TitledPane>
-      <Pane layoutX="8.0" layoutY="97.0" prefHeight="56.0" prefWidth="742.0">
+<TitledPane id="GD_ThongKeNgay" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0" style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO NGÀY" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <Button layoutX="15.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Ngày" textAlignment="CENTER">
+            <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê doanh thu theo ngày:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="139.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Tháng" textAlignment="CENTER">
+            </Label>
+            <DatePicker layoutX="328.0" layoutY="17.0" />
+            <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="272.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Quý" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="386.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Theo Năm" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="15.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn theo ngày:">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            <Button layoutX="507.0" layoutY="7.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="221.0" style="-fx-font-size: 20;" text="Theo Khách Hàng" textAlignment="CENTER">
+            </Label>
+            <Label layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
+            </Label>
+            <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu theo ngày:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TableView layoutX="1.0" layoutY="158.0" prefHeight="395.0" prefWidth="1286.0">
+               <columns>
+                  <TableColumn prefWidth="180.80006003379822" style="-fx-font-size: 20;" text="Mã hóa đơn" />
+                  <TableColumn prefWidth="119.19996643066406" style="-fx-font-size: 20;" text="Mã phòng" />
+                  <TableColumn prefWidth="261.0666809082031" style="-fx-font-size: 20;" text="Số điện thoại KH" />
+                  <TableColumn prefWidth="282.933349609375" style="-fx-font-size: 20;" text="Tên khách hàng" />
+                  <TableColumn prefWidth="102.4000244140625" style="-fx-font-size: 20;" text="Giờ vào" />
+                  <TableColumn prefWidth="128.79998779296875" style="-fx-font-size: 20;" text="Giờ ra" />
+                  <TableColumn prefWidth="214.933349609375" style="-fx-font-size: 20;" text="Thành tiền" />
+               </columns>
+            </TableView>
          </children>
-      </Pane>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </content>
+   <font>
+      <Font size="14.0" />
+   </font>
+</TitledPane>

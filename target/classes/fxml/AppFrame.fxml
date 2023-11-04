@@ -78,7 +78,7 @@
                         </ImageView>
                     </graphic>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Thống kê" onAction="#moGDThongKeKhachHang"  />
+                        <MenuItem mnemonicParsing="false" text="Thống kê" onAction="#moGDThongKe"  />
                     </items>
                 </Menu>
             </menus>

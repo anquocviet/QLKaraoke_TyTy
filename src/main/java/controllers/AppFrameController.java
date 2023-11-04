@@ -85,8 +85,8 @@ public class AppFrameController implements Initializable {
     }
 
     @FXML
-    private void moGDThongKeNgay(ActionEvent event) throws IOException {
-        App.setRoot("GD_ThongKeNgay");
+    private void moGDThongKe(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKe");
     }
 
     @FXML
