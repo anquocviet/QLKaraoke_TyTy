@@ -7,6 +7,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,20 +23,52 @@ public class AppFrameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
-    
+
     @FXML
-    private void openHomePage(ActionEvent event) throws IOException {
+    private void moTrangChu(ActionEvent event) throws IOException {
         App.setRoot("TrangChu");
     }
 
     @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
+    private void moGDQLKhachHang(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLKhachHang");
+    }
+
+    @FXML
+    private void moGDQLNhanVien(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLNhanVien");
+    }
+
+    @FXML
+    private void moGDDatDichVu(ActionEvent event) throws IOException {
+        App.setRoot("GD_DatDichVu");
+    }
+
+    @FXML
+    private void moGDQLPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLPhong");
     }
     
     @FXML
-    private void openGUICustomerEmployee(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyNhanVien");
+    private void moGDQuanLyKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLKinhDoanhPhong");
+    }
+    
+    @FXML
+    private void moGDTraCuuHoaDon(ActionEvent event) throws IOException {
+        App.setRoot("GD_TraCuuHoaDon");
     }
 
+    @FXML
+    private void moGDDangKy(ActionEvent event) throws IOException {
+        App.setRoot("GD_DangKy");
+//        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+    }
+
+    @FXML
+    private void dongUngDung(ActionEvent event) throws IOException, Exception {
+        Platform.exit();
+        System.exit(0);
+    }
 }
+

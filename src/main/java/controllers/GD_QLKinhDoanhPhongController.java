@@ -7,6 +7,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,15 +18,17 @@ import main.App;
  *
  * @author vie
  */
-public class GD_QuanLyNhanVienController implements Initializable {
+public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
+    private void moModal(ActionEvent event) throws IOException {
+        App.setRoot("");
     }
 
+    
 }
+

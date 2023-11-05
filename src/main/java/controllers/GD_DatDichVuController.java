@@ -17,15 +17,10 @@ import main.App;
  *
  * @author vie
  */
-public class GD_QuanLyKhachHangController implements Initializable {
+public class GD_DatDichVuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    }
-
-    @FXML
-    private void openGUICustomerManager(ActionEvent event) throws IOException {
-        App.setRoot("GD_QUanLyKhachHang");
     }
 
 }
