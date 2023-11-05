@@ -24,66 +24,90 @@ public class PhieuDatPhong {
     public PhieuDatPhong() {
     }
 
-    public PhieuDatPhong(String maPhieuDat, KhachHang khachHang, Phong phong, NhanVien nhanVienLap, LocalDate thoiGianLap, LocalDate thoiGianNhan, String ghiChu) {
-        this.maPhieuDat = maPhieuDat;
-        this.khachHang = khachHang;
-        this.phong = phong;
-        this.nhanVienLap = nhanVienLap;
-        this.thoiGianLap = thoiGianLap;
-        this.thoiGianNhan = thoiGianNhan;
-        this.ghiChu = ghiChu;
+    public PhieuDatPhong(String maPhieuDat, KhachHang khachHang, Phong phong, NhanVien nhanVienLap, LocalDate thoiGianLap, LocalDate thoiGianNhan, String ghiChu) throws Exception {
+        setMaPhieuDat(maPhieuDat);
+        setKhachHang(khachHang);
+        setPhong(phong);
+        setNhanVienLap(nhanVienLap);
+        setThoiGianLap(thoiGianLap);
+        setThoiGianNhan(thoiGianNhan);
+        setGhiChu(ghiChu);
     }
 
-    public PhieuDatPhong(String maPhieuDat) {
-        this.maPhieuDat = maPhieuDat;
+    public PhieuDatPhong(String maPhieuDat) throws Exception {
+        setMaPhieuDat(maPhieuDat);
     }
 
     public String getMaPhieuDat() {
         return maPhieuDat;
     }
 
-    public void setMaPhieuDat(String maPhieuDat) {
-        this.maPhieuDat = maPhieuDat;
+    public void setMaPhieuDat(String maPhieuDat) throws Exception {
+        if (maPhieuDat == null || maPhieuDat.trim().equals("")) {
+            throw new Exception("Mã phiếu đặt không được trống");
+        } else {
+            this.maPhieuDat = maPhieuDat;
+        }
     }
 
     public KhachHang getKhachHang() {
         return khachHang;
     }
 
-    public void setKhachHang(KhachHang khachHang) {
-        this.khachHang = khachHang;
+    public void setKhachHang(KhachHang khachHang) throws Exception {
+        if (khachHang == null) {
+            throw new Exception("Khách hàng đặt phòng không được trống");
+        } else {
+            this.khachHang = khachHang;
+        }
     }
 
     public Phong getPhong() {
         return phong;
     }
 
-    public void setPhong(Phong phong) {
-        this.phong = phong;
+    public void setPhong(Phong phong) throws Exception {
+        if (phong == null) {
+            throw new Exception("Phòng không được trống");
+        } else {
+            this.phong = phong;
+        }
     }
 
     public NhanVien getNhanVienLap() {
         return nhanVienLap;
     }
 
-    public void setNhanVienLap(NhanVien nhanVienLap) {
-        this.nhanVienLap = nhanVienLap;
+    public void setNhanVienLap(NhanVien nhanVienLap) throws Exception {
+        if (nhanVienLap == null) {
+            throw new Exception("Nhân viên lập phiếu không được trống");
+        } else {
+            this.nhanVienLap = nhanVienLap;
+        }
     }
 
     public LocalDate getThoiGianLap() {
         return thoiGianLap;
     }
 
-    public void setThoiGianLap(LocalDate thoiGianLap) {
-        this.thoiGianLap = thoiGianLap;
+    public void setThoiGianLap(LocalDate thoiGianLap) throws Exception {
+        if (thoiGianLap == null) {
+            throw new Exception("Thời gian lập phiếu không được trống");
+        } else {
+            this.thoiGianLap = thoiGianLap;
+        }
     }
 
     public LocalDate getThoiGianNhan() {
         return thoiGianNhan;
     }
 
-    public void setThoiGianNhan(LocalDate thoiGianNhan) {
-        this.thoiGianNhan = thoiGianNhan;
+    public void setThoiGianNhan(LocalDate thoiGianNhan) throws Exception {
+        if (thoiGianNhan == null) {
+            throw new Exception("Thời gian nhận phòng không được trống");
+        } else {
+            this.thoiGianNhan = thoiGianNhan;
+        }
     }
 
     public String getGhiChu() {

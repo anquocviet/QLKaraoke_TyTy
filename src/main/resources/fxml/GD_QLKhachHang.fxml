@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -28,22 +29,18 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="538.0" prefWidth="512.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
                     <children>
                         <Text layoutX="17.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khách hàng:" />
-                        <TextField id="txtMaKhachHang" disable="true" layoutX="183.0" layoutY="14.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField fx:id="txtMaKhachHang" disable="true" layoutX="183.0" layoutY="14.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khách hàng:" />
-                        <TextField id="txtTenKhachHang" layoutX="183.0" layoutY="69.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField fx:id="txtTenKhachHang" layoutX="183.0" layoutY="69.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại:" />
-                        <TextField id="txtSDT" layoutX="183.0" layoutY="119.0" prefHeight="32.0" prefWidth="312.0" />
+                        <TextField fx:id="txtSDT" layoutX="183.0" layoutY="119.0" prefHeight="32.0" prefWidth="312.0" />
                         <Text layoutX="17.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Năm sinh:" />
-                        <Spinner id="spinnerNamSinh" editable="true" layoutX="183.0" layoutY="174.0" />
+                        <Spinner fx:id="spinnerNamSinh" editable="true" layoutX="183.0" layoutY="174.0" />
                         <Text layoutX="14.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giới tính:" />
                         
-                        <RadioButton fx:id="radioButtonNam" layoutX="179.0" layoutY="231.0" selected="true" text="Nam">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="genderGroup" />
-                            </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="radioButtonNu" layoutX="276.0" layoutY="231.0" text="Nữ" toggleGroup="$genderGroup" />
-                        <Button id="btnThem" layoutX="183.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
+                        <RadioButton fx:id="radioButtonNam" layoutX="179.0" layoutY="231.0" selected="true" text="Nam" />
+                        <RadioButton fx:id="radioButtonNu" layoutX="276.0" layoutY="231.0" text="Nữ" />
+                        <Button fx:id="btnThem" layoutX="183.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
                                 <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -52,7 +49,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="btnSua" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
+                        <Button fx:id="btnSua" layoutX="273.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
                                 <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -61,7 +58,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="btnLamMoi" layoutX="363.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
+                        <Button fx:id="btnLamMoi" layoutX="363.0" layoutY="300.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="62.0">
                             <graphic>
                                 <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -79,20 +76,18 @@
         </TitledPane>
         <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="166.0" prefHeight="602.0" prefWidth="740.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="738.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
-                    <children>
-                        <TableView id="table" prefHeight="565.0" prefWidth="736.0">
-                            <columns>
-                                <TableColumn prefWidth="52.3333740234375" resizable="false" text="#" />
-                                <TableColumn prefWidth="100.66668701171875" resizable="false" text="Mã KH" />
-                                <TableColumn prefWidth="205.5" resizable="false" text="Tên KH" />
-                                <TableColumn minWidth="0.0" prefWidth="157.5" resizable="false" text="SĐT" />
-                                <TableColumn minWidth="0.0" prefWidth="118.16668701171875" resizable="false" text="Năm sinh" />
-                                <TableColumn prefWidth="103.1666259765625" resizable="false" text="Giới tính" />
-                            </columns>
-                        </TableView>
-                    </children>
-                </AnchorPane>
+                <ScrollPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="736.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
+                    <TableView onMouseClicked="#docDuLieuTuTable"  fx:id="table" prefHeight="565.0" prefWidth="736.0">
+                        <columns>
+                            <TableColumn fx:id="sttCol" prefWidth="38.5" resizable="false" sortable="false" text="#" />
+                            <TableColumn fx:id="maKHCol" prefWidth="115.0" resizable="false" text="Mã KH" />
+                            <TableColumn fx:id="tenKHCol" prefWidth="205.5" resizable="false" text="Tên KH" />
+                            <TableColumn fx:id="sdtCol" minWidth="0.0" prefWidth="157.5" resizable="false" text="SĐT" />
+                            <TableColumn fx:id="namSinhCol" minWidth="0.0" prefWidth="118.16668701171875" resizable="false" text="Năm sinh" />
+                            <TableColumn fx:id="gioiTinhCol" maxWidth="1.7976931348623157E308" prefWidth="100.0" resizable="false" text="Giới tính" />
+                        </columns>
+                    </TableView>
+                </ScrollPane>
             </content>
             <font>
                 <Font size="18.0" />
@@ -100,7 +95,7 @@
         </TitledPane>
         <Pane layoutX="941.0" layoutY="94.0" prefHeight="33.0" prefWidth="304.0">
             <children>
-                <TextField id="inputTimKiem" prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT">
+                <TextField fx:id="inputTimKiem" prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT">
                     <font>
                         <Font size="18.0" />
                     </font>

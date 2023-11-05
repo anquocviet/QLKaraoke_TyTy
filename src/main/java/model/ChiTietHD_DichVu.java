@@ -6,7 +6,7 @@ package model;
 
 /**
  *
- * @author vie
+ * @author fil
  */
 public class ChiTietHD_DichVu {
 
@@ -31,7 +31,10 @@ public class ChiTietHD_DichVu {
         return hoaDon;
     }
 
-    public void setHoaDon(HoaDonThanhToan hoaDon) {
+    public void setHoaDon(HoaDonThanhToan hoaDon) throws IllegalArgumentException{
+        if (hoaDon == null) {
+        throw new IllegalArgumentException("Hóa đơn không được rỗng");
+        }
         this.hoaDon = hoaDon;
     }
 
@@ -39,7 +42,10 @@ public class ChiTietHD_DichVu {
         return dichVu;
     }
 
-    public void setDichVu(DichVu dichVu) {
+    public void setDichVu(DichVu dichVu) throws IllegalArgumentException{
+        if (dichVu == null) {
+        throw new IllegalArgumentException("Dịch vụ không được rỗng");
+        }
         this.dichVu = dichVu;
     }
 
@@ -47,12 +53,15 @@ public class ChiTietHD_DichVu {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(int soLuong) throws IllegalArgumentException{
+        if (soLuong <= 0) {
+        throw new IllegalArgumentException("Số lượng không được rỗng và phải lớn hơn 0");
+        }
         this.soLuong = soLuong;
     }
 
-    public void tinhThanhTien() {
-
+    public long tinhThanhTien() {
+        return this.soLuong * this.dichVu.getDonGia();
     }
 
     @Override
