@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.nio.channels.IllegalChannelGroupException;
 import java.util.Objects;
 
 /**
@@ -45,7 +46,10 @@ public class KhachHang {
         return tenKhachHang;
     }
 
-    public void setTenKhachHang(String tenKhachHang) {
+    public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException{
+        if (tenKhachHang == null || tenKhachHang.isEmpty()){
+            throw new IllegalArgumentException("Tên khách hàng không được rỗng");
+        }
         this.tenKhachHang = tenKhachHang;
     }
 
@@ -53,7 +57,10 @@ public class KhachHang {
         return soDienThoai;
     }
 
-    public void setSoDienThoai(String soDienThoai) {
+    public void setSoDienThoai(String soDienThoai)throws IllegalArgumentException {
+        if (soDienThoai == null || soDienThoai.isEmpty()){
+            throw new IllegalArgumentException("Số điện thoại không được rỗng");
+        }
         this.soDienThoai = soDienThoai;
     }
 
@@ -61,7 +68,11 @@ public class KhachHang {
         return namSinh;
     }
 
-    public void setNamSinh(int namSinh) {
+    public void setNamSinh(int namSinh) throws IllegalArgumentException{
+   if(namSinh !=0){
+            throw new IllegalArgumentException("Năm sinh không được rỗng");
+            
+        }
         this.namSinh = namSinh;
     }
 
@@ -70,6 +81,7 @@ public class KhachHang {
     }
 
     public void setGioiTinh(boolean gioiTinh) {
+        
         this.gioiTinh = gioiTinh;
     }
 

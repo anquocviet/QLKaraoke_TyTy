@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,9 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-
-<AnchorPane id="GD_QLPhong" stylesheets="@../styles/base.css" prefHeight="531.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_QLPhongController" >
+<AnchorPane id="GD_QLPhong" prefHeight="531.0" prefWidth="736.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLPhongController">
 
    <children>
       <Text fill="#df1616" layoutX="296.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG" textAlignment="CENTER" wrappingWidth="404.18865966796875">
@@ -20,7 +19,7 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <TextField layoutX="1030.0" layoutY="10.0" prefHeight="23.0" prefWidth="236.0" style="-fx-background-color: orange;" text="            Mã Phòng">
+      <TextField layoutX="1030.0" layoutY="10.0" prefHeight="23.0" prefWidth="236.0" style="-fx-background-color: orange; -fx-font-size: 20;" text="            Mã Phòng">
          <font>
             <Font size="20.0" />
          </font></TextField>
@@ -44,30 +43,30 @@
          <font>
             <Font size="20.0" />
          </font></Text>
-      <TextField layoutX="144.0" layoutY="189.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="P102VIP">
+      <TextField layoutX="144.0" layoutY="189.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="P102VIP">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField layoutX="144.0" layoutY="266.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="10">
+      <TextField layoutX="144.0" layoutY="266.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="10">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField layoutX="144.0" layoutY="346.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="Phòng trống">
+      <TextField layoutX="144.0" layoutY="346.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="Phòng trống">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <TextField layoutX="144.0" layoutY="522.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="90k/h">
+      <TextField layoutX="144.0" layoutY="522.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="90k/h">
          <font>
             <Font size="20.0" />
          </font></TextField>
       <TableView layoutX="521.0" layoutY="137.0" prefHeight="650.0" prefWidth="718.0" style="-fx-background-color: pink;">
         <columns>
-          <TableColumn prefWidth="28.800048828125" style="-fx-color: orange;" text="#" />
-          <TableColumn prefWidth="132.79998779296875" style="-fx-color: orange;" text="Mã phòng" />
-            <TableColumn prefWidth="142.4000244140625" style="-fx-color: orange;" text="Sức chứa" />
-            <TableColumn prefWidth="122.4000244140625" style="-fx-color: orange;" text="Tình trạng" />
-            <TableColumn prefWidth="178.40008544921875" style="-fx-color: orange;" text="Loại phòng" />
-            <TableColumn prefWidth="117.5999755859375" style="-fx-color: orange;" text="Giá phòng" />
+          <TableColumn prefWidth="28.800048828125" resizable="false" style="-fx-color: orange;" text="#" />
+          <TableColumn prefWidth="132.79998779296875" resizable="false" style="-fx-color: orange;" text="Mã phòng" />
+            <TableColumn prefWidth="142.4000244140625" resizable="false" style="-fx-color: orange;" text="Sức chứa" />
+            <TableColumn prefWidth="122.4000244140625" resizable="false" style="-fx-color: orange;" text="Tình trạng" />
+            <TableColumn prefWidth="178.40008544921875" resizable="false" style="-fx-color: orange;" text="Loại phòng" />
+            <TableColumn prefWidth="117.5999755859375" resizable="false" style="-fx-color: orange;" text="Giá phòng" />
         </columns>
       </TableView>
       <ImageView fitHeight="23.0" fitWidth="17.0" layoutX="1076.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -79,6 +78,9 @@
          <font>
             <Font size="35.0" />
          </font></Text>
-      <ComboBox layoutX="144.0" layoutY="435.0" prefHeight="30.0" prefWidth="332.0" promptText="VIP" style="-fx-background-color: pink;" />
+      <ComboBox layoutX="144.0" layoutY="435.0" prefHeight="30.0" prefWidth="332.0" promptText="VIP" style="-fx-background-color: pink; -fx-font-size: 20;" />
+      <Button layoutX="28.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="106.0" style="-fx-font-size: 20; -fx-background-color: orange;" text="Thêm" />
+      <Button layoutX="325.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="153.0" style="-fx-font-size: 20; -fx-background-color: blue;" text="Làm mới" />
+      <Button layoutX="169.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="106.0" style="-fx-font-size: 20; -fx-background-color: red;" text="Xóa" />
    </children>
 </AnchorPane>
