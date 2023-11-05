@@ -11,7 +11,7 @@ import java.util.Objects;
 
 /**
  *
- * @author vie
+ * @author fil
  */
 public class CT_KhuyenMai {
 
@@ -42,7 +42,10 @@ public class CT_KhuyenMai {
         return maKhuyenMai;
     }
 
-    public void setMaKhuyenMai(String maKhuyenMai) {
+    public void setMaKhuyenMai(String maKhuyenMai) throws IllegalArgumentException{
+        if (maKhuyenMai == null || maKhuyenMai.isEmpty()) {
+        throw new IllegalArgumentException("Mã khuyến mãi không được rỗng");
+        }
         this.maKhuyenMai = maKhuyenMai;
     }
 
@@ -50,7 +53,10 @@ public class CT_KhuyenMai {
         return tenKhuyenMai;
     }
 
-    public void setTenKhuyenMai(String tenKhuyenMai) {
+    public void setTenKhuyenMai(String tenKhuyenMai) throws IllegalArgumentException{
+        if (tenKhuyenMai == null || tenKhuyenMai.isEmpty()) {
+        throw new IllegalArgumentException("Tên khuyến mãi không được rỗng");
+        }
         this.tenKhuyenMai = tenKhuyenMai;
     }
 
@@ -58,7 +64,15 @@ public class CT_KhuyenMai {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(LocalDateTime ngayBatDau) {
+
+    public void setNgayBatDau(LocalDateTime ngayBatDau) throws IllegalArgumentException{
+        if (ngayBatDau == null) {
+        throw new IllegalArgumentException("Ngày bắt đầu không được rỗng");
+        }
+        if (ngayBatDau.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại");
+        }
+
         this.ngayBatDau = ngayBatDau;
     }
 
@@ -66,7 +80,14 @@ public class CT_KhuyenMai {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(LocalDateTime ngayKetThuc) {
+    public void setNgayKetThuc(LocalDateTime ngayKetThuc) throws IllegalArgumentException{
+        if (ngayKetThuc == null) {
+        throw new IllegalArgumentException("Ngày kết thúc không được rỗng");
+        }
+        if (ngayKetThuc.isBefore(ngayBatDau)) {
+            throw new IllegalArgumentException("Ngày kết thúc phải lớn hơn ngày bắt đầu");
+        }
+
         this.ngayKetThuc = ngayKetThuc;
     }
 
@@ -74,7 +95,10 @@ public class CT_KhuyenMai {
         return luotSuDungConLai;
     }
 
-    public void setLuotSuDungConLai(int luotSuDungConLai) {
+    public void setLuotSuDungConLai(int luotSuDungConLai) throws IllegalArgumentException{
+        if (luotSuDungConLai < 0) {
+        throw new IllegalArgumentException("Lượt sử dụng khuyến mãi phải lớn hơn hoặc bằng 0");
+        }
         this.luotSuDungConLai = luotSuDungConLai;
     }
 
@@ -82,7 +106,10 @@ public class CT_KhuyenMai {
         return chietKhau;
     }
 
-    public void setChietKhau(int chietKhau) {
+    public void setChietKhau(int chietKhau) throws IllegalArgumentException{
+        if (chietKhau < 0 || chietKhau > 50) {
+        throw new IllegalArgumentException("Chiết khấu phải lớn hơn 0 và nhỏ hơn hoặc bằng 50");
+        }
         this.chietKhau = chietKhau;
     }
 

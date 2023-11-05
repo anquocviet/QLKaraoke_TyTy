@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
 import connect.ConnectDB;
+import javafx.scene.control.MenuItem;
 
 /**
  * FXML Controller class
@@ -50,12 +51,12 @@ public class AppFrameController implements Initializable {
     private void moGDQLPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLPhong");
     }
-    
+
     @FXML
     private void moGDQuanLyKinhDoanhPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLKinhDoanhPhong");
     }
-    
+
     @FXML
     private void moGDTraCuuHoaDon(ActionEvent event) throws IOException {
         App.setRoot("GD_TraCuuHoaDon");
@@ -72,15 +73,19 @@ public class AppFrameController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-    
+
     @FXML
     private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QuanLyKinhDoanhPhong");
     }
-    
+
     @FXML
     private void moGDQLCTKhuyenMai(ActionEvent event) throws IOException {
         App.setRoot("GD_QLCTKhuyenMai");
     }
-}
 
+    @FXML
+    private void moGDThongKe(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKe");
+    }
+}
