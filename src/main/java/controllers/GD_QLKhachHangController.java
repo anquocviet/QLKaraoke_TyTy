@@ -10,7 +10,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import main.App;
 
@@ -23,7 +27,28 @@ public class GD_QLKhachHangController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ToggleGroup genderGroup = new ToggleGroup();
+        genderGroup = new ToggleGroup();
     }
 
+    @FXML
+    private TextField txtMaKhachHang;
+    @FXML
+    private TextField txtTenKhachHang;
+    @FXML
+    private TextField txtSDT;
+    @FXML
+    private Spinner spinnerNamSinh;
+    @FXML
+    private ToggleGroup genderGroup;
+    @FXML
+    private Button btnThem;
+    @FXML
+    private Button btnSua;
+    @FXML
+    private Button btnLamMoi;
+    @FXML
+    private TableView table;
+    @FXML
+    private TextField inputTimKiem;
+    
 }
