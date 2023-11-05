@@ -101,21 +101,21 @@
                </graphic>
             </Button>
          </children></Pane>
-      <ScrollPane layoutX="-1.0" layoutY="343.0" prefHeight="398.0" prefWidth="1282.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="343.0" prefHeight="422.0" prefWidth="1280.0" vbarPolicy="ALWAYS">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="1278.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                  <TitledPane animated="false" collapsible="false" prefHeight="394.0" prefWidth="1282.0" text="Danh sách chương trình khuyến mãi">
+                  <TitledPane animated="false" collapsible="false" layoutX="4.0" layoutY="-7.0" text="Danh sách chương trình khuyến mãi">
                      <content>
-                        <TableView fx:id="tableView_CTKhuyenMai" prefHeight="300.0" prefWidth="1281.0">
+                        <TableView fx:id="tableView_CTKhuyenMai">
                            <columns>
-                              <TableColumn id="col_sttKhuyenMai" editable="false" prefWidth="75.0" resizable="false" text="STT" />
-                              <TableColumn id="col_maKhuyenMai" editable="false" prefWidth="209.60006713867188" resizable="false" text="Mã khuyến mãi" />
-                              <TableColumn id="col_tenKhuyenMai" editable="false" prefWidth="268.79998779296875" resizable="false" text="Tên khuyến mãi" />
-                              <TableColumn id="col_ngayBatDau" editable="false" prefWidth="181.5999755859375" resizable="false" text="Ngày bắt đầu" />
-                              <TableColumn id="col_ngayKetThuc" editable="false" prefWidth="182.39996337890625" resizable="false" text="Ngày kết thúc" />
-                              <TableColumn id="col_luotSuDung" editable="false" prefWidth="180.7999267578125" resizable="false" text="Lượt sử dụng" />
-                              <TableColumn id="col_chietKhau" editable="false" prefWidth="182.4000244140625" resizable="false" text="Chiết khấu" />
+                              <TableColumn fx:id="col_sttKhuyenMai" editable="false" prefWidth="75.0" resizable="false" text="STT" />
+                              <TableColumn fx:id="col_maKhuyenMai" editable="false" prefWidth="209.60006713867188" resizable="false" text="Mã khuyến mãi" />
+                              <TableColumn fx:id="col_tenKhuyenMai" editable="false" prefWidth="268.79998779296875" resizable="false" text="Tên khuyến mãi" />
+                              <TableColumn fx:id="col_ngayBatDau" editable="false" prefWidth="181.5999755859375" resizable="false" text="Ngày bắt đầu" />
+                              <TableColumn fx:id="col_ngayKetThuc" editable="false" prefWidth="182.39996337890625" resizable="false" text="Ngày kết thúc" />
+                              <TableColumn fx:id="col_luotSuDungConLai" editable="false" prefWidth="180.7999267578125" resizable="false" text="Lượt sử dụng" />
+                              <TableColumn fx:id="col_chietKhau" editable="false" prefWidth="182.4000244140625" resizable="false" text="Chiết khấu" />
                            </columns>
                         </TableView>
                      </content>

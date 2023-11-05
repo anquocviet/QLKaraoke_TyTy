@@ -10,6 +10,8 @@ module iuh_ptudnhom16.qlkaraoke_tyty {
 
     opens main to javafx.fxml;
     opens controllers to javafx.fxml;
+    opens model to javafx.base;
     exports main;
     exports controllers;
+    exports model;
 }

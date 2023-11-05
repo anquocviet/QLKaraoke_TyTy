@@ -5,20 +5,27 @@
 package controllers;
 
 import connect.ConnectDB;
-import entity.CT_KhuyenMai;
+import model.CT_KhuyenMai;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.CT_KhuyenMai;
 
 /**
  *
@@ -26,13 +33,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class GD_QLCTKhuyenMaiController implements Initializable{
 
-
-    
     @FXML
     private TableView<CT_KhuyenMai> tableView_CTKhuyenMai;
     
     @FXML
-    private TableColumn<CT_KhuyenMai, String> col_sttKhuyenMai; 
+    private TableColumn<String, Integer> col_sttKhuyenMai; 
     
     @FXML
     private TableColumn<CT_KhuyenMai, String> col_maKhuyenMai; 
@@ -41,51 +46,90 @@ public class GD_QLCTKhuyenMaiController implements Initializable{
     private TableColumn<CT_KhuyenMai, String> col_tenKhuyenMai; 
     
     @FXML
-    private TableColumn<CT_KhuyenMai, Date> col_ngayBatDau; 
+    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayBatDau; 
     
     @FXML
-    private TableColumn<CT_KhuyenMai, Date> col_ngayKetThuc; 
+    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayKetThuc; 
     
     @FXML
     private TableColumn<CT_KhuyenMai, Integer> col_luotSuDungConLai;
     
     @FXML
-    private TableColumn<CT_KhuyenMai, Long> col_chietKhau;
+    private TableColumn<CT_KhuyenMai, Integer> col_chietKhau;
     
-    ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;
-    
-    Connection con = null;
+    ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;    
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        col_maKhuyenMai.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, String>("Mã khuyến mãi"));
-        col_tenKhuyenMai.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, String>("Tên khuyến mãi"));
-        col_ngayBatDau.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, Date>("Ngày bắt đầu"));
-        col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, Date>("Ngày kết thúc"));
-        col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, Integer>("Lượt sử dụng"));
-        col_chietKhau.setCellValueFactory(new PropertyValueFactory<CT_KhuyenMai, Long>("Chiết khấu"));
+        col_sttKhuyenMai.setCellFactory(col -> {
+            TableCell<String, Integer> indexCell = new TableCell<>();
+            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
+            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
+                TableRow<String> row = rowProperty.get();
+                if (row != null) {
+                    int rowIndex = row.getIndex();
+                    if (rowIndex < row.getTableView().getItems().size()) {
+                        return Integer.toString(rowIndex + 1);
+                    }
+                }
+                return null;
+            }, rowProperty);
+            indexCell.textProperty().bind(rowBinding);
+            return indexCell;
+        });
+        col_maKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("maKhuyenMai"));
+        col_tenKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("tenKhuyenMai"));
+        col_ngayBatDau.setCellValueFactory(new PropertyValueFactory<>("ngayBatDau"));
+        col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
+        col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
+        col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
         
         danhSachCT_KhuyenMai = getListCT_KhuyenMai();
+        // cột số thứ tự chưa được gán --> ko lấy dữ liệu lên table được
         tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
     }
     
     public  ObservableList<CT_KhuyenMai> getListCT_KhuyenMai(){
         ConnectDB.getInstance();
-        con = ConnectDB.getConnection();
+        Connection con = ConnectDB.getConnection();
     
         ObservableList<CT_KhuyenMai> list = FXCollections.observableArrayList();
         try{
-            PreparedStatement ps = con.prepareStatement("select * form CT_KhuyenMai");
+            PreparedStatement ps = con.prepareStatement("select * from CT_KhuyenMai");
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()){
-                list.add(new CT_KhuyenMai(rs.getString("maKhuyenMai"), rs.getString("tenKhuyenMai"), rs.getDate("ngayBatDau"), rs.getDate("ngayKetThuc"), rs.getInt("luotSuDungConLai"), rs.getLong("chietKhau")));
+                String maKhuyenMai = rs.getString("MaKhuyenMai");
+                String tenKhuyenMai = rs.getString("TenKhuyenMai");
+                /// lỗi ko lấy được dữ liệu
+                String ngayTmp = rs.getString("NgayBatDau");
+                String xulyNgay = processString(ngayTmp);
+                LocalDateTime ngayBatDau = LocalDateTime.parse(xulyNgay);
+                ngayTmp = rs.getString("NgayKetThuc");
+                xulyNgay = processString(ngayTmp);
+                LocalDateTime ngayKetThuc = LocalDateTime.parse(xulyNgay);
+                Integer soLuotSuDungConLai = rs.getInt("LuotSuDungConLai");
+                Integer chietKhau = rs.getInt("ChietKhau");
+                CT_KhuyenMai tmp = new CT_KhuyenMai(maKhuyenMai,tenKhuyenMai, ngayBatDau, ngayKetThuc, soLuotSuDungConLai, chietKhau);
+                list.add(tmp);
             }
             rs.close();
             con.close();
         } catch (Exception e){
-            
+            e.printStackTrace();
         }
-        return null;    
+        return list;    
+    }
+    public String processString(String input) {
+        // Tìm khoảng trống và thay thế nó bằng chữ 'T'
+        String replacedSpace = input.replace(" ", "T");
+        
+        // Tìm dấu "." và loại bỏ tất cả phần sau dấu "."
+        int dotIndex = replacedSpace.indexOf(".");
+        if (dotIndex != -1) {
+            return replacedSpace.substring(0, dotIndex);
+        } else {
+            return replacedSpace;
+        }
     }
 }
