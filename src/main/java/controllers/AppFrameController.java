@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
+import connect.ConnectDB;
+import javafx.scene.control.MenuItem;
 
 /**
  * FXML Controller class
@@ -22,6 +24,7 @@ public class AppFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ConnectDB.getInstance().connect();
     }
 
     @FXML
@@ -48,12 +51,12 @@ public class AppFrameController implements Initializable {
     private void moGDQLPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLPhong");
     }
-    
+
     @FXML
     private void moGDQuanLyKinhDoanhPhong(ActionEvent event) throws IOException {
         App.setRoot("GD_QLKinhDoanhPhong");
     }
-    
+
     @FXML
     private void moGDTraCuuHoaDon(ActionEvent event) throws IOException {
         App.setRoot("GD_TraCuuHoaDon");
@@ -62,7 +65,7 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDDangKy(ActionEvent event) throws IOException {
         App.setRoot("GD_DangKy");
-//        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+//       App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
     }
 
     @FXML
@@ -70,5 +73,19 @@ public class AppFrameController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-}
 
+    @FXML
+    private void moGDQLKinhDoanhPhong(ActionEvent event) throws IOException {
+        App.setRoot("GD_QuanLyKinhDoanhPhong");
+    }
+
+    @FXML
+    private void moGDQLCTKhuyenMai(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLCTKhuyenMai");
+    }
+
+    @FXML
+    private void moGDThongKe(ActionEvent event) throws IOException {
+        App.setRoot("GD_ThongKe");
+    }
+}

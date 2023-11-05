@@ -10,20 +10,21 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ToggleGroup;
 import main.App;
-
 
 /**
  * FXML Controller class
  *
- * @author fil
+ * @author nktng
  */
-public class GD_QLNhanVienController implements Initializable {
-    
+public class GD_ThongKeQuyController implements Initializable {
+
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        ToggleGroup genderGroup = new ToggleGroup();
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
     }
 
 }

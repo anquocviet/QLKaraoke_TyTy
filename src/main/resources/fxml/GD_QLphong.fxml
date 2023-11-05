@@ -11,39 +11,74 @@
 <?import javafx.scene.text.Text?>
 
 
+
 <AnchorPane id="GD_QLPhong" stylesheets="@../styles/base.css" prefHeight="531.0" prefWidth="736.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controllers.GD_QLPhongController" >
+
    <children>
-      <Text fill="#df1616" layoutX="268.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG">
+      <Text fill="#df1616" layoutX="296.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG" textAlignment="CENTER" wrappingWidth="404.18865966796875">
          <font>
-            <Font size="20.0" />
+            <Font size="40.0" />
          </font>
       </Text>
-      <TextField layoutX="628.0" layoutY="2.0" text="         mã phòng" />
-      <Text layoutX="39.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã phòng" />
-      <Text layoutX="38.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sức chứa" />
-      <Text layoutX="34.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tình trạng" />
-      <Text layoutX="35.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loại phòng " />
-      <Text layoutX="33.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giá phòng" />
-      <TextField layoutX="119.0" layoutY="137.0" text="P102VIP" />
-      <TextField layoutX="120.0" layoutY="176.0" text="10" />
-      <TextField layoutX="121.0" layoutY="213.0" text="Phòng trống" />
-      <TextField layoutX="120.0" layoutY="291.0" text="90k/h" />
-      <TableView layoutX="343.0" layoutY="129.0" prefHeight="404.0" prefWidth="434.0">
+      <TextField layoutX="1030.0" layoutY="10.0" prefHeight="23.0" prefWidth="236.0" style="-fx-background-color: orange;" text="            Mã Phòng">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Text layoutX="36.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã phòng">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <Text layoutX="36.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sức chứa">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <Text layoutX="34.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tình trạng">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <Text layoutX="28.0" layoutY="458.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loại phòng ">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <Text layoutX="28.0" layoutY="543.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giá phòng">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <TextField layoutX="144.0" layoutY="189.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="P102VIP">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <TextField layoutX="144.0" layoutY="266.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="10">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <TextField layoutX="144.0" layoutY="346.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="Phòng trống">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <TextField layoutX="144.0" layoutY="522.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink;" text="90k/h">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <TableView layoutX="521.0" layoutY="137.0" prefHeight="650.0" prefWidth="718.0" style="-fx-background-color: pink;">
         <columns>
-          <TableColumn prefWidth="28.800048828125" text="#" />
-          <TableColumn prefWidth="92.0" text="Mã phòng" />
-            <TableColumn prefWidth="70.39996337890625" text="Sức chứa" />
-            <TableColumn prefWidth="80.800048828125" text="Tình trạng" />
-            <TableColumn prefWidth="72.7999267578125" text="Loại phòng" />
-            <TableColumn prefWidth="107.2000732421875" text="Giá phòng" />
+          <TableColumn prefWidth="28.800048828125" style="-fx-color: orange;" text="#" />
+          <TableColumn prefWidth="132.79998779296875" style="-fx-color: orange;" text="Mã phòng" />
+            <TableColumn prefWidth="142.4000244140625" style="-fx-color: orange;" text="Sức chứa" />
+            <TableColumn prefWidth="122.4000244140625" style="-fx-color: orange;" text="Tình trạng" />
+            <TableColumn prefWidth="178.40008544921875" style="-fx-color: orange;" text="Loại phòng" />
+            <TableColumn prefWidth="117.5999755859375" style="-fx-color: orange;" text="Giá phòng" />
         </columns>
       </TableView>
-      <ImageView fitHeight="17.0" fitWidth="26.0" layoutX="638.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="23.0" fitWidth="17.0" layoutX="1076.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/search.png" />
          </image>
       </ImageView>
-      <Text layoutX="483.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH PHÒNG" />
-      <ComboBox layoutX="120.0" layoutY="253.0" prefWidth="150.0" promptText="VIP" />
+      <Text fill="#dc0c0c" layoutX="757.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH PHÒNG">
+         <font>
+            <Font size="35.0" />
+         </font></Text>
+      <ComboBox layoutX="144.0" layoutY="435.0" prefHeight="30.0" prefWidth="332.0" promptText="VIP" style="-fx-background-color: pink;" />
    </children>
 </AnchorPane>
