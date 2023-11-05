@@ -7,13 +7,15 @@ package controllers;
 import connect.ConnectDB;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -43,26 +43,12 @@ public class GD_QLKhachHangController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         genderGroup = new ToggleGroup();
+        txtMaKhachHang.setText(phatSinhMaKhachHang());
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
 
 //        Tạo index column
-        sttCol.setCellFactory(col -> {
-            TableCell<String, Integer> indexCell = new TableCell<>();
-            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
-            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
-                TableRow<String> row = rowProperty.get();
-                if (row != null) {
-                    int rowIndex = row.getIndex();
-                    if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex + 1);
-                    }
-                }
-                return null;
-            }, rowProperty);
-            indexCell.textProperty().bind(rowBinding);
-            return indexCell;
-        });
+        sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
         maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
         tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
         sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
@@ -99,21 +85,127 @@ public class GD_QLKhachHangController implements Initializable {
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return dsKhachHang;
     }
 
+    public ObservableList<KhachHang> layKhachHangTheoMaKhachHang(String maKH) {
+        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM KhachHang WHERE MaKhachHang = '%s'", maKH);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maKhachhang = rs.getString("MaKhachHang");
+                String tenKhachhang = rs.getString("TenKhachHang");
+                String soDienThoai = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsKhachHang;
+    }
+
+    public int demSoLuongKhachHang() {
+        int soLuongKH = 0;
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaKhachHang) AS SoLuongKH FROM KhachHang";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuongKH = rs.getInt("SoLuongKH");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuongKH;
+    }
+
+    public boolean themKhachHang(KhachHang kh) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "INSERT INTO KhachHang ( MaKhachHang, TenKhachHang, SoDienThoai, NamSinh, GioiTinh ) VALUES(?,?,?,?,?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getMaKhachHang());
+            pstm.setString(2, kh.getTenKhachHang());
+            pstm.setString(3, kh.getSoDienThoai());
+            pstm.setInt(4, kh.getNamSinh());
+            pstm.setBoolean(5, kh.isGioiTinh());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
+
+    public boolean suaKhachHang(KhachHang kh) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE KhachHang SET TenKhachHang = ?, SoDienThoai = ?, NamSinh = ?, GioiTinh = ? WHERE MaKhachHang = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getTenKhachHang());
+            pstm.setString(2, kh.getSoDienThoai());
+            pstm.setInt(3, kh.getNamSinh());
+            pstm.setBoolean(4, kh.isGioiTinh());
+            pstm.setString(5, kh.getMaKhachHang());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
+    
 //  Render and handle in View'
     public void docDuLieuTuTable(MouseEvent event) {
         KhachHang kh = table.getSelectionModel().getSelectedItem();
+        if (kh == null) {
+            return;
+        }
         txtMaKhachHang.setText(kh.getMaKhachHang());
         txtTenKhachHang.setText(kh.getTenKhachHang());
         txtSDT.setText(kh.getSoDienThoai());
@@ -123,6 +215,51 @@ public class GD_QLKhachHangController implements Initializable {
         } else {
             genderGroup.getToggles().get(1).setSelected(true);
         }
+    }
+
+    public void xuLyThemKhachHang() {
+        String maKH = txtMaKhachHang.getText();
+        String tenKH = txtTenKhachHang.getText().trim();
+        String sdt = txtSDT.getText().trim();
+        int namSinh = (Integer) spinnerNamSinh.getValue();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+        themKhachHang(kh);
+        table.setItems(layTatCaKhachHang());
+    }
+
+    public void xuLySuaThongTinKhachHang() {
+        String maKH = txtMaKhachHang.getText();
+        String tenKH = txtTenKhachHang.getText().trim();
+        String sdt = txtSDT.getText().trim();
+        int namSinh = (Integer) spinnerNamSinh.getValue();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+        suaKhachHang(kh);
+        table.setItems(layTatCaKhachHang());
+        table.refresh();
+    }
+
+    public void xuLyLamMoiThongTinKhachHang() {
+        txtMaKhachHang.setText(phatSinhMaKhachHang());
+        txtTenKhachHang.setText("");
+        txtSDT.setText("");
+        spinnerNamSinh.getValueFactory().setValue(2000);
+        genderGroup.getToggles().get(0).setSelected(true);
+        table.getSelectionModel().clearSelection();
+    }
+
+    public String phatSinhMaKhachHang() {
+        String maKH = "KH";
+        DecimalFormat df = new DecimalFormat("0000");
+        maKH = maKH.concat(df.format(demSoLuongKhachHang() + 1));
+        return maKH;
     }
 
 //    Variable

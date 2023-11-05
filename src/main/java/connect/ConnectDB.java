@@ -31,7 +31,7 @@ public class ConnectDB {
 				e.printStackTrace();
 			}
 	}
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		return con;
 	}
 }

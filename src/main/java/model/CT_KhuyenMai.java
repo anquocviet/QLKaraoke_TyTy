@@ -4,7 +4,9 @@
  */
 package model;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+
 import java.util.Objects;
 
 /**
@@ -15,15 +17,15 @@ public class CT_KhuyenMai {
 
     private String maKhuyenMai;
     private String tenKhuyenMai;
-    private LocalDate ngayBatDau;
-    private LocalDate ngayKetThuc;
+    private LocalDateTime ngayBatDau;
+    private LocalDateTime ngayKetThuc;
     private int luotSuDungConLai;
     private int chietKhau;
 
     public CT_KhuyenMai() {
     }
 
-    public CT_KhuyenMai(String maKhuyenMai, String tenKhuyenMai, LocalDate ngayBatDau, LocalDate ngayKetThuc, int luotSuDungConLai, int chietKhau) {
+    public CT_KhuyenMai(String maKhuyenMai, String tenKhuyenMai, LocalDateTime ngayBatDau, LocalDateTime ngayKetThuc, int luotSuDungConLai, int chietKhau) {
         this.maKhuyenMai = maKhuyenMai;
         this.tenKhuyenMai = tenKhuyenMai;
         this.ngayBatDau = ngayBatDau;
@@ -58,31 +60,34 @@ public class CT_KhuyenMai {
         this.tenKhuyenMai = tenKhuyenMai;
     }
 
-    public LocalDate getNgayBatDau() {
+    public LocalDateTime getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(LocalDate ngayBatDau) throws IllegalArgumentException{
+
+    public void setNgayBatDau(LocalDateTime ngayBatDau) throws IllegalArgumentException{
         if (ngayBatDau == null) {
         throw new IllegalArgumentException("Ngày bắt đầu không được rỗng");
         }
-        if (ngayBatDau.isBefore(LocalDate.now())) {
+        if (ngayBatDau.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại");
         }
+
         this.ngayBatDau = ngayBatDau;
     }
 
-    public LocalDate getNgayKetThuc() {
+    public LocalDateTime getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(LocalDate ngayKetThuc) throws IllegalArgumentException{
+    public void setNgayKetThuc(LocalDateTime ngayKetThuc) throws IllegalArgumentException{
         if (ngayKetThuc == null) {
         throw new IllegalArgumentException("Ngày kết thúc không được rỗng");
         }
         if (ngayKetThuc.isBefore(ngayBatDau)) {
             throw new IllegalArgumentException("Ngày kết thúc phải lớn hơn ngày bắt đầu");
         }
+
         this.ngayKetThuc = ngayKetThuc;
     }
 
