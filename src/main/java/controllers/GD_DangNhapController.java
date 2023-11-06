@@ -43,7 +43,10 @@ public class GD_DangNhapController implements Initializable {
 
         TaiKhoan tk = dkTaiKhoanController.getTaiKhoanTheoUserNameAndPassword(username, password);
         if (tk == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Sai tên đăng nhập hoặc mật khẩu, vui lòng kiểm tra lại", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại tài khoản và mật khẩu của bạn!", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Đăng nhập thất bại");
+            alert.setHeaderText("Sai tài khoản hoặc mật khẩu");
             alert.showAndWait();
         } else {
             App.user = tk.getNhanVien().getMaNhanVien();
