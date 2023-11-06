@@ -18,9 +18,9 @@ public class ChiTietHD_DichVu {
     }
 
     public ChiTietHD_DichVu(HoaDonThanhToan hoaDon, DichVu dichVu, int soLuong) {
-        this.hoaDon = hoaDon;
-        this.dichVu = dichVu;
-        this.soLuong = soLuong;
+        setHoaDon(hoaDon);
+        setDichVu(dichVu);
+        setSoLuong(soLuong);
     }
 
     public ChiTietHD_DichVu(HoaDonThanhToan hoaDon) {

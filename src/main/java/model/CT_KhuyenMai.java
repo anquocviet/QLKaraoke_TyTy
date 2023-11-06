@@ -26,12 +26,12 @@ public class CT_KhuyenMai {
     }
 
     public CT_KhuyenMai(String maKhuyenMai, String tenKhuyenMai, LocalDateTime ngayBatDau, LocalDateTime ngayKetThuc, int luotSuDungConLai, int chietKhau) {
-        this.maKhuyenMai = maKhuyenMai;
-        this.tenKhuyenMai = tenKhuyenMai;
-        this.ngayBatDau = ngayBatDau;
-        this.ngayKetThuc = ngayKetThuc;
-        this.luotSuDungConLai = luotSuDungConLai;
-        this.chietKhau = chietKhau;
+        setMaKhuyenMai(maKhuyenMai);
+        setTenKhuyenMai(tenKhuyenMai);
+        setNgayBatDau(ngayBatDau);
+        setNgayKetThuc(ngayKetThuc);
+        setLuotSuDungConLai(luotSuDungConLai);
+        setChietKhau(chietKhau);
     }
 
     public CT_KhuyenMai(String maKhuyenMai) {
