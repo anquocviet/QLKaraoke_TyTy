@@ -44,9 +44,10 @@ public class CT_KhuyenMai {
 
     public void setMaKhuyenMai(String maKhuyenMai) throws IllegalArgumentException{
         if (maKhuyenMai == null || maKhuyenMai.isEmpty()) {
-        throw new IllegalArgumentException("Mã khuyến mãi không được rỗng");
+            throw new IllegalArgumentException("Mã khuyến mãi không được rỗng");
+        } else {
+            this.maKhuyenMai = maKhuyenMai;
         }
-        this.maKhuyenMai = maKhuyenMai;
     }
 
     public String getTenKhuyenMai() {
@@ -55,9 +56,10 @@ public class CT_KhuyenMai {
 
     public void setTenKhuyenMai(String tenKhuyenMai) throws IllegalArgumentException{
         if (tenKhuyenMai == null || tenKhuyenMai.isEmpty()) {
-        throw new IllegalArgumentException("Tên khuyến mãi không được rỗng");
+            throw new IllegalArgumentException("Tên khuyến mãi không được rỗng");
+        } else {
+            this.tenKhuyenMai = tenKhuyenMai;
         }
-        this.tenKhuyenMai = tenKhuyenMai;
     }
 
     public LocalDateTime getNgayBatDau() {
@@ -67,13 +69,12 @@ public class CT_KhuyenMai {
 
     public void setNgayBatDau(LocalDateTime ngayBatDau) throws IllegalArgumentException{
         if (ngayBatDau == null) {
-        throw new IllegalArgumentException("Ngày bắt đầu không được rỗng");
-        }
-        if (ngayBatDau.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Ngày bắt đầu không được rỗng");
+        } else if (ngayBatDau.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại");
+        } else {
+            this.ngayBatDau = ngayBatDau;
         }
-
-        this.ngayBatDau = ngayBatDau;
     }
 
     public LocalDateTime getNgayKetThuc() {
@@ -83,12 +84,11 @@ public class CT_KhuyenMai {
     public void setNgayKetThuc(LocalDateTime ngayKetThuc) throws IllegalArgumentException{
         if (ngayKetThuc == null) {
         throw new IllegalArgumentException("Ngày kết thúc không được rỗng");
-        }
-        if (ngayKetThuc.isBefore(ngayBatDau)) {
+        }else if (ngayKetThuc.isBefore(ngayBatDau)) {
             throw new IllegalArgumentException("Ngày kết thúc phải lớn hơn ngày bắt đầu");
+        } else {
+            this.ngayKetThuc = ngayKetThuc;
         }
-
-        this.ngayKetThuc = ngayKetThuc;
     }
 
     public int getLuotSuDungConLai() {
@@ -97,9 +97,10 @@ public class CT_KhuyenMai {
 
     public void setLuotSuDungConLai(int luotSuDungConLai) throws IllegalArgumentException{
         if (luotSuDungConLai < 0) {
-        throw new IllegalArgumentException("Lượt sử dụng khuyến mãi phải lớn hơn hoặc bằng 0");
+            throw new IllegalArgumentException("Lượt sử dụng khuyến mãi phải lớn hơn hoặc bằng 0");
+        } else {
+            this.luotSuDungConLai = luotSuDungConLai;
         }
-        this.luotSuDungConLai = luotSuDungConLai;
     }
 
     public int getChietKhau() {
@@ -109,8 +110,9 @@ public class CT_KhuyenMai {
     public void setChietKhau(int chietKhau) throws IllegalArgumentException{
         if (chietKhau < 0 || chietKhau > 50) {
         throw new IllegalArgumentException("Chiết khấu phải lớn hơn 0 và nhỏ hơn hoặc bằng 50");
+        } else{
+            this.chietKhau = chietKhau;
         }
-        this.chietKhau = chietKhau;
     }
 
     @Override
