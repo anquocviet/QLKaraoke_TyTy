@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -37,22 +38,31 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Button layoutX="100.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" style="-fx-background-color: Crimson;" text="Thoát" textFill="WHITE">
+      <Button layoutX="100.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" style="-fx-background-color: Crimson; -fx-font-size: 20;" text="Thoát" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Button layoutX="208.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: Gold;" text="Xóa Trống">
+      <Button layoutX="208.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: Gold; -fx-font-size: 20;" text="Xóa Trống">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Button layoutX="609.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="144.0" style="-fx-background-color: DeepSkyBlue;" text="Đặt Phòng">
+      <Button layoutX="609.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="144.0" style="-fx-background-color: DeepSkyBlue; -fx-font-size: 20;" text="Đặt Phòng">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <CheckBox layoutX="609.0" layoutY="516.0" mnemonicParsing="false" text="In phiếu đặt">
+      <CheckBox layoutX="609.0" layoutY="516.0" mnemonicParsing="false" style="-fx-font-size: 16;" text="In phiếu đặt">
          <font>
             <Font size="16.0" />
          </font></CheckBox>

@@ -30,5 +30,6 @@ controllers/GD_ThongKeNamController.class
 model/TaiKhoan.class
 enums/Enum_ChucVu.class
 controllers/GD_QLKinhDoanhPhongController.class
+controllers/GD_QLDichVuController.class
 controllers/GD_ThongKeNgayController.class
 controllers/GD_DangNhapController.class
