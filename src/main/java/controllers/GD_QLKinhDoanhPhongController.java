@@ -6,12 +6,18 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
+import javafx.util.Duration;
 import main.App;
 
 /**
@@ -20,11 +26,27 @@ import main.App;
  * @author thangnood
  */
 public class GD_QLKinhDoanhPhongController implements Initializable {
-
+    @FXML
+    private Label clockLabel;
+    
+    @FXML
+    private Label dateLabel;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ToggleGroup typeRoomGroup = new ToggleGroup();
         ToggleGroup statusRoomGroup = new ToggleGroup();
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            
+            String time = timeFormat.format(new Date());
+            String date = dateFormat.format(new Date());
+            
+            clockLabel.setText(time);
+            dateLabel.setText(date);
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Timeline.INDEFINITE);
+        clock.play();
     }
     
     @FXML

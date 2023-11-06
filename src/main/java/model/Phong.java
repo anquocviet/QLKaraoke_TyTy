@@ -21,56 +21,81 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(String maPhong, int sucChua, int tinhTrang, int loaiPhong, long giaPhong) {
-        this.maPhong = maPhong;
-        this.sucChua = sucChua;
-        this.tinhTrang = tinhTrang;
-        this.loaiPhong = loaiPhong;
-        this.giaPhong = giaPhong;
+    public Phong(String maPhong, int sucChua, int tinhTrang, int loaiPhong, long giaPhong) throws Exception {
+        setMaPhong(maPhong);
+        setSucChua(sucChua);
+        setTinhTrang(tinhTrang);
+        setLoaiPhong(loaiPhong);
+        setGiaPhong(giaPhong);
     }
 
-    public Phong(String maPhong) {
-        this.maPhong = maPhong;
+    public Phong(String maPhong) throws Exception {
+        setMaPhong(maPhong);
     }
 
     public String getMaPhong() {
         return maPhong;
     }
 
-    public void setMaPhong(String maPhong) {
-        this.maPhong = maPhong;
+    //Ràng buộc mã phòng (khóa chính)
+    public void setMaPhong(String maPhong) throws Exception{
+         if (maPhong == null) {
+            throw new Exception("Mã phòng không được trống");
+        } else {
+            this.maPhong = maPhong;
+        }
     }
 
     public int getSucChua() {
         return sucChua;
     }
-
-    public void setSucChua(int sucChua) {
-        this.sucChua = sucChua;
+    
+    //Ràng buộc Sức chứa > 0
+    public void setSucChua(int sucChua) throws Exception{
+        if(sucChua <= 0){
+            throw new Exception("Sức chứa không được nhỏ hơn 0");
+        } else{
+            this.sucChua = sucChua;
+        }
     }
 
     public int getTinhTrang() {
         return tinhTrang;
     }
 
-    public void setTinhTrang(int tinhTrang) {
-        this.tinhTrang = tinhTrang;
+    //Ràng buộc Tình trạng sử dụng phòng : 0, 1, 2
+    public void setTinhTrang(int tinhTrang) throws Exception{
+        if(tinhTrang != 0 || tinhTrang != 1 || tinhTrang != 2){
+            throw new Exception("Tình trạng phòng là: 0: Phòng trống, 1: Phòng đã thuê và 2: Phòng được đặt");
+        } else{
+            this.tinhTrang = tinhTrang;
+        }
     }
 
     public int getLoaiPhong() {
         return loaiPhong;
     }
 
-    public void setLoaiPhong(int loaiPhong) {
-        this.loaiPhong = loaiPhong;
+    //Ràng buộc Loại phòng thường or VIP: 0,1
+    public void setLoaiPhong(int loaiPhong) throws Exception{
+        if(loaiPhong != 0 || loaiPhong != 1){
+            throw new Exception("Loại phòng là: 0: Phòng thường, 1: Phòng VIP"); 
+        } else{
+            this.loaiPhong = loaiPhong;
+        }
     }
 
     public long getGiaPhong() {
         return giaPhong;
     }
 
-    public void setGiaPhong(long giaPhong) {
-        this.giaPhong = giaPhong;
+    //Ràng buộc Giá phòng > 0
+    public void setGiaPhong(long giaPhong) throws Exception{
+        if(giaPhong <= 0){
+            throw new Exception("Giá phòng không được nhỏ hơn 0");
+        } else{
+            this.giaPhong = giaPhong;
+        }
     }
 
     @Override
