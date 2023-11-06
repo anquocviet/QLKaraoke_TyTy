@@ -46,34 +46,36 @@ public class KhachHang {
         return tenKhachHang;
     }
 
-    public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException{
-        if (tenKhachHang == null || tenKhachHang.isEmpty()){
+    public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException {
+        if (tenKhachHang == null || tenKhachHang.isEmpty()) {
             throw new IllegalArgumentException("Tên khách hàng không được rỗng");
+        } else {
+            this.tenKhachHang = tenKhachHang;
         }
-        this.tenKhachHang = tenKhachHang;
     }
 
     public String getSoDienThoai() {
         return soDienThoai;
     }
 
-    public void setSoDienThoai(String soDienThoai)throws IllegalArgumentException {
-        if (soDienThoai == null || soDienThoai.isEmpty()){
+    public void setSoDienThoai(String soDienThoai) throws IllegalArgumentException {
+        if (soDienThoai == null || soDienThoai.isEmpty()) {
             throw new IllegalArgumentException("Số điện thoại không được rỗng");
+        } else {
+            this.soDienThoai = soDienThoai;
         }
-        this.soDienThoai = soDienThoai;
     }
 
     public int getNamSinh() {
         return namSinh;
     }
 
-    public void setNamSinh(int namSinh) throws IllegalArgumentException{
-   if(namSinh !=0){
+    public void setNamSinh(int namSinh) throws IllegalArgumentException {
+        if (namSinh < 1000) {
             throw new IllegalArgumentException("Năm sinh không được rỗng");
-            
+        } else {
+            this.namSinh = namSinh;
         }
-        this.namSinh = namSinh;
     }
 
     public boolean isGioiTinh() {
@@ -81,7 +83,7 @@ public class KhachHang {
     }
 
     public void setGioiTinh(boolean gioiTinh) {
-        
+
         this.gioiTinh = gioiTinh;
     }
 
