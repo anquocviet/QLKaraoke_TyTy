@@ -12,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
-import connect.ConnectDB;
+import enums.Enum_ChucVu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import model.NhanVien;
 
 /**
  * FXML Controller class
@@ -24,7 +26,17 @@ public class AppFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConnectDB.getInstance().connect();
+        controllerQLNhanVien = new GD_QLNhanVienController();
+        
+        NhanVien nv = controllerQLNhanVien.getNhanVienTheoMaNhanVien(App.user);
+        if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
+            taiKhoanMenuItem.setDisable(false);
+            qlNhanVienMenuItem.setDisable(false);
+            qlPhongMenuItem.setDisable(false);
+            qlDichVuMenuItem.setDisable(false);
+            qlCTKhuyenMaiMenuItem.setDisable(false);
+            thongKeMenu.setDisable(false);
+        }
     }
 
     @FXML
@@ -40,6 +52,11 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDQLNhanVien(ActionEvent event) throws IOException {
         App.setRoot("GD_QLNhanVien");
+    }
+
+    @FXML
+    private void moGDQLDichVu(ActionEvent event) throws IOException {
+        App.setRoot("GD_QLDichVu");
     }
 
     @FXML
@@ -88,4 +105,19 @@ public class AppFrameController implements Initializable {
     private void moGDThongKe(ActionEvent event) throws IOException {
         App.setRoot("GD_ThongKe");
     }
+
+//    Variable
+    private GD_QLNhanVienController controllerQLNhanVien;
+    @FXML
+    private MenuItem taiKhoanMenuItem;
+    @FXML
+    private MenuItem qlNhanVienMenuItem;
+    @FXML
+    private MenuItem qlPhongMenuItem;
+    @FXML
+    private MenuItem qlDichVuMenuItem;
+    @FXML
+    private MenuItem qlCTKhuyenMaiMenuItem;
+    @FXML
+    private Menu thongKeMenu;
 }

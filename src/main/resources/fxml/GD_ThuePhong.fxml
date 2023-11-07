@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_ThuePhong" stylesheets="@../styles/base.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThuePhongController">
+<AnchorPane id="GD_ThuePhong" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThuePhongController">
     <stylesheets>
         <URL value="@/styles/base.css" />
     </stylesheets>
@@ -36,7 +36,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField disable="true" layoutX="340.0" layoutY="60.0" prefHeight="40.0" prefWidth="263.0" promptText="P101">
+                  <TextField id="txtSoPhong" disable="true" layoutX="340.0" layoutY="60.0" prefHeight="40.0" prefWidth="280.0" promptText="P101">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -46,7 +46,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField disable="true" editable="false" layoutX="340.0" layoutY="150.0" prefHeight="40.0" prefWidth="263.0">
+                  <TextField id="txtSDTKhachHang" disable="true" editable="false" layoutX="340.0" layoutY="150.0" prefHeight="40.0" prefWidth="280.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -56,7 +56,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField disable="true" editable="false" layoutX="340.0" layoutY="240.0" prefHeight="40.0" prefWidth="263.0">
+                  <TextField id="txtTenKhachHang" disable="true" editable="false" layoutX="340.0" layoutY="240.0" prefHeight="40.0" prefWidth="280.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -66,48 +66,52 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField disable="true" editable="false" layoutX="250.0" layoutY="330.0" prefHeight="40.0" prefWidth="115.0">
+                  <TextField id="txtNamSinh" disable="true" editable="false" layoutX="250.0" layoutY="330.0" prefHeight="40.0" prefWidth="115.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="654.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../image/check_false.png" />
-                     </image>
-                  </ImageView>
+                  <Button layoutX="657.0" layoutY="142.0" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView id="btnKiemTraSĐT" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/check_false.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                   <Label layoutX="386.0" layoutY="330.0" prefHeight="40.0" prefWidth="120.0" text="Giới tính:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <ComboBox layoutX="510.0" layoutY="330.0" prefHeight="42.0" prefWidth="90.0" promptText="Nam" style="-fx-font-size: 16;" />
+                  <ComboBox id="ccbGender" layoutX="510.0" layoutY="330.0" prefHeight="42.0" prefWidth="107.0" promptText="Nam" style="-fx-font-size: 16;" />
                   <Label layoutX="90.0" layoutY="420.0" prefHeight="40.0" text="Ngày thuê phòng:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <DatePicker layoutX="340.0" layoutY="420.0" prefHeight="40.0" prefWidth="263.0" />
+                  <DatePicker id="dateThue" layoutX="340.0" layoutY="420.0" prefHeight="40.0" prefWidth="263.0" />
                   <Label layoutX="90.0" layoutY="510.0" prefHeight="40.0" text="Thời gian thuê:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <Text disable="true" layoutX="340.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
+                  <Text id="timeThue" disable="true" layoutX="340.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
                      <font>
                         <Font size="28.0" />
                      </font></Text>
-                  <Button layoutX="50.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red;" text="Thoát" textFill="WHITE">
+                  <Button id="btnExit" layoutX="50.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red;" text="Thoát" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="224.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00;" text="Xóa rỗng" textAlignment="CENTER">
+                  <Button id="btnRefresh" layoutX="224.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00;" text="Xóa rỗng" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="568.0" layoutY="600.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
+                  <Button id="btnThue" layoutX="568.0" layoutY="600.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

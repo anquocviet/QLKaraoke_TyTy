@@ -25,6 +25,7 @@ model\ChiTietHD_Phong.class
 controllers\GD_ThongKeQuyController.class
 module-info.class
 controllers\GD_TraCuuHoaDonController.class
+controllers\GD_QLDichVuController.class
 controllers\GD_ThongKeKhachHangController.class
 controllers\GD_ThanhToanController.class
 controllers\GD_DangNhapController.class

@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import main.App;
 
@@ -50,29 +50,65 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     }
     
     @FXML
-    private void moGDThuePhong(ActionEvent event) throws IOException {
+    public void handleKeyboardEvent(KeyEvent ke) throws IOException {
+        if (ke.getCode() == KeyCode.F1) {
+            moGDThuePhong();
+        }
+        if (ke.getCode() == KeyCode.F2) {
+            moGDDatPhongCho();
+        }
+        if (ke.getCode() == KeyCode.F3) {
+            moGDNhanPhongCho();
+        }
+        if (ke.getCode() == KeyCode.F4) {
+            huyPhongCho();
+        }
+        if (ke.getCode() == KeyCode.F5) {
+            moGDDatDichVu();
+        }
+        if (ke.getCode() == KeyCode.F6) {
+            moGDChuyenPhong();
+        }
+        if (ke.getCode() == KeyCode.F7) {
+            moGDThanhToan();
+        }
+    } 
+    
+    @FXML
+    private void moGDThuePhong() throws IOException {
         App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
     }
-
-    @FXML
-    private void moGDChuyenPhong(ActionEvent event) throws IOException {
-        App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
-    }
     
     @FXML
-    private void moGDDatDichVu(ActionEvent event) throws IOException {
-        App.setRoot("GD_DatDichVu");
-    }
-    
-    @FXML
-    private void moGDDatPhongCho(ActionEvent event) throws IOException {
+    private void moGDDatPhongCho() throws IOException {
         App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
     }
     
     @FXML
-    private void moGDThanhToan(ActionEvent event) throws IOException {
+    private void moGDNhanPhongCho() throws IOException {
+    }
+    
+    @FXML
+    private void huyPhongCho() throws IOException {
+    }
+    
+    @FXML
+    private void moGDChuyenPhong() throws IOException {
+        App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
+    }
+    
+    @FXML
+    private void moGDDatDichVu() throws IOException {
+        App.setRoot("GD_DatDichVu");
+    }    
+    
+    
+    @FXML
+    private void moGDThanhToan() throws IOException {
         App.setRoot("GD_ThanhToan");
     }
+    
+    
 
     
 }

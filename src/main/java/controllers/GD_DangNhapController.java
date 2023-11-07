@@ -7,12 +7,17 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.TaiKhoan;
 import main.App;
 
 /**
@@ -24,11 +29,39 @@ public class GD_DangNhapController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        qlNhanVienController = new GD_QLNhanVienController();
+        dkTaiKhoanController = new GD_DangKyController();
+        
     }
-    
+
+//    Get data from DB
+//    Handle and render data in View
     @FXML
     private void dangNhap(ActionEvent event) throws IOException, Exception {
-        Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
-        stage.close();
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
+
+        TaiKhoan tk = dkTaiKhoanController.getTaiKhoanTheoUserNameAndPassword(username, password);
+        if (tk == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Sai tên đăng nhập hoặc mật khẩu, vui lòng kiểm tra lại", ButtonType.OK);
+            alert.showAndWait();
+        } else {
+            App.user = tk.getNhanVien().getMaNhanVien();
+            Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
+            stage.close();
+        }
+
     }
+
+//    Variable
+    private GD_DangKyController dkTaiKhoanController;
+    private GD_QLNhanVienController qlNhanVienController;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private TextField txtPassword;
+    @FXML
+    private Text lblForgotPassword;
+    @FXML
+    private Button btnDangNhap;
 }

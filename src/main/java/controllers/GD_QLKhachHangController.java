@@ -65,11 +65,11 @@ public class GD_QLKhachHangController implements Initializable {
 
         });
         spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
-        table.setItems(layTatCaKhachHang());
+        table.setItems(getAllKhachHang());
     }
 
 //    Get data from DB
-    public ObservableList<KhachHang> layTatCaKhachHang() {
+    public ObservableList<KhachHang> getAllKhachHang() {
         ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
@@ -97,7 +97,7 @@ public class GD_QLKhachHangController implements Initializable {
         return dsKhachHang;
     }
 
-    public ObservableList<KhachHang> layKhachHangTheoMaKhachHang(String maKH) {
+    public KhachHang getKhachHangTheoMaKhachHang(String maKH) {
         ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
@@ -111,7 +111,8 @@ public class GD_QLKhachHangController implements Initializable {
                 String soDienThoai = rs.getString("SoDienThoai");
                 int namSinh = rs.getInt("NamSinh");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
-                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
+                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
+                return kh;
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +123,7 @@ public class GD_QLKhachHangController implements Initializable {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return dsKhachHang;
+        return null;
     }
 
     public int demSoLuongKhachHang() {
@@ -228,7 +229,7 @@ public class GD_QLKhachHangController implements Initializable {
         }
         KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
         themKhachHang(kh);
-        table.setItems(layTatCaKhachHang());
+        table.setItems(getAllKhachHang());
     }
 
     public void xuLySuaThongTinKhachHang() {
@@ -242,7 +243,7 @@ public class GD_QLKhachHangController implements Initializable {
         }
         KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
         suaKhachHang(kh);
-        table.setItems(layTatCaKhachHang());
+        table.setItems(getAllKhachHang());
         table.refresh();
     }
 

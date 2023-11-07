@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_ChuyenPhong" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
+<AnchorPane id="GD_ChuyenPhong" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
 
    <children>
       <Text fill="#bf0a0a" layoutX="261.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">

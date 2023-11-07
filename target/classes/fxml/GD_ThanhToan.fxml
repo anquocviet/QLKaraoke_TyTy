@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane id="GD_ThanhToan" cache="true" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/base.css" fx:controller="controllers.GD_ThanhToanController">
+<AnchorPane id="GD_ThanhToan" cache="true" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/base.css" fx:controller="controllers.GD_ThanhToanController">
    <children>
       <Text fill="#cc0000" layoutX="565.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HÓA ĐƠN THANH TOÁN">
          <font>
