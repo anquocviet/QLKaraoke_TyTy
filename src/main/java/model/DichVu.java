@@ -39,7 +39,7 @@ public class DichVu {
     }
 
     public void setMaDichVu(String maDichVu) throws Exception {
-        if (maDichVu == null && maDichVu.trim().equals("") && maDichVu.matches("^(DV)\\\\d{3}") == false){
+        if (maDichVu != null && maDichVu.trim().equals("") && maDichVu.matches("^(DV)\\\\d{3}") == false){
             this.maDichVu = maDichVu;
         } else {
             throw new Exception("Mã dịch vụ là dãy gồm 5 kí tự 2 ký tự là DV 3 ký tự sau là số");
