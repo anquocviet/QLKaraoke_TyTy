@@ -56,21 +56,25 @@
                             </font>
                         </Label>
                         <TextField layoutX="156.0" layoutY="37.0" prefHeight="26.0" prefWidth="200.0" style="-fx-font-size: 16;">
-                     <font>
-                        <Font size="16.0" />
-                     </font></TextField>
+                                                 <font>
+                                <Font size="16.0" />
+                            </font>
+                        </TextField>
                         <TextField layoutX="156.0" layoutY="77.0" prefHeight="26.0" prefWidth="200.0" style="-fx-font-size: 16;">
-                     <font>
-                        <Font size="16.0" />
-                     </font></TextField>
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </TextField>
                         <TextField layoutX="156.0" layoutY="236.0" prefHeight="26.0" prefWidth="80.0" style="-fx-font-size: 16;">
-                     <font>
-                        <Font size="16.0" />
-                     </font></TextField>
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </TextField>
                         <TextField layoutX="156.0" layoutY="316.0" prefHeight="26.0" prefWidth="200.0" style="-fx-font-size: 16;">
-                     <font>
-                        <Font size="16.0" />
-                     </font></TextField>
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </TextField>
                         <ImageView fitHeight="108.0" fitWidth="195.0" layoutX="115.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="156.0" layoutY="120.0">
                             <image>
@@ -117,33 +121,33 @@
                     </children>
                 </AnchorPane>
             </content>
-         <font>
-            <Font size="16.0" />
-         </font>
+            <font>
+                <Font size="16.0" />
+            </font>
         </TitledPane>
         <TitledPane animated="false" collapsible="false" layoutX="486.0" layoutY="120.0" prefHeight="598.0" prefWidth="777.0" text="Danh sách dịch vụ" AnchorPane.rightAnchor="40.0">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <children>
-                  <ScrollPane vbarPolicy="ALWAYS">
-                     <content>
-                              <TableView prefHeight="566.0" prefWidth="760.0">
-                                  <columns>
-                                      <TableColumn prefWidth="150.0" text="Mã dịch vụ" />
-                                      <TableColumn prefWidth="194.66668701171875" text="Tên dịch vụ" />
-                                      <TableColumn prefWidth="85.33331298828125" text="Số lượng" />
-                                      <TableColumn prefWidth="120.0" text="Đơn vị tính" />
-                                      <TableColumn minWidth="0.0" prefWidth="224.0" text="Đơn giá" />
-                                  </columns>
-                              </TableView>
-                     </content>
-                  </ScrollPane>
+                        <ScrollPane vbarPolicy="ALWAYS">
+                            <content>
+                                <TableView prefHeight="566.0" prefWidth="760.0">
+                                    <columns>
+                                        <TableColumn prefWidth="150.0" text="Mã dịch vụ" />
+                                        <TableColumn prefWidth="194.66668701171875" text="Tên dịch vụ" />
+                                        <TableColumn prefWidth="85.33331298828125" text="Số lượng" />
+                                        <TableColumn prefWidth="120.0" text="Đơn vị tính" />
+                                        <TableColumn minWidth="0.0" prefWidth="224.0" text="Đơn giá" />
+                                    </columns>
+                                </TableView>
+                            </content>
+                        </ScrollPane>
                     </children>
                 </AnchorPane>
             </content>
-         <font>
-            <Font size="16.0" />
-         </font>
+            <font>
+                <Font size="16.0" />
+            </font>
         </TitledPane>
     </children>
 </AnchorPane>

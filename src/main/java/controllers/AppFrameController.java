@@ -1,5 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+/* * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package controllers;
@@ -26,9 +25,7 @@ public class AppFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        controllerQLNhanVien = new GD_QLNhanVienController();
-        
-        NhanVien nv = controllerQLNhanVien.getNhanVienTheoMaNhanVien(App.user);
+        NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
         if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
             taiKhoanMenuItem.setDisable(false);
             qlNhanVienMenuItem.setDisable(false);
@@ -107,7 +104,6 @@ public class AppFrameController implements Initializable {
     }
 
 //    Variable
-    private GD_QLNhanVienController controllerQLNhanVien;
     @FXML
     private MenuItem taiKhoanMenuItem;
     @FXML
