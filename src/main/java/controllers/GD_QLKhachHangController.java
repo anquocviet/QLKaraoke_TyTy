@@ -4,21 +4,11 @@
  */
 package controllers;
 
-import connect.ConnectDB;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -65,141 +55,10 @@ public class GD_QLKhachHangController implements Initializable {
 
         });
         spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
-        table.setItems(getAllKhachHang());
+        table.setItems(KhachHang.getAllKhachHang());
     }
 
-//    Get data from DB
-    public ObservableList<KhachHang> getAllKhachHang() {
-        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM KhachHang";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String maKhachhang = rs.getString("MaKhachHang");
-                String tenKhachhang = rs.getString("TenKhachHang");
-                String soDienThoai = rs.getString("SoDienThoai");
-                int namSinh = rs.getInt("NamSinh");
-                boolean gioiTinh = rs.getBoolean("GioiTinh");
-                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return dsKhachHang;
-    }
 
-    public KhachHang getKhachHangTheoMaKhachHang(String maKH) {
-        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM KhachHang WHERE MaKhachHang = '%s'", maKH);
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String maKhachhang = rs.getString("MaKhachHang");
-                String tenKhachhang = rs.getString("TenKhachHang");
-                String soDienThoai = rs.getString("SoDienThoai");
-                int namSinh = rs.getInt("NamSinh");
-                boolean gioiTinh = rs.getBoolean("GioiTinh");
-                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
-                return kh;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return null;
-    }
-
-    public int demSoLuongKhachHang() {
-        int soLuongKH = 0;
-        Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = "SELECT COUNT(MaKhachHang) AS SoLuongKH FROM KhachHang";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                soLuongKH = rs.getInt("SoLuongKH");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return soLuongKH;
-    }
-
-    public boolean themKhachHang(KhachHang kh) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
-        String sql = "INSERT INTO KhachHang ( MaKhachHang, TenKhachHang, SoDienThoai, NamSinh, GioiTinh ) VALUES(?,?,?,?,?)";
-        try {
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, kh.getMaKhachHang());
-            pstm.setString(2, kh.getTenKhachHang());
-            pstm.setString(3, kh.getSoDienThoai());
-            pstm.setInt(4, kh.getNamSinh());
-            pstm.setBoolean(5, kh.isGioiTinh());
-            n = pstm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                pstm.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return n > 0;
-    }
-
-    public boolean suaKhachHang(KhachHang kh) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
-        String sql = "UPDATE KhachHang SET TenKhachHang = ?, SoDienThoai = ?, NamSinh = ?, GioiTinh = ? WHERE MaKhachHang = ?";
-        try {
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, kh.getTenKhachHang());
-            pstm.setString(2, kh.getSoDienThoai());
-            pstm.setInt(3, kh.getNamSinh());
-            pstm.setBoolean(4, kh.isGioiTinh());
-            pstm.setString(5, kh.getMaKhachHang());
-            n = pstm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                pstm.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return n > 0;
-    }
     
 //  Render and handle in View'
     public void docDuLieuTuTable(MouseEvent event) {
@@ -228,8 +87,8 @@ public class GD_QLKhachHangController implements Initializable {
             gioiTinh = false;
         }
         KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
-        themKhachHang(kh);
-        table.setItems(getAllKhachHang());
+        KhachHang.themKhachHang(kh);
+        table.setItems(KhachHang.getAllKhachHang());
     }
 
     public void xuLySuaThongTinKhachHang() {
@@ -242,8 +101,8 @@ public class GD_QLKhachHangController implements Initializable {
             gioiTinh = false;
         }
         KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
-        suaKhachHang(kh);
-        table.setItems(getAllKhachHang());
+        KhachHang.suaKhachHang(kh);
+        table.setItems(KhachHang.getAllKhachHang());
         table.refresh();
     }
 
@@ -259,7 +118,7 @@ public class GD_QLKhachHangController implements Initializable {
     public String phatSinhMaKhachHang() {
         String maKH = "KH";
         DecimalFormat df = new DecimalFormat("0000");
-        maKH = maKH.concat(df.format(demSoLuongKhachHang() + 1));
+        maKH = maKH.concat(df.format(KhachHang.demSoLuongKhachHang() + 1));
         return maKH;
     }
 
