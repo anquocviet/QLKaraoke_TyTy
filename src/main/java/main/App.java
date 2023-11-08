@@ -1,5 +1,6 @@
 package main;
 
+import connect.ConnectDB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ import javafx.stage.Modality;
 public class App extends Application {
 
     private static Scene scene;
+    public static String user;
     public static final int widthModal = 800;
     public static final int heightModal = 684;
     public static final int widthModalLogin = 732;
@@ -26,6 +28,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        ConnectDB.getInstance().connect();
+        
+//        Open Modal Login
+        openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
+        
+//        Open Main GUI
         scene = new Scene(loadFXML("AppFrame"), 1280, 740);
         stage.setTitle("Quản Lý Karaoke Tỷ Tỷ");
         stage.setResizable(false);
@@ -36,9 +44,6 @@ public class App extends Application {
         });
         stage.centerOnScreen();
         stage.show();
-
-//        Open Modal Login
-//        openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
     }
 
     public static void openModal(String fxml, int width, int height) throws IOException {

@@ -4,19 +4,14 @@
  */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.App;
-import model.KhachHang;
 import model.Phong;
 
 /**
@@ -27,9 +22,7 @@ import model.Phong;
 public class GD_ChuyenPhongController implements Initializable {
     
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        controllerQLPhong = new GD_QLPhongController();
-        
+    public void initialize(URL location, ResourceBundle resources) {        
         maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
         //loaiPhongCol.setCellValueFactory(new PropertyValueFactory<>("loaiPhong"));
         loaiPhongCol.setCellValueFactory(cellData -> {
@@ -60,12 +53,10 @@ public class GD_ChuyenPhongController implements Initializable {
         });
         giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
       //  table.setItems(layTatCaPhong());
-        table.setItems(controllerQLPhong.layTatCaPhong());
+        table.setItems(Phong.layTatCaPhong());
     }
     
     
-    private GD_QLPhongController controllerQLPhong;
-
     //fxml Chuyển Phòng
     @FXML
     private TableView<Phong> table;
