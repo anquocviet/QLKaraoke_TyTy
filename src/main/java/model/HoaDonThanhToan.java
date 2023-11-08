@@ -38,7 +38,10 @@ public class HoaDonThanhToan {
         return maHoaDon;
     }
 
-    public void setMaHoaDon(String maHoaDon) {
+    public void setMaHoaDon(String maHoaDon) throws IllegalArgumentException{
+        if(maHoaDon == null || maHoaDon.isEmpty()){
+            throw new IllegalArgumentException("Mã hóa đơn không được rỗng");
+        }
         this.maHoaDon = maHoaDon;
     }
 
@@ -46,7 +49,10 @@ public class HoaDonThanhToan {
         return nhanVienLap;
     }
 
-    public void setNhanVienLap(NhanVien nhanVienLap) {
+    public void setNhanVienLap(NhanVien nhanVienLap) throws IllegalArgumentException{
+        if( nhanVienLap == null || maHoaDon.isEmpty()){
+            throw new IllegalArgumentException("không được rỗng");
+        }
         this.nhanVienLap = nhanVienLap;
     }
 
@@ -54,7 +60,11 @@ public class HoaDonThanhToan {
         return khachHang;
     }
 
-    public void setKhachHang(KhachHang khachHang) {
+    public void setKhachHang(KhachHang khachHang)throws IllegalArgumentException{
+        if(khachHang != null){
+            throw new IllegalArgumentException("Khách hàng không được rỗng");
+            
+        }
         this.khachHang = khachHang;
     }
 
@@ -62,7 +72,7 @@ public class HoaDonThanhToan {
         return khuyenMai;
     }
 
-    public void setKhuyenMai(CT_KhuyenMai khuyenMai) {
+    public void setKhuyenMai(CT_KhuyenMai khuyenMai){
         this.khuyenMai = khuyenMai;
     }
 
@@ -70,7 +80,10 @@ public class HoaDonThanhToan {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) {
+    public void setNgayLap(LocalDate ngayLap) throws IllegalArgumentException{
+        if(ngayLap == null){
+            throw  new IllegalArgumentException("Ngày lập không được rỗng");
+        }
         this.ngayLap = ngayLap;
     }
 

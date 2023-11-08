@@ -4,28 +4,18 @@
  */
 package controllers;
 
-import connect.ConnectDB;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -43,26 +33,12 @@ public class GD_QLKhachHangController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         genderGroup = new ToggleGroup();
+        txtMaKhachHang.setText(phatSinhMaKhachHang());
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
 
 //        Tạo index column
-        sttCol.setCellFactory(col -> {
-            TableCell<String, Integer> indexCell = new TableCell<>();
-            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
-            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
-                TableRow<String> row = rowProperty.get();
-                if (row != null) {
-                    int rowIndex = row.getIndex();
-                    if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex + 1);
-                    }
-                }
-                return null;
-            }, rowProperty);
-            indexCell.textProperty().bind(rowBinding);
-            return indexCell;
-        });
+        sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
         maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
         tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
         sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
@@ -79,41 +55,17 @@ public class GD_QLKhachHangController implements Initializable {
 
         });
         spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
-        table.setItems(layTatCaKhachHang());
+        table.setItems(KhachHang.getAllKhachHang());
     }
 
-//    Get data from DB
-    public ObservableList<KhachHang> layTatCaKhachHang() {
-        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM KhachHang";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String maKhachhang = rs.getString("MaKhachHang");
-                String tenKhachhang = rs.getString("TenKhachHang");
-                String soDienThoai = rs.getString("SoDienThoai");
-                int namSinh = rs.getInt("NamSinh");
-                boolean gioiTinh = rs.getBoolean("GioiTinh");
-                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return dsKhachHang;
-    }
 
+    
 //  Render and handle in View'
     public void docDuLieuTuTable(MouseEvent event) {
         KhachHang kh = table.getSelectionModel().getSelectedItem();
+        if (kh == null) {
+            return;
+        }
         txtMaKhachHang.setText(kh.getMaKhachHang());
         txtTenKhachHang.setText(kh.getTenKhachHang());
         txtSDT.setText(kh.getSoDienThoai());
@@ -123,6 +75,51 @@ public class GD_QLKhachHangController implements Initializable {
         } else {
             genderGroup.getToggles().get(1).setSelected(true);
         }
+    }
+
+    public void xuLyThemKhachHang() {
+        String maKH = txtMaKhachHang.getText();
+        String tenKH = txtTenKhachHang.getText().trim();
+        String sdt = txtSDT.getText().trim();
+        int namSinh = (Integer) spinnerNamSinh.getValue();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+        KhachHang.themKhachHang(kh);
+        table.setItems(KhachHang.getAllKhachHang());
+    }
+
+    public void xuLySuaThongTinKhachHang() {
+        String maKH = txtMaKhachHang.getText();
+        String tenKH = txtTenKhachHang.getText().trim();
+        String sdt = txtSDT.getText().trim();
+        int namSinh = (Integer) spinnerNamSinh.getValue();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+        KhachHang.suaKhachHang(kh);
+        table.setItems(KhachHang.getAllKhachHang());
+        table.refresh();
+    }
+
+    public void xuLyLamMoiThongTinKhachHang() {
+        txtMaKhachHang.setText(phatSinhMaKhachHang());
+        txtTenKhachHang.setText("");
+        txtSDT.setText("");
+        spinnerNamSinh.getValueFactory().setValue(2000);
+        genderGroup.getToggles().get(0).setSelected(true);
+        table.getSelectionModel().clearSelection();
+    }
+
+    public String phatSinhMaKhachHang() {
+        String maKH = "KH";
+        DecimalFormat df = new DecimalFormat("0000");
+        maKH = maKH.concat(df.format(KhachHang.demSoLuongKhachHang() + 1));
+        return maKH;
     }
 
 //    Variable

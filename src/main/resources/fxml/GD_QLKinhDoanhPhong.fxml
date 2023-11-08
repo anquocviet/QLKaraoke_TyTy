@@ -3,9 +3,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_QLKinhDoanhPhong" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.8" prefWidth="1280.0" style="-fx-background-color: #9fc5f8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLKinhDoanhPhongController">
+<AnchorPane id="GD_QLKinhDoanhPhong" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyboardEvent" prefHeight="724.8" prefWidth="1280.0" style="-fx-background-color: #9fc5f8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLKinhDoanhPhongController">
    <children>
       <Pane layoutY="144.4" prefHeight="54.4" prefWidth="620.0" style="-fx-background-color: blue;">
          <children>
@@ -222,74 +220,106 @@
             </children>
          </Group>
        </Pane>
-      <ScrollPane hbarPolicy="NEVER" layoutX="620.0" layoutY="144.0" prefHeight="475.0" prefWidth="660.0" vbarPolicy="ALWAYS">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="648.0">
+    <AnchorPane layoutX="620.0" layoutY="144.0" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="660.0" style="-fx-background-color: white;">
+         <children>
+            <Pane layoutX="41.0" layoutY="58.0" prefHeight="147.0" prefWidth="158.0">
                <children>
-                  <Pane layoutX="41.0" layoutY="58.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <ListView layoutX="-42.0" layoutY="-56.0" prefHeight="471.0" prefWidth="647.0" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="39.0" layoutY="262.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="256.0" layoutY="59.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="11.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="254.0" layoutY="263.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="458.0" layoutY="61.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="11.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="456.0" layoutY="265.0" prefHeight="147.0" prefWidth="158.0">
-                     <children>
-                        <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="39.0" layoutY="262.0" prefHeight="147.0" prefWidth="158.0">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="256.0" layoutY="59.0" prefHeight="147.0" prefWidth="158.0">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="11.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="254.0" layoutY="263.0" prefHeight="147.0" prefWidth="158.0">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="458.0" layoutY="61.0" prefHeight="147.0" prefWidth="158.0">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="11.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane layoutX="456.0" layoutY="265.0" prefHeight="147.0" prefWidth="158.0">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="159.0" layoutX="13.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="33.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Button layoutX="413.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../target/classes/image/front.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="254.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../target/classes/image/back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <AnchorPane layoutX="317.0" layoutY="430.0" prefHeight="32.0" prefWidth="79.0" style="-fx-background-color: white;">
+               <children>
+                  <Label fx:id="presentPage" layoutX="14.0" layoutY="4.0" text="00">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalPage" layoutX="51.0" layoutY="4.0" text="00">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="40.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
-        </content>
-      </ScrollPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

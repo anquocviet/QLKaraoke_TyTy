@@ -4,19 +4,12 @@
  */
 package controllers;
 
-import connect.ConnectDB;
-import model.CT_KhuyenMai;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -84,52 +77,8 @@ public class GD_QLCTKhuyenMaiController implements Initializable{
         col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
         
-        danhSachCT_KhuyenMai = getListCT_KhuyenMai();
+        danhSachCT_KhuyenMai = CT_KhuyenMai.getListCT_KhuyenMai();
         // cột số thứ tự chưa được gán --> ko lấy dữ liệu lên table được
         tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
-    }
-    
-    public  ObservableList<CT_KhuyenMai> getListCT_KhuyenMai(){
-        ConnectDB.getInstance();
-        Connection con = ConnectDB.getConnection();
-    
-        ObservableList<CT_KhuyenMai> list = FXCollections.observableArrayList();
-        try{
-            PreparedStatement ps = con.prepareStatement("select * from CT_KhuyenMai");
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()){
-                String maKhuyenMai = rs.getString("MaKhuyenMai");
-                String tenKhuyenMai = rs.getString("TenKhuyenMai");
-                /// lỗi ko lấy được dữ liệu
-                String ngayTmp = rs.getString("NgayBatDau");
-                String xulyNgay = processString(ngayTmp);
-                LocalDateTime ngayBatDau = LocalDateTime.parse(xulyNgay);
-                ngayTmp = rs.getString("NgayKetThuc");
-                xulyNgay = processString(ngayTmp);
-                LocalDateTime ngayKetThuc = LocalDateTime.parse(xulyNgay);
-                Integer soLuotSuDungConLai = rs.getInt("LuotSuDungConLai");
-                Integer chietKhau = rs.getInt("ChietKhau");
-                CT_KhuyenMai tmp = new CT_KhuyenMai(maKhuyenMai,tenKhuyenMai, ngayBatDau, ngayKetThuc, soLuotSuDungConLai, chietKhau);
-                list.add(tmp);
-            }
-            rs.close();
-            con.close();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return list;    
-    }
-    public String processString(String input) {
-        // Tìm khoảng trống và thay thế nó bằng chữ 'T'
-        String replacedSpace = input.replace(" ", "T");
-        
-        // Tìm dấu "." và loại bỏ tất cả phần sau dấu "."
-        int dotIndex = replacedSpace.indexOf(".");
-        if (dotIndex != -1) {
-            return replacedSpace.substring(0, dotIndex);
-        } else {
-            return replacedSpace;
-        }
     }
 }

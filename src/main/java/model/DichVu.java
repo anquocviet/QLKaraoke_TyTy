@@ -4,7 +4,18 @@
  */
 package model;
 
+import connect.ConnectDB;
+import controllers.GD_QLDichVuController;
+import controllers.GD_QLKhachHangController;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -26,6 +37,7 @@ public class DichVu {
         setMaDichVu(maDichVu);
         setTenDichVu(tenDichVu);
         setSoLuong(soLuong);
+        setDonGia(donGia);
         setDonViTinh(donViTinh);
         setAnhMinhHoa(anhMinhHoa);
     }
@@ -39,10 +51,10 @@ public class DichVu {
     }
 
     public void setMaDichVu(String maDichVu) throws Exception {
-        if (maDichVu != null && maDichVu.trim().equals("") && maDichVu.matches("^(DV)\\\\d{3}") == false){
+        if (!(maDichVu == null)){
             this.maDichVu = maDichVu;
         } else {
-            throw new Exception("Mã dịch vụ là dãy gồm 5 kí tự 2 ký tự là DV 3 ký tự sau là số");
+            throw new Exception("Mã dịch vụ không được rỗng");
         }
         
     }
@@ -134,5 +146,37 @@ public class DichVu {
     @Override
     public String toString() {
         return "DichVu{" + "maDichVu=" + maDichVu + ", tenDichVu=" + tenDichVu + ", soLuong=" + soLuong + ", donGia=" + donGia + ", donViTinh=" + donViTinh + ", anhMinhHoa=" + anhMinhHoa + '}';
+    }
+    
+//    Get Data From DB
+    public static ObservableList<DichVu> getAllDichVu() {
+        ObservableList<DichVu> dsDichVu = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM DichVu";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maDichVu = rs.getString("MaDichVu");
+                String tenDichVu = rs.getString("TenDichVu");
+                int soLuongTon = rs.getInt("SoLuongTon");
+                String donViTinh = rs.getString("DonViTinh");
+                long donGia = rs.getLong("DonGia");
+                String anhMinhHoa = rs.getString("AnhMinhHoa");
+                dsDichVu.add(new DichVu(maDichVu, tenDichVu, soLuongTon, donGia, donViTinh, anhMinhHoa));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsDichVu;
     }
 }

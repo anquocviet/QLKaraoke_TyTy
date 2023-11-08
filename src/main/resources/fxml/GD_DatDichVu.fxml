@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -29,7 +30,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Text>
-                        <ComboBox id="cbPhong" layoutX="155.0" layoutY="27.0" prefHeight="32.0" prefWidth="320.0" />
+                        <ComboBox fx:id="cbPhong" layoutX="155.0" layoutY="27.0" prefHeight="32.0" prefWidth="320.0" />
                         <Text layoutX="20.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Hóa đơn">
                             <font>
                                 <Font size="18.0" />
@@ -45,9 +46,9 @@
                                 <Font size="18.0" />
                             </font>
                         </Text>
-                        <TextField id="txtMaKhachHang" layoutX="925.0" layoutY="31.0" prefHeight="32.0" prefWidth="320.0" />
-                        <TextField id="txtTenKhachHang" disable="true" layoutX="925.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
-                        <TextField id="txtMaHoaDon" layoutX="155.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
+                        <TextField fx:id="txtMaKhachHang" layoutX="925.0" layoutY="31.0" prefHeight="32.0" prefWidth="320.0" />
+                        <TextField fx:id="txtTenKhachHang" disable="true" layoutX="925.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
+                        <TextField fx:id="txtMaHoaDon" layoutX="155.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
                     </children>
                 </AnchorPane>
             </content>
@@ -59,14 +60,14 @@
                         <Font size="18.0" />
                     </font>
                 </Text>
-                <TextField id="txtTenDichVu" layoutX="135.0" layoutY="31.0" prefHeight="32.0" prefWidth="170.0" />
+                <TextField fx:id="txtTenDichVu" layoutX="135.0" layoutY="31.0" prefHeight="32.0" prefWidth="170.0" />
                 <Text layoutX="20.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giá">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Text>
-                <TextField id="txtGiaDichVu" layoutX="135.0" layoutY="74.0" prefHeight="32.0" prefWidth="170.0" />
-                <Button id="btnLamMoi" layoutX="36.0" layoutY="147.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" style="-fx-font-size: 18;" text="Làm mới">
+                <TextField fx:id="txtGiaDichVu" layoutX="135.0" layoutY="74.0" prefHeight="32.0" prefWidth="170.0" />
+                <Button fx:id="btnLamMoi" layoutX="36.0" layoutY="147.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" style="-fx-font-size: 18;" text="Làm mới">
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -78,21 +79,25 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
-                <ImageView id="image" fitHeight="170.0" fitWidth="200.0" layoutX="357.0" layoutY="11.0" pickOnBounds="true">
+                <ImageView fx:id="image" fitHeight="170.0" fitWidth="200.0" layoutX="357.0" layoutY="11.0" pickOnBounds="true">
                     <image>
                         <Image url="@../image/profile.png" />
                     </image>
                 </ImageView>
-                <TableView id="tableThongTinDichVu" editable="true" fixedCellSize="1.0" layoutY="224.0" prefHeight="200.0" prefWidth="570.0" style="-fx-font-size: 18;">
-                    <columns>
-                        <TableColumn prefWidth="58.333335876464844" resizable="false" text="Mã" />
-                        <TableColumn prefWidth="135.6666717529297" resizable="false" text="Tên dịch vụ" />
-                        <TableColumn prefWidth="90.33332824707031" resizable="false" text="Đơn giá" />
-                        <TableColumn prefWidth="80.99998474121094" resizable="false" text="Còn lại" />
-                        <TableColumn prefWidth="124.33331298828125" resizable="false" text="Đơn vị tính" />
-                        <TableColumn editable="false" prefWidth="78.33334350585938" resizable="false" sortable="false" text="Thêm" />
-                    </columns>
-                </TableView>
+            <ScrollPane hbarPolicy="NEVER" layoutY="224.0">
+               <content>
+                      <TableView fx:id="tableThongTinDichVu" editable="true" prefHeight="200.0" prefWidth="570.0" style="-fx-font-size: 18;">
+                          <columns>
+                              <TableColumn fx:id="ttMaDichVuCol" prefWidth="71.5" resizable="false" text="Mã" />
+                              <TableColumn fx:id="ttTenDichVuCol" prefWidth="131.0" resizable="false" text="Tên dịch vụ" />
+                              <TableColumn fx:id="ttDonGiaCol" prefWidth="98.5" resizable="false" text="Đơn giá" /> 
+                              <TableColumn fx:id="ttSoLuongConLaiCol" prefWidth="119.0" resizable="false" text="Còn lại" />
+                              <TableColumn fx:id="ttDonViTinhCol" prefWidth="70.5" resizable="false" text="ĐVT" />
+                              <TableColumn fx:id="ttThemCol" editable="false" prefWidth="78.33334350585938" resizable="false" sortable="false" text="Thêm" />
+                          </columns>
+                      </TableView>
+               </content>
+            </ScrollPane>
             </children>
         </AnchorPane>
         <AnchorPane layoutX="588.0" layoutY="256.0" prefHeight="426.0" prefWidth="686.0" style="-fx-background-color: #eee;">
@@ -102,34 +107,38 @@
                         <Font size="24.0" />
                     </font>
                 </Text>
-                <TableView id="tableDichVuDaThem" layoutX="6.0" layoutY="108.0" prefHeight="269.0" prefWidth="680.0" style="-fx-font-size: 18;">
-                    <columns>
-                        <TableColumn prefWidth="24.0" resizable="false" text="#" />
-                        <TableColumn prefWidth="129.0" resizable="false" text="Tên dịch vụ" />
-                        <TableColumn prefWidth="112.7813720703125" resizable="false" text="Đơn giá" />
-                        <TableColumn prefWidth="124.71856689453125" resizable="false" text="Đã thêm" />
-                        <TableColumn prefWidth="132.31182861328125" resizable="false" text="Thành tiền" />
-                        <TableColumn editable="false" prefWidth="59.6822509765625" resizable="false" sortable="false" text="Thêm" />
-                        <TableColumn editable="false" prefWidth="50.4107666015625" resizable="false" sortable="false" text="Bớt" />
-                        <TableColumn editable="false" prefWidth="47.046630859375" resizable="false" sortable="false" text="Xóa" />
-                    </columns>
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </TableView>
+            <ScrollPane hbarPolicy="NEVER" layoutX="6.0" layoutY="108.0">
+               <content>
+                      <TableView fx:id="tableDichVuDaThem" prefHeight="269.0" prefWidth="680.0" style="-fx-font-size: 18;">
+                          <columns>
+                              <TableColumn fx:id="dtSttCol" prefWidth="24.0" resizable="false" text="#" />
+                              <TableColumn fx:id="dtTenDichVuCol" prefWidth="129.0" resizable="false" text="Tên dịch vụ" />
+                              <TableColumn fx:id="dtDonGiaCol" prefWidth="112.7813720703125" resizable="false" text="Đơn giá" />
+                              <TableColumn fx:id="dtDaThemCol" prefWidth="124.71856689453125" resizable="false" text="Đã thêm" />
+                              <TableColumn fx:id="dtThanhTienCol" prefWidth="132.31182861328125" resizable="false" text="Thành tiền" />
+                              <TableColumn fx:id="dtThemCol" editable="false" prefWidth="59.6822509765625" resizable="false" sortable="false" text="Thêm" />
+                              <TableColumn fx:id="dtBotCol" editable="false" prefWidth="50.4107666015625" resizable="false" sortable="false" text="Bớt" />
+                              <TableColumn fx:id="dtXoaCol" editable="false" prefWidth="47.046630859375" resizable="false" sortable="false" text="Xóa" />
+                          </columns>
+                          <cursor>
+                              <Cursor fx:constant="HAND" />
+                          </cursor>
+                      </TableView>
+               </content>
+            </ScrollPane>
                 <Text layoutX="495.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Text>
-                <Text id="lbTongTien" layoutX="591.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 VNĐ">
+                <Text fx:id="lbTongTien" layoutX="591.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 VNĐ">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Text>
             </children>
         </AnchorPane>
-        <Button id="btnDatDichVu" layoutX="1103.0" layoutY="686.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: green; -fx-font-size: 20;" text="Đặt dịch vụ" textAlignment="CENTER" textFill="WHITE">
+        <Button fx:id="btnDatDichVu" layoutX="1103.0" layoutY="686.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: green; -fx-font-size: 20;" text="Đặt dịch vụ" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="20.0" />
             </font>
