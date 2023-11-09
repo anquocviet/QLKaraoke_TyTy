@@ -220,7 +220,7 @@
             </children>
          </Group>
        </Pane>
-    <AnchorPane layoutX="620.0" layoutY="144.0" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="660.0" style="-fx-background-color: white;">
+    <AnchorPane layoutX="619.0" layoutY="143.0" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="660.0" style="-fx-background-color: white;">
          <children>
             <Pane layoutX="41.0" layoutY="58.0" prefHeight="147.0" prefWidth="158.0">
                <children>
@@ -282,16 +282,16 @@
                   </Text>
                </children>
             </Pane>
-            <Button layoutX="413.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
+            <Button fx:id="pageAfter" layoutX="413.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../target/classes/image/front.png" />
+                        <Image url="@../../../../target/classes/image/next.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="254.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
+            <Button fx:id="pageBefore" layoutX="254.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-font-size: 20;" textFill="#fffdfd">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
