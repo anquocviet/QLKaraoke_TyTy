@@ -13,6 +13,7 @@ public class ChiTietHD_DichVu {
     private HoaDonThanhToan hoaDon;
     private DichVu dichVu;
     private int soLuong;
+    private long thanhTien;
 
     public ChiTietHD_DichVu() {
     }
@@ -21,6 +22,7 @@ public class ChiTietHD_DichVu {
         setHoaDon(hoaDon);
         setDichVu(dichVu);
         setSoLuong(soLuong);
+        this.thanhTien = soLuong * dichVu.getDonGia();
     }
 
     public ChiTietHD_DichVu(HoaDonThanhToan hoaDon) {
@@ -63,8 +65,8 @@ public class ChiTietHD_DichVu {
         }
     }
 
-    public long tinhThanhTien() {
-        return this.soLuong * this.dichVu.getDonGia();
+    public void tinhThanhTien() {
+        thanhTien =  soLuong * dichVu.getDonGia();
     }
 
     @Override

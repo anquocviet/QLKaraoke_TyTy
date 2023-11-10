@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,6 +21,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import model.KhachHang;
 
@@ -56,12 +59,35 @@ public class GD_QLKhachHangController implements Initializable {
         });
         spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
         table.setItems(KhachHang.getAllKhachHang());
+        table.requestFocus();
+        table.getSelectionModel().select(0);
+        table.getSelectionModel().focus(0);
+        docDuLieuTuTable();
+        handleEventInTable();
     }
-
+    
+    public void handleEventInTable() {
+        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                docDuLieuTuTable();
+            }
+            
+        });
+        table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+                    docDuLieuTuTable();
+                }
+            }
+            
+        });
+    }
 
     
 //  Render and handle in View'
-    public void docDuLieuTuTable(MouseEvent event) {
+    public void docDuLieuTuTable() {
         KhachHang kh = table.getSelectionModel().getSelectedItem();
         if (kh == null) {
             return;

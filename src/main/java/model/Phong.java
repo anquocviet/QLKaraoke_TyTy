@@ -4,7 +4,14 @@
  */
 package model;
 
+import connect.ConnectDB;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -65,7 +72,7 @@ public class Phong {
 
     //Ràng buộc Tình trạng sử dụng phòng : 0, 1, 2
     public void setTinhTrang(int tinhTrang) throws Exception{
-        if(tinhTrang != 0 || tinhTrang != 1 || tinhTrang != 2){
+        if(tinhTrang != 0 && tinhTrang != 1 && tinhTrang != 2){
             throw new Exception("Tình trạng phòng là: 0: Phòng trống, 1: Phòng đã thuê và 2: Phòng được đặt");
         } else{
             this.tinhTrang = tinhTrang;
@@ -78,7 +85,7 @@ public class Phong {
 
     //Ràng buộc Loại phòng thường or VIP: 0,1
     public void setLoaiPhong(int loaiPhong) throws Exception{
-        if(loaiPhong != 0 || loaiPhong != 1){
+        if(loaiPhong != 0 && loaiPhong != 1){
             throw new Exception("Loại phòng là: 0: Phòng thường, 1: Phòng VIP"); 
         } else{
             this.loaiPhong = loaiPhong;
@@ -124,5 +131,51 @@ public class Phong {
     public String toString() {
         return "Phong{" + "maPhong=" + maPhong + ", sucChua=" + sucChua + ", tinhTrang=" + tinhTrang + ", loaiPhong=" + loaiPhong + ", giaPhong=" + giaPhong + '}';
     }
+    //   Get data from DB
+
+    public static ObservableList<Phong> layTatCaPhong() {
+        ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM Phong";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maPhong = rs.getString("Maphong");
+                int loaiPhong = rs.getInt("LoaiPhong");
+                int tinhTrang = rs.getInt("TinhTrang");
+                long giaPhong = rs.getLong("GiaPhong");
+                int sucChua = rs.getInt("SucChua");
+
+                dsPhong.add(new Phong(maPhong, sucChua, tinhTrang, loaiPhong, giaPhong));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dsPhong;
+    }
+
+//  Render and handle in View'
+    /* public void docDuLieuTuTable(MouseEvent event) {
+        Phong ph = table.getSelectionModel().getSelectedItem();
+        txtMaKhachHang.setText(ph.getMa());
+        txtTenKhachHang.setText(ph.getTenKhachHang());
+        txtSDT.setText(kh.getSoDienThoai());
+        spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
+        if (kh.isGioiTinh()) {
+            genderGroup.getToggles().get(0).setSelected(true);
+        } else {
+            genderGroup.getToggles().get(1).setSelected(true);
+        }
+    }
+     */
+//fxml QL Phòng
 
 }
