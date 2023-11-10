@@ -23,28 +23,6 @@ public class ConnectDB {
 			e.printStackTrace();
 		}
 	}
-	
-	public void disconnect() {
-		if (con != null)
-
-
-    private static Connection con = null;
-    private static ConnectDB instance = new ConnectDB();
-
-    public static ConnectDB getInstance() {
-        return instance;
-    }
-
-    public void connect() {
-        String url = "jdbc:sqlserver://localhost:1433;databasename=KaraokeTyTy;encrypt=true;trustServerCertificate=true;";
-        String username = "sa";
-        String password = "sapassword";
-        try {
-            con = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void disconnect() {
         if (con != null)
