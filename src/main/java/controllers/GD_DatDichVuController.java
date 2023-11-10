@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import model.DichVu;
+import main.App;
 
 /**
  * FXML Controller class
@@ -68,7 +70,7 @@ public class GD_DatDichVuController implements Initializable {
         dtBotCol.setCellFactory(handleBtnReduceTableDatDV());
         dtXoaCol.setCellValueFactory(new PropertyValueFactory<>(""));
         dtXoaCol.setCellFactory(handleBtnRemoveTableDatDV());
-        tableDichVuDaThem.setItems(dsDichVuDaDat); 
+        tableDichVuDaThem.setItems(dsDichVuDaDat);
     }
 
     public Callback<TableColumn<DichVu, String>, TableCell<DichVu, String>> handleBtnAddTableThongTin() {
@@ -227,6 +229,8 @@ public class GD_DatDichVuController implements Initializable {
         });
     }
 
+    
+
     public void handleEventInTableThongTin() {
         tableThongTinDichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -254,9 +258,16 @@ public class GD_DatDichVuController implements Initializable {
 
         imageView.setImage(img);
     }
+    
+    @FXML
+    public void handleBtnBack() throws IOException {
+        App.setRoot("GD_QLKinhDoanhPhong");
+    }
 
 //    Variable
     private ObservableList<DichVu> dsDichVuDaDat = FXCollections.observableArrayList();
+    @FXML
+    private Button btnBack;
     @FXML
     private ComboBox cbPhong;
     @FXML
