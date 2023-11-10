@@ -79,9 +79,9 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
-                <ImageView fx:id="image" fitHeight="170.0" fitWidth="200.0" layoutX="357.0" layoutY="11.0" pickOnBounds="true">
+                <ImageView fx:id="imageView" fitHeight="170.0" fitWidth="200.0" layoutX="357.0" layoutY="11.0" pickOnBounds="true">
                     <image>
-                        <Image url="@../image/profile.png" />
+                        <Image url="@../image/dich-vu/bia-heineken.png" />
                     </image>
                 </ImageView>
             <ScrollPane hbarPolicy="NEVER" layoutY="224.0">
@@ -146,5 +146,17 @@
                 <Cursor fx:constant="OPEN_HAND" />
             </cursor>
         </Button>
+      <Button layoutY="55.0" mnemonicParsing="false" styleClass="btnBack">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>

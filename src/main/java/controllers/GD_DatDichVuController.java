@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -22,6 +23,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import model.DichVu;
@@ -44,6 +50,11 @@ public class GD_DatDichVuController implements Initializable {
         ttThemCol.setCellValueFactory(new PropertyValueFactory<>(""));
         ttThemCol.setCellFactory(handleBtnAddTableThongTin());
         tableThongTinDichVu.setItems(DichVu.getAllDichVu());
+        tableThongTinDichVu.requestFocus();
+        tableThongTinDichVu.getSelectionModel().select(0);
+        tableThongTinDichVu.getSelectionModel().focus(0);
+        loadDataFromTableToForm();
+        handleEventInTableThongTin();
 
 //        Table Dich vu da them
         dtSttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(tableDichVuDaThem.getItems().indexOf(param.getValue()) + 1));
@@ -57,7 +68,7 @@ public class GD_DatDichVuController implements Initializable {
         dtBotCol.setCellFactory(handleBtnReduceTableDatDV());
         dtXoaCol.setCellValueFactory(new PropertyValueFactory<>(""));
         dtXoaCol.setCellFactory(handleBtnRemoveTableDatDV());
-        tableDichVuDaThem.setItems(dsDichVuDaDat);
+        tableDichVuDaThem.setItems(dsDichVuDaDat); 
     }
 
     public Callback<TableColumn<DichVu, String>, TableCell<DichVu, String>> handleBtnAddTableThongTin() {
@@ -84,7 +95,9 @@ public class GD_DatDichVuController implements Initializable {
 //                                        dsDichVuDaDat.get(dsDichVuDaDat.indexOf(dv)).setSoLuong(1);
 //                                        dtDaThemCol.setCellFactory(c -> new ReadOnlyObjectWrapper(c.));
                                     } else {
-//                                        int soLuongCu = dsDichVuDaDat.get(dsDichVuDaDat.indexOf(dv)).getSoLuong();
+                                        int index = tableDichVuDaThem.getItems().indexOf(dv);
+                                        int soLuongCu = dtDaThemCol.getCellData(index);
+
 //                                        long thanhTien = (++soLuongCu) * dv.getDonGia();
 //                                        dsDichVuDaDat.get(dsDichVuDaDat.indexOf(dv)).setSoLuong(soLuongCu + 1);
 //                                        dsDichVuDaDat.get(dsDichVuDaDat.indexOf(dv)).setDonGia((soLuongCu + 1) * dv.getDonGia());
@@ -156,8 +169,18 @@ public class GD_DatDichVuController implements Initializable {
                             setText(null);
                         } else {
                             btn.setOnAction(event -> {
-                                DichVu dv = getTableView().getItems().get(getIndex());
-                                System.out.println(dv.toString());
+                                try {
+                                    if (false) {
+
+                                    } else {
+                                        DichVu dv = getTableView().getItems().get(getIndex());
+                                        getTableView().getItems().remove(dv);
+                                        dv.setSoLuong(dv.getSoLuong() + 1);
+                                        tableThongTinDichVu.refresh();
+                                    }
+                                } catch (Exception ex) {
+                                    Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             });
                             setGraphic(btn);
                             setText(null);
@@ -185,8 +208,14 @@ public class GD_DatDichVuController implements Initializable {
                             setText(null);
                         } else {
                             btn.setOnAction(event -> {
-                                DichVu dv = getTableView().getItems().get(getIndex());
-                                System.out.println(dv.toString());
+                                try {
+                                    DichVu dv = getTableView().getItems().get(getIndex());
+                                    getTableView().getItems().remove(dv);
+                                    dv.setSoLuong(dv.getSoLuong() + 1);
+                                    tableThongTinDichVu.refresh();
+                                } catch (Exception ex) {
+                                    Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             });
                             setGraphic(btn);
                             setText(null);
@@ -196,6 +225,34 @@ public class GD_DatDichVuController implements Initializable {
                 return cell;
             }
         });
+    }
+
+    public void handleEventInTableThongTin() {
+        tableThongTinDichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loadDataFromTableToForm();
+            }
+
+        });
+        tableThongTinDichVu.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+                    loadDataFromTableToForm();
+                }
+            }
+
+        });
+    }
+
+    public void loadDataFromTableToForm() {
+        DichVu dv = tableThongTinDichVu.getSelectionModel().getSelectedItem();
+        txtTenDichVu.setText(dv.getTenDichVu());
+        txtGiaDichVu.setText(dv.getDonGia() + "");
+        Image img = new Image("file:src/main/resources/image/dich-vu/" + dv.getAnhMinhHoa());
+
+        imageView.setImage(img);
     }
 
 //    Variable
@@ -212,6 +269,8 @@ public class GD_DatDichVuController implements Initializable {
     private TextField txtTenDichVu;
     @FXML
     private TextField txtGiaDichVu;
+    @FXML
+    private ImageView imageView;
     @FXML
     private Button btnLamMoi;
     @FXML
