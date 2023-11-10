@@ -18,9 +18,9 @@ public class ChiTietHD_DichVu {
     }
 
     public ChiTietHD_DichVu(HoaDonThanhToan hoaDon, DichVu dichVu, int soLuong) {
-        this.hoaDon = hoaDon;
-        this.dichVu = dichVu;
-        this.soLuong = soLuong;
+        setHoaDon(hoaDon);
+        setDichVu(dichVu);
+        setSoLuong(soLuong);
     }
 
     public ChiTietHD_DichVu(HoaDonThanhToan hoaDon) {
@@ -33,9 +33,10 @@ public class ChiTietHD_DichVu {
 
     public void setHoaDon(HoaDonThanhToan hoaDon) throws IllegalArgumentException{
         if (hoaDon == null) {
-        throw new IllegalArgumentException("Hóa đơn không được rỗng");
+            throw new IllegalArgumentException("Hóa đơn không được rỗng");
+        }else {
+            this.hoaDon = hoaDon;
         }
-        this.hoaDon = hoaDon;
     }
 
     public DichVu getDichVu() {
@@ -45,8 +46,9 @@ public class ChiTietHD_DichVu {
     public void setDichVu(DichVu dichVu) throws IllegalArgumentException{
         if (dichVu == null) {
         throw new IllegalArgumentException("Dịch vụ không được rỗng");
+        }else {
+            this.dichVu = dichVu;
         }
-        this.dichVu = dichVu;
     }
 
     public int getSoLuong() {
@@ -56,8 +58,9 @@ public class ChiTietHD_DichVu {
     public void setSoLuong(int soLuong) throws IllegalArgumentException{
         if (soLuong <= 0) {
         throw new IllegalArgumentException("Số lượng không được rỗng và phải lớn hơn 0");
+        } else {
+            this.soLuong = soLuong;
         }
-        this.soLuong = soLuong;
     }
 
     public long tinhThanhTien() {

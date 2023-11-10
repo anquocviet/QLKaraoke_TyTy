@@ -15,6 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.TaiKhoan;
@@ -28,10 +30,14 @@ import main.App;
 public class GD_DangNhapController implements Initializable {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        qlNhanVienController = new GD_QLNhanVienController();
-        dkTaiKhoanController = new GD_DangKyController();
-        
+    public void initialize(URL location, ResourceBundle resources) {       
+    }
+    
+    @FXML
+    public void handleKeyboardEvent(KeyEvent ke) throws Exception {
+        if (ke.getCode() == KeyCode.ENTER) {
+            dangNhap(new ActionEvent(ke.getSource(), ke.getTarget()));
+        }
     }
 
 //    Get data from DB
@@ -41,9 +47,12 @@ public class GD_DangNhapController implements Initializable {
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
 
-        TaiKhoan tk = dkTaiKhoanController.getTaiKhoanTheoUserNameAndPassword(username, password);
+        TaiKhoan tk = TaiKhoan.getTaiKhoanTheoUserNameAndPassword(username, password);
         if (tk == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Sai tên đăng nhập hoặc mật khẩu, vui lòng kiểm tra lại", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại tài khoản và mật khẩu của bạn!", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Đăng nhập thất bại");
+            alert.setHeaderText("Sai tài khoản hoặc mật khẩu");
             alert.showAndWait();
         } else {
             App.user = tk.getNhanVien().getMaNhanVien();
@@ -54,8 +63,6 @@ public class GD_DangNhapController implements Initializable {
     }
 
 //    Variable
-    private GD_DangKyController dkTaiKhoanController;
-    private GD_QLNhanVienController qlNhanVienController;
     @FXML
     private TextField txtUsername;
     @FXML

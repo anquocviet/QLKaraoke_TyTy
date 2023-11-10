@@ -4,8 +4,19 @@
  */
 package model;
 
+import connect.ConnectDB;
+import controllers.GD_QLKhachHangController;
 import java.nio.channels.IllegalChannelGroupException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -46,8 +57,8 @@ public class KhachHang {
         return tenKhachHang;
     }
 
-    public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException{
-        if (tenKhachHang == null || tenKhachHang.isEmpty()){
+    public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException {
+        if (tenKhachHang == null || tenKhachHang.isEmpty()) {
             throw new IllegalArgumentException("Tên khách hàng không được rỗng");
         }
         this.tenKhachHang = tenKhachHang;
@@ -57,8 +68,8 @@ public class KhachHang {
         return soDienThoai;
     }
 
-    public void setSoDienThoai(String soDienThoai)throws IllegalArgumentException {
-        if (soDienThoai == null || soDienThoai.isEmpty()){
+    public void setSoDienThoai(String soDienThoai) throws IllegalArgumentException {
+        if (soDienThoai == null || soDienThoai.isEmpty()) {
             throw new IllegalArgumentException("Số điện thoại không được rỗng");
         }
         this.soDienThoai = soDienThoai;
@@ -68,10 +79,10 @@ public class KhachHang {
         return namSinh;
     }
 
-    public void setNamSinh(int namSinh) throws IllegalArgumentException{
-   if(namSinh !=0){
+    public void setNamSinh(int namSinh) throws IllegalArgumentException {
+        if (namSinh != 0) {
             throw new IllegalArgumentException("Năm sinh không được rỗng");
-            
+
         }
         this.namSinh = namSinh;
     }
@@ -81,7 +92,7 @@ public class KhachHang {
     }
 
     public void setGioiTinh(boolean gioiTinh) {
-        
+
         this.gioiTinh = gioiTinh;
     }
 
@@ -112,4 +123,135 @@ public class KhachHang {
         return "KhachHang{" + "maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", soDienThoai=" + soDienThoai + ", namSinh=" + namSinh + ", gioiTinh=" + gioiTinh + '}';
     }
 
+    //    Get data from DB
+    public static ObservableList<KhachHang> getAllKhachHang() {
+        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM KhachHang";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maKhachhang = rs.getString("MaKhachHang");
+                String tenKhachhang = rs.getString("TenKhachHang");
+                String soDienThoai = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsKhachHang;
+    }
+
+    public static KhachHang getKhachHangTheoMaKhachHang(String maKH) {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM KhachHang WHERE MaKhachHang = '%s'", maKH);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maKhachhang = rs.getString("MaKhachHang");
+                String tenKhachhang = rs.getString("TenKhachHang");
+                String soDienThoai = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
+                return kh;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
+    public static int demSoLuongKhachHang() {
+        int soLuongKH = 0;
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaKhachHang) AS SoLuongKH FROM KhachHang";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuongKH = rs.getInt("SoLuongKH");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuongKH;
+    }
+
+    public static boolean themKhachHang(KhachHang kh) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "INSERT INTO KhachHang ( MaKhachHang, TenKhachHang, SoDienThoai, NamSinh, GioiTinh ) VALUES(?,?,?,?,?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getMaKhachHang());
+            pstm.setString(2, kh.getTenKhachHang());
+            pstm.setString(3, kh.getSoDienThoai());
+            pstm.setInt(4, kh.getNamSinh());
+            pstm.setBoolean(5, kh.isGioiTinh());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
+
+    public static boolean suaKhachHang(KhachHang kh) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE KhachHang SET TenKhachHang = ?, SoDienThoai = ?, NamSinh = ?, GioiTinh = ? WHERE MaKhachHang = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getTenKhachHang());
+            pstm.setString(2, kh.getSoDienThoai());
+            pstm.setInt(3, kh.getNamSinh());
+            pstm.setBoolean(4, kh.isGioiTinh());
+            pstm.setString(5, kh.getMaKhachHang());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
 }
