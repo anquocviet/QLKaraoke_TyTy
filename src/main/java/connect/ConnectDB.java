@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDB {
-<<<<<<< HEAD
+
 	private static Connection con = null;
 	private static ConnectDB instance = new ConnectDB();
 	
@@ -26,7 +26,7 @@ public class ConnectDB {
 	
 	public void disconnect() {
 		if (con != null)
-=======
+
 
     private static Connection con = null;
     private static ConnectDB instance = new ConnectDB();
@@ -38,7 +38,7 @@ public class ConnectDB {
     public void connect() {
         String url = "jdbc:sqlserver://localhost:1433;databasename=KaraokeTyTy;encrypt=true;trustServerCertificate=true;";
         String username = "sa";
-        String password = "anquocviet_203";
+        String password = "sapassword";
         try {
             con = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
@@ -48,7 +48,6 @@ public class ConnectDB {
 
     public void disconnect() {
         if (con != null)
->>>>>>> origin/main
 			try {
             con.close();
         } catch (SQLException e) {
