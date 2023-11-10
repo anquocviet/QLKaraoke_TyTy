@@ -30,7 +30,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Text>
-                        <ComboBox fx:id="cbPhong" layoutX="155.0" layoutY="27.0" prefHeight="32.0" prefWidth="320.0" />
+                        <ComboBox fx:id="cbPhong" layoutX="155.0" layoutY="27.0" prefHeight="32.0" prefWidth="320.0" style="-fx-font-size: 18;" />
                         <Text layoutX="20.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Hóa đơn">
                             <font>
                                 <Font size="18.0" />
@@ -46,9 +46,9 @@
                                 <Font size="18.0" />
                             </font>
                         </Text>
-                        <TextField fx:id="txtMaKhachHang" layoutX="925.0" layoutY="31.0" prefHeight="32.0" prefWidth="320.0" />
-                        <TextField fx:id="txtTenKhachHang" disable="true" layoutX="925.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
-                        <TextField fx:id="txtMaHoaDon" layoutX="155.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" />
+                        <TextField fx:id="txtMaKhachHang" layoutX="925.0" layoutY="31.0" prefHeight="32.0" prefWidth="320.0" style="-fx-font-size: 18;" />
+                        <TextField fx:id="txtTenKhachHang" disable="true" layoutX="925.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" style="-fx-font-size: 18;" />
+                        <TextField fx:id="txtMaHoaDon" layoutX="155.0" layoutY="78.0" prefHeight="32.0" prefWidth="320.0" style="-fx-font-size: 18;" />
                     </children>
                 </AnchorPane>
             </content>
@@ -60,13 +60,19 @@
                         <Font size="18.0" />
                     </font>
                 </Text>
-                <TextField fx:id="txtTenDichVu" layoutX="135.0" layoutY="31.0" prefHeight="32.0" prefWidth="170.0" />
+                <TextField fx:id="txtTenDichVu" layoutX="135.0" layoutY="31.0" prefHeight="32.0" prefWidth="170.0" style="-fx-font-size: 18;">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
                 <Text layoutX="20.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giá">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Text>
-                <TextField fx:id="txtGiaDichVu" layoutX="135.0" layoutY="74.0" prefHeight="32.0" prefWidth="170.0" />
+                <TextField fx:id="txtGiaDichVu" layoutX="135.0" layoutY="74.0" prefHeight="32.0" prefWidth="170.0" style="-fx-font-size: 18;">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
                 <Button fx:id="btnLamMoi" layoutX="36.0" layoutY="147.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" style="-fx-font-size: 18;" text="Làm mới">
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -146,7 +152,7 @@
                 <Cursor fx:constant="OPEN_HAND" />
             </cursor>
         </Button>
-        <Button layoutY="55.0" mnemonicParsing="false" styleClass="btnBack" onMouseClicked="#handleBtnBack"  >
+        <Button layoutY="55.0" mnemonicParsing="false" onMouseClicked="#handleBtnBack" styleClass="btnBack">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
