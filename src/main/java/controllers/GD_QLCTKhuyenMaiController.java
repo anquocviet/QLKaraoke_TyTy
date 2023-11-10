@@ -24,34 +24,34 @@ import model.CT_KhuyenMai;
  *
  * @author Admin
  */
-public class GD_QLCTKhuyenMaiController implements Initializable{
+public class GD_QLCTKhuyenMaiController implements Initializable {
 
     @FXML
     private TableView<CT_KhuyenMai> tableView_CTKhuyenMai;
-    
+
     @FXML
-    private TableColumn<String, Integer> col_sttKhuyenMai; 
-    
+    private TableColumn<String, Integer> col_sttKhuyenMai;
+
     @FXML
-    private TableColumn<CT_KhuyenMai, String> col_maKhuyenMai; 
-    
+    private TableColumn<CT_KhuyenMai, String> col_maKhuyenMai;
+
     @FXML
-    private TableColumn<CT_KhuyenMai, String> col_tenKhuyenMai; 
-    
+    private TableColumn<CT_KhuyenMai, String> col_tenKhuyenMai;
+
     @FXML
-    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayBatDau; 
-    
+    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayBatDau;
+
     @FXML
-    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayKetThuc; 
-    
+    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayKetThuc;
+
     @FXML
     private TableColumn<CT_KhuyenMai, Integer> col_luotSuDungConLai;
-    
+
     @FXML
     private TableColumn<CT_KhuyenMai, Integer> col_chietKhau;
-    
-    ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;    
-    
+
+    ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         col_sttKhuyenMai.setCellFactory(col -> {
@@ -76,7 +76,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable{
         col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
         col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
-        
+
         danhSachCT_KhuyenMai = CT_KhuyenMai.getListCT_KhuyenMai();
         // cột số thứ tự chưa được gán --> ko lấy dữ liệu lên table được
         tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
