@@ -6,6 +6,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -75,6 +77,14 @@ public class GD_DatDichVuController implements Initializable {
         dtXoaCol.setCellValueFactory(new PropertyValueFactory<>(""));
         dtXoaCol.setCellFactory(handleBtnRemoveTableDatDV());
         tableDichVuDaThem.setItems(dsDichVuDaDat);
+//        Hiển thị khung table khi không có dữ liệu
+        tableDichVuDaThem.setSkin(new TableViewSkin<DichVu>(tableDichVuDaThem) {
+            @Override
+            public int getItemCount() {
+                int r = super.getItemCount();
+                return r == 0 ? 1 : r;
+            }
+        });
     }
 
     public Callback<TableColumn<DichVu, String>, TableCell<DichVu, String>> handleBtnAddTableThongTin() {
@@ -111,11 +121,9 @@ public class GD_DatDichVuController implements Initializable {
                                     getTableView().refresh();
                                     tableDichVuDaThem.refresh();
                                     getTableView().requestFocus();
-                                    getTableView().requestFocus();
                                     getTableView().getSelectionModel().select(getIndex());
-                                    getTableView().getSelectionModel().focus(getIndex());
                                     loadDataFromTableToForm();
-                                    
+
                                 } catch (Exception ex) {
                                     Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
                                     alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -123,6 +131,7 @@ public class GD_DatDichVuController implements Initializable {
                                     alert.setHeaderText("Dịch vụ này đã hết");
                                     alert.showAndWait();
                                 }
+                                calcMoney();
                             });
                             setGraphic(btn);
                             setText(null);
@@ -143,7 +152,7 @@ public class GD_DatDichVuController implements Initializable {
                 imgPlus.setFitHeight(25);
                 Button btn = new Button("", imgPlus);
                 btn.getStyleClass().add("btnTable");
-                
+
                 final TableCell<DichVu, String> cell = new TableCell<DichVu, String>() {
 
                     final Button btnAdd = btn;
@@ -156,7 +165,26 @@ public class GD_DatDichVuController implements Initializable {
                             setText(null);
                         } else {
                             btn.setOnAction(event -> {
-
+                                DichVu dv = getTableView().getItems().get(getIndex());
+                                ObservableList<DichVu> dsThongTinDV = dsThongTinDV = tableThongTinDichVu.getItems();
+                                DichVu ttDichVu = dsThongTinDV.get(dsThongTinDV.indexOf(dv));
+                                if (ttDichVu.getSoLuong() > 0) {
+                                    try {
+                                        dv.setSoLuong(dv.getSoLuong() + 1);
+                                        ttDichVu.setSoLuong(ttDichVu.getSoLuong() - 1);
+                                        getTableView().refresh();
+                                        tableThongTinDichVu.refresh();
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                } else {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+                                    alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                                    alert.setTitle("Hết hàng");
+                                    alert.setHeaderText("Dịch vụ này đã hết");
+                                    alert.showAndWait();
+                                }
+                                calcMoney();
                             });
                             setGraphic(btn);
                             setText(null);
@@ -177,9 +205,8 @@ public class GD_DatDichVuController implements Initializable {
                 imgMinus.setFitHeight(25);
                 Button btn = new Button("", imgMinus);
                 btn.getStyleClass().add("btnTable");
-                
-                final TableCell<DichVu, String> cell = new TableCell<DichVu, String>() {
 
+                final TableCell<DichVu, String> cell = new TableCell<DichVu, String>() {
                     final Button btnMinus = btn;
 
                     @Override
@@ -190,18 +217,23 @@ public class GD_DatDichVuController implements Initializable {
                             setText(null);
                         } else {
                             btn.setOnAction(event -> {
+                                DichVu dv = getTableView().getItems().get(getIndex());
+                                ObservableList<DichVu> dsThongTinDV = tableThongTinDichVu.getItems();
+                                DichVu ttDichVu = dsThongTinDV.get(dsThongTinDV.indexOf(dv));
                                 try {
-                                    if (false) {
-
+                                    if (dv.getSoLuong() > 1) {
+                                        ttDichVu.setSoLuong(ttDichVu.getSoLuong() + 1);
+                                        dv.setSoLuong(dv.getSoLuong() - 1);
                                     } else {
-                                        DichVu dv = getTableView().getItems().get(getIndex());
-                                        getTableView().getItems().remove(dv);
-                                        dv.setSoLuong(dv.getSoLuong() + 1);
-                                        tableThongTinDichVu.refresh();
+                                        dsDichVuDaDat.remove(dv);
+                                        ttDichVu.setSoLuong(ttDichVu.getSoLuong() + 1);
                                     }
+                                    getTableView().refresh();
+                                    tableThongTinDichVu.refresh();
                                 } catch (Exception ex) {
                                     Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
+                                calcMoney();
                             });
                             setGraphic(btn);
                             setText(null);
@@ -222,7 +254,7 @@ public class GD_DatDichVuController implements Initializable {
                 imgRemove.setFitHeight(25);
                 Button btn = new Button("", imgRemove);
                 btn.getStyleClass().add("btnTable");
-                
+
                 final TableCell<DichVu, String> cell = new TableCell<DichVu, String>() {
 
                     final Button btnRemove = btn;
@@ -237,12 +269,26 @@ public class GD_DatDichVuController implements Initializable {
                             btn.setOnAction(event -> {
                                 try {
                                     DichVu dv = getTableView().getItems().get(getIndex());
-                                    getTableView().getItems().remove(dv);
-                                    dv.setSoLuong(dv.getSoLuong() + 1);
-                                    tableThongTinDichVu.refresh();
+                                    ObservableList<DichVu> dsThongTinDV = dsThongTinDV = tableThongTinDichVu.getItems();
+                                    DichVu ttDichVu = dsThongTinDV.get(dsThongTinDV.indexOf(dv));
+
+                                    Alert alert = new Alert(Alert.AlertType.WARNING, "Nhấn YES để xác nhận, NO để hủy", ButtonType.YES, ButtonType.NO);
+                                    alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                                    alert.setTitle("Thông báo");
+                                    alert.setHeaderText("Bạn có chắc muốn bỏ " + dv.getTenDichVu() + " ra khỏi danh sách đặt của mình không?");
+                                    alert.showAndWait();
+                                    if (alert.getResult() == ButtonType.YES) {
+                                        getTableView().getItems().remove(dv);
+                                        ttDichVu.setSoLuong(ttDichVu.getSoLuong() + dv.getSoLuong());
+                                        tableThongTinDichVu.refresh();
+                                    } else {
+                                        alert.close();
+                                    }
+
                                 } catch (Exception ex) {
                                     Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
+                                calcMoney();
                             });
                             setGraphic(btn);
                             setText(null);
@@ -281,10 +327,25 @@ public class GD_DatDichVuController implements Initializable {
 
         imageView.setImage(img);
     }
+    
+    public void calcMoney() {
+        long money = 0;
+        for (int i = 0; i < dsDichVuDaDat.size(); i++) {
+           money += dtThanhTienCol.getCellData(i);
+        }
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.## VND");
+        lbTongTien.setText(df.format(money));
+    }
 
     @FXML
     public void handleBtnBack() throws IOException {
         App.setRoot("GD_QLKinhDoanhPhong");
+    }
+    
+    @FXML 
+    public void handleBtnRefresh() {
+        txtTenDichVu.setText("");
+        txtGiaDichVu.setText("");
     }
 
 //    Variable
@@ -340,7 +401,7 @@ public class GD_DatDichVuController implements Initializable {
     @FXML
     private TableColumn dtXoaCol;
     @FXML
-    private Text lbTongTienl;
+    private Text lbTongTien;
     @FXML
     private Button btnDatDichVu;
 

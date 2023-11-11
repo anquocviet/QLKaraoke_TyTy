@@ -73,7 +73,7 @@
                <font>
                   <Font size="18.0" />
                </font></TextField>
-                <Button fx:id="btnLamMoi" layoutX="36.0" layoutY="147.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" style="-fx-font-size: 18;" text="Làm mới">
+                <Button fx:id="btnLamMoi" layoutX="36.0" layoutY="147.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" style="-fx-font-size: 18;" text="Làm mới" onAction="#handleBtnRefresh" >
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -132,12 +132,12 @@
                         </TableView>
                     </content>
                 </ScrollPane>
-                <Text layoutX="495.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:">
+                <Text layoutX="364.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Text>
-                <Text fx:id="lbTongTien" layoutX="591.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 VNĐ">
+                <Text fx:id="lbTongTien" layoutX="470.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 VNĐ" textAlignment="RIGHT" wrappingWidth="177.90625">
                     <font>
                         <Font size="20.0" />
                     </font>
