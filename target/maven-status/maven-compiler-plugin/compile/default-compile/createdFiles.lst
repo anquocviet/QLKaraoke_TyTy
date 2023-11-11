@@ -1,8 +1,10 @@
 enums\Enum_TrangThaiLamViec.class
 controllers\GD_DatDichVuController$2.class
+controllers\GD_QLKhachHangController$2.class
 model\ChiTietHD_DichVu.class
 controllers\GD_ThongKeNgayController.class
 enums\Enum_ChucVu.class
+controllers\GD_DatDichVuController$5.class
 controllers\GD_QLCTKhuyenMaiController.class
 controllers\GD_DangKyController.class
 controllers\GD_QLPhongController.class
@@ -19,6 +21,7 @@ controllers\GD_TraCuuHoaDonController.class
 controllers\GD_ThongKeKhachHangController.class
 controllers\GD_ThanhToanController.class
 model\DichVu.class
+controllers\GD_DatDichVuController$6.class
 controllers\GD_DatDichVuController$4$1.class
 model\TaiKhoan.class
 model\HoaDonThanhToan.class
@@ -41,3 +44,4 @@ controllers\GD_DangNhapController.class
 controllers\GD_DatDichVuController$2$1.class
 model\PhieuDatPhong.class
 model\CT_KhuyenMai.class
+controllers\GD_QLKhachHangController$1.class

@@ -60,8 +60,9 @@ public class KhachHang {
     public void setTenKhachHang(String tenKhachHang) throws IllegalArgumentException {
         if (tenKhachHang == null || tenKhachHang.isEmpty()) {
             throw new IllegalArgumentException("Tên khách hàng không được rỗng");
+        } else {
+            this.tenKhachHang = tenKhachHang;
         }
-        this.tenKhachHang = tenKhachHang;
     }
 
     public String getSoDienThoai() {
@@ -71,8 +72,9 @@ public class KhachHang {
     public void setSoDienThoai(String soDienThoai) throws IllegalArgumentException {
         if (soDienThoai == null || soDienThoai.isEmpty()) {
             throw new IllegalArgumentException("Số điện thoại không được rỗng");
+        } else {
+            this.soDienThoai = soDienThoai;
         }
-        this.soDienThoai = soDienThoai;
     }
 
     public int getNamSinh() {
@@ -80,11 +82,11 @@ public class KhachHang {
     }
 
     public void setNamSinh(int namSinh) throws IllegalArgumentException {
-        if (namSinh != 0) {
+        if (namSinh < 1000) {
             throw new IllegalArgumentException("Năm sinh không được rỗng");
-
+        } else {
+            this.namSinh = namSinh;
         }
-        this.namSinh = namSinh;
     }
 
     public boolean isGioiTinh() {
