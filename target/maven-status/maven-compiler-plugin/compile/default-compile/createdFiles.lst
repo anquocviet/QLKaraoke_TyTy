@@ -3,8 +3,10 @@ controllers/GD_ThanhToanController.class
 controllers/GD_DatDichVuController$6.class
 enums/Enum_TrangThaiLamViec.class
 controllers/GD_DatDichVuController$5$1.class
+controllers/GD_QLDichVuController$1.class
 controllers/GD_DatDichVuController$3.class
 controllers/GD_DatDichVuController$2$1.class
+controllers/GD_QLDichVuController$2.class
 model/KhachHang.class
 controllers/GD_DatDichVuController$7.class
 connect/ConnectDB.class
