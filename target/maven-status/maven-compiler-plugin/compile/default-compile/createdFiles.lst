@@ -18,12 +18,14 @@ model\ChiTietHD_Phong.class
 controllers\GD_ThongKeQuyController.class
 module-info.class
 controllers\GD_TraCuuHoaDonController.class
+controllers\GD_QLDichVuController$2.class
 controllers\GD_ThongKeKhachHangController.class
 controllers\GD_ThanhToanController.class
 model\DichVu.class
 controllers\GD_DatDichVuController$6.class
 controllers\GD_DatDichVuController$4$1.class
 model\TaiKhoan.class
+controllers\GD_QLDichVuController$1.class
 model\HoaDonThanhToan.class
 model\NhanVien.class
 controllers\GD_QLKinhDoanhPhongController.class
