@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_QLNhanVien" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLNhanVienController">
+<AnchorPane id="GD_QLNhanVien" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLNhanVienController">
     <children>
         <Text disable="true" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ NHÂN VIÊN" textAlignment="CENTER" wrappingWidth="1280.0">
             <font>
@@ -32,27 +32,27 @@
                                 <Image url="@../image/employe.png" />
                             </image>
                         </ImageView>
-                        <Button layoutX="185.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+                        <Button fx:id="btnAddNV" layoutX="185.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView fx:id="btnAddNV" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/add-user.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button layoutX="300.0" layoutY="111.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+                        <Button fx:id="btnRefresh" layoutX="300.0" layoutY="111.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView fx:id="btnRefresh" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/undo-arrow.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button layoutX="416.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+                        <Button fx:id="btnUpdate" layoutX="416.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView fx:id="btnUpdate" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/service.png" />
                                     </image>
@@ -64,7 +64,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="txtMaNV" disable="true" layoutX="185.0" layoutY="194.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtMaNhanVien" disable="true" layoutX="185.0" layoutY="194.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>

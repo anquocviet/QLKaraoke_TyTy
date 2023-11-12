@@ -7,7 +7,6 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +18,8 @@ public class ChiTietHD_Phong {
     private Phong phong;
     private LocalDateTime gioVao;
     private LocalDateTime gioRa;
+    private float tongGioSuDung;
+    private long thanhTien;
 
     public ChiTietHD_Phong() {
     }
@@ -28,6 +29,9 @@ public class ChiTietHD_Phong {
         setPhong(phong);
         setGioVao(gioVao);
         setGioRa(gioRa);
+        tinhTongGioSuDung();
+        tinhThanhTien();
+        
     }
 
     public HoaDonThanhToan getHoaDon() {
@@ -78,11 +82,11 @@ public class ChiTietHD_Phong {
         }
     }
 
-    public long tinhThanhTien() {
-        return (long) (tinhTongGioSuDung() * phong.getGiaPhong());
+    public void tinhThanhTien() {
+        thanhTien = (long) (tongGioSuDung * phong.getGiaPhong());
     }
 
-    public float tinhTongGioSuDung() {
+    public void tinhTongGioSuDung() {
         float hour = 0;
         int minute = 0;
         
@@ -101,7 +105,7 @@ public class ChiTietHD_Phong {
             hour += 1;
         }
    
-        return hour;
+        tongGioSuDung = hour;
     }
 
     @Override

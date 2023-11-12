@@ -11,6 +11,7 @@ import enums.Enum_ChucVu;
 import enums.Enum_TrangThaiLamViec;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -264,6 +265,8 @@ public class NhanVien {
                 String hoTen = rs.getString("HoTen");
                 String cccd = rs.getString("CCCD");
                 String soDienThoai = rs.getString("SoDienThoai");
+//                java.sql.Date ns = rs.getDate("NgaySinh");
+//                LocalDate ngaySinh = ns.toLocalDate();
 //                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
                 LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
                 String diaChi = rs.getString("DiaChi");
@@ -305,7 +308,7 @@ public class NhanVien {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT COUNT(*) FROM NhanVien";
+            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return rs.getInt(1);
@@ -318,5 +321,83 @@ public class NhanVien {
             }
         }
     }
+    
+    public static boolean themNhanVien(NhanVien nv) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "INSERT INTO NhanVien (MaNhanVien, HoTen, CCCD, SoDienThoai, NgaySinh, DiaChi, GioiTinh, ChucVu, TrangThai, AnhDaiDien) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, nv.getMaNhanVien());
+            pstm.setString(2, nv.getHoTen());
+            pstm.setString(3, nv.getCccd());
+            pstm.setString(4, nv.getSoDienThoai());
+            pstm.setDate(5, java.sql.Date.valueOf(nv.getNgaySinh()));
+            pstm.setString(6, nv.getDiaChi());
+            pstm.setBoolean(7, nv.isGioiTinh());
+            pstm.setString(8, nv.getChucVu().name());
+            pstm.setString(9, nv.getTrangThai().name());
+            pstm.setString(10, nv.getAnhDaiDien());
+
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
+
+    public static boolean capNhatThongTinNhanVien(NhanVien nv) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "UPDATE NhanVien " +
+                     "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?,AnhDaiDien = ? " +
+                     "WHERE MaNhanVien = ?";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, nv.getHoTen());
+            pstm.setString(2, nv.getCccd());
+            pstm.setString(3, nv.getSoDienThoai());
+            pstm.setDate(4, java.sql.Date.valueOf(nv.getNgaySinh()));
+            pstm.setString(5, nv.getDiaChi());
+            pstm.setBoolean(6, nv.isGioiTinh());
+            pstm.setString(7, nv.getChucVu().name());
+            pstm.setString(8, nv.getTrangThai().name());
+            pstm.setString(9, nv.getAnhDaiDien());
+            pstm.setString(10, nv.getMaNhanVien());
+
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
+
 
 }

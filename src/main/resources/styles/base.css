@@ -1,3 +1,23 @@
 * {
-   -fx-font-family: 'sans-serif';
+    -fx-font-family: 'sans-serif';
+}
+
+.btnTable {
+    -fx-background-color: transparent;
+}
+
+.btnTable:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #51BCD5;
+}
+
+
+.btnBack {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.btnBack:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #51BCD5;
 }

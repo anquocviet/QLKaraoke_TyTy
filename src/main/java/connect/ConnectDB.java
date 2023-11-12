@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDB {
+
 	private static Connection con = null;
 	private static ConnectDB instance = new ConnectDB();
 	
@@ -22,16 +23,17 @@ public class ConnectDB {
 			e.printStackTrace();
 		}
 	}
-	
-	public void disconnect() {
-		if (con != null)
+
+    public void disconnect() {
+        if (con != null)
 			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	}
-	public static Connection getConnection() {
-		return con;
-	}
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection() {
+        return con;
+    }
 }

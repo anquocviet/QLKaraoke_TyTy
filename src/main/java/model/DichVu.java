@@ -76,8 +76,8 @@ public class DichVu {
     }
 
     public void setSoLuong(int soLuong) throws Exception {
-        if (soLuong <= 0){
-           throw new Exception("Số lượng không được rỗng và phải lớn hơn 0"); 
+        if (soLuong < 0){
+           throw new Exception("Số lượng không được rỗng"); 
         } else {
             this.soLuong = soLuong;  
         }
@@ -89,7 +89,7 @@ public class DichVu {
     }
 
     public void setDonGia(long donGia) throws Exception {
-        if (donGia <= 0){
+        if (donGia < 0){
             throw new Exception("Đơn giá của dịch vụ  không được rỗng và phải lớn hơn 0");
         } else {
             this.donGia = donGia;
