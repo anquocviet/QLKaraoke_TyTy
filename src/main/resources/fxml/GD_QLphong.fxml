@@ -13,7 +13,6 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="GD_QLPhong" prefHeight="531.0" prefWidth="736.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLPhongController">
-
     <children>
         <Text fill="#df1616" layoutX="296.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG" textAlignment="CENTER" wrappingWidth="404.18865966796875">
             <font>
@@ -70,14 +69,14 @@
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TableView layoutX="521.0" layoutY="137.0" prefHeight="650.0" prefWidth="718.0" style="-fx-background-color: pink;">
+        <TableView fx:id="table" layoutX="521.0" layoutY="137.0" prefHeight="650.0" prefWidth="718.0" style="-fx-background-color: pink;">
             <columns>
-                <TableColumn prefWidth="28.800048828125" resizable="false" style="-fx-color: orange;" text="#" />
-                <TableColumn prefWidth="132.79998779296875" resizable="false" style="-fx-color: orange;" text="Mã phòng" />
-                <TableColumn prefWidth="142.4000244140625" resizable="false" style="-fx-color: orange;" text="Sức chứa" />
-                <TableColumn prefWidth="122.4000244140625" resizable="false" style="-fx-color: orange;" text="Tình trạng" />
-                <TableColumn prefWidth="178.40008544921875" resizable="false" style="-fx-color: orange;" text="Loại phòng" />
-                <TableColumn prefWidth="117.5999755859375" resizable="false" style="-fx-color: orange;" text="Giá phòng" />
+                <TableColumn fx:id="sttCol" prefWidth="28.800048828125" resizable="false" style="-fx-color: orange;" text="#" />
+                <TableColumn fx:id="maPhongCol" prefWidth="132.79998779296875" resizable="false" style="-fx-color: orange;" text="Mã phòng" />
+                <TableColumn fx:id="sucChuaCol" prefWidth="142.4000244140625" resizable="false" style="-fx-color: orange;" text="Sức chứa" />
+                <TableColumn fx:id="tinhTrangCol" prefWidth="122.4000244140625" resizable="false" style="-fx-color: orange;" text="Tình trạng" />
+                <TableColumn fx:id="loaiPhongCol" prefWidth="178.40008544921875" resizable="false" style="-fx-color: orange;" text="Loại phòng" />
+                <TableColumn fx:id="giaPhongCol" prefWidth="117.5999755859375" resizable="false" style="-fx-color: orange;" text="Giá phòng" />
             </columns>
         </TableView>
         <ImageView fitHeight="23.0" fitWidth="17.0" layoutX="1076.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
