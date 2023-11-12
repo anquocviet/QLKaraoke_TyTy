@@ -8,7 +8,11 @@
 
 .itemRoom:hover {
     -fx-cursor: hand;
-    -fx-background-color: #ccc;
+    -fx-background-color: #ddd;
+}
+
+.itemRoomActive {
+    -fx-background-color: #51BCD5;
 }
 
 .btnTable {

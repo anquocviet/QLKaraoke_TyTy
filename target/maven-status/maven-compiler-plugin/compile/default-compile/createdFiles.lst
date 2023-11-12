@@ -4,6 +4,7 @@ controllers/GD_DatDichVuController$6.class
 enums/Enum_TrangThaiLamViec.class
 controllers/GD_DatDichVuController$5$1.class
 controllers/GD_QLDichVuController$1.class
+controllers/GD_QLKinhDoanhPhongController$1.class
 controllers/GD_DatDichVuController$3.class
 controllers/GD_DatDichVuController$2$1.class
 controllers/GD_QLNhanVienController$2.class
@@ -14,6 +15,7 @@ connect/ConnectDB.class
 controllers/GD_DatDichVuController$4$1.class
 module-info.class
 controllers/GD_DatPhongChoController.class
+controllers/PopupPhongController.class
 model/Phong.class
 model/ChiTietHD_DichVu.class
 controllers/GD_QLNhanVienController.class
@@ -33,6 +35,7 @@ model/NhanVien.class
 controllers/GD_QLKhachHangController$1.class
 controllers/GD_DatDichVuController$3$1.class
 controllers/GD_DatDichVuController.class
+controllers/GD_QLKinhDoanhPhongController$2.class
 model/PhieuDatPhong.class
 controllers/GD_ThongKeThangController.class
 model/DichVu.class
