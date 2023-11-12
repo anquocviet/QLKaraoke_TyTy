@@ -60,13 +60,13 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="262.0" prefWidth="1190.0">
                <children>
-                  <TableView layoutX="10.0" layoutY="15.0" prefHeight="342.0" prefWidth="1157.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="5.0">
+                  <TableView fx:id="tableView_HoaDon" layoutX="10.0" layoutY="15.0" prefHeight="342.0" prefWidth="1157.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="5.0">
                     <columns>
-                      <TableColumn prefWidth="199.2000116109848" text="Mã HD" />
-                      <TableColumn prefWidth="316.0" text="Tên KH" />
-                        <TableColumn prefWidth="226.39996337890625" text="SĐT KH" />
-                        <TableColumn prefWidth="214.4000244140625" text="Ngày Lập" />
-                        <TableColumn minWidth="0.0" prefWidth="199.199951171875" text="Thời Gian" />
+                      <TableColumn fx:id="col_maHoaDon" prefWidth="199.2000116109848" text="Mã HD" />
+                      <TableColumn fx:id="col_tenKhachHang" prefWidth="316.0" text="Tên KH" />
+                        <TableColumn fx:id="col_sdtKhachHang" prefWidth="226.39996337890625" text="SĐT KH" />
+                        <TableColumn fx:id="col_ngayLap" prefWidth="214.4000244140625" text="Ngày Lập" />
+                        <TableColumn fx:id="col_thoiGian" minWidth="0.0" prefWidth="199.199951171875" text="Thời Gian" />
                     </columns>
                   </TableView>
                   <ScrollBar layoutX="1168.0" layoutY="15.0" orientation="VERTICAL" prefHeight="344.0" prefWidth="14.0" AnchorPane.rightAnchor="5.0" />
