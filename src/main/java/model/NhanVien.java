@@ -4,10 +4,23 @@
  */
 package model;
 
+import connect.ConnectDB;
+import controllers.GD_QLKhachHangController;
+import controllers.GD_QLNhanVienController;
 import enums.Enum_ChucVu;
 import enums.Enum_TrangThaiLamViec;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -189,6 +202,121 @@ public class NhanVien {
     @Override
     public String toString() {
         return "NhanVien{" + "maNhanVien=" + maNhanVien + ", cccd=" + cccd + ", hoTen=" + hoTen + ", diaChi=" + diaChi + ", ngaySinh=" + ngaySinh + ", soDienThoai=" + soDienThoai + ", chucVu=" + chucVu + ", gioiTinh=" + gioiTinh + ", anhDaiDien=" + anhDaiDien + ", trangThai=" + trangThai + '}';
+    }
+
+//    Get Data From DB
+    public static ObservableList<NhanVien> getAllNhanVien() throws Exception {
+        ObservableList<NhanVien> dsNhanVien = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM NhanVien";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maNhanVien = rs.getString("MaNhanVien");
+                String hoTen = rs.getString("HoTen");
+                String cccd = rs.getString("CCCD");
+                String soDienThoai = rs.getString("SoDienThoai");
+//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
+                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                String diaChi = rs.getString("DiaChi");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                String chucVuStr = rs.getString("ChucVu");
+                Enum_ChucVu chucVu = Enum_ChucVu.QUANLY;
+                if (chucVuStr.equals("Nhân viên tiếp tân")) {
+                    chucVu = Enum_ChucVu.NHANVIENTIEPTAN;
+                }
+                if (chucVuStr.equals("Nhân viên phục vụ")) {
+                    chucVu = Enum_ChucVu.NHANVIENPHUCVU;
+                }
+                if (chucVuStr.equals("Bảo vệ")) {
+                    chucVu = Enum_ChucVu.BAOVE;
+                }
+                String trangThaiLVStr = rs.getString("TrangThai");
+                Enum_TrangThaiLamViec trangThaiLV = Enum_TrangThaiLamViec.CONLAMVIEC;
+                if (trangThaiLVStr.equals("Đã nghỉ việc")) {
+                    trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
+                }
+                String anhDaiDien = rs.getString("AnhDaiDien");
+                dsNhanVien.add(new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, maNhanVien, trangThaiLV));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsNhanVien;
+    }
+
+    public static NhanVien getNhanVienTheoMaNhanVien(String maNhanVien) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM NhanVien WHERE MaNhanVien = '%s'", maNhanVien);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String hoTen = rs.getString("HoTen");
+                String cccd = rs.getString("CCCD");
+                String soDienThoai = rs.getString("SoDienThoai");
+//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
+                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                String diaChi = rs.getString("DiaChi");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                String chucVuStr = rs.getString("ChucVu");
+                Enum_ChucVu chucVu = Enum_ChucVu.QUANLY;
+                if (chucVuStr.equals("Nhân viên tiếp tân")) {
+                    chucVu = Enum_ChucVu.NHANVIENTIEPTAN;
+                }
+                if (chucVuStr.equals("Nhân viên phục vụ")) {
+                    chucVu = Enum_ChucVu.NHANVIENPHUCVU;
+                }
+                if (chucVuStr.equals("Bảo vệ")) {
+                    chucVu = Enum_ChucVu.BAOVE;
+                }
+                String trangThaiLVStr = rs.getString("TrangThai");
+                Enum_TrangThaiLamViec trangThaiLV = Enum_TrangThaiLamViec.CONLAMVIEC;
+                if (trangThaiLVStr.equals("Đã nghỉ việc")) {
+                    trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
+                }
+                return new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, maNhanVien, trangThaiLV);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
+    public static int demSLNhanVien() throws SQLException {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(*) FROM NhanVien";
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return 0;
+            }
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
 
 }

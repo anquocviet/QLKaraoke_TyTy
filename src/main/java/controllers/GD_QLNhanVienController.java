@@ -4,23 +4,25 @@
  */
 package controllers;
 
-import connect.ConnectDB;
-import enums.Enum_ChucVu;
-import enums.Enum_TrangThaiLamViec;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import model.NhanVien;
-
 
 /**
  * FXML Controller class
@@ -29,48 +31,119 @@ import model.NhanVien;
  */
 public class GD_QLNhanVienController implements Initializable {
     
+    @FXML
+    private TableView<NhanVien> table;
+    
+    @FXML
+    private TextField txtMaNhanVien;
+    @FXML
+    private TextField txtCCCD;
+    @FXML
+    private TextField txtHoTen;
+    @FXML
+    private DatePicker dateNgaySinh;
+    @FXML
+    private TextField txtSoDienThoaiNV;
+    @FXML
+    private TextField txtDiaChi;
+    @FXML
+    private ComboBox cbbChucVu;
+    
+    @FXML
+    private TableColumn<NhanVien, String> colMaNV;
+    @FXML
+    private TableColumn<NhanVien, String> colCCCD;
+    @FXML
+    private TableColumn<NhanVien, String> colHoTen;
+    @FXML
+    private TableColumn<String, Integer> colNgaySinh;
+    @FXML
+    private TableColumn<NhanVien, String> colSoDienThoai;
+    @FXML
+    private TableColumn<NhanVien, Integer> colDiaChi;
+    @FXML
+    private TableColumn<NhanVien, String> colChucVu;
+    @FXML
+    private TableColumn<NhanVien, String> colGioiTinh;
+    @FXML
+    private ToggleGroup genderGroup;
+    @FXML
+    private RadioButton radioButtonNam;
+    @FXML
+    private RadioButton radioButtonNu;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ToggleGroup genderGroup = new ToggleGroup();
-    }
-    
-    public NhanVien getNhanVienTheoMaNhanVien(String maNhanVien) {
-        Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM NhanVien WHERE MaNhanVien = '%s'", maNhanVien);
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String hoTen = rs.getString("HoTen");
-                String cccd = rs.getString("CCCD");
-                String soDienThoai = rs.getString("SoDienThoai");
-//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
-                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
-                String diaChi = rs.getString("DiaChi");
-                boolean gioiTinh = rs.getBoolean("GioiTinh");
-                String chucVuStr = rs.getString("ChucVu");
-                Enum_ChucVu chucVu = Enum_ChucVu.QUANLY;
-                if (chucVuStr.equals("Nhân viên tiếp tân")) chucVu = Enum_ChucVu.NHANVIENTIEPTAN;
-                if (chucVuStr.equals("Nhân viên phục vụ")) chucVu = Enum_ChucVu.NHANVIENPHUCVU;
-                if (chucVuStr.equals("Bảo vệ")) chucVu = Enum_ChucVu.BAOVE;
-                String trangThaiLVStr = rs.getString("TrangThai");
-                Enum_TrangThaiLamViec trangThaiLV = Enum_TrangThaiLamViec.CONLAMVIEC;
-                if (trangThaiLVStr.equals("Đã nghỉ việc")) trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
-                return new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, maNhanVien, trangThaiLV);
+        genderGroup = new ToggleGroup();
+        radioButtonNam.setToggleGroup(genderGroup);
+        radioButtonNu.setToggleGroup(genderGroup);
+//        try {
+//            txtMaNhanVien.setText( phatSinhMaNhanVien());
+//        } catch (Exception ex) {
+//            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
+        colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
+        colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
+        colNgaySinh.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
+        colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+        colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+        colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
+        colGioiTinh.setCellValueFactory(cellData -> {
+            boolean gioiTinh = cellData.getValue().isGioiTinh();
+            String gioiTinhString;
+            if (gioiTinh) {
+                gioiTinhString = "Nam";
+            } else {
+                gioiTinhString = "Nữ";
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ReadOnlyStringWrapper(gioiTinhString);
+
+        });
+        
+        try {
+            table.setItems(NhanVien.getAllNhanVien());
         } catch (Exception ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
-        return null;
+    }
+    
+    public void docDuLieuTuTable(MouseEvent event) {
+//        NhanVien nv = table.getSelectionModel().getSelectedItem();
+//        if (nv == null) {
+//            return;
+//        }
+//        txtMaNhanVien.setText(nv.getMaNhanVien());
+//        txtCCCD.setText(nv.getCccd());
+//        txtHoTen.setText(nv.getHoTen());
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+////        dateNgaySinh
+////        txtSoDienThoaiNV.setText(nv.getSoDienThoai());
+//        txtDiaChi.setText(nv.getDiaChi());
+//        
+//        if (nv.isGioiTinh()) {
+//            genderGroup.getToggles().get(0).setSelected(true);
+//        } else {
+//            genderGroup.getToggles().get(1).setSelected(true);
+//        }
+    }
+    public String phatSinhMaNhanVien() throws Exception {
+        // Lấy tổng số nhân viên hiện có
+        int totalEmployees = NhanVien.demSLNhanVien();
+
+        // Lấy 2 số cuối năm sinh của nhân viên mới
+        LocalDate ngaySinh = LocalDate.now();
+        int namSinh = ngaySinh.getYear();
+        int haiSoCuoiNamSinh = (namSinh % 100);
+
+        // Tạo mã nhân viên
+        String maNhanVien = "NV";
+        String soThuTu = String.format("%02d", totalEmployees + 1);
+        maNhanVien += soThuTu;
+        maNhanVien += String.format("%02d", haiSoCuoiNamSinh);
+
+        return maNhanVien;
     }
 
 }

@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_QLNhanVien" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLNhanVienController">
+<AnchorPane id="GD_QLNhanVien" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLNhanVienController">
     <children>
         <Text disable="true" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ NHÂN VIÊN" textAlignment="CENTER" wrappingWidth="1280.0">
             <font>
@@ -27,14 +27,14 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <ImageView id="imgNV" fitHeight="165.0" fitWidth="158.0" layoutX="30.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgNV" fitHeight="165.0" fitWidth="158.0" layoutX="30.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../image/employe.png" />
                             </image>
                         </ImageView>
                         <Button layoutX="185.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView id="btnAddNV" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="btnAddNV" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/add-user.png" />
                                     </image>
@@ -43,7 +43,7 @@
                         </Button>
                         <Button layoutX="300.0" layoutY="111.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView id="btnRefresh" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="btnRefresh" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/undo-arrow.png" />
                                     </image>
@@ -52,7 +52,7 @@
                         </Button>
                         <Button layoutX="416.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView id="btnUpdate" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="btnUpdate" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/service.png" />
                                     </image>
@@ -64,7 +64,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField id="txtMaNV" disable="true" layoutX="185.0" layoutY="194.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtMaNV" disable="true" layoutX="185.0" layoutY="194.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -74,7 +74,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField id="txtCCCD" layoutX="185.0" layoutY="244.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtCCCD" layoutX="185.0" layoutY="244.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -84,7 +84,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField id="txtHoTen" layoutX="185.0" layoutY="294.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtHoTen" layoutX="185.0" layoutY="294.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -94,13 +94,13 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <DatePicker id="dateNgaySinh" layoutX="185.0" layoutY="344.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;" />
+                        <DatePicker fx:id="dateNgaySinh" layoutX="185.0" layoutY="344.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;" />
                         <Label layoutX="30.0" layoutY="395.0" prefHeight="30.0" prefWidth="130.0" style="-fx-font-size: 20;" text="Số điện thoại:">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField id="txtSoDienThoaiNV" layoutX="185.0" layoutY="394.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtSoDienThoaiNV" layoutX="185.0" layoutY="394.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -110,7 +110,7 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <TextField id="txtDiaChi" layoutX="185.0" layoutY="444.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
+                        <TextField fx:id="txtDiaChi" layoutX="185.0" layoutY="444.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -120,13 +120,13 @@
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <ComboBox id="cbbChucVu" layoutX="185.0" layoutY="494.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;" />
+                        <ComboBox fx:id="cbbChucVu" layoutX="185.0" layoutY="494.0" prefHeight="26.0" prefWidth="309.0" style="-fx-font-size: 16;" />
                         <Label layoutX="33.0" layoutY="545.0" prefHeight="30.0" prefWidth="130.0" style="-fx-font-size: 20;" text="Giới tính:">
                             <font>
                                 <Font size="20.0" />
                             </font>
                         </Label>
-                        <RadioButton id="radioButtonNam" layoutX="185.0" layoutY="544.0" mnemonicParsing="false" selected="true" style="-fx-font-size: 20;" text="Nam">
+                        <RadioButton fx:id="radioButtonNam" layoutX="185.0" layoutY="544.0" mnemonicParsing="false" selected="true" style="-fx-font-size: 20;" text="Nam">
                             <font>
                                 <Font size="20.0" />
                             </font>
@@ -134,7 +134,7 @@
                         <ToggleGroup fx:id="genderGroup" />
                      </toggleGroup>
                         </RadioButton>
-                        <RadioButton id="radioButtonNu" layoutX="315.0" layoutY="544.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Nữ" toggleGroup="$genderGroup">
+                        <RadioButton fx:id="radioButtonNu" layoutX="315.0" layoutY="544.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Nữ" toggleGroup="$genderGroup">
                             <font>
                                 <Font size="20.0" />
                             </font>
@@ -147,16 +147,16 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="729.0">
                     <children>
-                        <TableView layoutX="1.0" prefHeight="597.0" prefWidth="727.0">
+                        <TableView fx:id="table" layoutX="1.0" prefHeight="597.0" prefWidth="727.0">
                             <columns>
-                                <TableColumn editable="false" prefWidth="82.0" text="Mã nhân viên" />
-                                <TableColumn editable="false" prefWidth="75.0" text="CCCD" />
-                                <TableColumn editable="false" prefWidth="90.0" text="Họ và tên" />
-                                <TableColumn editable="false" prefWidth="75.0" text="Ngày sinh" />
-                                <TableColumn editable="false" text="Số điện thoại" />
-                                <TableColumn editable="false" prefWidth="189.0" text="Địa chỉ" />
-                                <TableColumn editable="false" prefWidth="75.0" text="Chức vụ" />
-                                <TableColumn editable="false" prefWidth="55.0" text="Giới tính" />
+                                <TableColumn fx:id="colMaNV" editable="false" prefWidth="82.0" sortable="false" text="Mã nhân viên" />
+                                <TableColumn fx:id="colCCCD" editable="false" prefWidth="75.0" sortable="false" text="CCCD" />
+                                <TableColumn fx:id="colHoTen" editable="false" prefWidth="90.0" sortable="false" text="Họ và tên" />
+                                <TableColumn fx:id="colNgaySinh" editable="false" prefWidth="75.0" sortable="false" text="Ngày sinh" />
+                                <TableColumn fx:id="colSoDienThoai" editable="false" prefWidth="100.79998779296875" sortable="false" text="Số điện thoại" />
+                                <TableColumn fx:id="colDiaChi" editable="false" prefWidth="168.800048828125" sortable="false" text="Địa chỉ" />
+                                <TableColumn fx:id="colChucVu" editable="false" prefWidth="75.0" sortable="false" text="Chức vụ" />
+                                <TableColumn fx:id="colGioiTinh" editable="false" prefWidth="55.0" sortable="false" text="Giới tính" />
                             </columns>
                         </TableView>
                     </children>
