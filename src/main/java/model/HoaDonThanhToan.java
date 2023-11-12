@@ -18,6 +18,7 @@ public class HoaDonThanhToan {
     private KhachHang khachHang;
     private CT_KhuyenMai khuyenMai;
     private LocalDate ngayLap;
+    private long tongTien;
 
     public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDate ngayLap) {
         this.maHoaDon = maHoaDon;
@@ -38,41 +39,44 @@ public class HoaDonThanhToan {
         return maHoaDon;
     }
 
-    public void setMaHoaDon(String maHoaDon) throws IllegalArgumentException{
-        if(maHoaDon == null || maHoaDon.isEmpty()){
+    public void setMaHoaDon(String maHoaDon) throws IllegalArgumentException {
+        if (maHoaDon == null || maHoaDon.isEmpty()) {
             throw new IllegalArgumentException("Mã hóa đơn không được rỗng");
+        } else {
+            this.maHoaDon = maHoaDon;
         }
-        this.maHoaDon = maHoaDon;
     }
 
     public NhanVien getNhanVienLap() {
         return nhanVienLap;
     }
 
-    public void setNhanVienLap(NhanVien nhanVienLap) throws IllegalArgumentException{
-        if( nhanVienLap == null || maHoaDon.isEmpty()){
+    public void setNhanVienLap(NhanVien nhanVienLap) throws IllegalArgumentException {
+        if (nhanVienLap == null || maHoaDon.isEmpty()) {
             throw new IllegalArgumentException("không được rỗng");
+        } else {
+            this.nhanVienLap = nhanVienLap;
         }
-        this.nhanVienLap = nhanVienLap;
     }
 
     public KhachHang getKhachHang() {
         return khachHang;
     }
 
-    public void setKhachHang(KhachHang khachHang)throws IllegalArgumentException{
-        if(khachHang != null){
+    public void setKhachHang(KhachHang khachHang) throws IllegalArgumentException {
+        if (khachHang == null) {
             throw new IllegalArgumentException("Khách hàng không được rỗng");
-            
+
+        } else {
+            this.khachHang = khachHang;
         }
-        this.khachHang = khachHang;
     }
 
     public CT_KhuyenMai getKhuyenMai() {
         return khuyenMai;
     }
 
-    public void setKhuyenMai(CT_KhuyenMai khuyenMai){
+    public void setKhuyenMai(CT_KhuyenMai khuyenMai) {
         this.khuyenMai = khuyenMai;
     }
 
@@ -80,11 +84,12 @@ public class HoaDonThanhToan {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) throws IllegalArgumentException{
-        if(ngayLap == null){
-            throw  new IllegalArgumentException("Ngày lập không được rỗng");
+    public void setNgayLap(LocalDate ngayLap) throws IllegalArgumentException {
+        if (ngayLap == null) {
+            throw new IllegalArgumentException("Ngày lập không được rỗng");
+        } else {
+            this.ngayLap = ngayLap;
         }
-        this.ngayLap = ngayLap;
     }
 
     @Override
@@ -112,6 +117,11 @@ public class HoaDonThanhToan {
     @Override
     public String toString() {
         return "HoaDonThanhToan{" + "maHoaDon=" + maHoaDon + ", nhanVienLap=" + nhanVienLap + ", khachHang=" + khachHang + ", khuyenMai=" + khuyenMai + ", ngayLap=" + ngayLap + '}';
+    }
+    
+    public void tinhTongTien() {
+//        có lẽ là sẽ kết nối tới database để tính tổng tiền
+//        chứ trong class hóa đơn này, ko tính có cách nào tính đc tổng tiền
     }
 
 }

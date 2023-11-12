@@ -73,3 +73,4 @@ public class GD_QLPhongController implements Initializable {
     private TableColumn<Phong, String> giaPhongCol;
 
 }
+

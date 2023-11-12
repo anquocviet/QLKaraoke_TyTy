@@ -5,12 +5,16 @@
 package model;
 
 import connect.ConnectDB;
+import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -176,7 +180,57 @@ public class CT_KhuyenMai {
         }
         return list;
     }
+    public static boolean themCTKhuyenMai(CT_KhuyenMai km) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "INSERT INTO CT ( MaKhachHang, TenKhachHang, SoDienThoai, NamSinh, GioiTinh ) VALUES(?,?,?,?,?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getMaKhachHang());
+            pstm.setString(2, kh.getTenKhachHang());
+            pstm.setString(3, kh.getSoDienThoai());
+            pstm.setInt(4, kh.getNamSinh());
+            pstm.setBoolean(5, kh.isGioiTinh());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
 
+    public static boolean suaKhachHang(KhachHang kh) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE KhachHang SET TenKhachHang = ?, SoDienThoai = ?, NamSinh = ?, GioiTinh = ? WHERE MaKhachHang = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, kh.getTenKhachHang());
+            pstm.setString(2, kh.getSoDienThoai());
+            pstm.setInt(3, kh.getNamSinh());
+            pstm.setBoolean(4, kh.isGioiTinh());
+            pstm.setString(5, kh.getMaKhachHang());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
     public static String processString(String input) {
         // Tìm khoảng trống và thay thế nó bằng chữ 'T'
         String replacedSpace = input.replace(" ", "T");
@@ -189,5 +243,5 @@ public class CT_KhuyenMai {
             return replacedSpace;
         }
     }
-
+    
 }

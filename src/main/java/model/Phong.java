@@ -133,6 +133,7 @@ public class Phong {
     }
     //   Get data from DB
 
+
     public static ObservableList<Phong> layTatCaPhong() {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getInstance().getConnection();
@@ -177,5 +178,4 @@ public class Phong {
     }
      */
 //fxml QL Phòng
-
 }
