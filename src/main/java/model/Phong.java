@@ -135,7 +135,7 @@ public class Phong {
 
     public static ObservableList<Phong> layTatCaPhong() {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
-        Connection conn = ConnectDB.getInstance().getConnection();
+        Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
