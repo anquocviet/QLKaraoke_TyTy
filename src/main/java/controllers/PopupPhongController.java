@@ -11,13 +11,16 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author fil
+ * @author vie
  */
-public class GD_ThuePhongController implements Initializable {
+public class PopupPhongController implements Initializable {
 
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-       
-    }
-
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
+    
 }

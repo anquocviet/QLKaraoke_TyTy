@@ -17,7 +17,7 @@
                 <TableColumn fx:id="sttCol" prefWidth="129.60001373291016" resizable="false" style="-fx-color: orange;" text="Số thứ tự" />
                 <TableColumn fx:id="tenCol" prefWidth="174.39993286132812" resizable="false" style="-fx-color: orange;" text="Tên" />
                 <TableColumn fx:id="tenDangNhapCol" prefWidth="203.199951171875" resizable="false" style="-fx-color: orange;" text="Tên đăng nhập" />
-                <TableColumn fx:id="matKhau" prefWidth="202.0" resizable="false" style="-fx-color: orange;" text="Mật khẩu" />
+                <TableColumn fx:id="matKhauCol" prefWidth="202.0" resizable="false" style="-fx-color: orange;" text="Mật khẩu" />
             </columns>
         </TableView>
         <Text fill="#dc0a0a" layoutX="125.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH NHÂN VIÊN" wrappingWidth="503.9197998046875">

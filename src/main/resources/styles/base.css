@@ -2,6 +2,28 @@
     -fx-font-family: 'sans-serif';
 }
 
+.itemRoom {
+    -fx-background-color: white;
+}
+
+.itemRoom:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #ddd;
+}
+
+.itemRoomActive {
+    -fx-background-color: #51BCD5;
+}
+
+.btnTable {
+    -fx-background-color: transparent;
+}
+
+.btnTable:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #51BCD5;
+}
+
 
 .btnBack {
     -fx-background-color: transparent;

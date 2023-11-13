@@ -15,6 +15,7 @@ D:\PTUD\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\model\Phong.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\connect\ConnectDB.java
+D:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\PopupPhongController.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ChuyenPhongController.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNgayController.java
 D:\PTUD\QLKaraoke_TyTy\src\main\java\model\DichVu.java
