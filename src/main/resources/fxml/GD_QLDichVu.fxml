@@ -131,13 +131,13 @@
                     <children>
                         <ScrollPane vbarPolicy="ALWAYS">
                             <content>
-                                <TableView prefHeight="566.0" prefWidth="760.0">
+                                <TableView prefHeight="566.0" prefWidth="760.0" fx:id="tableView_DichVu">
                                     <columns>
-                                        <TableColumn prefWidth="150.0" text="Mã dịch vụ" />
-                                        <TableColumn prefWidth="194.66668701171875" text="Tên dịch vụ" />
-                                        <TableColumn prefWidth="85.33331298828125" text="Số lượng" />
-                                        <TableColumn prefWidth="120.0" text="Đơn vị tính" />
-                                        <TableColumn minWidth="0.0" prefWidth="224.0" text="Đơn giá" />
+                                        <TableColumn fx:id="col_maDichVu" prefWidth="150.0" text="Mã dịch vụ" />
+                                        <TableColumn fx:id="col_tenDichVu" prefWidth="194.66668701171875" text="Tên dịch vụ" />
+                                        <TableColumn fx:id="col_soLuong" prefWidth="85.33331298828125" text="Số lượng" />
+                                        <TableColumn fx:id="col_donViTinh" prefWidth="120.0" text="Đơn vị tính" />
+                                        <TableColumn fx:id="col_donGia" minWidth="0.0" prefWidth="224.0" text="Đơn giá" />
                                     </columns>
                                 </TableView>
                             </content>

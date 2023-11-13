@@ -5,11 +5,14 @@
 package controllers;
 
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +20,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.CT_KhuyenMai;
 
@@ -39,37 +43,23 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     private TableColumn<CT_KhuyenMai, String> col_tenKhuyenMai;
 
     @FXML
-    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayBatDau;
+    private TableColumn<CT_KhuyenMai, String> col_ngayBatDau;
 
     @FXML
-    private TableColumn<CT_KhuyenMai, LocalDateTime> col_ngayKetThuc;
+    private TableColumn<CT_KhuyenMai, String> col_ngayKetThuc;
 
     @FXML
     private TableColumn<CT_KhuyenMai, Integer> col_luotSuDungConLai;
 
     @FXML
     private TableColumn<CT_KhuyenMai, Integer> col_chietKhau;
-
+    
     ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        col_sttKhuyenMai.setCellFactory(col -> {
-            TableCell<String, Integer> indexCell = new TableCell<>();
-            ReadOnlyObjectProperty<TableRow<String>> rowProperty = indexCell.tableRowProperty();
-            ObjectBinding<String> rowBinding = Bindings.createObjectBinding(() -> {
-                TableRow<String> row = rowProperty.get();
-                if (row != null) {
-                    int rowIndex = row.getIndex();
-                    if (rowIndex < row.getTableView().getItems().size()) {
-                        return Integer.toString(rowIndex + 1);
-                    }
-                }
-                return null;
-            }, rowProperty);
-            indexCell.textProperty().bind(rowBinding);
-            return indexCell;
-        });
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        col_sttKhuyenMai.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(tableView_CTKhuyenMai.getItems().indexOf(param.getValue()) + 1));
         col_maKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("maKhuyenMai"));
         col_tenKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("tenKhuyenMai"));
         col_ngayBatDau.setCellValueFactory(new PropertyValueFactory<>("ngayBatDau"));
@@ -81,4 +71,5 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         // cột số thứ tự chưa được gán --> ko lấy dữ liệu lên table được
         tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
     }
+
 }

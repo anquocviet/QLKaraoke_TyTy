@@ -5,12 +5,13 @@
 package model;
 
 import connect.ConnectDB;
-import controllers.GD_QLKhachHangController;
+import controllers.GD_QLCTKhuyenMaiController;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -26,15 +27,15 @@ public class CT_KhuyenMai {
 
     private String maKhuyenMai;
     private String tenKhuyenMai;
-    private LocalDateTime ngayBatDau;
-    private LocalDateTime ngayKetThuc;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
     private int luotSuDungConLai;
     private int chietKhau;
 
     public CT_KhuyenMai() {
     }
 
-    public CT_KhuyenMai(String maKhuyenMai, String tenKhuyenMai, LocalDateTime ngayBatDau, LocalDateTime ngayKetThuc, int luotSuDungConLai, int chietKhau) {
+    public CT_KhuyenMai(String maKhuyenMai, String tenKhuyenMai, Date ngayBatDau, Date ngayKetThuc, int luotSuDungConLai, int chietKhau) {
         setMaKhuyenMai(maKhuyenMai);
         setTenKhuyenMai(tenKhuyenMai);
         setNgayBatDau(ngayBatDau);
@@ -71,11 +72,11 @@ public class CT_KhuyenMai {
         }
     }
 
-    public LocalDateTime getNgayBatDau() {
+    public Date getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(LocalDateTime ngayBatDau) throws IllegalArgumentException {
+    public void setNgayBatDau(Date ngayBatDau) throws IllegalArgumentException {
         if (ngayBatDau == null) {
             throw new IllegalArgumentException("Ngày bắt đầu không được rỗng");
         } else {
@@ -83,14 +84,14 @@ public class CT_KhuyenMai {
         }
     }
 
-    public LocalDateTime getNgayKetThuc() {
+    public Date getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(LocalDateTime ngayKetThuc) throws IllegalArgumentException {
+    public void setNgayKetThuc(Date ngayKetThuc) throws IllegalArgumentException {
         if (ngayKetThuc == null) {
             throw new IllegalArgumentException("Ngày kết thúc không được rỗng");
-        } else if (ngayKetThuc.isBefore(ngayBatDau)) {
+        } else if (ngayKetThuc.before(ngayBatDau)) {
             throw new IllegalArgumentException("Ngày kết thúc phải lớn hơn ngày bắt đầu");
         } else {
             this.ngayKetThuc = ngayKetThuc;
@@ -162,12 +163,12 @@ public class CT_KhuyenMai {
                 String maKhuyenMai = rs.getString("MaKhuyenMai");
                 String tenKhuyenMai = rs.getString("TenKhuyenMai");
                 /// lỗi ko lấy được dữ liệu
-                String ngayTmp = rs.getString("NgayBatDau");
-                String xulyNgay = processString(ngayTmp);
-                LocalDateTime ngayBatDau = LocalDateTime.parse(xulyNgay);
-                ngayTmp = rs.getString("NgayKetThuc");
-                xulyNgay = processString(ngayTmp);
-                LocalDateTime ngayKetThuc = LocalDateTime.parse(xulyNgay);
+                //String ngayTmp = rs.getString("NgayBatDau");
+                //String xulyNgay = processString(ngayTmp);
+                Date ngayBatDau = rs.getDate("NgayBatDau");
+                //ngayTmp = rs.getString("NgayKetThuc");
+                //xulyNgay = processString(ngayTmp);
+                Date ngayKetThuc = rs.getDate("NgayKetThuc");
                 Integer soLuotSuDungConLai = rs.getInt("LuotSuDungConLai");
                 Integer chietKhau = rs.getInt("ChietKhau");
                 CT_KhuyenMai tmp = new CT_KhuyenMai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, soLuotSuDungConLai, chietKhau);
@@ -180,57 +181,7 @@ public class CT_KhuyenMai {
         }
         return list;
     }
-    public static boolean themCTKhuyenMai(CT_KhuyenMai km) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
-        String sql = "INSERT INTO CT ( MaKhachHang, TenKhachHang, SoDienThoai, NamSinh, GioiTinh ) VALUES(?,?,?,?,?)";
-        try {
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, kh.getMaKhachHang());
-            pstm.setString(2, kh.getTenKhachHang());
-            pstm.setString(3, kh.getSoDienThoai());
-            pstm.setInt(4, kh.getNamSinh());
-            pstm.setBoolean(5, kh.isGioiTinh());
-            n = pstm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                pstm.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return n > 0;
-    }
 
-    public static boolean suaKhachHang(KhachHang kh) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
-        String sql = "UPDATE KhachHang SET TenKhachHang = ?, SoDienThoai = ?, NamSinh = ?, GioiTinh = ? WHERE MaKhachHang = ?";
-        try {
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, kh.getTenKhachHang());
-            pstm.setString(2, kh.getSoDienThoai());
-            pstm.setInt(3, kh.getNamSinh());
-            pstm.setBoolean(4, kh.isGioiTinh());
-            pstm.setString(5, kh.getMaKhachHang());
-            n = pstm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                pstm.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return n > 0;
-    }
     public static String processString(String input) {
         // Tìm khoảng trống và thay thế nó bằng chữ 'T'
         String replacedSpace = input.replace(" ", "T");
@@ -243,5 +194,36 @@ public class CT_KhuyenMai {
             return replacedSpace;
         }
     }
+    public static boolean themCTKhuyenMai(CT_KhuyenMai km) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "INSERT INTO CT_KhuyenMai (MaKhuyenMai, TenKhuyenMai, NgayBatDau, NgayKetThuc, LuotSuDungConLai, ChietKhau) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, km.getMaKhuyenMai());
+            pstm.setString(2, km.getTenKhuyenMai());
+            pstm.setDate(3,km.getNgayBatDau());
+            pstm.setDate(4, km.getNgayKetThuc());
+            pstm.setInt(5, km.getLuotSuDungConLai());
+            pstm.setInt(6, km.getChietKhau());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
     
 }
+    
+    /*
+    
+*/
