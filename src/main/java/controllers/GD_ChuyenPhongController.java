@@ -51,9 +51,13 @@ public class GD_ChuyenPhongController implements Initializable {
             return new ReadOnlyStringWrapper(tinhTrangString);
 
         });
-        giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
+        giaTienMoiGioCol.setCellValueFactory(cellData -> {
+            long giaPhong = cellData.getValue().getGiaPhong();
+            return new ReadOnlyStringWrapper(giaPhong + " K/H");
+        });
+       // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
       //  table.setItems(layTatCaPhong());
-        table.setItems(Phong.layTatCaPhong());
+        table.setItems(Phong.getAllPhong());
     }
     
     

@@ -133,7 +133,7 @@ public class Phong {
     }
     //   Get data from DB
 
-    public static ObservableList<Phong> layTatCaPhong() {
+    public static ObservableList<Phong> getAllPhong() {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
@@ -162,7 +162,7 @@ public class Phong {
         return dsPhong;
     }
     
-    public static ObservableList<Phong> getPhongByType(int type) {
+    public static ObservableList<Phong> getListPhongByType(int type) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
@@ -191,7 +191,7 @@ public class Phong {
         return dsPhong;
     }
     
-    public static ObservableList<Phong> getPhongByStatus(int status) {
+    public static ObservableList<Phong> getListPhongByStatus(int status) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
@@ -220,13 +220,15 @@ public class Phong {
         return dsPhong;
     }
     
-    public static ObservableList<Phong> getPhongByTypeAndStatus(int[] arrType, int[] arrStatus) {
+        public static ObservableList<Phong> getListPhongByID_Type_Status(String id, int[] arrType, int[] arrStatus) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM Phong WHERE LOAIPHONG IN (%d, %d) AND TINHTRANG IN (%d, %d, %d)", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2] );
+            String sql = String.format("SELECT * FROM Phong WHERE MaPhong LIKE '%%" + id + "%%' "
+                    + "AND LOAIPHONG IN (%d, %d) "
+                    + "AND TINHTRANG IN (%d, %d, %d)", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2] );
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhong = rs.getString("Maphong");
@@ -249,6 +251,36 @@ public class Phong {
         return dsPhong;
     }
 
+    
+    public static ObservableList<Phong> getListPhongByID(String id) {
+        ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM Phong WHERE MaPhong LIKE '%" + id + "%'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maPhong = rs.getString("Maphong");
+                int loaiPhong = rs.getInt("LoaiPhong");
+                int tinhTrang = rs.getInt("TinhTrang");
+                long giaPhong = rs.getLong("GiaPhong");
+                int sucChua = rs.getInt("SucChua");
+
+                dsPhong.add(new Phong(maPhong, sucChua, tinhTrang, loaiPhong, giaPhong));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dsPhong;
+    }
+    
 //  Render and handle in View'
     /* public void docDuLieuTuTable(MouseEvent event) {
         Phong ph = table.getSelectionModel().getSelectedItem();

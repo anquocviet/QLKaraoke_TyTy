@@ -6,7 +6,6 @@ package model;
 
 import connect.ConnectDB;
 import controllers.GD_QLKhachHangController;
-import java.nio.channels.IllegalChannelGroupException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -286,5 +285,6 @@ public class KhachHang {
         }
         return n > 0;
     }
+    
 
 }
