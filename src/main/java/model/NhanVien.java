@@ -159,11 +159,11 @@ public class NhanVien {
     }
 
     public void setAnhDaiDien(String anhDaiDien) throws Exception {
-        if (anhDaiDien == null || anhDaiDien.trim().equals("")) {
-            throw new Exception("Ảnh đại diện không được trống");
-        } else {
+       // if (anhDaiDien == null || anhDaiDien.trim().equals("")) {
+        //    throw new Exception("Ảnh đại diện không được trống");
+        //} else {
             this.anhDaiDien = anhDaiDien;
-        }
+        //}
     }
 
     public Enum_TrangThaiLamViec getTrangThai() {

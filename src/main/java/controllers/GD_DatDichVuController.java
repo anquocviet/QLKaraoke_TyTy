@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -31,10 +32,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.DichVu;
 import main.App;
+import model.HoaDonThanhToan;
+import model.Phong;
 
 /**
  * FXML Controller class
@@ -45,6 +50,19 @@ public class GD_DatDichVuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String roomID = GD_QLKinhDoanhPhongController.roomID;
+        ObservableList<String> listRoomID = FXCollections.observableArrayList();
+        Phong.getListPhongByStatus(1).forEach(phong -> {
+            listRoomID.add(phong.getMaPhong());
+        });  
+        cbPhong.setItems(listRoomID);
+        cbPhong.getSelectionModel().select(GD_QLKinhDoanhPhongController.roomID);
+        txtMaHoaDon.setText(HoaDonThanhToan.getBillIDByRoomID(roomID));
+        HoaDonThanhToan bill = HoaDonThanhToan.getBillByID(txtMaHoaDon.getText().trim());
+        System.err.println(txtMaHoaDon.getText());
+        txtMaKhachHang.setText(bill.getKhachHang().getMaKhachHang());
+        txtTenKhachHang.setText(bill.getKhachHang().getTenKhachHang());
+        
 //        Table Thong tin Dich vu
         ttMaDichVuCol.setCellValueFactory(new PropertyValueFactory<>("maDichVu"));
         ttTenDichVuCol.setCellValueFactory(new PropertyValueFactory<>("tenDichVu"));
@@ -404,5 +422,7 @@ public class GD_DatDichVuController implements Initializable {
     private Text lbTongTien;
     @FXML
     private Button btnDatDichVu;
+    @FXML
+    private AnchorPane GD_DatDichVu;
 
 }

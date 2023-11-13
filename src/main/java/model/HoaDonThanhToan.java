@@ -4,8 +4,15 @@
  */
 package model;
 
+import connect.ConnectDB;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -118,11 +125,69 @@ public class HoaDonThanhToan {
     public String toString() {
         return "HoaDonThanhToan{" + "maHoaDon=" + maHoaDon + ", nhanVienLap=" + nhanVienLap + ", khachHang=" + khachHang + ", khuyenMai=" + khuyenMai + ", ngayLap=" + ngayLap + '}';
     }
-    
+
     public void tinhTongTien() {
 //        có lẽ là sẽ kết nối tới database để tính tổng tiền
 //        chứ trong class hóa đơn này, ko tính có cách nào tính đc tổng tiền
     }
 
-    
+    public static HoaDonThanhToan getBillByID(String billID) {
+        HoaDonThanhToan bill = null;
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM HoaDonThanhToan JOIN KhachHang "
+                    + "ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE HoaDonThanhToan.MaHoaDon = '" + billID + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                String maKM = rs.getString("MaKhuyenMai");
+                LocalDate ngayLap = rs.getDate("NgayLap").toLocalDate();
+                String tenKH = rs.getString("TenKhachHang");
+                String sdt = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                bill = new HoaDonThanhToan(billID,
+                        new NhanVien(maNV),
+                        new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh),
+                        new CT_KhuyenMai(maKM), ngayLap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return bill;
+    }
+
+    public static String getBillIDByRoomID(String roomID) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        String billID = "";
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT TOP 1 * FROM ChiTietHD_Phong WHERE MaPhong = '%s'", roomID);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                billID = rs.getString("MaHoaDon");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return billID;
+    }
+
 }

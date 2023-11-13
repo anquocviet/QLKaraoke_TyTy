@@ -197,20 +197,20 @@ public class GD_QLNhanVienController implements Initializable {
     }
     
     public void xuLyLamMoiThongTinNhanVien() throws Exception {
-    txtMaNhanVien.setText("");
-    txtCCCD.setText("");
-    txtHoTen.setText("");
-    dateNgaySinh.setValue(null);
-    txtSoDienThoaiNV.setText("");
-    txtDiaChi.setText("");
-    genderGroup.getToggles().get(0).setSelected(true);
-    cbbChucVu.setValue(null);
-    table.getSelectionModel().clearSelection();
+        txtMaNhanVien.setText("");
+        txtCCCD.setText("");
+        txtHoTen.setText("");
+        dateNgaySinh.setValue(null);
+        txtSoDienThoaiNV.setText("");
+        txtDiaChi.setText("");
+        genderGroup.getToggles().get(0).setSelected(true);
+        cbbChucVu.setValue(null);
+        table.getSelectionModel().clearSelection();
 
-    // Cập nhật dữ liệu trong ComboBox
-    cbbChucVu.getItems().clear();
-    cbbChucVu.getItems().addAll(Enum_ChucVu.values());
-    cbbChucVu.getSelectionModel().selectFirst();
+        // Cập nhật dữ liệu trong ComboBox
+        cbbChucVu.getItems().clear();
+        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+        cbbChucVu.getSelectionModel().selectFirst();
 }
     
     public void xuLyThemNhanVien() throws Exception {
