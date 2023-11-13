@@ -175,10 +175,10 @@ public class CT_KhuyenMai {
                 list.add(tmp);
             }
             rs.close();
-            con.close();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } 
         return list;
     }
 
@@ -194,6 +194,9 @@ public class CT_KhuyenMai {
             return replacedSpace;
         }
     }
+    
+    
+    
     public static boolean themCTKhuyenMai(CT_KhuyenMai km) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();

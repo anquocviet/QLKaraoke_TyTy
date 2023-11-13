@@ -4,10 +4,17 @@
  */
 package controllers;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 /**
  *
  * @author Admin
  */
 class table {
+
+    static void setOnMouseClicked(EventHandler<MouseEvent> eventHandler) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
