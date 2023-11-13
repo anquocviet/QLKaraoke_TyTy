@@ -107,7 +107,21 @@ public class GD_QLNhanVienController implements Initializable {
         colNgaySinh.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
         colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
         colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
-        colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
+        //colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
+        colChucVu.setCellValueFactory(cellData -> {
+            Enum_ChucVu chucVu = cellData.getValue().getChucVu();
+            String chucVuString;
+            if(chucVu == Enum_ChucVu.BAOVE)
+                chucVuString = "Bảo vệ";
+            else if(chucVu == Enum_ChucVu.NHANVIENPHUCVU)
+                chucVuString = "NV phục vụ";
+            else if(chucVu == Enum_ChucVu.NHANVIENTIEPTAN)
+                chucVuString = "NV tiếp tân";
+            else
+                chucVuString = "Quản lý";
+            return new ReadOnlyStringWrapper(chucVuString);
+
+        });
         colGioiTinh.setCellValueFactory(cellData -> {
             boolean gioiTinh = cellData.getValue().isGioiTinh();
             String gioiTinhString;
@@ -145,7 +159,6 @@ public class GD_QLNhanVienController implements Initializable {
         txtMaNhanVien.setText(nv.getMaNhanVien());
         txtCCCD.setText(nv.getCccd());
         txtHoTen.setText(nv.getHoTen());
-
         dateNgaySinh.setValue(nv.getNgaySinh());
         cbbChucVu.getItems().clear();
         cbbChucVu.getItems().addAll(Enum_ChucVu.values());
@@ -283,7 +296,6 @@ public class GD_QLNhanVienController implements Initializable {
             gioiTinh = false;
         }
         Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue(); 
-        System.out.println(chucVu);
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC; 
         String anhDaiDien = "duong_dan_anh_dai_dien";
         
@@ -323,9 +335,6 @@ public class GD_QLNhanVienController implements Initializable {
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC; 
         String anhDaiDien = "duong_dan_anh_dai_dien";
         
-        System.out.println(ngaySinh);
-        System.out.println(chucVu);
-                
         NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.capNhatThongTinNhanVien(nv);
         

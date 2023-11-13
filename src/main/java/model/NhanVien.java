@@ -386,22 +386,28 @@ public class NhanVien {
         Connection conn = ConnectDB.getInstance().getConnection();
         PreparedStatement pstm = null;
         int n = 0;
-        
-        System.out.println(nv.toString());
-        System.out.println(nv.getChucVu().toString());
+
         String sql = "UPDATE NhanVien " +
-                     "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ?, TrangThai = ?, AnhDaiDien = ?" +
-                     "WHERE MaNhanVien = ?";
+             "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?, AnhDaiDien = ? " +
+             "WHERE MaNhanVien = ?";
+        
+        String chucVu = "Quản lý";
+        if(nv.getChucVu()== Enum_ChucVu.BAOVE)
+            chucVu = "Bảo vệ";
+        else if(nv.getChucVu() == Enum_ChucVu.NHANVIENPHUCVU)
+            chucVu = "Nhân viên phục vụ";
+        else if (nv.getChucVu() == Enum_ChucVu.NHANVIENTIEPTAN)
+            chucVu = "Nhân viên tiếp tân";
 
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, nv.getHoTen());
             pstm.setString(2, nv.getCccd());
             pstm.setString(3, nv.getSoDienThoai());
-            pstm.setDate(4, java.sql.Date.valueOf(nv.getNgaySinh()));
+            pstm.setDate(4, Date.valueOf(nv.getNgaySinh()));
             pstm.setString(5, nv.getDiaChi());
             pstm.setBoolean(6, nv.isGioiTinh());
-            pstm.setString(7, "NHANVIENIT");
+            pstm.setString(7, chucVu);
             pstm.setString(8, nv.getTrangThai().toString());
             pstm.setString(9, nv.getAnhDaiDien());
             pstm.setString(10, nv.getMaNhanVien());
