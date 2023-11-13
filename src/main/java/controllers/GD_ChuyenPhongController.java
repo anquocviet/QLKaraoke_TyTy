@@ -53,7 +53,7 @@ public class GD_ChuyenPhongController implements Initializable {
         });
         giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
       //  table.setItems(layTatCaPhong());
-        table.setItems(Phong.layTatCaPhong());
+        table.setItems(Phong.getAllPhong());
     }
     
     

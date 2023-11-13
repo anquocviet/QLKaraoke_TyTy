@@ -9,20 +9,19 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -60,9 +59,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         radioStatusWaiting.setToggleGroup(statusRoomGroup);
         popup = new Popup();
         createClockView();
-        renderArrayPhong(Phong.layTatCaPhong());
+        renderArrayPhong(Phong.getAllPhong());
         handleEventInRadioButton();
-
+        handleEventInButton();
+        handleEventInInput();
     }
 
     public void renderArrayPhong(ObservableList<Phong> listPhong) {
@@ -120,8 +120,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
         ((Pane) roomItem).setOnMouseClicked(evt -> {
             txtMaPhong.setText(maPhong);
+            if (itemChoosed != -1)
             gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
             itemChoosed = (short) gridPane.getChildren().indexOf(roomItem);
+            roomID = maPhong;
             roomItem.getStyleClass().add("itemRoomActive");
 
         });
@@ -150,22 +152,27 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
-                        ? new int[] {0, 1, 2}
+                        ? new int[]{0, 1, 2}
                         : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
-                            ? new int[] {0, 0, 0}
-                            : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
-                                ? new int[] {1, 1, 1}
-                                : new int[] {2 , 2, 2};
-                
+                        ? new int[]{0, 0, 0}
+                        : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+                        ? new int[]{1, 1, 1}
+                        : new int[]{2, 2, 2};
+                String idRoom = txtMaPhong.getText().trim();
+
                 if (newValue.equals(radioTypeAll)) {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(new int[]{0, 1}, arrStatus));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, new int[]{0, 1}, arrStatus));
                 } else if (newValue.equals(radioTypeNormal)) {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(new int[]{0, 0}, arrStatus));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, new int[]{0, 0}, arrStatus));
                 } else {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(new int[]{1, 1}, arrStatus));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, new int[]{1, 1}, arrStatus));
+                }
+                if (itemChoosed != -1) {
+                    gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
+                    itemChoosed = -1;
                 }
             }
 
@@ -174,26 +181,58 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-                        ? new int[] {0, 1}
+                        ? new int[]{0, 1}
                         : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-                            ? new int[] {0, 0}
-                            : new int[] {1 , 1};
-                
+                        ? new int[]{0, 0}
+                        : new int[]{1, 1};
+                String idRoom = txtMaPhong.getText().trim();
+
                 if (newValue.equals(radioStatusAll)) {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(arrType, new int[] {0, 1, 2}));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, arrType, new int[]{0, 1, 2}));
                 } else if (newValue.equals(radioStatusUsing)) {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(arrType, new int[]{1, 1, 1}));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, arrType, new int[]{1, 1, 1}));
                 } else if (newValue.equals(radioStatusEmpty)) {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(arrType, new int[]{0, 0, 0}));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, arrType, new int[]{0, 0, 0}));
                 } else {
-                    gridPane.getChildren().remove(0, gridPane.getChildren().size());
-                    renderArrayPhong(Phong.getPhongByTypeAndStatus(arrType, new int[]{2, 2, 2}));
+                    gridPane.getChildren().clear();
+                    renderArrayPhong(Phong.getListPhongByID_Type_Status(idRoom, arrType, new int[]{2, 2, 2}));
                 }
+                if (itemChoosed != -1) {
+                    gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
+                    itemChoosed = -1;
+                }
+
             }
 
+        });
+    }
+
+    public void handleEventInButton() {
+        btnRefresh.setOnAction(evt -> {
+            typeRoomGroup.getToggles().get(0).setSelected(true);
+            statusRoomGroup.getToggles().get(0).setSelected(true);
+            txtMaPhong.setText("");
+            gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
+        });
+        btnFindRoom.setOnAction(evt -> {
+            String idRoom = txtMaPhong.getText().trim();
+            gridPane.getChildren().clear();
+            renderArrayPhong(Phong.getListPhongByID(idRoom));
+            itemChoosed = -1;
+        });
+    }
+
+    public void handleEventInInput() {
+        txtMaPhong.setOnKeyPressed((evt) -> {
+            if (evt.getCode() == KeyCode.ENTER) {
+                String idRoom = txtMaPhong.getText().trim();
+                gridPane.getChildren().clear();
+                renderArrayPhong(Phong.getListPhongByID(idRoom));
+                itemChoosed = -1;
+            }
         });
     }
 
@@ -224,7 +263,15 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @FXML
     private void moGDThuePhong() throws IOException {
-        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+        if (itemChoosed != -1) {
+            App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để thuê", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Có lỗi xảy ra");
+            alert.setHeaderText("Bạn chưa chọn phòng để thuê!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -247,7 +294,15 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
     @FXML
     private void moGDDatDichVu() throws IOException {
-        App.setRoot("GD_DatDichVu");
+        if (itemChoosed != -1) {
+            App.setRoot("GD_DatDichVu");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để thuê", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Có lỗi xảy ra");
+            alert.setHeaderText("Bạn chưa chọn phòng để thuê!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -255,7 +310,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         App.setRoot("GD_ThanhToan");
     }
 
-    private short itemChoosed;
+    private short itemChoosed = -1;
+    public static String roomID;
     private Popup popup;
     @FXML
     ToggleGroup typeRoomGroup;
@@ -265,6 +321,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private Label clockLabel;
     @FXML
     private Label dateLabel;
+    @FXML
+    private Button btnRefresh;
+    @FXML
+    private Button btnFindRoom;
     @FXML
     private GridPane gridPane;
     @FXML
