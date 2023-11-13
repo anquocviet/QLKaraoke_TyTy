@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javax.swing.JOptionPane;
 import model.NhanVien;
 
 /**
@@ -93,11 +95,11 @@ public class GD_QLNhanVienController implements Initializable {
         genderGroup = new ToggleGroup();
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
-        try {
-            txtMaNhanVien.setText( phatSinhMaNhanVien());
-        } catch (Exception ex) {
-            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            txtMaNhanVien.setText( phatSinhMaNhanVien());
+//        } catch (Exception ex) {
+//            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
         colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
@@ -143,9 +145,11 @@ public class GD_QLNhanVienController implements Initializable {
         txtMaNhanVien.setText(nv.getMaNhanVien());
         txtCCCD.setText(nv.getCccd());
         txtHoTen.setText(nv.getHoTen());
-        dateNgaySinh.setValue(nv.getNgaySinh()); 
-        cbbChucVu.setValue(nv.getChucVu());
+
+        dateNgaySinh.setValue(nv.getNgaySinh());
+        cbbChucVu.getItems().clear();
         cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+        cbbChucVu.setValue(nv.getChucVu());
         txtSoDienThoaiNV.setText(nv.getSoDienThoai());
         txtDiaChi.setText(nv.getDiaChi());
         if (nv.isGioiTinh()) {
@@ -162,6 +166,7 @@ public class GD_QLNhanVienController implements Initializable {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     public void handleThemNhanVienButtonAction(ActionEvent event) {
         try {
             xuLyThemNhanVien();
@@ -213,7 +218,60 @@ public class GD_QLNhanVienController implements Initializable {
         cbbChucVu.getSelectionModel().selectFirst();
 }
     
+    private boolean kiemTraRong() throws Exception {
+        String cccd = txtCCCD.getText();
+        String soDienThoai = txtSoDienThoaiNV.getText();
+        
+        
+        if (txtCCCD.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "CCCD nhân viên không được rỗng");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return false;
+        }
+
+        if (txtHoTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Họ tên nhân viên không được rỗng");
+            txtHoTen.selectAll();
+            txtHoTen.requestFocus();
+            return false;
+        }
+        if (dateNgaySinh.getValue() == null) {
+            JOptionPane.showMessageDialog(null, "Ngày sinh không được rỗng");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+        
+        if (txtSoDienThoaiNV.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại nhân viên không được rỗng");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return false;
+        }
+        
+
+        if (txtDiaChi.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ nhân viên không được rỗng");
+            txtDiaChi.selectAll();
+            txtDiaChi.requestFocus();
+            return false;
+        }
+
+        if (cbbChucVu.getValue() == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn chức vụ");
+            cbbChucVu.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+    
     public void xuLyThemNhanVien() throws Exception {
+        
+        if (!kiemTraRong()) {
+            return;
+        }
+        NhanVien nv = null;
         String maNhanVien = phatSinhMaNhanVien();
         String hoTen = txtHoTen.getText();
         String cccd = txtCCCD.getText();
@@ -225,17 +283,32 @@ public class GD_QLNhanVienController implements Initializable {
             gioiTinh = false;
         }
         Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue(); 
+        System.out.println(chucVu);
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC; 
         String anhDaiDien = "duong_dan_anh_dai_dien";
         
-        NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
+        if (!kiemTraTrungCCCD(cccd)){
+            JOptionPane.showMessageDialog(null, "Mã căn cước công dân không được phép trùng!");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return;
+        }
+        
+        if (!kiemTraTrungSDT(soDienThoai)){
+            JOptionPane.showMessageDialog(null, "Số điện thoại không được phép trùng!");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return ;
+        }
+        
+        nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.themNhanVien(nv);
         table.setItems(NhanVien.getAllNhanVien());
         
     }
 
     public void xuLySuaThongTinNhanVien() throws SQLException, Exception {
-        String maNhanVien = phatSinhMaNhanVien();
+        String maNhanVien = txtMaNhanVien.getText();
         String hoTen = txtHoTen.getText();
         String cccd = txtCCCD.getText();
         String soDienThoai = txtSoDienThoaiNV.getText();
@@ -246,24 +319,59 @@ public class GD_QLNhanVienController implements Initializable {
             gioiTinh = false;
         }
         Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue(); 
+        
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC; 
         String anhDaiDien = "duong_dan_anh_dai_dien";
         
+        System.out.println(ngaySinh);
+        System.out.println(chucVu);
+                
         NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.capNhatThongTinNhanVien(nv);
+        
         table.setItems(NhanVien.getAllNhanVien());
         table.refresh();
     }
 
-    public static String phatSinhMaNhanVien() throws SQLException {
+//    public String phatSinhMaNhanVien() throws SQLException {
+//        String maNhanVien = "NV";
+//        int totalEmployees = NhanVien.demSLNhanVien();
+//        DecimalFormat dfSoThuTu = new DecimalFormat("00");
+//        String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
+//        String namSinhSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
+//        maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
+//        return maNhanVien;
+//    }
+    
+    public String phatSinhMaNhanVien() throws SQLException {
         String maNhanVien = "NV";
-        int totalEmployees = NhanVien.demSLNhanVien();
+        LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+        int namSinh = ngaySinh.getYear();
+        int totalEmployees = NhanVien.demSLNhanVien(namSinh);
         DecimalFormat dfSoThuTu = new DecimalFormat("00");
         String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
-        String namSinhSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
+        String namSinhSuffix = String.valueOf(namSinh).substring(2);
         maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
         return maNhanVien;
     }
-
-
+    public boolean kiemTraTrungCCCD(String cc) throws Exception {
+        ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        for (NhanVien NV : dsNhanVien) {
+            if (cc.trim().equals(NV.getCccd())) {
+                return false ; 
+            }
+        }
+        return true; 
+    }
+    
+    public boolean kiemTraTrungSDT(String dt) throws Exception {
+        ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        for (NhanVien NV : dsNhanVien) {
+            if (dt.equals(NV.getSoDienThoai())) {
+                return false ; 
+            }
+        }
+        return true; 
+    }
+    
 }

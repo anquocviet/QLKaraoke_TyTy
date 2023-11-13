@@ -219,8 +219,8 @@ public class NhanVien {
                 String hoTen = rs.getString("HoTen");
                 String cccd = rs.getString("CCCD");
                 String soDienThoai = rs.getString("SoDienThoai");
-//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
-                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                Date ns = rs.getDate("NgaySinh");
+                LocalDate ngaySinh = ns.toLocalDate();
                 String diaChi = rs.getString("DiaChi");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 String chucVuStr = rs.getString("ChucVu");
@@ -265,10 +265,8 @@ public class NhanVien {
                 String hoTen = rs.getString("HoTen");
                 String cccd = rs.getString("CCCD");
                 String soDienThoai = rs.getString("SoDienThoai");
-//                java.sql.Date ns = rs.getDate("NgaySinh");
-//                LocalDate ngaySinh = ns.toLocalDate();
-//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
-                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                java.sql.Date ns = rs.getDate("NgaySinh");
+                LocalDate ngaySinh = ns.toLocalDate();
                 String diaChi = rs.getString("DiaChi");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 String chucVuStr = rs.getString("ChucVu");
@@ -303,18 +301,41 @@ public class NhanVien {
         return null;
     }
 
-    public static int demSLNhanVien() throws SQLException {
+//    public static int demSLNhanVien() throws SQLException {
+//        Connection conn = ConnectDB.getInstance().getConnection();
+//        Statement stmt = null;
+//        try {
+//            stmt = conn.createStatement();
+//            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                return rs.getInt(1);
+//            } else {
+//                return 0;
+//            }
+//        } finally {
+//            if (stmt != null) {
+//                stmt.close();
+//            }
+//        }
+//    }
+    
+    public static int demSLNhanVien(int ns) throws SQLException {
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
+
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
+            String sql = "SELECT YEAR(NgaySinh) AS NamSinh, COUNT(*) AS SoLuongNhanVien " +
+                         "FROM NhanVien " +
+                         "GROUP BY YEAR(NgaySinh)";
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else {
-                return 0;
+            while (rs.next()) {
+                if (rs.getInt("NamSinh") == ns) {
+                    return rs.getInt("SoLuongNhanVien");
+                }
             }
+            return 0;
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -365,9 +386,11 @@ public class NhanVien {
         Connection conn = ConnectDB.getInstance().getConnection();
         PreparedStatement pstm = null;
         int n = 0;
-
+        
+        System.out.println(nv.toString());
+        System.out.println(nv.getChucVu().toString());
         String sql = "UPDATE NhanVien " +
-                     "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?,AnhDaiDien = ? " +
+                     "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ?, TrangThai = ?, AnhDaiDien = ?" +
                      "WHERE MaNhanVien = ?";
 
         try {
@@ -378,8 +401,8 @@ public class NhanVien {
             pstm.setDate(4, java.sql.Date.valueOf(nv.getNgaySinh()));
             pstm.setString(5, nv.getDiaChi());
             pstm.setBoolean(6, nv.isGioiTinh());
-            pstm.setString(7, nv.getChucVu().name());
-            pstm.setString(8, nv.getTrangThai().name());
+            pstm.setString(7, "NHANVIENIT");
+            pstm.setString(8, nv.getTrangThai().toString());
             pstm.setString(9, nv.getAnhDaiDien());
             pstm.setString(10, nv.getMaNhanVien());
 
