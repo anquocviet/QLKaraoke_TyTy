@@ -76,7 +76,7 @@
         <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="166.0" prefHeight="602.0" prefWidth="740.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
             <content>
                 <ScrollPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
-                    <TableView fx:id="table" onMouseClicked="#docDuLieuTuTable" prefHeight="565.0" prefWidth="738.0">
+                    <TableView fx:id="table" prefHeight="565.0" prefWidth="738.0">
                         <columns>
                             <TableColumn fx:id="sttCol" prefWidth="38.5" resizable="false" sortable="false" text="#" />
                             <TableColumn fx:id="maKHCol" prefWidth="115.0" resizable="false" text="Mã KH" />

@@ -18,6 +18,7 @@ public class HoaDonThanhToan {
     private KhachHang khachHang;
     private CT_KhuyenMai khuyenMai;
     private LocalDate ngayLap;
+    private long tongTien;
 
     public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDate ngayLap) {
         this.maHoaDon = maHoaDon;
@@ -116,6 +117,11 @@ public class HoaDonThanhToan {
     @Override
     public String toString() {
         return "HoaDonThanhToan{" + "maHoaDon=" + maHoaDon + ", nhanVienLap=" + nhanVienLap + ", khachHang=" + khachHang + ", khuyenMai=" + khuyenMai + ", ngayLap=" + ngayLap + '}';
+    }
+    
+    public void tinhTongTien() {
+//        có lẽ là sẽ kết nối tới database để tính tổng tiền
+//        chứ trong class hóa đơn này, ko tính có cách nào tính đc tổng tiền
     }
 
 }

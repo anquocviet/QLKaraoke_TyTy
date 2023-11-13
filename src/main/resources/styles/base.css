@@ -1,3 +1,14 @@
 * {
-   -fx-font-family: 'sans-serif';
+    -fx-font-family: 'sans-serif';
+}
+
+
+.btnBack {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.btnBack:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #51BCD5;
 }
