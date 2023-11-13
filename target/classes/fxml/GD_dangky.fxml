@@ -12,12 +12,12 @@
 
 <AnchorPane id="GD_DangKy" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DangKyController">
     <children>
-        <TableView layoutX="15.0" layoutY="179.0" prefHeight="526.0" prefWidth="711.0" style="-fx-background-color: pink;">
+        <TableView fx:id="table" layoutX="15.0" layoutY="179.0" prefHeight="526.0" prefWidth="711.0" style="-fx-background-color: pink;">
             <columns>
-                <TableColumn prefWidth="129.60001373291016" resizable="false" style="-fx-color: orange;" text="Số thứ tự" />
-                <TableColumn prefWidth="174.39993286132812" resizable="false" style="-fx-color: orange;" text="Tên" />
-                <TableColumn prefWidth="203.199951171875" resizable="false" style="-fx-color: orange;" text="Tên đăng nhập" />
-                <TableColumn prefWidth="202.0" resizable="false" style="-fx-color: orange;" text="Mật khẩu" />
+                <TableColumn fx:id="sttCol" prefWidth="129.60001373291016" resizable="false" style="-fx-color: orange;" text="Số thứ tự" />
+                <TableColumn fx:id="tenCol" prefWidth="174.39993286132812" resizable="false" style="-fx-color: orange;" text="Tên" />
+                <TableColumn fx:id="tenDangNhapCol" prefWidth="203.199951171875" resizable="false" style="-fx-color: orange;" text="Tên đăng nhập" />
+                <TableColumn fx:id="matKhauCol" prefWidth="202.0" resizable="false" style="-fx-color: orange;" text="Mật khẩu" />
             </columns>
         </TableView>
         <Text fill="#dc0a0a" layoutX="125.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DANH SÁCH NHÂN VIÊN" wrappingWidth="503.9197998046875">

@@ -56,7 +56,22 @@ public class GD_QLPhongController implements Initializable {
         });
         table.setItems(Phong.getAllPhong());
     }
-
+//  Render and handle in View'
+    /* public void docDuLieuTuTable(MouseEvent event) {
+        Phong ph = table.getSelectionModel().getSelectedItem();
+        txtMaKhachHang.setText(ph.getMa());
+        txtTenKhachHang.setText(ph.getTenKhachHang());
+        txtSDT.setText(kh.getSoDienThoai());
+        spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
+        if (kh.isGioiTinh()) {
+            genderGroup.getToggles().get(0).setSelected(true);
+        } else {
+            genderGroup.getToggles().get(1).setSelected(true);
+        }
+    }
+     */
+//fxml QL Phòng
+    
     @FXML
     private TableView<Phong> table;
     @FXML
