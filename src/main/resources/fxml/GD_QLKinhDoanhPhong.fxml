@@ -118,7 +118,7 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
-                <Button layoutX="971.0" layoutY="7.0" mnemonicParsing="false" style="-fx-font-size: 20;" text="Hủy phòng chờ (F4)">
+                <Button layoutX="971.0" layoutY="7.0" mnemonicParsing="false" onAction="#huyPhongCho" style="-fx-font-size: 20;" text="Hủy phòng chờ (F4)">
                     <font>
                         <Font size="18.0" />
                     </font>
