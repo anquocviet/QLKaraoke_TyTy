@@ -8,6 +8,7 @@ import connect.ConnectDB;
 import controllers.GD_QLDichVuController;
 import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -179,4 +180,61 @@ public class DichVu {
         }
         return dsDichVu;
     }
+    
+    public static boolean themDichVu(DichVu dv) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "INSERT INTO DichVu (MaDichVu, TenDichVu, SoLuongTon, DonViTinh, DonGia, AnhMinhHoa) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, dv.getMaDichVu());
+            pstm.setString(2, dv.getTenDichVu());
+            pstm.setInt(3, dv.getSoLuong());
+            pstm.setString(4, dv.getDonViTinh());
+            pstm.setLong(5, dv.getDonGia());
+            pstm.setString(6, dv.getAnhMinhHoa());
+
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
+    
+    public static int demSLDichVu() throws SQLException {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(*) AS SoLuongDichVu " +
+                         "FROM DichVu ";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()){
+                return rs.getInt("SoLuongDichVu");   
+        
+            }
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return 0;
+    }
+    
 }

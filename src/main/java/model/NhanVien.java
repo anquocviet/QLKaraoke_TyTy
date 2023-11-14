@@ -55,11 +55,12 @@ public class NhanVien {
         setAnhDaiDien(anhDaiDien);
         setTrangThai(trangThai);
     }
-
     public NhanVien(String maNhanVien) throws Exception {
         setMaNhanVien(maNhanVien);
     }
+    
 
+    
     public String getMaNhanVien() {
         return maNhanVien;
     }
@@ -302,24 +303,7 @@ public class NhanVien {
         return null;
     }
 
-//    public static int demSLNhanVien() throws SQLException {
-//        Connection conn = ConnectDB.getInstance().getConnection();
-//        Statement stmt = null;
-//        try {
-//            stmt = conn.createStatement();
-//            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                return rs.getInt(1);
-//            } else {
-//                return 0;
-//            }
-//        } finally {
-//            if (stmt != null) {
-//                stmt.close();
-//            }
-//        }
-//    }
+
     
     public static int demSLNhanVien(int ns) throws SQLException {
         Connection conn = ConnectDB.getInstance().getConnection();

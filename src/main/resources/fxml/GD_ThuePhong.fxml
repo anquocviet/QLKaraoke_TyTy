@@ -111,7 +111,7 @@
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnThue" layoutX="568.0" layoutY="483.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc; -fx-font-size: 24;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnThue" layoutX="568.0" layoutY="483.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc; -fx-font-size: 24;" onAction="#handleThue" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

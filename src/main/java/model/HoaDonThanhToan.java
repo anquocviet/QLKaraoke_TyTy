@@ -6,6 +6,7 @@ package model;
 
 import connect.ConnectDB;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -188,6 +189,92 @@ public class HoaDonThanhToan {
             }
         }
         return billID;
+    }
+
+    public static String getBillIDByRoomIDtoHDPhong(String roomID) {
+        Connection conn = ConnectDB.getConnection();
+        String billID = "";
+
+        try {
+            String sql = "SELECT DISTINCT MaHoaDon FROM ChiTietHD_Phong WHERE MaPhong = ?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1, roomID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        billID = resultSet.getString("MaHoaDon");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return billID;
+    }
+
+    public static int getDemSoLuongHoaDonTheoNgay(LocalDate ngay) {
+        int soLuong = 0;
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "SELECT COUNT(*) AS SoLuong FROM HoaDonThanhToan WHERE NgayLap = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setDate(1, java.sql.Date.valueOf(ngay));
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    soLuong = resultSet.getInt("SoLuong");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return soLuong;
+    }
+
+    public static boolean themHoaDonThanhToan(HoaDonThanhToan hoaDon) {
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "INSERT INTO HoaDonThanhToan (MaHoaDon, MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (?, ?, ?, ?, ?)";
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, hoaDon.getMaHoaDon());
+            preparedStatement.setString(2, hoaDon.getNhanVienLap().getMaNhanVien());
+            preparedStatement.setString(3, hoaDon.getKhachHang().getMaKhachHang());
+            preparedStatement.setString(4, null);
+            preparedStatement.setDate(5, java.sql.Date.valueOf(hoaDon.getNgayLap()));
+
+            int rowCount = preparedStatement.executeUpdate();
+
+            if (rowCount > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

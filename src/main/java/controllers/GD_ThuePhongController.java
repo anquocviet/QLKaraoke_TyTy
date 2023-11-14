@@ -7,10 +7,15 @@ package controllers;
 import static controllers.GD_QLKinhDoanhPhongController.roomID;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +30,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.App;
+import model.ChiTietHD_Phong;
+import model.HoaDonThanhToan;
 import model.KhachHang;
 import static model.KhachHang.getKhachHangTheoSoDienThoai;
+import model.NhanVien;
 import model.Phong;
 
 /**
@@ -68,7 +77,7 @@ public class GD_ThuePhongController implements Initializable {
         btnKiemTraSĐT.setOnAction(this::handleKiemTraSDT);
         btnExit.setOnAction(this::handleExit);
         btnRefresh.setOnAction(this::handleRefresh);
-        btnThue.setOnAction(this::handleThue);
+//        btnThue.setOnAction(this::handleThue);
     }
 
     @FXML
@@ -111,13 +120,13 @@ public class GD_ThuePhongController implements Initializable {
     }
 
     @FXML
-    public void handleExit(ActionEvent event) {
+    public void handleExit(ActionEvent event)  {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    public void handleThue(ActionEvent event) {
+    public void handleThue(ActionEvent event) throws Exception {
         // Lấy thông tin từ giao diện
         String soPhong = txtSoPhong.getText();
         String soDienThoai = txtSDTKhachHang.getText();
@@ -126,9 +135,40 @@ public class GD_ThuePhongController implements Initializable {
         String gioiTinh = ccbGender.getValue().toString();
         LocalDate ngayThue = dateThue.getValue();
         String gioThue = timeThue.getText();
+        if (soDienThoai.equals(null)) {
+            showAlert("Lỗi!", "Không được để trống Số điện thoại");
+            return;
+        } else if (!isValidPhoneNumber(soDienThoai)) {
+            showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
+            return;
+        } else {
+            Phong.updateStatusRoom(soPhong, 1);
+        }
+
+        int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
+        String maHoaDon = phatSinhMaHoaDon(slHoaDon);
         
-        Phong.updateStatusRoom(soPhong, 1);
+        
+        String maNV = App.user;
+        NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
+        KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+        
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, ngayThue);
+        Phong p = Phong.getPhongTheoMaPhong(soPhong);
+        ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p , LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+        System.out.println(ctP);
+        ChiTietHD_Phong.themChiTietHoaDon(ctP);
+        HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+        
         showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        
+        try {
+            App.setRoot("GD_QLKinhDoanhPhong");
+        } catch (IOException ex) {
+            Logger.getLogger(GD_ThuePhongController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        stage.close();
     }
 
     public boolean isValidPhoneNumber(String phoneNumber) {
@@ -143,4 +183,19 @@ public class GD_ThuePhongController implements Initializable {
         alert.showAndWait();
     }
 
+    public String phatSinhMaHoaDon(int stt){
+        Date ngayLap = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMdd");
+        String ngayThangNam = dateFormat.format(ngayLap);
+
+        String strSTT = String.format("%02d", stt + 1);
+
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+        String namCuoi = yearFormat.format(ngayLap);
+
+        String maHoaDon = "HD" + strSTT + ngayThangNam + namCuoi;
+
+        return maHoaDon;
+    }
+    
 }

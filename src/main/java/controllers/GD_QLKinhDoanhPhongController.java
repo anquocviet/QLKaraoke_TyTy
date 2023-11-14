@@ -9,13 +9,17 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -282,10 +286,27 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         }
     }
 
-    @FXML
-    private void moGDDatPhongCho() throws IOException {
-        App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
-    }
+
+
+	@FXML
+	private void moGDDatPhongCho() throws IOException, Exception {
+		if (itemChoosed == -1) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để đặt.", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Bạn chưa chọn phòng để đặt làm phòng chờ!");
+			alert.showAndWait();
+		} else if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng trống để đặt.", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Phòng đang được sử dụng hoặc đang là phòng chờ!");
+			alert.showAndWait();
+		} else {
+			App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+		}
+	}
+
 
     @FXML
     private void moGDNhanPhongCho() throws IOException {
@@ -348,6 +369,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         App.setRoot("GD_ThanhToan");
     }
 
+
     private short itemChoosed = -1;
     public static String roomID;
     private Popup popup;
@@ -381,5 +403,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private RadioButton radioStatusEmpty;
     @FXML
     private RadioButton radioStatusWaiting;
+
+
 
 }
