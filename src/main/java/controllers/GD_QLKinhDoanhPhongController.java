@@ -9,13 +9,17 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -354,6 +358,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	private void moGDThanhToan() throws IOException {
 		App.setRoot("GD_ThanhToan");
 	}
+
 
 	private short itemChoosed = -1;
 	public static String roomID;
