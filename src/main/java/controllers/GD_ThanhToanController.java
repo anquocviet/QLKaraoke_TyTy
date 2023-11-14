@@ -7,6 +7,8 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,18 +40,25 @@ public class GD_ThanhToanController implements Initializable {
         col_donViTinh.setCellValueFactory(new PropertyValueFactory<>("donViTinh"));
         col_thanhTien.setCellValueFactory(new PropertyValueFactory<>("thanhTien"));
 
+        try {
+            danhSach_CTDichVu = ChiTietHD_DichVu.getCTDichVu();
+        } catch (Exception ex) {
+            Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        table_CTDichVu.setItems(danhSach_CTDichVu);
         docDuLieuTuTable2();
         handleEventInTable();
     }
 
     public void handleEventInTable() {
+        
         table_CTDichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 docDuLieuTuTable2();
             }
-
         });
+        
         table_CTDichVu.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -69,7 +78,7 @@ public class GD_ThanhToanController implements Initializable {
         txtTenDichVu.setText(ctdv.getDichVu().getTenDichVu());
         txtSoLuong.setText(String.valueOf(ctdv.getSoLuong()));
         txtDonViTinh.setText(ctdv.getDichVu().getDonViTinh());
-        
+        txtThanhTien.setText(String.valueOf(ctdv.getThanhTien()));
 
     }
 

@@ -32,6 +32,10 @@ public class DichVu {
 
     public DichVu() {
     }
+    public  DichVu(String tenDichVu, String donViTinh) throws Exception {
+        setTenDichVu(tenDichVu);
+        setDonViTinh(donViTinh);
+    }
 
     public DichVu(String maDichVu, String tenDichVu, int soLuong, long donGia, String donViTinh, String anhMinhHoa) throws Exception {
         setMaDichVu(maDichVu);
