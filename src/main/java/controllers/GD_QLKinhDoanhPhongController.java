@@ -220,8 +220,12 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			typeRoomGroup.getToggles().get(0).setSelected(true);
 			statusRoomGroup.getToggles().get(0).setSelected(true);
 			txtMaPhong.setText("");
-			gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
-		});
+			gridPane.getChildren().clear();
+			renderArrayPhong(Phong.getAllPhong());
+			if (itemChoosed != -1)
+				gridPane.getChildren().get(itemChoosed).getStyleClass().remove("itemRoomActive");
+			itemChoosed = -1;
+		});	
 		btnFindRoom.setOnAction(evt -> {
 			String idRoom = txtMaPhong.getText().trim();
 			gridPane.getChildren().clear();
