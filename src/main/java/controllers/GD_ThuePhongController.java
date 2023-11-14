@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import static controllers.GD_QLKinhDoanhPhongController.roomID;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.KhachHang;
 import static model.KhachHang.getKhachHangTheoSoDienThoai;
+import model.Phong;
 
 /**
  * FXML Controller class
@@ -44,12 +46,12 @@ public class GD_ThuePhongController implements Initializable {
     private TextField txtNamSinh;
     @FXML
     private Text timeThue;
-    
+
     @FXML
     private ComboBox ccbGender;
     @FXML
     private DatePicker dateThue;
-    
+
     @FXML
     private Button btnKiemTraSĐT;
     @FXML
@@ -58,16 +60,15 @@ public class GD_ThuePhongController implements Initializable {
     private Button btnRefresh;
     @FXML
     private Button btnThue;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
-       
-       
-       btnKiemTraSĐT.setOnAction(this::handleKiemTraSDT);
-       btnExit.setOnAction(this::handleExit);
-       btnRefresh.setOnAction(this::handleRefresh);
-       btnThue.setOnAction(this::handleThue);
+        txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
+
+        btnKiemTraSĐT.setOnAction(this::handleKiemTraSDT);
+        btnExit.setOnAction(this::handleExit);
+        btnRefresh.setOnAction(this::handleRefresh);
+        btnThue.setOnAction(this::handleThue);
     }
 
     @FXML
@@ -92,7 +93,7 @@ public class GD_ThuePhongController implements Initializable {
             String formattedTime = currentTime.format(formatter);
             timeThue.setText(formattedTime);
         } else {
-            showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này.");
+            showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này.Vui lòng thêm khách hàng trước khi đặt phòng!");
         }
     }
 
@@ -108,31 +109,28 @@ public class GD_ThuePhongController implements Initializable {
         String formattedTime = currentTime.format(formatter);
         timeThue.setText(formattedTime);
     }
-    
+
     @FXML
     public void handleExit(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     public void handleThue(ActionEvent event) {
-//        // Lấy thông tin từ giao diện
-//        String soPhong = txtSoPhong.getText();
-//        String soDienThoai = txtSDTKhachHang.getText();
-//        String tenKhachHang = txtTenKhachHang.getText();
-//        String namSinh = txtNamSinh.getText();
-//        String gioiTinh = ccbGender.getValue().toString();
-//        LocalDate ngayThue = dateThue.getValue();
-//        String gioThue = timeThue.getText();
-//
-//        // Thực hiện các tác vụ thêm thông tin vào cơ sở dữ liệu hoặc xử lý theo yêu cầu của bạn
-//        // ...
-//
-//        // Hiển thị thông báo hoặc thực hiện các hành động khác cần thiết
-//        showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
+        // Lấy thông tin từ giao diện
+        String soPhong = txtSoPhong.getText();
+        String soDienThoai = txtSDTKhachHang.getText();
+        String tenKhachHang = txtTenKhachHang.getText();
+        String namSinh = txtNamSinh.getText();
+        String gioiTinh = ccbGender.getValue().toString();
+        LocalDate ngayThue = dateThue.getValue();
+        String gioThue = timeThue.getText();
+        
+        Phong.updateStatusRoom(soPhong, 1);
+        showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
     }
-    
+
     public boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("\\d{10}");
     }

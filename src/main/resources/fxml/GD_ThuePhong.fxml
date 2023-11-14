@@ -13,12 +13,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_ThuePhong" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThuePhongController">
+<AnchorPane id="GD_ThuePhong" prefHeight="684" prefWidth="800" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThuePhongController">
     <stylesheets>
         <URL value="@/styles/base.css" />
     </stylesheets>
    <children>
-      <Pane prefHeight="770.0" prefWidth="800.0">
+      <Pane prefHeight="684.0" prefWidth="800.0">
          <children>
             <Pane prefHeight="90.0" prefWidth="800.0" style="-fx-background-color: A2C4C9;">
                <children>
@@ -31,87 +31,87 @@
             </Pane>
             <Pane layoutX="5.0" layoutY="88.0" prefHeight="684.0" prefWidth="800.0">
                <children>
-                  <Label layoutX="90.0" layoutY="60.0" prefHeight="40.0" text="Phòng số:">
+                  <Label layoutX="90.0" layoutY="30.0" prefHeight="40.0" text="Phòng số:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtSoPhong" disable="true" layoutX="340.0" layoutY="60.0" prefHeight="40.0" prefWidth="280.0">
+                  <TextField fx:id="txtSoPhong" disable="true" layoutX="340.0" layoutY="31.0" prefHeight="40.0" prefWidth="280.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="90.0" layoutY="150.0" prefHeight="40.0" text="SĐT khách hàng:">
+                  <Label layoutX="90.0" layoutY="100.0" prefHeight="40.0" text="SĐT khách hàng:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtSDTKhachHang" layoutX="340.0" layoutY="150.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
+                  <TextField fx:id="txtSDTKhachHang" layoutX="340.0" layoutY="100.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="90.0" layoutY="240.0" prefHeight="40.0" text="Tên khách hàng:">
+                  <Label layoutX="85.0" layoutY="170.0" prefHeight="40.0" text="Tên khách hàng:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtTenKhachHang" disable="true" layoutX="340.0" layoutY="240.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
+                  <TextField fx:id="txtTenKhachHang" disable="true" layoutX="335.0" layoutY="170.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="90.0" layoutY="330.0" prefHeight="40.0" text="Năm sinh:">
+                  <Label layoutX="90.0" layoutY="240.0" prefHeight="40.0" text="Năm sinh:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtNamSinh" disable="true" layoutX="250.0" layoutY="330.0" prefHeight="40.0" prefWidth="115.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
+                  <TextField fx:id="txtNamSinh" disable="true" layoutX="250.0" layoutY="240.0" prefHeight="40.0" prefWidth="115.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="btnKiemTraSĐT" layoutX="657.0" layoutY="142.0" mnemonicParsing="false">
+                  <Button fx:id="btnKiemTraSĐT" layoutX="657.0" layoutY="92.0" mnemonicParsing="false">
                      <graphic>
-                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="48.0" fitWidth="48.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/check_false.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Label layoutX="386.0" layoutY="330.0" prefHeight="40.0" prefWidth="120.0" text="Giới tính:">
+                  <Label layoutX="386.0" layoutY="240.0" prefHeight="40.0" prefWidth="120.0" text="Giới tính:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="ccbGender" disable="true" layoutX="510.0" layoutY="330.0" prefHeight="42.0" prefWidth="107.0" style="-fx-font-size: 16; -fx-font-weight: bold;" />
-                  <Label layoutX="90.0" layoutY="420.0" prefHeight="40.0" text="Ngày thuê phòng:">
+                  <ComboBox fx:id="ccbGender" disable="true" layoutX="510.0" layoutY="240.0" prefHeight="42.0" prefWidth="107.0" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                  <Label layoutX="90.0" layoutY="310.0" prefHeight="40.0" text="Ngày thuê phòng:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="dateThue" disable="true" layoutX="340.0" layoutY="420.0" prefHeight="40.0" prefWidth="263.0" style="-fx-font-size: 20;" />
-                  <Label layoutX="90.0" layoutY="510.0" prefHeight="40.0" text="Thời gian thuê:">
+                  <DatePicker fx:id="dateThue" disable="true" layoutX="340.0" layoutY="310.0" prefHeight="40.0" prefWidth="263.0" style="-fx-font-size: 20;" />
+                  <Label layoutX="90.0" layoutY="380.0" prefHeight="40.0" text="Thời gian thuê:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <Text fx:id="timeThue" disable="true" layoutX="340.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
+                  <Text fx:id="timeThue" disable="true" layoutX="340.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
                      <font>
                         <Font size="28.0" />
                      </font></Text>
-                  <Button fx:id="btnExit" layoutX="50.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red; -fx-font-size: 24;" text="Thoát" textFill="WHITE">
+                  <Button fx:id="btnExit" layoutX="50.0" layoutY="483.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red; -fx-font-size: 24;" text="Thoát" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnRefresh" layoutX="224.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00; -fx-font-size: 24;" text="Xóa rỗng" textAlignment="CENTER">
+                  <Button fx:id="btnRefresh" layoutX="260.0" layoutY="483.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00; -fx-font-size: 24;" text="Xóa rỗng" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnThue" layoutX="568.0" layoutY="600.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc; -fx-font-size: 24;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnThue" layoutX="568.0" layoutY="483.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc; -fx-font-size: 24;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

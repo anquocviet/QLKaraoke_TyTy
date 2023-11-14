@@ -192,6 +192,7 @@ public class Phong {
 		return dsPhong;
 	}
 
+        // 0 phòng trống 1 đang sử dụng 2 phòng chờ
 	public static ObservableList<Phong> getListPhongByStatus(int status) {
 		ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
 		Connection conn = ConnectDB.getConnection();
