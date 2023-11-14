@@ -11,6 +11,7 @@ controllers\GD_QLPhongController.class
 controllers\GD_DatDichVuController$3$1.class
 model\KhachHang.class
 controllers\GD_QLKinhDoanhPhongController$2.class
+controllers\GD_ThanhToanController$2.class
 connect\ConnectDB.class
 controllers\GD_ThongKeNamController.class
 controllers\GD_DatDichVuController$7.class
@@ -45,6 +46,7 @@ controllers\GD_ThuePhongController.class
 controllers\GD_QLNhanVienController.class
 controllers\GD_DatDichVuController$4.class
 controllers\GD_DatDichVuController.class
+controllers\GD_ThanhToanController$1.class
 controllers\GD_QLNhanVienController$2.class
 controllers\GD_DatDichVuController$3.class
 controllers\GD_QLDichVuController.class

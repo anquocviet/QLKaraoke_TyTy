@@ -20,8 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="GD_ThanhToan" cache="true" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/base.css" fx:controller="controllers.GD_ThanhToanController">
+<AnchorPane id="GD_ThanhToan" cache="true" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThanhToanController">
    <children>
       <Text fill="#cc0000" layoutX="565.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HÓA ĐƠN THANH TOÁN">
          <font>
@@ -49,14 +48,6 @@
       <Label layoutX="800.0" layoutY="525.0" text="Tổng tiền:" />
       <Label layoutX="800.0" layoutY="570.0" text="Tiền nhận:" />
       <Label layoutX="800.0" layoutY="615.0" text="Tiền thừa:" />
-      <Button layoutX="1072.0" layoutY="658.0" mnemonicParsing="false" style="-fx-background-color: IndianRed;" text="Xác nhận thanh toán" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <effect>
-            <Shadow />
-         </effect>
-      </Button>
       <TextField layoutX="915.0" layoutY="476.0" prefHeight="26.0" prefWidth="157.0" />
       <TextField layoutX="915.0" layoutY="566.0" prefHeight="26.0" prefWidth="157.0" />
       <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="1080.0" layoutY="480.0">
@@ -94,7 +85,7 @@
             </Lighting>
          </effect>
       </ImageView>
-      <CheckBox layoutX="1002.0" layoutY="664.0" mnemonicParsing="false" selected="true" />
+      <CheckBox layoutX="1001.0" layoutY="666.0" mnemonicParsing="false" selected="true" />
       <TextArea layoutX="30.0" layoutY="143.0" prefHeight="354.0" prefWidth="594.0" />
       <TextArea layoutX="30.0" layoutY="521.0" prefHeight="204.0" prefWidth="594.0" />
       <Label layoutX="41.0" layoutY="159.0" text="Hóa đơn Phòng">
@@ -102,13 +93,13 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <SplitMenuButton layoutX="63.0" layoutY="182.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Phòng 1">
+      <SplitMenuButton layoutX="30.0" layoutY="182.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Phòng 1">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <TableView layoutX="63.0" layoutY="210.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="272.0" prefWidth="540.0">
+      <TableView layoutX="30.0" layoutY="210.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="288.0" prefWidth="594.0">
         <columns>
           <TableColumn prefWidth="269.60000228881836" text="Thông tin" />
           <TableColumn minWidth="0.0" prefWidth="268.8000183105469" sortType="DESCENDING" text="Nội dung" />
@@ -122,13 +113,14 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView layoutX="41.0" layoutY="565.0" prefHeight="156.0" prefWidth="574.0">
+      <TableView fx:id="table_CTDichVu" layoutX="30.0" layoutY="565.0" prefHeight="160.0" prefWidth="594.0">
         <columns>
-          <TableColumn prefWidth="206.40002059936523" text="Tên dịch vụ" />
-          <TableColumn prefWidth="78.39999389648438" text="Số lượng" />
-            <TableColumn prefWidth="134.39996337890625" text="Đơn vị tính" />
-            <TableColumn minWidth="0.0" prefWidth="154.40005493164062" text="Thành tiền" />
+          <TableColumn fx:id="col_tenDichVu" prefWidth="206.40002059936523" text="Tên dịch vụ" />
+          <TableColumn fx:id="col_soLuong" prefWidth="78.39999389648438" text="Số lượng" />
+            <TableColumn fx:id="col_donViTinh" prefWidth="134.39996337890625" text="Đơn vị tính" />
+            <TableColumn fx:id="col_thanhTien" minWidth="0.0" prefWidth="154.40005493164062" text="Thành tiền" />
         </columns>
       </TableView>
+      <Button layoutX="1080.0" layoutY="663.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="139.0" text="Xác nhận thanh toán" />
    </children>
 </AnchorPane>
