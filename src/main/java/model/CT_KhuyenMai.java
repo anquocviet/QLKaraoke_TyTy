@@ -195,7 +195,31 @@ public class CT_KhuyenMai {
         }
     }
     
-    
+//    public static boolean suaCT_KhuyenMai(CT_KhuyenMai km) {
+//        ConnectDB.getInstance();
+//        Connection conn = ConnectDB.getInstance().getConnection();
+//        PreparedStatement pstm = null;
+//        int n = 0;
+//        String sql = "UPDATE CT_KhuyenMai SET MaKhuyenMai = ?, TenKhuyenMai = ?, NgayBatDau = ?, NgayKetThuc = ?, LuotSuDungConLai = ?, ChietKhau = ? WHERE MaKhuyenMai = ?";
+//        try {
+//            pstm = conn.prepareStatement(sql);
+//            pstm.setString(1, kh.getTenKhachHang());
+//            pstm.setString(2, kh.getSoDienThoai());
+//            pstm.setInt(3, kh.getNamSinh());
+//            pstm.setBoolean(4, kh.isGioiTinh());
+//            pstm.setString(5, kh.getMaKhachHang());
+//            n = pstm.executeUpdate();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            try {
+//                pstm.close();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//        return n > 0;
+//    }
     
     public static boolean themCTKhuyenMai(CT_KhuyenMai km) {
         ConnectDB.getInstance();

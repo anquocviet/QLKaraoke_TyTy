@@ -14,6 +14,7 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -85,6 +86,17 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
     }
     
+    private void handleUpdateButton(ActionEvent event) {
+        // Lấy dòng được chọn từ TableView
+        CT_KhuyenMai selectedData = tableView_CTKhuyenMai.getSelectionModel().getSelectedItem();
+
+        if (selectedData != null) {
+            // Thực hiện cập nhật thông tin dòng được chọn ở đây
+       //     System.out.println("Selected Value: " + selectedData.getProperty());
+        } else {
+            System.out.println("No row selected.");
+        }
+    }
 //    public void handleEventInTable() {
 //        tableView_CTKhuyenMai.setOnMouseClicked(new EventHandler<MouseEvent>() {
 //            @Override
