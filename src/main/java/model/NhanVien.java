@@ -55,12 +55,11 @@ public class NhanVien {
         setAnhDaiDien(anhDaiDien);
         setTrangThai(trangThai);
     }
+
     public NhanVien(String maNhanVien) throws Exception {
         setMaNhanVien(maNhanVien);
     }
-    
 
-    
     public String getMaNhanVien() {
         return maNhanVien;
     }
@@ -286,7 +285,7 @@ public class NhanVien {
                 if (trangThaiLVStr.equals("Đã nghỉ việc")) {
                     trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
                 }
-				String anhDaiDien = rs.getString("AnhDaiDien");
+                String anhDaiDien = rs.getString("AnhDaiDien");
                 return new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThaiLV);
             }
         } catch (SQLException ex) {
@@ -321,16 +320,15 @@ public class NhanVien {
 //            }
 //        }
 //    }
-    
     public static int demSLNhanVien(int ns) throws SQLException {
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
 
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT YEAR(NgaySinh) AS NamSinh, COUNT(*) AS SoLuongNhanVien " +
-                         "FROM NhanVien " +
-                         "GROUP BY YEAR(NgaySinh)";
+            String sql = "SELECT YEAR(NgaySinh) AS NamSinh, COUNT(*) AS SoLuongNhanVien "
+                    + "FROM NhanVien "
+                    + "GROUP BY YEAR(NgaySinh)";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 if (rs.getInt("NamSinh") == ns) {
@@ -344,15 +342,15 @@ public class NhanVien {
             }
         }
     }
-    
+
     public static boolean themNhanVien(NhanVien nv) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
         PreparedStatement pstm = null;
         int n = 0;
 
-        String sql = "INSERT INTO NhanVien (MaNhanVien, HoTen, CCCD, SoDienThoai, NgaySinh, DiaChi, GioiTinh, ChucVu, TrangThai, AnhDaiDien) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO NhanVien (MaNhanVien, HoTen, CCCD, SoDienThoai, NgaySinh, DiaChi, GioiTinh, ChucVu, TrangThai, AnhDaiDien) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             pstm = conn.prepareStatement(sql);
@@ -389,17 +387,18 @@ public class NhanVien {
         PreparedStatement pstm = null;
         int n = 0;
 
-        String sql = "UPDATE NhanVien " +
-             "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?, AnhDaiDien = ? " +
-             "WHERE MaNhanVien = ?";
-        
+        String sql = "UPDATE NhanVien "
+                + "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?, AnhDaiDien = ? "
+                + "WHERE MaNhanVien = ?";
+
         String chucVu = "Quản lý";
-        if(nv.getChucVu()== Enum_ChucVu.BAOVE)
+        if (nv.getChucVu() == Enum_ChucVu.BAOVE) {
             chucVu = "Bảo vệ";
-        else if(nv.getChucVu() == Enum_ChucVu.NHANVIENPHUCVU)
+        } else if (nv.getChucVu() == Enum_ChucVu.NHANVIENPHUCVU) {
             chucVu = "Nhân viên phục vụ";
-        else if (nv.getChucVu() == Enum_ChucVu.NHANVIENTIEPTAN)
+        } else if (nv.getChucVu() == Enum_ChucVu.NHANVIENTIEPTAN) {
             chucVu = "Nhân viên tiếp tân";
+        }
 
         try {
             pstm = conn.prepareStatement(sql);
@@ -429,6 +428,5 @@ public class NhanVien {
 
         return n > 0;
     }
-
 
 }
