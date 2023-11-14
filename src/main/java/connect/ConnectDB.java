@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class ConnectDB {
 
-    private static Connection con = null;
-    private static ConnectDB instance = new ConnectDB();
+	private static Connection con = null;
+	private static ConnectDB instance = new ConnectDB();
 
-    public static ConnectDB getInstance() {
-        return instance;
-    }
+	public static ConnectDB getInstance() {
+		return instance;
+	}
 
     public void connect() {
         String url = "jdbc:sqlserver://localhost:1433;databasename=KaraokeTyTy;encrypt=true;trustServerCertificate=true;";
@@ -24,16 +24,16 @@ public class ConnectDB {
         }
     }
 
-    public void disconnect() {
-        if (con != null)
+	public void disconnect() {
+		if (con != null)
 			try {
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static Connection getConnection() {
-        return con;
-    }
+	public static Connection getConnection() {
+		return con;
+	}
 }
