@@ -55,11 +55,12 @@ public class NhanVien {
         setAnhDaiDien(anhDaiDien);
         setTrangThai(trangThai);
     }
-
     public NhanVien(String maNhanVien) throws Exception {
         setMaNhanVien(maNhanVien);
     }
+    
 
+    
     public String getMaNhanVien() {
         return maNhanVien;
     }

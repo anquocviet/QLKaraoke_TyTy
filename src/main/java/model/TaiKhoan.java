@@ -41,7 +41,14 @@ public class TaiKhoan {
         this.matKhau = matKhau;
         this.nhanVien = nhanVien;
     }
-
+    
+ public TaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau) {
+        this.maTaiKhoan = maTaiKhoan;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
+      
+    }
+    
     public TaiKhoan(String maTaiKhoan) {
         this.maTaiKhoan = maTaiKhoan;
     }
@@ -161,7 +168,35 @@ public class TaiKhoan {
         }
         return tk;
     }
+
+       public static TaiKhoan save(TaiKhoan tk) {
+         Connection conn = ConnectDB.getInstance().getConnection();
+         Statement stmt = null;
     
+    try {
+        stmt = conn.createStatement();
+        
+        String insertQuery = String.format("INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, HoTen) VALUES ('%s', '%s', '%s', '%s')",
+                tk.getMaTaiKhoan(), tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getHoTen());
+        stmt.executeUpdate(insertQuery);
+        
+        System.out.println("Thêm tài khoản thành công!");
+    } catch (SQLException ex) {
+        Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    return tk;
+}
+        
 public static ObservableList<TaiKhoan> getAllTaiKhoanFull() {
         ObservableList<TaiKhoan> dsTaiKhoan = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getInstance().getConnection();

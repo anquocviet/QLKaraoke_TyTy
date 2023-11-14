@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="GD_QLPhong" prefHeight="531.0" prefWidth="736.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLPhongController">
+<AnchorPane id="GD_QLPhong" prefHeight="531.0" prefWidth="736.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_QLPhongController">
     <children>
         <Text fill="#df1616" layoutX="296.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUẢN LÝ PHÒNG" textAlignment="CENTER" wrappingWidth="404.18865966796875">
             <font>
@@ -49,22 +49,22 @@
                 <Font size="20.0" />
             </font>
         </Text>
-        <TextField layoutX="144.0" layoutY="189.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="P102VIP">
+        <TextField fx:id="txtMaPhong" layoutX="144.0" layoutY="189.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;">
             <font>
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TextField layoutX="144.0" layoutY="266.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="10">
+        <TextField fx:id="txtSucChua" layoutX="144.0" layoutY="266.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;">
             <font>
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TextField layoutX="144.0" layoutY="346.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="Phòng trống">
+        <TextField fx:id="txtTinhTrang" layoutX="144.0" layoutY="346.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;">
             <font>
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TextField layoutX="144.0" layoutY="522.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="90k/h">
+        <TextField fx:id="txtGiaPhong" layoutX="144.0" layoutY="522.0" prefHeight="36.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;">
             <font>
                 <Font size="20.0" />
             </font>
@@ -89,7 +89,7 @@
                 <Font size="35.0" />
             </font>
         </Text>
-        <ComboBox layoutX="144.0" layoutY="435.0" prefHeight="30.0" prefWidth="332.0" promptText="VIP" style="-fx-background-color: pink; -fx-font-size: 20;" />
+        <ComboBox fx:id="cbbLoaiPhong" layoutX="144.0" layoutY="435.0" prefHeight="30.0" prefWidth="332.0" style="-fx-background-color: pink; -fx-font-size: 20;" />
         <Button layoutX="28.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="106.0" style="-fx-font-size: 20; -fx-background-color: orange;" text="Thêm">
             <cursor>
                 <Cursor fx:constant="HAND" />
@@ -100,7 +100,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button layoutX="169.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="106.0" style="-fx-font-size: 20; -fx-background-color: red;" text="Xóa" textFill="WHITE">
+        <Button layoutX="169.0" layoutY="658.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" style="-fx-font-size: 20; -fx-background-color: red;" text="Sửa" textFill="WHITE">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
