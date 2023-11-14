@@ -276,8 +276,22 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	}
 
 	@FXML
-	private void moGDDatPhongCho() throws IOException {
-		App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+	private void moGDDatPhongCho() throws IOException, Exception {
+		if (itemChoosed == -1) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để đặt.", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Bạn chưa chọn phòng để đặt làm phòng chờ!");
+			alert.showAndWait();
+		} else if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng trống để đặt.", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Phòng đang được sử dụng hoặc đang là phòng chờ!");
+			alert.showAndWait();
+		} else {
+			App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+		}
 	}
 
 	@FXML

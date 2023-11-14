@@ -30,6 +30,7 @@ controllers/GD_ThongKeKhachHangController.class
 controllers/GD_TraCuuHoaDonController.class
 controllers/GD_DatDichVuController$2.class
 controllers/GD_ThongKeQuyController.class
+controllers/GD_DatPhongChoController$1.class
 model/CT_KhuyenMai.class
 model/NhanVien.class
 controllers/GD_QLKhachHangController$1.class
