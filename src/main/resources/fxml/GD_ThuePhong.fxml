@@ -36,7 +36,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField id="txtSoPhong" disable="true" layoutX="340.0" layoutY="60.0" prefHeight="40.0" prefWidth="280.0" promptText="P101">
+                  <TextField fx:id="txtSoPhong" disable="true" layoutX="340.0" layoutY="60.0" prefHeight="40.0" prefWidth="280.0">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -46,7 +46,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField id="txtSDTKhachHang" disable="true" editable="false" layoutX="340.0" layoutY="150.0" prefHeight="40.0" prefWidth="280.0">
+                  <TextField fx:id="txtSDTKhachHang" layoutX="340.0" layoutY="150.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -56,7 +56,7 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField id="txtTenKhachHang" disable="true" editable="false" layoutX="340.0" layoutY="240.0" prefHeight="40.0" prefWidth="280.0">
+                  <TextField fx:id="txtTenKhachHang" disable="true" layoutX="340.0" layoutY="240.0" prefHeight="40.0" prefWidth="280.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -66,14 +66,14 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField id="txtNamSinh" disable="true" editable="false" layoutX="250.0" layoutY="330.0" prefHeight="40.0" prefWidth="115.0">
+                  <TextField fx:id="txtNamSinh" disable="true" layoutX="250.0" layoutY="330.0" prefHeight="40.0" prefWidth="115.0" style="-fx-font-size: 20; -fx-font-weight: bold;">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Button layoutX="657.0" layoutY="142.0" mnemonicParsing="false">
+                  <Button fx:id="btnKiemTraSĐT" layoutX="657.0" layoutY="142.0" mnemonicParsing="false">
                      <graphic>
-                        <ImageView id="btnKiemTraSĐT" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/check_false.png" />
                            </image>
@@ -85,33 +85,33 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <ComboBox id="ccbGender" layoutX="510.0" layoutY="330.0" prefHeight="42.0" prefWidth="107.0" promptText="Nam" style="-fx-font-size: 16;" />
+                  <ComboBox fx:id="ccbGender" disable="true" layoutX="510.0" layoutY="330.0" prefHeight="42.0" prefWidth="107.0" style="-fx-font-size: 16; -fx-font-weight: bold;" />
                   <Label layoutX="90.0" layoutY="420.0" prefHeight="40.0" text="Ngày thuê phòng:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <DatePicker id="dateThue" layoutX="340.0" layoutY="420.0" prefHeight="40.0" prefWidth="263.0" />
+                  <DatePicker fx:id="dateThue" disable="true" layoutX="340.0" layoutY="420.0" prefHeight="40.0" prefWidth="263.0" style="-fx-font-size: 20;" />
                   <Label layoutX="90.0" layoutY="510.0" prefHeight="40.0" text="Thời gian thuê:">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <Text id="timeThue" disable="true" layoutX="340.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
+                  <Text fx:id="timeThue" disable="true" layoutX="340.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00 : 00" textAlignment="CENTER" wrappingWidth="263.0">
                      <font>
                         <Font size="28.0" />
                      </font></Text>
-                  <Button id="btnExit" layoutX="50.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red;" text="Thoát" textFill="WHITE">
+                  <Button fx:id="btnExit" layoutX="50.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red; -fx-font-size: 24;" text="Thoát" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button id="btnRefresh" layoutX="224.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00;" text="Xóa rỗng" textAlignment="CENTER">
+                  <Button fx:id="btnRefresh" layoutX="224.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00; -fx-font-size: 24;" text="Xóa rỗng" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button id="btnThue" layoutX="568.0" layoutY="600.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnThue" layoutX="568.0" layoutY="600.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="178.0" style="-fx-background-color: #3366cc; -fx-font-size: 24;" text="Thuê phòng" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

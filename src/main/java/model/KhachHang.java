@@ -124,35 +124,35 @@ public class KhachHang {
         return "KhachHang{" + "maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", soDienThoai=" + soDienThoai + ", namSinh=" + namSinh + ", gioiTinh=" + gioiTinh + '}';
     }
 
-//<<<<<<< HEAD
-    //Thuc used for thuePhong
-//    public KhachHang getKhachHangTheoSoDienThoai(String soDienThoai) {
-//    ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
-//    Connection conn = ConnectDB.getInstance().getConnection();
-//    Statement stmt = null;
-//    try {
-//        stmt = conn.createStatement();
-//        String sql = String.format("SELECT * FROM KhachHang WHERE SoDienThoai = '%s'", soDienThoai);
-//        ResultSet rs = stmt.executeQuery(sql);
-//        while (rs.next()) {
-//            String maKhachhang = rs.getString("MaKhachHang");
-//            String tenKhachhang = rs.getString("TenKhachHang");
-//            int namSinh = rs.getInt("NamSinh");
-//            boolean gioiTinh = rs.getBoolean("GioiTinh");
-//            KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
-//            return kh;
-//        }
-//    } catch (SQLException ex) {
-//        Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-//    } finally {
-//        try {
-//            stmt.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    return null;
-//    }
+
+//    Thuc used for thuePhong
+    public static KhachHang getKhachHangTheoSoDienThoai(String soDienThoai) {
+        ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM KhachHang WHERE SoDienThoai = '%s'", soDienThoai);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maKhachhang = rs.getString("MaKhachHang");
+                String tenKhachhang = rs.getString("TenKhachHang");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
+                return kh;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
 //=======
     //    Get data from DB
     public static ObservableList<KhachHang> getAllKhachHang() {

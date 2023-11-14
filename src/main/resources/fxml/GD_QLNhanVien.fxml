@@ -34,7 +34,7 @@
                         </ImageView>
                         <Button fx:id="btnAddNV" layoutX="185.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/add-user.png" />
                                     </image>
@@ -43,7 +43,7 @@
                         </Button>
                         <Button fx:id="btnRefresh" layoutX="300.0" layoutY="111.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/undo-arrow.png" />
                                     </image>
@@ -52,7 +52,7 @@
                         </Button>
                         <Button fx:id="btnUpdate" layoutX="416.0" layoutY="110.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
                             <graphic>
-                                <ImageView  fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/service.png" />
                                     </image>
