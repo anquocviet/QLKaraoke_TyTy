@@ -4,7 +4,10 @@
  */
 package model;
 
-
+import connect.ConnectDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -18,7 +21,6 @@ public class ChiTietHD_Phong {
     private Phong phong;
     private LocalDateTime gioVao;
     private LocalDateTime gioRa;
-    private float tongGioSuDung;
     private long thanhTien;
 
     public ChiTietHD_Phong() {
@@ -31,7 +33,7 @@ public class ChiTietHD_Phong {
         setGioRa(gioRa);
         tinhTongGioSuDung();
         tinhThanhTien();
-        
+
     }
 
     public HoaDonThanhToan getHoaDon() {
@@ -39,10 +41,11 @@ public class ChiTietHD_Phong {
     }
 
     public void setHoaDon(HoaDonThanhToan hoaDon) throws Exception {
-        if (hoaDon != null)
+        if (hoaDon != null) {
             this.hoaDon = hoaDon;
-        else
+        } else {
             throw new Exception("Hóa đơn không được rỗng");
+        }
     }
 
     public Phong getPhong() {
@@ -50,7 +53,7 @@ public class ChiTietHD_Phong {
     }
 
     public void setPhong(Phong phong) throws Exception {
-        if (phong != null){
+        if (phong != null) {
             this.phong = phong;
         } else {
             throw new Exception("Phòng không được rỗng");
@@ -62,12 +65,12 @@ public class ChiTietHD_Phong {
     }
 
     public void setGioVao(LocalDateTime gioVao) throws Exception {
-        if (gioVao != null){
+        if (gioVao != null) {
             this.gioVao = gioVao;
         } else {
             throw new Exception("Giờ vào không được rỗng");
         }
-            
+
     }
 
     public LocalDateTime getGioRa() {
@@ -75,42 +78,75 @@ public class ChiTietHD_Phong {
     }
 
     public void setGioRa(LocalDateTime gioRa) throws Exception {
-        if (gioRa.isAfter(gioVao)){
+        if (gioRa.isAfter(gioVao)) {
             this.gioRa = gioRa;
         } else {
             throw new Exception("Giờ ra phải lớn hơn giờ vào");
         }
     }
 
-    public void tinhThanhTien() {
-        thanhTien = (long) (tongGioSuDung * phong.getGiaPhong());
+    public long tinhThanhTien() {
+        thanhTien = (long) (tinhTongGioSuDung() * phong.getGiaPhong());
+        return thanhTien;
     }
 
-    public void tinhTongGioSuDung() {
+    public float tinhTongGioSuDung() {
         float hour = 0;
         int minute = 0;
-        
+
         LocalDateTime tmp;
         Duration duration = Duration.ofHours(gioVao.getHour()).plusMinutes(gioVao.getMinute());
         tmp = gioRa.minus(duration);
-        
+
         hour = tmp.getHour();
         minute = tmp.getMinute();
-        
-        if (minute < 10){
+
+        if (minute < 10) {
             minute = 0;
-        } else if (minute < 40){
+        } else if (minute < 40) {
             hour += 0.5;
         } else {
             hour += 1;
         }
-   
-        tongGioSuDung = hour;
+
+        return hour;
     }
 
     @Override
     public String toString() {
         return "ChiTietHD_Phong{" + "hoaDon=" + hoaDon + ", phong=" + phong + ", gioVao=" + gioVao + ", gioRa=" + gioRa + '}';
+    }
+
+    public static boolean themChiTietHoaDon(ChiTietHD_Phong ctPhong) {
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "INSERT INTO ChiTietHD_Phong (MaHoaDon, MaPhong, GioVao, GioRa, TongGioSuDung, ThanhTien) VALUES (?, ?, ?, ?, ?, ?)";
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, ctPhong.getHoaDon().getMaHoaDon());
+            preparedStatement.setString(2, ctPhong.getPhong().getMaPhong());
+            preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(ctPhong.getGioVao()));
+            preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(ctPhong.getGioRa()));
+            preparedStatement.setFloat(5, ctPhong.tinhTongGioSuDung());
+            preparedStatement.setLong(6, ctPhong.tinhThanhTien());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một dòng được ảnh hưởng (thêm mới thành công).
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
