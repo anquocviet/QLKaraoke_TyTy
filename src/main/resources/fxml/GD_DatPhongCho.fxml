@@ -11,93 +11,102 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="GD_DatPhongCho" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DatPhongChoController">
-   <children>
-      <Label alignment="CENTER" layoutY="-1.0" prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: LightSeaGreen;" text="ĐẶT PHÒNG CHỜ" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="103.0" layoutY="103.0" text="Phòng số:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="99.0" layoutY="174.0" text="SĐT Khách hàng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="180.0">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="103.0" layoutY="280.0" text="Tên khách hàng" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="260.0">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="103.0" layoutY="315.0" text="Ngày nhận phòng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="340.0">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="103.0" layoutY="350.0" text="Giờ nhận phòng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="420.0">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Button layoutX="100.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" style="-fx-background-color: Crimson; -fx-font-size: 20;" text="Thoát" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="208.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: Gold; -fx-font-size: 20;" text="Xóa Trống">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="609.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="144.0" style="-fx-background-color: DeepSkyBlue; -fx-font-size: 20;" text="Đặt Phòng">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <CheckBox layoutX="609.0" layoutY="516.0" mnemonicParsing="false" style="-fx-font-size: 16;" text="In phiếu đặt">
-         <font>
-            <Font size="16.0" />
-         </font></CheckBox>
-      <TextField layoutX="100.0" layoutY="40.0" prefHeight="35.0" prefWidth="300.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="97.0">
-         <font>
-            <Font size="20.0" />
-         </font></TextField>
-      <DatePicker layoutX="336.0" layoutY="350.0" prefHeight="35.0" prefWidth="300.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="337.0" />
-      <ComboBox layoutX="300.0" layoutY="418.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="417.0">
-         <opaqueInsets>
-            <Insets bottom="1.0" left="1.0" right="1.0" />
-         </opaqueInsets>
-      </ComboBox>
-      <Label layoutX="377.0" layoutY="423.0" text="Giờ" AnchorPane.topAnchor="420.0">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label layoutX="556.0" layoutY="421.0" prefHeight="22.0" prefWidth="43.0" text="Phút" AnchorPane.topAnchor="421.0">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <TextField layoutX="311.0" layoutY="168.0" prefHeight="35.0" prefWidth="300.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="177.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
-      <TextField layoutX="300.0" layoutY="242.0" prefHeight="35.0" prefWidth="300.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="257.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
-      <ComboBox layoutX="477.0" layoutY="415.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.topAnchor="417.0">
-         <opaqueInsets>
-            <Insets bottom="1.0" left="1.0" right="1.0" />
-         </opaqueInsets>
-      </ComboBox>
-   </children>
+<AnchorPane fx:id="GD_DatPhongCho" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DatPhongChoController">
+    <children>
+        <Label alignment="CENTER" layoutY="-1.0" prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: LightSeaGreen;" text="ĐẶT PHÒNG CHỜ" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="103.0" layoutY="103.0" text="Phòng số:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="99.0" layoutY="174.0" text="SĐT Khách hàng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="180.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="103.0" layoutY="280.0" text="Tên khách hàng" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="260.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="103.0" layoutY="315.0" text="Ngày nhận phòng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="340.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="103.0" layoutY="350.0" text="Giờ nhận phòng:" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="420.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnClose" layoutX="100.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" style="-fx-background-color: Crimson; -fx-font-size: 20;" text="Thoát" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="btnRefresh" layoutX="208.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: Gold; -fx-font-size: 20;" text="Xóa Trống">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="btnBookWaitingRoom" layoutX="609.0" layoutY="556.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="144.0" style="-fx-background-color: DeepSkyBlue; -fx-font-size: 20;" text="Đặt Phòng">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <CheckBox fx:id="ckbPrintTicket" layoutX="609.0" layoutY="516.0" mnemonicParsing="false" style="-fx-font-size: 16;" text="In phiếu đặt">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </CheckBox>
+        <TextField fx:id="txtMaPhong" disable="true" editable="false" layoutX="100.0" layoutY="40.0" prefHeight="35.0" prefWidth="300.0" style="-fx-font-size: 20;" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="97.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </TextField>
+        <DatePicker fx:id="dpNgayNhan" layoutX="336.0" layoutY="350.0" prefHeight="35.0" prefWidth="300.0" style="-fx-font-size: 20;" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="337.0" />
+        <ComboBox fx:id="cbGioNhan" layoutX="300.0" layoutY="418.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="417.0">
+            <opaqueInsets>
+                <Insets bottom="1.0" left="1.0" right="1.0" />
+            </opaqueInsets>
+        </ComboBox>
+        <Label layoutX="377.0" layoutY="423.0" text="Giờ" AnchorPane.topAnchor="420.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="556.0" layoutY="421.0" prefHeight="22.0" prefWidth="43.0" text="Phút" AnchorPane.topAnchor="421.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtSDT" layoutX="311.0" layoutY="168.0" prefHeight="35.0" prefWidth="300.0" style="-fx-font-size: 20;" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="177.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="txtTenKH" disable="true" editable="false" layoutX="300.0" layoutY="242.0" prefHeight="35.0" prefWidth="300.0" style="-fx-font-size: 20;" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="257.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </TextField>
+        <ComboBox fx:id="cbPhutNhan" layoutX="477.0" layoutY="415.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.topAnchor="417.0">
+            <opaqueInsets>
+                <Insets bottom="1.0" left="1.0" right="1.0" />
+            </opaqueInsets>
+        </ComboBox>
+    </children>
 </AnchorPane>

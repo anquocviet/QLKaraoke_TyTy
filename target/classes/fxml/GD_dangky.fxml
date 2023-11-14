@@ -30,7 +30,7 @@
                 <Font name="System Bold" size="40.0" />
             </font>
         </Text>
-        <Button layoutX="1065.0" layoutY="639.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="Thêm" textFill="#634c4c">
+        <Button fx:id="btnThem" layoutX="1065.0" layoutY="639.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="193.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="Thêm" textFill="#634c4c">
             <font>
                 <Font size="20.0" />
             </font>
@@ -55,18 +55,18 @@
                 <Font size="20.0" />
             </font>
         </Text>
-        <ComboBox layoutX="808.0" layoutY="577.0" prefHeight="36.0" prefWidth="244.0" promptText="NV001-An Quốc Việt" style="-fx-background-color: pink; -fx-font-size: 20;" />
-        <TextField alignment="CENTER" layoutX="812.0" layoutY="214.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="An Quốc Việt">
+        <ComboBox fx:id="cbbNvien" layoutX="808.0" layoutY="577.0" prefHeight="36.0" prefWidth="244.0" promptText="NV001-An Quốc Việt" style="-fx-background-color: pink; -fx-font-size: 20;" />
+        <TextField fx:id="txtHoVaTen" alignment="CENTER" layoutX="812.0" layoutY="214.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="An Quốc Việt">
             <font>
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TextField alignment="CENTER" layoutX="812.0" layoutY="309.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="QuocViet123">
+        <TextField fx:id="txtTenTaiKhoan" alignment="CENTER" layoutX="812.0" layoutY="309.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="QuocViet123">
             <font>
                 <Font size="20.0" />
             </font>
         </TextField>
-        <PasswordField alignment="CENTER" layoutX="812.0" layoutY="406.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
-        <PasswordField alignment="CENTER" layoutX="812.0" layoutY="509.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
+        <PasswordField fx:id="pwMatKhau" alignment="CENTER" layoutX="812.0" layoutY="406.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
+        <PasswordField fx:id="pwNhapLaiMatKhau" alignment="CENTER" layoutX="812.0" layoutY="509.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: pink; -fx-font-size: 20;" text="12345678" />
     </children>
 </AnchorPane>

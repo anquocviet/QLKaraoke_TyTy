@@ -12,53 +12,56 @@
 
 <AnchorPane id="GD_ChuyenPhong" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ChuyenPhongController">
 
-   <children>
-      <Text fill="#bf0a0a" layoutX="261.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <TableView fx:id="table" layoutX="27.0" layoutY="161.0" prefHeight="450.0" prefWidth="745.0" style="-fx-background-color: pink;">
-        <columns>
-          <TableColumn fx:id="maPhongCol" prefWidth="139.20001220703125" resizable="false" sortable="false" text="Mã phòng" />
-          <TableColumn fx:id="loaiPhongCol" minWidth="8.79998779296875" prefWidth="168.0" resizable="false" text="Loại phòng" />
-            <TableColumn fx:id="soNguoiCol" minWidth="8.79998779296875" prefWidth="140.79998779296875" resizable="false" text="Số người" />
-            <TableColumn fx:id="trangThaiCol" minWidth="0.0" prefWidth="143.2000732421875" resizable="false" text="Trạng thái" />
-            <TableColumn fx:id="giaTienMoiGioCol" minWidth="8.79998779296875" prefWidth="148.7999267578125" resizable="false" text="Giá tiền mỗi giờ" />
-        </columns>
-      </TableView>
-      <Button layoutX="299.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: red; -fx-font-size: 16;" text="Thoát" />
-      <Button layoutX="472.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" style="-fx-font-size: 16;" text="Tải lại" />
-      <Button layoutX="619.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: orange; -fx-font-size: 15;" text="Chuyển phòng" />
-      <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số:" wrappingWidth="120.654296875">
-         <font>
-            <Font size="14.0" />
-         </font></Text>
-      <TextField layoutX="139.0" layoutY="93.0" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: orange; -fx-font-size: 20;" text="    search">
-         <font>
-            <Font size="10.0" />
-         </font></TextField>
-      <Button layoutX="277.0" layoutY="93.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="98.0" style="-fx-font-size: 20;" text="Tìm" />
-      <TextField layoutX="666.0" layoutY="88.0" prefHeight="33.0" prefWidth="121.0" style="-fx-background-color: orange; -fx-font-size: 20;" />
-      <Text layoutX="437.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng hiện tại: 001">
-         <font>
-            <Font size="14.0" />
-         </font></Text>
-      <Text layoutX="385.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Được hiển thị khi nhân viên click vào biểu tượng chọn phòng">
-         <font>
-            <Font size="9.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="142.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../image/search.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="30.0" layoutX="629.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../image/right-arrow.png" />
-         </image>
-      </ImageView>
-   </children>
+    <children>
+        <Text fill="#bf0a0a" layoutX="261.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHUYỂN PHÒNG">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Text>
+        <TableView fx:id="table" layoutX="27.0" layoutY="161.0" prefHeight="450.0" prefWidth="745.0" style="-fx-background-color: pink;">
+            <columns>
+                <TableColumn fx:id="maPhongCol" prefWidth="139.20001220703125" resizable="false" sortable="false" text="Mã phòng" />
+                <TableColumn fx:id="loaiPhongCol" minWidth="8.79998779296875" prefWidth="168.0" resizable="false" text="Loại phòng" />
+                <TableColumn fx:id="soNguoiCol" minWidth="8.79998779296875" prefWidth="140.79998779296875" resizable="false" text="Số người" />
+                <TableColumn fx:id="trangThaiCol" minWidth="0.0" prefWidth="143.2000732421875" resizable="false" text="Trạng thái" />
+                <TableColumn fx:id="giaTienMoiGioCol" minWidth="8.79998779296875" prefWidth="148.7999267578125" resizable="false" text="Giá tiền mỗi giờ" />
+            </columns>
+        </TableView>
+        <Button fx:id="exitButton" layoutX="299.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: red; -fx-font-size: 16;" text="Thoát" onAction="#handleExit"  />
+        <Button fx:id="refreshButton" layoutX="472.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" style="-fx-font-size: 16;" text="Tải lại" onAction="#handleRefresh"  />
+        <Button fx:id="chuyenPhongButton" layoutX="619.0" layoutY="639.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: orange; -fx-font-size: 15;" text="Chuyển phòng" onAction="#handleChuyenPhong"  />
+        <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chuyển phòng số:" wrappingWidth="120.654296875">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <TextField fx:id="txtSearch" layoutX="139.0" layoutY="93.0" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: orange; -fx-font-size: 20;" text="    search">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </TextField>
+        <Button fx:id="searchButton" layoutX="277.0" layoutY="93.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="98.0" style="-fx-font-size: 20;" text="Tìm" onAction="#handleSearch"  />
+        <TextField fx:id="txtMaPhong" layoutX="666.0" layoutY="88.0" prefHeight="33.0" prefWidth="121.0" style="-fx-background-color: orange; -fx-font-size: 20;" />
+        <Text layoutX="437.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng hiện tại: 001">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="385.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Được hiển thị khi nhân viên click vào biểu tượng chọn phòng">
+            <font>
+                <Font size="9.0" />
+            </font>
+        </Text>
+        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+        <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="142.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../image/search.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="50.0" fitWidth="30.0" layoutX="629.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../image/right-arrow.png" />
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>
