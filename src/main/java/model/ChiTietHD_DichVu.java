@@ -91,42 +91,38 @@ public class ChiTietHD_DichVu {
     }
 
     // Get Data From DB
-    public static ObservableList<ChiTietHD_DichVu> getCTDichVu() throws SQLException, Exception {
+    public static ObservableList<ChiTietHD_DichVu> getCTDichVuTheoMaHD(String maHD) throws SQLException, Exception {
         ObservableList<ChiTietHD_DichVu> dsCTDichVu = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
+
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM ChiTietHD_DichVu";
+            String sql = "SELECT * FROM ChiTietHD_DichVu JOIN DichVu ON ChiTietHD_DichVu.MaDichVu = DichVu.MaDichVu WHERE MaHoaDon = " + maHD + "'";
             ResultSet rs = stmt.executeQuery(sql);
+
             while (rs.next()) {
+                // Lấy dữ liệu từ ResultSet
                 String maHoaDon = rs.getString("MaHoaDon");
                 String maDichVu = rs.getString("MaDichVu");
                 int soLuong = rs.getInt("SoLuong");
                 long thanhTien = rs.getLong("ThanhTien");
 
-                // Tạo đối tượng HoaDonThanhToan trước khi thêm vào danh sách
+                // Lấy thêm dữ liệu từ bảng "DichVu"
+                String tenDichVu = rs.getString("TenDichVu");
+                String donViTinh = rs.getString("DonViTinh");
+
+                // Tạo đối tượng HoaDonThanhToan và DichVu
                 HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon);
+                DichVu dichVu = new DichVu(maDichVu, tenDichVu, donViTinh);
 
-                // Thực hiện truy vấn để lấy thông tin từ bảng DichVu
-                String dichVuSql = "SELECT * FROM DichVu WHERE MaDichVu = '" + maDichVu + "'";
-                ResultSet dichVuRs = stmt.executeQuery(dichVuSql);
-                if (dichVuRs.next()) {
-                    String tenDichVu = dichVuRs.getString("TenDichVu");
-                    String donViTinh = dichVuRs.getString("DonViTinh");
-
-                    // Tạo đối tượng DichVu và set thông tin
-                    DichVu dichVu = new DichVu(maDichVu);
-                    dichVu.setTenDichVu(tenDichVu);
-                    dichVu.setDonViTinh(donViTinh);
-
-                    // Tạo đối tượng ChiTietHD_DichVu và thêm vào danh sách
-                    ChiTietHD_DichVu chiTietHD_DichVu = new ChiTietHD_DichVu(hoaDon, dichVu, soLuong);
-                    dsCTDichVu.add(chiTietHD_DichVu);
-                }
+                // Thêm vào danh sách
+                dsCTDichVu.add(new ChiTietHD_DichVu(hoaDon, dichVu, soLuong));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (stmt != null) {

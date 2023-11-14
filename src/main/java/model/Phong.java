@@ -304,4 +304,8 @@ public class Phong {
 		return n > 0;
 	}
 
+    public String getHoVaTen() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

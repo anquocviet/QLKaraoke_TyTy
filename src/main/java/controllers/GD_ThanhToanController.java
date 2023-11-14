@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +25,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.App;
 import model.ChiTietHD_DichVu;
+import model.ChiTietHD_Phong;
+import model.HoaDonThanhToan;
 
 /**
  * FXML Controller class
@@ -34,31 +37,40 @@ public class GD_ThanhToanController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        col_tenDichVu.setCellValueFactory(new PropertyValueFactory<>("tenDichVu"));
-        col_soLuong.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
-        col_donViTinh.setCellValueFactory(new PropertyValueFactory<>("donViTinh"));
-        col_thanhTien.setCellValueFactory(new PropertyValueFactory<>("thanhTien"));
-
+        String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
         try {
-            danhSach_CTDichVu = ChiTietHD_DichVu.getCTDichVu();
+            col_tenDichVu.setCellValueFactory(cellData -> {
+                String tenDichVu = cellData.getValue().getDichVu().getTenDichVu();
+                return new ReadOnlyStringWrapper(tenDichVu);
+            });
+            col_soLuong.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+            col_donViTinh.setCellValueFactory(cellData -> {
+                String donViTinh = cellData.getValue().getDichVu().getDonViTinh();
+                return new ReadOnlyStringWrapper(donViTinh);
+            });
+            col_thanhTien.setCellValueFactory(cellData -> {
+                long thanhTien = cellData.getValue().getThanhTien();
+                return new ReadOnlyObjectWrapper<>(thanhTien);
+            });
+            
+            danhSach_CTDichVu = ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD);
+            table_CTDichVu.setItems(danhSach_CTDichVu);
+            docDuLieuTuTable2();
+            handleEventInTable();
         } catch (Exception ex) {
             Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        table_CTDichVu.setItems(danhSach_CTDichVu);
-        docDuLieuTuTable2();
-        handleEventInTable();
     }
 
     public void handleEventInTable() {
-        
+
         table_CTDichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 docDuLieuTuTable2();
             }
         });
-        
+
         table_CTDichVu.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -69,7 +81,7 @@ public class GD_ThanhToanController implements Initializable {
 
         });
     }
-    
+
     public void docDuLieuTuTable2() {
         ChiTietHD_DichVu ctdv = table_CTDichVu.getSelectionModel().getSelectedItem();
         if (ctdv == null) {
@@ -78,10 +90,25 @@ public class GD_ThanhToanController implements Initializable {
         txtTenDichVu.setText(ctdv.getDichVu().getTenDichVu());
         txtSoLuong.setText(String.valueOf(ctdv.getSoLuong()));
         txtDonViTinh.setText(ctdv.getDichVu().getDonViTinh());
-        txtThanhTien.setText(String.valueOf(ctdv.getThanhTien()));
+        txtThanhTienDV.setText(String.valueOf(ctdv.getThanhTien()));
 
     }
 
+    //Bảng phòng
+    @FXML
+    private TextField txtMaPhong;
+    @FXML
+    private TextField txtNgay;
+    @FXML
+    private TextField txtGioVao;
+    @FXML
+    private TextField txtGioRa;
+    @FXML
+    private TextField txtTongGioSuDung;
+    @FXML
+    private TextField txtThanhTienP;
+
+    //Bảng Dịch vụ
     @FXML
     private TextField txtTenDichVu;
     @FXML
@@ -89,7 +116,10 @@ public class GD_ThanhToanController implements Initializable {
     @FXML
     private TextField txtDonViTinh;
     @FXML
-    private TextField txtThanhTien;
+    private TextField txtThanhTienDV;
+
+    @FXML
+    private TableView<ChiTietHD_Phong> table_CTPhong;
 
     @FXML
     private TableView<ChiTietHD_DichVu> table_CTDichVu;

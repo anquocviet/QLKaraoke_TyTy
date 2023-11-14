@@ -99,7 +99,7 @@
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </SplitMenuButton>
-      <TableView layoutX="30.0" layoutY="210.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="288.0" prefWidth="594.0">
+      <TableView fx:id="table_CTPhong" layoutX="30.0" layoutY="210.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="288.0" prefWidth="594.0">
         <columns>
           <TableColumn prefWidth="269.60000228881836" text="Thông tin" />
           <TableColumn minWidth="0.0" prefWidth="268.8000183105469" sortType="DESCENDING" text="Nội dung" />

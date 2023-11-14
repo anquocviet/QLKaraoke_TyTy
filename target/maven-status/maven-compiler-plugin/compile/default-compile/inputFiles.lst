@@ -18,9 +18,13 @@ C:\PTUD\QLKaraoke_TyTy\src\main\java\model\NhanVien.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKhachHangController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeQuyController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeThangController.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\table.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\enums\Enum_Nvien.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_TraCuuHoaDonController.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\chuyenPhong.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\enums\Enum_LoaiPhong.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKinhDoanhPhongController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java

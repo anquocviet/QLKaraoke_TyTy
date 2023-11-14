@@ -4,15 +4,24 @@
  */
 package controllers;
 
+import enums.Enum_LoaiPhong;
+import enums.Enum_ChucVu;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import model.KhachHang;
 import model.Phong;
 
 /**
@@ -39,7 +48,8 @@ public class GD_QLPhongController implements Initializable {
             }
             return new ReadOnlyStringWrapper(tinhTrangString);
         });
-
+        
+       
         giaPhongCol.setCellValueFactory(cellData -> {
             long giaPhong = cellData.getValue().getGiaPhong();
             return new ReadOnlyStringWrapper(giaPhong + " K/H");
@@ -54,24 +64,79 @@ public class GD_QLPhongController implements Initializable {
             }
             return new ReadOnlyStringWrapper(loaiPhongString);
         });
+
         table.setItems(Phong.getAllPhong());
+        handleEventInTable();
+        docDuLieuTuTable();
+
+        table.setItems(Phong.getAllPhong());
+
     }
+
+    @FXML
+    public void xuLyLamMoiThongTinPhong() throws Exception {
+        cbbLoaiPhong.getItems().clear();
+        cbbLoaiPhong.getItems().addAll(Enum_LoaiPhong.values());
+        cbbLoaiPhong.getSelectionModel().selectFirst();
+    }
+
+    public void handleEventInTable() {
+        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                docDuLieuTuTable();
+            }
+
+        });
+        table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+                    docDuLieuTuTable();
+                }
+            }
+            
+
+        });
+    }
+
 //  Render and handle in View'
-    /* public void docDuLieuTuTable(MouseEvent event) {
-        Phong ph = table.getSelectionModel().getSelectedItem();
-        txtMaKhachHang.setText(ph.getMa());
-        txtTenKhachHang.setText(ph.getTenKhachHang());
-        txtSDT.setText(kh.getSoDienThoai());
-        spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
-        if (kh.isGioiTinh()) {
-            genderGroup.getToggles().get(0).setSelected(true);
-        } else {
-            genderGroup.getToggles().get(1).setSelected(true);
+    public void docDuLieuTuTable() {
+        Phong p = table.getSelectionModel().getSelectedItem();
+        if (p == null) {
+            return;
         }
+        txtMaPhong.setText(p.getMaPhong());
+        String emptyString = "";
+        txtSucChua.setText((emptyString + p.getSucChua()));
+        
+        if(p.getTinhTrang() == 0){
+         txtTinhTrang.setText(" Phòng Trống ");   
+        }else if(p.getTinhTrang() == 1){
+         txtTinhTrang.setText(" Đã Thuê");      
+        }else if(p.getTinhTrang() == 2){
+          txtTinhTrang.setText(" Đã Đặt");   
+        }
+         
+         
+         
+         
+        txtGiaPhong.setText(p.getGiaPhong() + emptyString);
+        
+        cbbLoaiPhong.getItems().clear();
+        cbbLoaiPhong.getItems().addAll(Enum_LoaiPhong.values());
+       
+        if (p.getLoaiPhong()==0){
+            cbbLoaiPhong.getSelectionModel().select(0);
+        }else{
+            cbbLoaiPhong.getSelectionModel().select(1);
+        }
+            
+        
+
     }
-     */
 //fxml QL Phòng
-    
+
     @FXML
     private TableView<Phong> table;
     @FXML
@@ -87,4 +152,16 @@ public class GD_QLPhongController implements Initializable {
     @FXML
     private TableColumn<Phong, String> giaPhongCol;
 
+    @FXML
+    private TextField txtMaPhong;
+    @FXML
+    private TextField txtSucChua;
+    @FXML
+    private TextField txtTinhTrang;
+    @FXML
+    private ComboBox cbbLoaiPhong;
+    @FXML
+    private TextField txtGiaPhong;
+
 }
+
