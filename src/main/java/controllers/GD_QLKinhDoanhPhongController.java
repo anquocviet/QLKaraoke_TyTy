@@ -260,6 +260,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		}
 		if (ke.getCode() == KeyCode.F6) {
 			moGDChuyenPhong();
+                        
 		}
 		if (ke.getCode() == KeyCode.F7) {
 			moGDThanhToan();
@@ -295,6 +296,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			alert.showAndWait();
 		} else {
 			App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+                        
 		}
 	}
 
@@ -331,8 +333,23 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	}
 
 	@FXML
-	private void moGDChuyenPhong() throws IOException {
-		App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
+	private void moGDChuyenPhong() throws IOException, Exception {
+            if (itemChoosed == -1) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để chuyển", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Bạn chưa chọn phòng để chuyển!");
+			alert.showAndWait();
+		} else if (!Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng để chuyển phòng", ButtonType.OK);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Có lỗi xảy ra");
+			alert.setHeaderText("Phòng không thể chuyển!");
+			alert.showAndWait();
+		} else {
+			App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
+		}
+		
 	}
 
 	@FXML
