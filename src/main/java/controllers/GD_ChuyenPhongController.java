@@ -5,13 +5,17 @@
 package controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -66,34 +70,37 @@ public class GD_ChuyenPhongController implements Initializable {
         });
         // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
         //  table.setItems(layTatCaPhong());
-        table.setItems(Phong.layTatCaPhong());
-        ActionEvent event = null;
-        handleRefresh(event);
-       
+        table.setItems(Phong.getAllPhong());
+        // ActionEvent event = null;
+        //handleRefresh(event);
+        handleEventInTable();
     }
 
     @FXML
     void handleRefresh(ActionEvent event) {
-        table.setItems(Phong.layTatCaPhong());
-        handleEventInTable();
+        table.setItems(Phong.getAllPhong());
+        // handleEventInTable();
         docDuLieuTuTable();
-
+        txtMaPhong.setText("");
     }
 
-   
     @FXML
     void handleExit(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close(); 
+        stage.close();
+
+        // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
+        //  table.setItems(layTatCaPhong());
+        // table.setItems(Phong.getAllPhong());
     }
-    
+
     @FXML
-    void handleChuyenPhong(ActionEvent event){
+    void handleChuyenPhong(ActionEvent event) {
         Phong phongDuocChon = table.getSelectionModel().getSelectedItem();
-        if(phongDuocChon !=null){
-            table.setItems(Phong.layTatCaPhong());
-        }else{
-    }
+        if (phongDuocChon != null) {
+            table.setItems(Phong.getAllPhong());
+        } else {
+        }
     }
 
     public void handleEventInTable() {
@@ -141,14 +148,47 @@ public class GD_ChuyenPhongController implements Initializable {
 
     @FXML
     private TextField txtMaPhong;
+    
+    @FXML
+    private TextField txtSearch;
+
 
     @FXML
     private Button refreshButton;
-    
+
     @FXML
     private Button exitButton;
-    
+
     @FXML
     private Button chuyenPhongButton;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    public void handleSearch(ActionEvent event) {
+
+        String searchCode = txtSearch.getText().trim();
+        List<String> danhSachMaPhong = new ArrayList<>();
+        for (Phong phong : Phong.getAllPhong()) {
+            String maPhong = phong.getMaPhong();
+            danhSachMaPhong.add(maPhong);
+        }
+        boolean isValidCode = danhSachMaPhong.contains(searchCode);
+      //  System.out.println("controllers.GD_ChuyenPhongController.handleSearch");
+         System.out.println(searchCode);
+         System.out.println(danhSachMaPhong);
+        if (isValidCode) {
+            txtMaPhong.setText(searchCode);
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng Nhập mã lại ", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Có lỗi xảy ra");
+            alert.setHeaderText("Bạn nhập sai!");
+            alert.showAndWait();
+
+        }
+    }
 
 }

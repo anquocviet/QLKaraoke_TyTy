@@ -160,11 +160,11 @@ public class NhanVien {
     }
 
     public void setAnhDaiDien(String anhDaiDien) throws Exception {
-       // if (anhDaiDien == null || anhDaiDien.trim().equals("")) {
-        //    throw new Exception("Ảnh đại diện không được trống");
-        //} else {
+        if (anhDaiDien == null || anhDaiDien.trim().equals("")) {
+            throw new Exception("Ảnh đại diện không được trống");
+        } else {
             this.anhDaiDien = anhDaiDien;
-        //}
+        }
     }
 
     public Enum_TrangThaiLamViec getTrangThai() {
@@ -220,8 +220,8 @@ public class NhanVien {
                 String hoTen = rs.getString("HoTen");
                 String cccd = rs.getString("CCCD");
                 String soDienThoai = rs.getString("SoDienThoai");
-//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
-                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                Date ns = rs.getDate("NgaySinh");
+                LocalDate ngaySinh = ns.toLocalDate();
                 String diaChi = rs.getString("DiaChi");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 String chucVuStr = rs.getString("ChucVu");
@@ -241,7 +241,7 @@ public class NhanVien {
                     trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
                 }
                 String anhDaiDien = rs.getString("AnhDaiDien");
-                dsNhanVien.add(new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, maNhanVien, trangThaiLV));
+                dsNhanVien.add(new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThaiLV));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,10 +266,8 @@ public class NhanVien {
                 String hoTen = rs.getString("HoTen");
                 String cccd = rs.getString("CCCD");
                 String soDienThoai = rs.getString("SoDienThoai");
-//                java.sql.Date ns = rs.getDate("NgaySinh");
-//                LocalDate ngaySinh = ns.toLocalDate();
-//                LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
-                LocalDate ngaySinh = LocalDate.of(2000, Month.MARCH, 1);
+                java.sql.Date ns = rs.getDate("NgaySinh");
+                LocalDate ngaySinh = ns.toLocalDate();
                 String diaChi = rs.getString("DiaChi");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 String chucVuStr = rs.getString("ChucVu");
@@ -288,7 +286,8 @@ public class NhanVien {
                 if (trangThaiLVStr.equals("Đã nghỉ việc")) {
                     trangThaiLV = Enum_TrangThaiLamViec.DANGHI;
                 }
-                return new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, maNhanVien, trangThaiLV);
+				String anhDaiDien = rs.getString("AnhDaiDien");
+                return new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThaiLV);
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -304,18 +303,41 @@ public class NhanVien {
         return null;
     }
 
-    public static int demSLNhanVien() throws SQLException {
+//    public static int demSLNhanVien() throws SQLException {
+//        Connection conn = ConnectDB.getInstance().getConnection();
+//        Statement stmt = null;
+//        try {
+//            stmt = conn.createStatement();
+//            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                return rs.getInt(1);
+//            } else {
+//                return 0;
+//            }
+//        } finally {
+//            if (stmt != null) {
+//                stmt.close();
+//            }
+//        }
+//    }
+    
+    public static int demSLNhanVien(int ns) throws SQLException {
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
+
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT COUNT(*) FROM NhanVien WHERE YEAR(NgaySinh) = YEAR(GETDATE())";
+            String sql = "SELECT YEAR(NgaySinh) AS NamSinh, COUNT(*) AS SoLuongNhanVien " +
+                         "FROM NhanVien " +
+                         "GROUP BY YEAR(NgaySinh)";
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else {
-                return 0;
+            while (rs.next()) {
+                if (rs.getInt("NamSinh") == ns) {
+                    return rs.getInt("SoLuongNhanVien");
+                }
             }
+            return 0;
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -368,19 +390,27 @@ public class NhanVien {
         int n = 0;
 
         String sql = "UPDATE NhanVien " +
-                     "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?,AnhDaiDien = ? " +
-                     "WHERE MaNhanVien = ?";
+             "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?, AnhDaiDien = ? " +
+             "WHERE MaNhanVien = ?";
+        
+        String chucVu = "Quản lý";
+        if(nv.getChucVu()== Enum_ChucVu.BAOVE)
+            chucVu = "Bảo vệ";
+        else if(nv.getChucVu() == Enum_ChucVu.NHANVIENPHUCVU)
+            chucVu = "Nhân viên phục vụ";
+        else if (nv.getChucVu() == Enum_ChucVu.NHANVIENTIEPTAN)
+            chucVu = "Nhân viên tiếp tân";
 
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, nv.getHoTen());
             pstm.setString(2, nv.getCccd());
             pstm.setString(3, nv.getSoDienThoai());
-            pstm.setDate(4, java.sql.Date.valueOf(nv.getNgaySinh()));
+            pstm.setDate(4, Date.valueOf(nv.getNgaySinh()));
             pstm.setString(5, nv.getDiaChi());
             pstm.setBoolean(6, nv.isGioiTinh());
-            pstm.setString(7, nv.getChucVu().name());
-            pstm.setString(8, nv.getTrangThai().name());
+            pstm.setString(7, chucVu);
+            pstm.setString(8, nv.getTrangThai().toString());
             pstm.setString(9, nv.getAnhDaiDien());
             pstm.setString(10, nv.getMaNhanVien());
 

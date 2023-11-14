@@ -35,12 +35,12 @@
                 <Font size="14.0" />
             </font>
         </Text>
-        <TextField layoutX="139.0" layoutY="93.0" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: orange; -fx-font-size: 20;" text="    search">
+        <TextField fx:id="txtSearch" layoutX="139.0" layoutY="93.0" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: orange; -fx-font-size: 20;" text="    search">
             <font>
                 <Font size="10.0" />
             </font>
         </TextField>
-        <Button layoutX="277.0" layoutY="93.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="98.0" style="-fx-font-size: 20;" text="Tìm" />
+        <Button fx:id="searchButton" layoutX="277.0" layoutY="93.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="98.0" style="-fx-font-size: 20;" text="Tìm" onAction="#handleSearch"  />
         <TextField fx:id="txtMaPhong" layoutX="666.0" layoutY="88.0" prefHeight="33.0" prefWidth="121.0" style="-fx-background-color: orange; -fx-font-size: 20;" />
         <Text layoutX="437.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng hiện tại: 001">
             <font>

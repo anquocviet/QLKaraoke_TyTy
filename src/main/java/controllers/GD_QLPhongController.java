@@ -64,9 +64,13 @@ public class GD_QLPhongController implements Initializable {
             }
             return new ReadOnlyStringWrapper(loaiPhongString);
         });
-        table.setItems(Phong.layTatCaPhong());
+
+        table.setItems(Phong.getAllPhong());
         handleEventInTable();
         docDuLieuTuTable();
+
+        table.setItems(Phong.getAllPhong());
+
     }
 
     @FXML
