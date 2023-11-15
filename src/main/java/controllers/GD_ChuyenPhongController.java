@@ -4,18 +4,29 @@
  */
 package controllers;
 
+import connect.ConnectDB;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -24,7 +35,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.KhachHang;
+import model.ChiTietHD_Phong;
+
 import model.Phong;
 
 /**
@@ -34,8 +46,12 @@ import model.Phong;
  */
 public class GD_ChuyenPhongController implements Initializable {
 
+    String roomID = GD_QLKinhDoanhPhongController.roomID;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        lblMaPhong.setText(roomID);
         maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
         //loaiPhongCol.setCellValueFactory(new PropertyValueFactory<>("loaiPhong"));
         loaiPhongCol.setCellValueFactory(cellData -> {
@@ -70,7 +86,7 @@ public class GD_ChuyenPhongController implements Initializable {
         });
         // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
         //  table.setItems(layTatCaPhong());
-        table.setItems(Phong.getAllPhong());
+        table.setItems(Phong.getListPhongByStatus(0));
         // ActionEvent event = null;
         //handleRefresh(event);
         handleEventInTable();
@@ -78,28 +94,71 @@ public class GD_ChuyenPhongController implements Initializable {
 
     @FXML
     void handleRefresh(ActionEvent event) {
-        table.setItems(Phong.getAllPhong());
+        table.setItems(Phong.getListPhongByStatus(0));
         // handleEventInTable();
         docDuLieuTuTable();
-        txtMaPhong.setText("");
+        lblPhongMoi.setText("");
     }
 
     @FXML
     void handleExit(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
-
-        // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
-        //  table.setItems(layTatCaPhong());
-        // table.setItems(Phong.getAllPhong());
     }
 
     @FXML
-    void handleChuyenPhong(ActionEvent event) {
+    void handleChuyenPhong(ActionEvent event) throws Exception {
         Phong phongDuocChon = table.getSelectionModel().getSelectedItem();
+        System.out.println(phongDuocChon);
+        ObservableList<Phong> list = Phong.getListPhongByID(roomID);
+        Phong phongHienTai = list.get(0);
+        System.out.println(phongHienTai);
         if (phongDuocChon != null) {
-            table.setItems(Phong.getAllPhong());
+            phongDuocChon.updateStatusRoom(phongDuocChon.getMaPhong(), 1);
+            phongHienTai.updateStatusRoom(phongHienTai.getMaPhong(), 2);
+            ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhong(phongHienTai.getMaPhong());
+            hdPhongHienTai.setGioRa(LocalDateTime.now());
+            ChiTietHD_Phong.suaChiTietHD_Phong(hdPhongHienTai);
+            System.out.println(hdPhongHienTai);
+            ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, LocalDateTime.now(), LocalDateTime.of(2024, Month.MARCH, 2, 0, 0));
+            ChiTietHD_Phong.themChiTietHD_Phong(hdPhongMoi);
+            System.out.println(hdPhongMoi);
+            showSuccessAlert();
+
         } else {
+            showErrorAlert("Vui lòng chọn phòng trong danh sách");
+        }
+    }
+
+    private void showSuccessAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+        configureAlert(alert, "Chuyển phòng thành công!");
+        alert.showAndWait();
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        configureAlert(alert, "Có lỗi xảy ra");
+        alert.showAndWait();
+    }
+
+    private void configureAlert(Alert alert, String title) {
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.setTitle("Thông báo");
+        alert.setHeaderText(title);
+
+        // Xử lý sự kiện khi nút "OK" được nhấn
+        ButtonType buttonTypeOK = alert.getButtonTypes().stream()
+                .filter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE)
+                .findFirst()
+                .orElse(null);
+
+        if (buttonTypeOK != null) {
+            Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
+            buttonOK.setOnAction(event -> {
+                handleExit(event);
+                alert.close();
+            });
         }
     }
 
@@ -128,7 +187,7 @@ public class GD_ChuyenPhongController implements Initializable {
         if (cp == null) {
             return;
         }
-        txtMaPhong.setText(cp.getMaPhong());
+        lblPhongMoi.setText(cp.getMaPhong());
 
     }
 
@@ -147,11 +206,13 @@ public class GD_ChuyenPhongController implements Initializable {
     private TableColumn<Phong, String> giaTienMoiGioCol;
 
     @FXML
-    private TextField txtMaPhong;
-    
+    private Label lblPhongMoi;
+
+    @FXML
+    private Label lblMaPhong;
+
     @FXML
     private TextField txtSearch;
-
 
     @FXML
     private Button refreshButton;
@@ -170,22 +231,20 @@ public class GD_ChuyenPhongController implements Initializable {
 
         String searchCode = txtSearch.getText().trim();
         List<String> danhSachMaPhong = new ArrayList<>();
-        for (Phong phong : Phong.getAllPhong()) {
+        for (Phong phong : Phong.getListPhongByStatus(0)) {
             String maPhong = phong.getMaPhong();
             danhSachMaPhong.add(maPhong);
         }
         boolean isValidCode = danhSachMaPhong.contains(searchCode);
-      //  System.out.println("controllers.GD_ChuyenPhongController.handleSearch");
-         System.out.println(searchCode);
-         System.out.println(danhSachMaPhong);
+        System.out.println(searchCode);
+        System.out.println(danhSachMaPhong);
         if (isValidCode) {
-            txtMaPhong.setText(searchCode);
+            table.setItems(Phong.getListPhongByID(searchCode));
         } else {
-
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng Nhập mã lại ", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
             alert.setTitle("Có lỗi xảy ra");
-            alert.setHeaderText("Bạn nhập sai!");
+            alert.setHeaderText("Có vẻ mã phòng đã sai cú pháp hoặc phòng cần tìm không được phép chuyển!");
             alert.showAndWait();
 
         }

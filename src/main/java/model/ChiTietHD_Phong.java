@@ -5,16 +5,21 @@
 package model;
 
 import connect.ConnectDB;
+import controllers.GD_ChuyenPhongController;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -119,7 +124,6 @@ public class ChiTietHD_Phong {
         } else {
             hour += 1;
         }
-
         return hour;
     }
 
@@ -187,4 +191,100 @@ public class ChiTietHD_Phong {
         }
     }
 
+    public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhong(String maPhong) throws Exception {
+        Connection conn = ConnectDB.getConnection();
+        ObservableList<Phong> tmp = Phong.getListPhongByID(maPhong);
+        Phong phong = tmp.get(0);
+
+        Statement stmt = null;
+        ChiTietHD_Phong hdP = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE MaPhong = '%s'", maPhong);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maHoaDon = rs.getString("MaHoaDon");
+                HoaDonThanhToan hoaDon = HoaDonThanhToan.getBillByID(maHoaDon);
+                java.sql.Timestamp timestamp = rs.getTimestamp("GioVao");
+                LocalDateTime gioVao = timestamp.toLocalDateTime();
+                timestamp = rs.getTimestamp("GioRa");
+                LocalDateTime gioRa = timestamp.toLocalDateTime();
+                hdP = new ChiTietHD_Phong(hoaDon, phong, gioVao, gioRa);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return hdP;
+    }
+
+    public static boolean suaChiTietHD_Phong(ChiTietHD_Phong hdP) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE ChiTietHD_Phong "
+                + "SET GioVao = ?, GioRa = ? "
+                + "WHERE MaHoaDon = ? AND MaPhong = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setTimestamp(1, Timestamp.valueOf(hdP.getGioVao()));
+            pstm.setTimestamp(2, Timestamp.valueOf(hdP.getGioRa()));
+            pstm.setString(3, hdP.getHoaDon().getMaHoaDon());
+            pstm.setString(4, hdP.getPhong().getMaPhong());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
+
+    public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "MERGE INTO ChiTietHD_Phong AS target " +
+                 "USING (VALUES (?, ?, ?, ?)) AS source (MaHoaDon, MaPhong, GioVao, GioRa) " +
+                 "ON target.MaHoaDon = source.MaHoaDon AND target.MaPhong = source.MaPhong " +
+                 "WHEN MATCHED THEN " +
+                 "UPDATE SET target.GioVao = source.GioVao, target.GioRa = source.GioRa " +
+                 "WHEN NOT MATCHED THEN " +
+                 "INSERT (MaHoaDon, MaPhong, GioVao, GioRa) VALUES (source.MaHoaDon, source.MaPhong, source.GioVao, source.GioRa);";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, hdP.getHoaDon().getMaHoaDon());
+            pstm.setString(2, hdP.getPhong().getMaPhong());
+            pstm.setTimestamp(3, Timestamp.valueOf(hdP.getGioVao()));
+            pstm.setTimestamp(4, Timestamp.valueOf(hdP.getGioRa()));
+
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
 }

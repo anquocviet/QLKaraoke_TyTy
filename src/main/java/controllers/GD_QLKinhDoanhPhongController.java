@@ -290,8 +290,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         }
     }
 
-
-
 	@FXML
 	private void moGDDatPhongCho() throws IOException, Exception {
 		if (itemChoosed == -1) {
@@ -308,6 +306,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			alert.showAndWait();
 		} else {
 			App.openModal("GD_DatPhongCho", App.widthModal, App.heightModal);
+                        
 		}
 	}
 
@@ -421,7 +420,5 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private RadioButton radioStatusEmpty;
     @FXML
     private RadioButton radioStatusWaiting;
-
-
 
 }

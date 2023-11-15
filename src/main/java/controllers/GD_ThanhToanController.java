@@ -32,6 +32,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javax.swing.JOptionPane;
 import main.App;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
@@ -118,8 +119,19 @@ public class GD_ThanhToanController implements Initializable {
 			if (evt.getCode() == KeyCode.ENTER) {
 				String tienNhan = txtTienNhan.getText().trim();
 				String tongTien = txtTongTien.getText().trim();
-				txtTienThua.setText(Integer.parseInt(tienNhan) - Integer.parseInt(tongTien) + "");
+				long tienThua = Integer.parseInt(tienNhan) - Integer.parseInt(tongTien);
+				if (tienThua < 0) {
+					JOptionPane.showConfirmDialog(null, "Tiền nhận được ít hơn tổng tiền cần thanh toán! Vui lòng kiểm tra lại.");
+				} else {
+					txtTienThua.setText(tienThua + "");
+				}
 			}
+		});
+	}
+	
+	public void handleEventInBtn() {
+		btnThanhToan.setOnAction(evt -> {
+			
 		});
 	}
 
