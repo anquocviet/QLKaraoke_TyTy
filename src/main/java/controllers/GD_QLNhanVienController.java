@@ -63,6 +63,7 @@ public class GD_QLNhanVienController implements Initializable {
 	private TextField txtDiaChi;
 	@FXML
 	private ComboBox cbbChucVu;
+        
 
 	@FXML
 	private TableColumn<NhanVien, String> colMaNV;
@@ -337,7 +338,8 @@ public class GD_QLNhanVienController implements Initializable {
 		Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue();
 
 		Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
-		String anhDaiDien = "duong_dan_anh_dai_dien";
+                
+		String anhDaiDien = imgNV.getStyle();
 
 		NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
 		NhanVien.capNhatThongTinNhanVien(nv);

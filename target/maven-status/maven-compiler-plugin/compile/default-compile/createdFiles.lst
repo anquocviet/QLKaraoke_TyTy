@@ -45,6 +45,7 @@ controllers/GD_DatDichVuController$3$1.class
 controllers/GD_DatDichVuController.class
 controllers/GD_ChuyenPhongController$1.class
 controllers/GD_QLKinhDoanhPhongController$2.class
+model/connection.class
 model/PhieuDatPhong.class
 controllers/GD_ThongKeThangController.class
 model/DichVu.class

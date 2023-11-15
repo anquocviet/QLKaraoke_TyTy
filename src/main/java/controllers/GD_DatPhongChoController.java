@@ -6,17 +6,21 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -98,7 +102,7 @@ public class GD_DatPhongChoController implements Initializable {
 		});
 		btnBookWaitingRoom.setOnAction(evt -> {
 			try {
-				String maPhieuDat = "P001";
+				String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countTicketInDay());
 				KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
 				Phong phong = new Phong(txtMaPhong.getText());
 				NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
@@ -106,12 +110,43 @@ public class GD_DatPhongChoController implements Initializable {
 				LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
 				String ghiChu = "";
 
-				PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, ghiChu));
+				boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, ghiChu));
+				if (result == true) {
+					Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
+					App.setRoot("GD_QLKinhDoanhPhong");
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Đặt phòng thành công");
+					alert.setHeaderText("Bạn đã đặt phòng thành công!");
+					alert.showAndWait();
+					Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+					stage.close();
+				} else {
+					Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Có lỗi xảy ra");
+					alert.setHeaderText("Có lỗi xảy ra khi đặt phòng chờ!");
+					alert.showAndWait();
+				}
 			} catch (Exception ex) {
 				Logger.getLogger(GD_DatPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
 	}
+	
+	public String phatSinhMaPhieuDat(int stt){
+        Date ngayLap = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMdd");
+        String ngayThangNam = dateFormat.format(ngayLap);
+
+        String strSTT = String.format("%02d", stt + 1);
+
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+        String namCuoi = yearFormat.format(ngayLap);
+        String maHoaDon = "PD" + strSTT + ngayThangNam + namCuoi;
+
+        return maHoaDon;
+    }
 
 	@FXML
 	private Button btnClose;

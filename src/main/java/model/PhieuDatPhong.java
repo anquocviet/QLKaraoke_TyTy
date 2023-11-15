@@ -201,6 +201,8 @@ public class PhieuDatPhong {
 			pstm.setString(3, phieu.getKhachHang().getMaKhachHang());
 			pstm.setString(4, phieu.getNhanVienLap().getMaNhanVien());
 			pstm.setDate(5, Date.valueOf(phieu.getThoiGianLap().toLocalDate()));
+			pstm.setDate(6, Date.valueOf(phieu.getThoiGianNhan().toLocalDate()));
+			pstm.setString(7, phieu.ghiChu);
 			n = pstm.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,6 +214,29 @@ public class PhieuDatPhong {
 			}
 		}
 		return n > 0;
+	}
+	
+	public static int countTicketInDay() throws Exception {
+		int quantity = 0;
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			String sql = "SELECT COUNT(MaPhieuDat) AS QTY FROM PhieuDatPhong";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				quantity = rs.getInt("QTY");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return quantity;
 	}
 
 }
