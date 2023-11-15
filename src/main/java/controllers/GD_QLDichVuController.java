@@ -153,6 +153,16 @@ public class GD_QLDichVuController implements Initializable {
         return true;
     }
 
+    
+    public String phatSinhMaDichVu() throws SQLException {
+    String maDichVu = "DV";
+    int totalDichVu = DichVu.demSLDichVu();
+    DecimalFormat dfSoThuTu = new DecimalFormat("000");
+    String soThuTuFormatted = dfSoThuTu.format(totalDichVu + 1);
+    maDichVu = maDichVu.concat(soThuTuFormatted);
+    return maDichVu;
+}
+    
     public void xuLyThemDichVu() throws Exception {
         if (!kiemTraRong()) {
             return;
@@ -178,16 +188,7 @@ public class GD_QLDichVuController implements Initializable {
 
     }
 
-public String phatSinhMaDichVu() throws SQLException {
-    String maDichVu = "DV";
-    int totalDichVu = DichVu.demSLDichVu();
-    DecimalFormat dfSoThuTu = new DecimalFormat("000");
-    String soThuTuFormatted = dfSoThuTu.format(totalDichVu + 1);
-    maDichVu = maDichVu.concat(soThuTuFormatted);
-    return maDichVu;
-}
-
-    
+   
 
     public boolean kiemTraTrungDichVu(String tenDichVu, String donViTinh) throws Exception {
         ObservableList<DichVu> dsDichVu = DichVu.getAllDichVu();

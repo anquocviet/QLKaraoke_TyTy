@@ -217,24 +217,23 @@ public class DichVu {
     }
 
     public static int demSLDichVu() throws SQLException {
+        int soLuongDichVu =0;
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
 
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT MaDichVu, COUNT(*) AS SoLuongDichVu "
-                    + "FROM DichVu "
-                    + "GROUP BY MaDichVu";
+            String sql = "SELECT COUNT(MaDichVu) AS SoLuongDichVu FROM DichVu";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                return rs.getInt("SoLuongDichVu");
+                soLuongDichVu = rs.getInt("SoLuongDichVu");
             }
-            return 0;
         } finally {
             if (stmt != null) {
                 stmt.close();
             }
         }
+        return soLuongDichVu;
     }
 
     public static boolean themDichVu(DichVu dv) {
@@ -296,9 +295,6 @@ public class DichVu {
                 pstm.setString(6, dv.getMaDichVu());
 
                 n = pstm.executeUpdate();
-            } else {
-                System.out.println("PreparedStatement is null. Check your database connection.");
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLDichVuController.class
