@@ -352,7 +352,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     @FXML
     private void moGDDatDichVu() throws IOException, Exception {
         if (itemChoosed == -1) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để thuê", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để đặt dịch vụ", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
             alert.setTitle("Có lỗi xảy ra");
             alert.setHeaderText("Bạn chưa chọn phòng để thuê!");
@@ -369,8 +369,22 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     }
 
     @FXML
-    private void moGDThanhToan() throws IOException {
-        App.setRoot("GD_ThanhToan");
+    private void moGDThanhToan() throws IOException, Exception {
+		if (itemChoosed == -1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng để thanh toán", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Có lỗi xảy ra");
+            alert.setHeaderText("Bạn chưa chọn phòng để thuê!");
+            alert.showAndWait();
+        } else if (!Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng để thanh toán", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Có lỗi xảy ra");
+            alert.setHeaderText("Phòng này không thể đặt thanht toán!");
+            alert.showAndWait();
+        } else {
+            App.setRoot("GD_ThanhToan");
+        }
     }
 
 

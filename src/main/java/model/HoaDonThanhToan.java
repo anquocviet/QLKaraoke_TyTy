@@ -152,7 +152,7 @@ public class HoaDonThanhToan {
                 int namSinh = rs.getInt("NamSinh");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 bill = new HoaDonThanhToan(billID,
-                        new NhanVien(maNV),
+                        NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh),
                         new CT_KhuyenMai(maKM), ngayLap);
             }

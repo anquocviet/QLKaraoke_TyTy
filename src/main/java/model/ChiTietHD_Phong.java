@@ -7,9 +7,16 @@ package model;
 import connect.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.TimeZone;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -85,6 +92,10 @@ public class ChiTietHD_Phong {
         }
     }
 
+	public long getThanhTien() {
+		return thanhTien;
+	}
+
     public long tinhThanhTien() {
         thanhTien = (long) (tinhTongGioSuDung() * phong.getGiaPhong());
         return thanhTien;
@@ -115,6 +126,33 @@ public class ChiTietHD_Phong {
     @Override
     public String toString() {
         return "ChiTietHD_Phong{" + "hoaDon=" + hoaDon + ", phong=" + phong + ", gioVao=" + gioVao + ", gioRa=" + gioRa + '}';
+    }
+	
+	public static ObservableList<ChiTietHD_Phong> getCT_PhongTheoMaHD(String maHD) {
+        ObservableList<ChiTietHD_Phong> dsChiTietHD_Phong = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE ChiTietHD_Phong.MaHoaDon = '%s'", maHD);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+				String maPhong = rs.getString("MaPhong");
+//				LocalDateTime gioVao = rs.getDate("GioVao").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//				LocalDateTime gioRa = rs.getDate("GioRa").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				Phong p = Phong.getPhongTheoMaPhong(maPhong);
+                dsChiTietHD_Phong.add(new ChiTietHD_Phong(new HoaDonThanhToan(maHD), p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dsChiTietHD_Phong;
     }
 
     public static boolean themChiTietHoaDon(ChiTietHD_Phong ctPhong) {
