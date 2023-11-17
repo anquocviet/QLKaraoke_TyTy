@@ -6,8 +6,10 @@ package model;
 
 import connect.ConnectDB;
 import controllers.GD_ChuyenPhongController;
+import controllers.GD_QLKhachHangController;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -287,4 +289,30 @@ public class ChiTietHD_Phong {
 
         return n > 0;
     }
+	
+	public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getInstance().getConnection();
+		PreparedStatement pstm = null;
+		int n = 0;
+		String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setDate(1, Date.valueOf(ct.gioRa.toLocalDate()));
+			pstm.setFloat(2, Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000);
+			pstm.setLong(3, ct.thanhTien);
+			pstm.setString(4, ct.getHoaDon().getMaHoaDon());
+			pstm.setString(5, ct.getPhong().getMaPhong());
+			n = pstm.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				pstm.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return n > 0;
+	}
 }

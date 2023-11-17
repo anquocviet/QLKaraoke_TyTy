@@ -34,6 +34,12 @@ public class DichVu {
     public DichVu() {
     }
 
+    public DichVu(String maDichVu, String tenDichVu, String donViTinh) throws Exception {
+        setMaDichVu(maDichVu);
+        setTenDichVu(tenDichVu);
+        setDonViTinh(donViTinh);
+    }
+
     public DichVu(String maDichVu, String tenDichVu, int soLuong, long donGia, String donViTinh, String anhMinhHoa) throws Exception {
         setMaDichVu(maDichVu);
         setTenDichVu(tenDichVu);
@@ -52,12 +58,12 @@ public class DichVu {
     }
 
     public void setMaDichVu(String maDichVu) throws Exception {
-        if (!(maDichVu == null)){
+        if (!(maDichVu == null)) {
             this.maDichVu = maDichVu;
         } else {
             throw new Exception("Mã dịch vụ không được rỗng");
         }
-        
+
     }
 
     public String getTenDichVu() {
@@ -65,9 +71,9 @@ public class DichVu {
     }
 
     public void setTenDichVu(String tenDichVu) throws Exception {
-        if (tenDichVu == null || tenDichVu.trim().equals("")){
-            throw new Exception("Tên Dịch Vụ không được rỗng");            
-        } else{
+        if (tenDichVu == null || tenDichVu.trim().equals("")) {
+            throw new Exception("Tên Dịch Vụ không được rỗng");
+        } else {
             this.tenDichVu = tenDichVu;
         }
     }
@@ -77,12 +83,12 @@ public class DichVu {
     }
 
     public void setSoLuong(int soLuong) throws Exception {
-        if (soLuong < 0){
-           throw new Exception("Số lượng không được rỗng"); 
+        if (soLuong < 0) {
+            throw new Exception("Số lượng không được rỗng");
         } else {
-            this.soLuong = soLuong;  
+            this.soLuong = soLuong;
         }
-        
+
     }
 
     public long getDonGia() {
@@ -90,7 +96,7 @@ public class DichVu {
     }
 
     public void setDonGia(long donGia) throws Exception {
-        if (donGia < 0){
+        if (donGia < 0) {
             throw new Exception("Đơn giá của dịch vụ  không được rỗng và phải lớn hơn 0");
         } else {
             this.donGia = donGia;
@@ -102,12 +108,12 @@ public class DichVu {
     }
 
     public void setDonViTinh(String donViTinh) throws Exception {
-        if (donViTinh == null || donViTinh.trim().equals("")){
+        if (donViTinh == null || donViTinh.trim().equals("")) {
             throw new Exception("Đơn vị tính của dịch vụ không được rỗng");
-        } else{
+        } else {
             this.donViTinh = donViTinh;
         }
-        
+
     }
 
     public String getAnhMinhHoa() {
@@ -115,9 +121,9 @@ public class DichVu {
     }
 
     public void setAnhMinhHoa(String anhMinhHoa) throws Exception {
-        if (anhMinhHoa == null || anhMinhHoa.trim().equals("")){
+        if (anhMinhHoa == null || anhMinhHoa.trim().equals("")) {
             throw new Exception("Ảnh minh họa của dịch vụ  không được rỗng");
-        } else{
+        } else {
             this.anhMinhHoa = anhMinhHoa;
         }
     }
@@ -148,7 +154,7 @@ public class DichVu {
     public String toString() {
         return "DichVu{" + "maDichVu=" + maDichVu + ", tenDichVu=" + tenDichVu + ", soLuong=" + soLuong + ", donGia=" + donGia + ", donViTinh=" + donViTinh + ", anhMinhHoa=" + anhMinhHoa + '}';
     }
-    
+
 //    Get Data From DB
     public static ObservableList<DichVu> getAllDichVu() {
         ObservableList<DichVu> dsDichVu = FXCollections.observableArrayList();
@@ -168,27 +174,76 @@ public class DichVu {
                 dsDichVu.add(new DichVu(maDichVu, tenDichVu, soLuongTon, donGia, donViTinh, anhMinhHoa));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DichVu.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsDichVu;
+    }
+
+    public static DichVu getDichVuTheoMaDichVu(String maDichVu) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM DichVu WHERE MaDichVu = '%s'", maDichVu);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String tenDichVu = rs.getString("TenDichVu");
+                int soLuongTon = rs.getInt("SoLuongTon");
+                String donViTinh = rs.getString("DonViTinh");
+                long donGia = rs.getLong("DonGia");
+                String anhMinhHoa = rs.getString("AnhMinhHoa");
+                return new DichVu(maDichVu, tenDichVu, soLuongTon, donGia, donViTinh, anhMinhHoa);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return dsDichVu;
+        return null;
     }
-    
+
+    public static int demSLDichVu() throws SQLException {
+        int soLuongDichVu =0;
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaDichVu) AS SoLuongDichVu FROM DichVu";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuongDichVu = rs.getInt("SoLuongDichVu");
+            }
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return soLuongDichVu;
+    }
+
     public static boolean themDichVu(DichVu dv) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
         PreparedStatement pstm = null;
         int n = 0;
 
-        String sql = "INSERT INTO DichVu (MaDichVu, TenDichVu, SoLuongTon, DonViTinh, DonGia, AnhMinhHoa) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DichVu (MaDichVu, TenDichVu, SoLuongTon, DonViTinh, DonGia, AnhMinhHoa) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             pstm = conn.prepareStatement(sql);
@@ -200,41 +255,63 @@ public class DichVu {
             pstm.setString(6, dv.getAnhMinhHoa());
 
             n = pstm.executeUpdate();
+
         } catch (SQLException ex) {
-            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GD_QLDichVuController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (pstm != null) {
                     pstm.close();
+
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLDichVuController.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         return n > 0;
     }
-    
-    public static int demSLDichVu() throws SQLException {
+
+    public static boolean capNhatThongTinDichVu(DichVu dv) {
+        ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
-        Statement stmt = null;
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "UPDATE DichVu "
+                + "SET TenDichVu = ?, SoLuongTon = ?, DonViTinh = ?, DonGia = ?, AnhMinhHoa = ? "
+                + "WHERE MaDichVu = ?";
 
         try {
-            stmt = conn.createStatement();
-            String sql = "SELECT COUNT(*) AS SoLuongDichVu " +
-                         "FROM DichVu ";
-            
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()){
-                return rs.getInt("SoLuongDichVu");   
-        
+            pstm = conn.prepareStatement(sql);
+            if (pstm != null) {
+                pstm.setString(1, dv.getTenDichVu());
+                pstm.setInt(2, dv.getSoLuong());
+                pstm.setString(3, dv.getDonViTinh());
+                pstm.setLong(4, dv.getDonGia());
+                pstm.setString(5, dv.getAnhMinhHoa());
+                pstm.setString(6, dv.getMaDichVu());
+
+                n = pstm.executeUpdate();
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLDichVuController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (stmt != null) {
-                stmt.close();
+            try {
+                if (pstm != null) {
+                    pstm.close();
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLDichVuController.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return 0;
+
+        return n > 0;
     }
-    
+
 }
