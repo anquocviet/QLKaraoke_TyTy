@@ -22,7 +22,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +39,7 @@ import main.App;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
+import model.Phong;
 
 /**
  * FXML Controller class
@@ -112,6 +115,7 @@ public class GD_ThanhToanController implements Initializable {
 		txtTienPhong.setText(tienPhong + "");
 		txtTongTien.setText(Integer.parseInt(txtTienDichVu.getText()) + Integer.parseInt(txtTienPhong.getText()) + "");
 		handleEventInputInput();
+		handleEventInBtn();
 	}
 
 	public void handleEventInputInput() {
@@ -121,7 +125,7 @@ public class GD_ThanhToanController implements Initializable {
 				String tongTien = txtTongTien.getText().trim();
 				long tienThua = Integer.parseInt(tienNhan) - Integer.parseInt(tongTien);
 				if (tienThua < 0) {
-					JOptionPane.showConfirmDialog(null, "Tiền nhận được ít hơn tổng tiền cần thanh toán! Vui lòng kiểm tra lại.");
+//					JOptionPane.showConfirmDialog(null, "Tiền nhận được ít hơn tổng tiền cần thanh toán! Vui lòng kiểm tra lại.");
 				} else {
 					txtTienThua.setText(tienThua + "");
 				}
@@ -131,7 +135,23 @@ public class GD_ThanhToanController implements Initializable {
 	
 	public void handleEventInBtn() {
 		btnThanhToan.setOnAction(evt -> {
-			
+			try {
+				LocalDateTime gioRa = LocalDateTime.now();
+				ChiTietHD_Phong.suaChiTietHD_Phong(new ChiTietHD_Phong(
+						HoaDonThanhToan.getBillByID(txtMaHoaDon.getText()),
+						Phong.getPhongTheoMaPhong(txtMaPhong.getText()),
+						LocalDateTime.now(),
+						gioRa));
+				Phong.updateStatusRoom(txtMaPhong.getText(), 0);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Thanh toán phòng thành công");
+					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+					alert.showAndWait();
+				App.setRoot("GD_QLKinhDoanhPhong");
+			} catch (Exception ex) {
+				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		});
 	}
 
