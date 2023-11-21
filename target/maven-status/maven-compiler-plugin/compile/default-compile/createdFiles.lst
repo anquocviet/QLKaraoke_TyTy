@@ -21,7 +21,6 @@ controllers/GD_QLPhongController$1.class
 controllers/PopupPhongController.class
 model/Phong.class
 model/ChiTietHD_DichVu.class
-controllers/table.class
 controllers/GD_QLNhanVienController.class
 model/HoaDonThanhToan.class
 controllers/GD_DatDichVuController$1.class
@@ -33,7 +32,6 @@ controllers/GD_QLKinhDoanhPhongController.class
 controllers/GD_QLDichVuController.class
 controllers/GD_DangNhapController.class
 controllers/GD_ThongKeKhachHangController.class
-controllers/chuyenPhong.class
 controllers/GD_TraCuuHoaDonController.class
 controllers/GD_DatDichVuController$2.class
 controllers/GD_ThongKeQuyController.class

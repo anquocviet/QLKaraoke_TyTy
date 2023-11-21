@@ -24,7 +24,6 @@
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/model/PhieuDatPhong.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThongKeNgayController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThanhToanController.java
-/Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/table.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/model/ChiTietHD_DichVu.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThongKeKhachHangController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThongKeQuyController.java
@@ -38,4 +37,3 @@
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/module-info.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/connect/ConnectDB.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/AppFrameController.java
-/Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/chuyenPhong.java
