@@ -222,14 +222,13 @@ public class Phong {
         return dsPhong;
     }
 
-    public static ObservableList<Phong> getListPhongByID_Type_Status(String id, int[] arrType, int[] arrStatus) {
+    public static ObservableList<Phong> getListPhongByTypeAndStatus(int[] arrType, int[] arrStatus) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM Phong WHERE MaPhong LIKE '%%" + id + "%%' "
-                    + "AND LOAIPHONG IN (%d, %d) "
+            String sql = String.format("SELECT * FROM Phong WHERE LOAIPHONG IN (%d, %d) "
                     + "AND TINHTRANG IN (%d, %d, %d)", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2]);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
