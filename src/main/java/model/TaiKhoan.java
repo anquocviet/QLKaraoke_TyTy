@@ -9,6 +9,7 @@ import controllers.GD_DangNhapController;
 import controllers.GD_QLKhachHangController;
 import enums.Enum_ChucVu;
 import enums.Enum_TrangThaiLamViec;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +19,11 @@ import java.time.Month;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
  * @author vie
  */
 public class TaiKhoan {
@@ -41,14 +42,14 @@ public class TaiKhoan {
         this.matKhau = matKhau;
         this.nhanVien = nhanVien;
     }
-    
- public TaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau) {
+
+    public TaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau) {
         this.maTaiKhoan = maTaiKhoan;
         this.tenDangNhap = tenDangNhap;
         this.matKhau = matKhau;
-      
+
     }
-    
+
     public TaiKhoan(String maTaiKhoan) {
         this.maTaiKhoan = maTaiKhoan;
     }
@@ -142,6 +143,25 @@ public class TaiKhoan {
         return dsTaiKhoan;
     }
 
+    public static int demSoLuongTaiKhoan(){
+        int soLuong = 0;
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(*) AS SoLuong FROM TaiKhoan";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return soLuong+1;
+    }
+
     public static TaiKhoan getTaiKhoanTheoUserNameAndPassword(String tenDangNhap, String matKhau) {
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
@@ -161,6 +181,7 @@ public class TaiKhoan {
             Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,35 +190,36 @@ public class TaiKhoan {
         return tk;
     }
 
-       public static TaiKhoan save(TaiKhoan tk) {
-         Connection conn = ConnectDB.getInstance().getConnection();
-         Statement stmt = null;
-    
-    try {
-        stmt = conn.createStatement();
-        
-        String insertQuery = String.format("INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, HoTen) VALUES ('%s', '%s', '%s', '%s')",
-                tk.getMaTaiKhoan(), tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getHoTen());
-        stmt.executeUpdate(insertQuery);
-        
-        System.out.println("Thêm tài khoản thành công!");
-    } catch (SQLException ex) {
-        Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
+    public static TaiKhoan save(TaiKhoan tk) {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+
         try {
-            if (stmt != null) {
-                stmt.close();
-            }
-            conn.close();
+            stmt = conn.createStatement();
+
+            String insertQuery = String.format("INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, MaNhanVien) VALUES ('%s', '%s', '%s', '%s')",
+                    "TK00"+demSoLuongTaiKhoan(), tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getMaNhanVien());
+            stmt.executeUpdate(insertQuery);
+
+
+            System.out.println("Thêm tài khoản thành công!");
         } catch (SQLException ex) {
             Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
+        return tk;
     }
-    
-    return tk;
-}
-        
-public static ObservableList<TaiKhoan> getAllTaiKhoanFull() {
+
+    public static ObservableList<TaiKhoan> getAllTaiKhoanFull() {
         ObservableList<TaiKhoan> dsTaiKhoan = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
@@ -242,7 +264,9 @@ public static ObservableList<TaiKhoan> getAllTaiKhoanFull() {
             Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
             }

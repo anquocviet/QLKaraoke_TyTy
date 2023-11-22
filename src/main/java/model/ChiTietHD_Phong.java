@@ -153,6 +153,7 @@ public class ChiTietHD_Phong {
             e.printStackTrace();
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -245,6 +246,8 @@ public class ChiTietHD_Phong {
             Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+
+                assert pstm != null;
                 pstm.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
@@ -308,7 +311,8 @@ public class ChiTietHD_Phong {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
-				pstm.close();
+                assert pstm != null;
+                pstm.close();
 			} catch (SQLException ex) {
 				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 			}

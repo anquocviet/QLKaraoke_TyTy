@@ -179,6 +179,7 @@ public class DichVu {
             Logger.getLogger(DichVu.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,6 +209,7 @@ public class DichVu {
             Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);

@@ -294,6 +294,7 @@ public class NhanVien {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -381,6 +382,25 @@ public class NhanVien {
         }
 
         return n > 0;
+    }
+
+    public static ObservableList<String> getAllMaNhanVien(){
+        ObservableList<String> result = FXCollections.observableArrayList();
+
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT MaNhanVien FROM NhanVien";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maNhanVien = rs.getString("MaNhanVien");
+                result.add(maNhanVien);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     public static boolean capNhatThongTinNhanVien(NhanVien nv) {
