@@ -17,9 +17,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -35,7 +33,7 @@ public class ChiTietHD_Phong {
     private Phong phong;
     private LocalDateTime gioVao;
     private LocalDateTime gioRa;
-    private long thanhTien;
+    private long thanhTien = 0;
 
     public ChiTietHD_Phong() {
     }
@@ -49,6 +47,11 @@ public class ChiTietHD_Phong {
         tinhThanhTien();
 
     }
+	
+	public ChiTietHD_Phong(HoaDonThanhToan hoaDon, Phong phong) throws Exception {
+		setHoaDon(hoaDon);
+		setPhong(phong);
+	}
 
     public HoaDonThanhToan getHoaDon() {
         return hoaDon;
@@ -144,10 +147,11 @@ public class ChiTietHD_Phong {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
 				String maPhong = rs.getString("MaPhong");
-//				LocalDateTime gioVao = rs.getDate("GioVao").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				LocalDateTime gioVao = rs.getTimestamp("GioVao").toLocalDateTime();
+				LocalDateTime gioRa = rs.getTimestamp("GioRa").toLocalDateTime();
 //				LocalDateTime gioRa = rs.getDate("GioRa").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 				Phong p = Phong.getPhongTheoMaPhong(maPhong);
-                dsChiTietHD_Phong.add(new ChiTietHD_Phong(new HoaDonThanhToan(maHD), p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1)));
+                dsChiTietHD_Phong.add(new ChiTietHD_Phong(new HoaDonThanhToan(maHD), p, gioVao, gioRa));
             }
         } catch (Exception e) {
             e.printStackTrace();

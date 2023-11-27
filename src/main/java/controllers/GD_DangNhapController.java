@@ -57,6 +57,7 @@ public class GD_DangNhapController implements Initializable {
         } else {
             App.user = tk.getNhanVien().getMaNhanVien();
             Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
+			App.openMainGUI();
             stage.close();
         }
 

@@ -150,7 +150,7 @@ public class KhachHang {
         }
         return null;
     }
-//=======
+	
     //    Get data from DB
     public static ObservableList<KhachHang> getAllKhachHang() {
         ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();

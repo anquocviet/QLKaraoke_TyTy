@@ -8,9 +8,11 @@ import connect.ConnectDB;
 import controllers.GD_QLDichVuController;
 import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -90,6 +92,32 @@ public class ChiTietHD_DichVu {
         return "ChiTietHD_DichVu{" + "hoaDon=" + hoaDon + ", dichVu=" + dichVu + ", soLuong=" + soLuong + '}';
     }
 
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final ChiTietHD_DichVu other = (ChiTietHD_DichVu) obj;
+		if (!Objects.equals(this.hoaDon, other.hoaDon)) {
+			return false;
+		}
+		return Objects.equals(this.dichVu, other.dichVu);
+	}
+	
+	
+
     // Get Data From DB
     public static ObservableList<ChiTietHD_DichVu> getCTDichVuTheoMaHD(String maHD) throws SQLException, Exception {
         ObservableList<ChiTietHD_DichVu> dsCTDichVu = FXCollections.observableArrayList();
@@ -136,4 +164,54 @@ public class ChiTietHD_DichVu {
         }
         return dsCTDichVu;
     }
+	
+	public static boolean addChiTietHD_DichVu(ChiTietHD_DichVu ct) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		PreparedStatement pstm = null;
+		int n = 0;
+		String sql = "INSERT INTO ChiTietHD_DichVu ( MaHoaDon, MaDichVu, SoLuong, ThanhTien ) VALUES(?,?,?,?)";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, ct.getHoaDon().getMaHoaDon());
+			pstm.setString(2, ct.getDichVu().getMaDichVu());
+			pstm.setInt(3, ct.getSoLuong());
+			pstm.setLong(4, ct.getThanhTien());
+			n = pstm.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				pstm.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return n > 0;
+	}
+	
+	public static boolean updateChiTietHD_DichVu(ChiTietHD_DichVu ct) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		PreparedStatement pstm = null;
+		int n = 0;
+		String sql = "UPDATE ChiTietHD_DichVu SET SoLuong = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaDichVu = ?";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, ct.getSoLuong());
+			pstm.setLong(2, ct.getThanhTien());
+			pstm.setString(3, ct.getHoaDon().getMaHoaDon());
+			pstm.setString(4, ct.getDichVu().getMaDichVu());
+			n = pstm.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				pstm.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return n > 0;
+	}
 }
