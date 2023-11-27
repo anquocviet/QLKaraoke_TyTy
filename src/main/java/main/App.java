@@ -32,9 +32,12 @@ public class App extends Application {
         
 //        Open Modal Login
         openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
-        
+    }
+	
+	public static void openMainGUI() throws IOException {
 //        Open Main GUI
         scene = new Scene(loadFXML("AppFrame"), 1280, 740);
+		Stage stage = new Stage();
         stage.setTitle("Quản Lý Karaoke Tỷ Tỷ");
         stage.setResizable(false);
         stage.setScene(scene);
@@ -44,7 +47,7 @@ public class App extends Application {
         });
         stage.centerOnScreen();
         stage.show();
-    }
+	}
 
     public static void openModal(String fxml, int width, int height) throws IOException {
         Scene sceneModal = new Scene(loadFXML(fxml), width, height);

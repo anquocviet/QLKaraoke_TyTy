@@ -8,7 +8,6 @@ controllers/GD_QLDichVuController$1.class
 controllers/GD_QLKinhDoanhPhongController$1.class
 controllers/GD_DatDichVuController$3.class
 controllers/GD_DatDichVuController$2$1.class
-controllers/GD_QLPhongController$2.class
 controllers/GD_QLNhanVienController$2.class
 controllers/GD_QLDichVuController$2.class
 model/KhachHang.class
@@ -26,7 +25,6 @@ model/HoaDonThanhToan.class
 controllers/GD_DatDichVuController$1.class
 enums/Enum_LoaiPhong.class
 controllers/GD_ThuePhongController.class
-controllers/GD_DangKyController$2.class
 model/TaiKhoan.class
 controllers/GD_QLKinhDoanhPhongController.class
 controllers/GD_QLDichVuController.class

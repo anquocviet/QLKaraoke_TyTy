@@ -11,7 +11,7 @@
 <AnchorPane id="TrangChu" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView layoutY="53.0" pickOnBounds="true" preserveRatio="true">
         <image>
-            <Image url="@../image/image_home.png" />
+            <Image url="@../image/tyty.png" />
         </image>
     </ImageView>
 </AnchorPane>

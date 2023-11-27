@@ -12,8 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
 import enums.Enum_ChucVu;
+import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
+import static main.App.heightModalLogin;
+import static main.App.openModal;
+import static main.App.widthModalLogin;
 import model.NhanVien;
 
 /**
@@ -79,8 +84,15 @@ public class AppFrameController implements Initializable {
     @FXML
     private void moGDDangKy(ActionEvent event) throws IOException {
         App.setRoot("GD_DangKy");
-//       App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
     }
+	
+	@FXML 
+	private void dangXuat(ActionEvent event) throws IOException {
+		App.user = "";
+		Stage stage = (Stage) ((MenuItem) event.getTarget()).getParentPopup().getOwnerWindow();
+		stage.close();
+		App.openModal("GD_DangNhap", App.widthModalLogin, App.heightModalLogin);
+	}
 
     @FXML
     private void dongUngDung(ActionEvent event) throws IOException, Exception {

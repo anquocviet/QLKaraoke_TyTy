@@ -241,6 +241,7 @@ public class CT_KhuyenMai {
             Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert pstm != null;
                 pstm.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);

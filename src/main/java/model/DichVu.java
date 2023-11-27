@@ -6,7 +6,6 @@ package model;
 
 import connect.ConnectDB;
 import controllers.GD_QLDichVuController;
-import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -179,6 +178,7 @@ public class DichVu {
             Logger.getLogger(DichVu.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,6 +208,7 @@ public class DichVu {
             Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -276,7 +277,7 @@ public class DichVu {
 
     public static boolean capNhatThongTinDichVu(DichVu dv) {
         ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
+        Connection conn = ConnectDB.getConnection();
         PreparedStatement pstm = null;
         int n = 0;
 

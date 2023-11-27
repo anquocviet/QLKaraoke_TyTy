@@ -35,6 +35,10 @@
     -fx-background-color: #51BCD5;
 }
 
+.table-view > .virtual-flow > .scroll-bar {
+    -fx-font-size: 7pt;
+}
+
  /*Css for radio button*/ 
 .radio-button .radio {
     -fx-border-width: 1px;
