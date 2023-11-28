@@ -4,6 +4,8 @@
  */
 package enums;
 
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Thạch
@@ -11,6 +13,9 @@ package enums;
 public enum Enum_LoaiPhong {
 
     THUONG,
-    VIP
+    VIP;
 
+    public static ObservableList getListLoaiPhong() {
+        return javafx.collections.FXCollections.observableArrayList(Enum_LoaiPhong.values());
+    }
 }

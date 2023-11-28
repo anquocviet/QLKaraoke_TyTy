@@ -8,11 +8,13 @@ import enums.Enum_ChucVu;
 import enums.Enum_Nvien;
 import enums.Enum_LoaiPhong;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,13 +39,16 @@ import model.TaiKhoan;
  * @author thach
  */
 public class GD_DangKyController implements Initializable {
+    @FXML
+    private ComboBox<String> cbMaNhanVien;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        cbMaNhanVien.setItems(NhanVien.getAllMaNhanVien());
         sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
         tenCol.setCellValueFactory(cellData -> {
-            String hoTen = cellData.getValue().getNhanVien().getHoTen();
-            return new ReadOnlyStringWrapper(hoTen);
+            TaiKhoan tk = cellData.getValue();
+            return new ReadOnlyStringWrapper(tk.getNhanVien().getHoTen());
 
         });
         tenDangNhapCol.setCellValueFactory(new PropertyValueFactory<>("tenDangNhap"));
@@ -61,13 +66,7 @@ public class GD_DangKyController implements Initializable {
     }
 
     public void handleEventInTable() {
-        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                docDuLieuTuTable();
-            }
-
-        });
+        table.setOnMouseClicked(event -> docDuLieuTuTable());
         table.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -99,6 +98,7 @@ public class GD_DangKyController implements Initializable {
         cbbNvien.getItems().clear();
         cbbNvien.getItems().addAll(Enum_Nvien.values());
         Enum_Nvien nvien = (Enum_Nvien) cbbNvien.getValue();
+        cbMaNhanVien.setValue(tk.getNhanVien().getMaNhanVien());
         /*
         if (p.getLoaiPhong()==0){
             cbbLoaiPhong.getSelectionModel().select(0);
@@ -115,8 +115,9 @@ public class GD_DangKyController implements Initializable {
         String tenTaiKhoan = txtTenTaiKhoan.getText();
         String matKhau = pwMatKhau.getText();
         String nhapLaiMK = pwNhapLaiMatKhau.getText();
+        String maNhanVien = cbMaNhanVien.getValue();
 
-        if (matKhau != nhapLaiMK) {
+        if (!Objects.equals(matKhau, nhapLaiMK)) {
             System.err.println("MK Khong trung khop, nhap lai");
         }
 
@@ -124,15 +125,17 @@ public class GD_DangKyController implements Initializable {
         tk.setNhanVien(new NhanVien(hoTen));
         tk.setTenDangNhap(tenTaiKhoan);
         tk.setMatKhau(matKhau);
+        tk.setNhanVien(new NhanVien(maNhanVien));
 
         TaiKhoan tksave = TaiKhoan.save(tk);
 
-        if (tksave != null) {
-            table.getItems().add(tksave);
-            System.out.println("save TC");
-        } else {
-            System.err.println("Save TB");
-        }
+        table.setItems(TaiKhoan.getAllTaiKhoanFull());
+    }
+
+    @FXML
+    public void onSelected(ActionEvent actionEvent) {
+        String tenNhanVienByMa = Objects.requireNonNull(NhanVien.getNhanVienTheoMaNhanVien(cbMaNhanVien.getValue())).getHoTen();
+        txtHoVaTen.setText(tenNhanVienByMa);
     }
 
     @FXML
@@ -158,5 +161,6 @@ public class GD_DangKyController implements Initializable {
     private ComboBox cbbNvien;
     @FXML
     private Button btnThem;
+
 
 }

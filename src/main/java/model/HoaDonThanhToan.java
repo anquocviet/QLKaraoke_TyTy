@@ -160,6 +160,7 @@ public class HoaDonThanhToan {
             e.printStackTrace();
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -183,6 +184,7 @@ public class HoaDonThanhToan {
             e.printStackTrace();
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -142,6 +142,7 @@ public class KhachHang {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +150,7 @@ public class KhachHang {
         }
         return null;
     }
-//=======
+	
     //    Get data from DB
     public static ObservableList<KhachHang> getAllKhachHang() {
         ObservableList<KhachHang> dsKhachHang = FXCollections.observableArrayList();
@@ -171,6 +172,7 @@ public class KhachHang {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,7 +208,8 @@ public class KhachHang {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
-				stmt.close();
+                assert stmt != null;
+                stmt.close();
 			} catch (SQLException ex) {
 				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -231,7 +234,8 @@ public class KhachHang {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
-				stmt.close();
+                assert stmt != null;
+                stmt.close();
 			} catch (SQLException ex) {
 				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -257,7 +261,8 @@ public class KhachHang {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
-				pstm.close();
+                assert pstm != null;
+                pstm.close();
 			} catch (SQLException ex) {
 				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -283,7 +288,8 @@ public class KhachHang {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
-				pstm.close();
+                assert pstm != null;
+                pstm.close();
 			} catch (SQLException ex) {
 				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
 			}

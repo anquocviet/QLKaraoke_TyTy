@@ -153,16 +153,15 @@ public class GD_QLDichVuController implements Initializable {
         return true;
     }
 
-    
     public String phatSinhMaDichVu() throws SQLException {
-    String maDichVu = "DV";
-    int totalDichVu = DichVu.demSLDichVu();
-    DecimalFormat dfSoThuTu = new DecimalFormat("000");
-    String soThuTuFormatted = dfSoThuTu.format(totalDichVu + 1);
-    maDichVu = maDichVu.concat(soThuTuFormatted);
-    return maDichVu;
-}
-    
+        String maDichVu = "DV";
+        int totalDichVu = DichVu.demSLDichVu();
+        DecimalFormat dfSoThuTu = new DecimalFormat("000");
+        String soThuTuFormatted = dfSoThuTu.format(totalDichVu + 1);
+        maDichVu = maDichVu.concat(soThuTuFormatted);
+        return maDichVu;
+    }
+
     public void xuLyThemDichVu() throws Exception {
         if (!kiemTraRong()) {
             return;
@@ -188,8 +187,6 @@ public class GD_QLDichVuController implements Initializable {
 
     }
 
-   
-
     public boolean kiemTraTrungDichVu(String tenDichVu, String donViTinh) throws Exception {
         ObservableList<DichVu> dsDichVu = DichVu.getAllDichVu();
         for (DichVu dv : dsDichVu) {
@@ -210,20 +207,20 @@ public class GD_QLDichVuController implements Initializable {
     }
 
     public void xuLySuaThongTinDichVu() throws SQLException, Exception {
-		String maDichVu = txtMaDichVu.getText();
-		String tenDV = txtTenDichVu.getText();
-		int soLuong = Integer.parseInt(txtSoLuong.getText());
-		long donGia = Long.parseLong(txtDonGia.getText());
-		String donViTinh = txtDonViTinh.getText();
-	
-		String anhMinhHoa = "file:src/main/resources/image/avt_nv/";
+        String maDichVu = txtMaDichVu.getText();
+        String tenDV = txtTenDichVu.getText();
+        int soLuong = Integer.parseInt(txtSoLuong.getText());
+        long donGia = Long.parseLong(txtDonGia.getText());
+        String donViTinh = txtDonViTinh.getText();
 
-		DichVu dv = new DichVu(maDichVu, tenDV, soLuong, donGia, donViTinh, anhMinhHoa);
-		DichVu.capNhatThongTinDichVu(dv);
+        String anhMinhHoa = "file:src/main/resources/image/avt_nv/";
 
-		tableView_DichVu.setItems(DichVu.getAllDichVu());
-		tableView_DichVu.refresh();
-	}
+        DichVu dv = new DichVu(maDichVu, tenDV, soLuong, donGia, donViTinh, anhMinhHoa);
+        DichVu.capNhatThongTinDichVu(dv);
+
+        tableView_DichVu.setItems(DichVu.getAllDichVu());
+        tableView_DichVu.refresh();
+    }
 
     @FXML
     private TextField txtMaDichVu;
