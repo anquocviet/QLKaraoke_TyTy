@@ -13,66 +13,85 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="GD_TraCuuHoaDon" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_TraCuuHoaDonController">
+<AnchorPane id="GD_TraCuuHoaDon" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_TraCuuHoaDonController">
    <children>
       <Label alignment="CENTER" layoutX="509.0" layoutY="68.0" prefWidth="339.0" text="TRA CỨU HÓA ĐƠN" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="636.8" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="432.00000000000006" AnchorPane.topAnchor="68.0">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="145.0" text="Mã Hóa Đơn:">
+      <Label layoutX="36.0" layoutY="120.0" text="Mã Hóa Đơn:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="210.0" text="Ngày lập:">
+      <Label layoutX="36.0" layoutY="228.0" text="Ngày lập:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="500.0" layoutY="145.0" prefHeight="26.0" prefWidth="134.0" text="Tên Khách Hàng:">
+      <Label layoutX="36.0" layoutY="158.0" prefHeight="26.0" prefWidth="134.0" text="Tên Khách Hàng:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="500.0" layoutY="210.0" text="SDT Khách hàng:">
+      <Label layoutX="36.0" layoutY="194.0" text="SDT Khách hàng:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TextField layoutX="153.0" layoutY="144.0" prefHeight="26.0" prefWidth="270.0" />
-      <TextField layoutX="640.0" layoutY="209.0" prefHeight="26.0" prefWidth="270.0" />
-      <TextField layoutX="640.0" layoutY="144.0" prefHeight="26.0" prefWidth="270.0" />
-      <Button layoutX="982.0" layoutY="171.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
-      <Button layoutX="1092.0" layoutY="171.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
-      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="1000.0" layoutY="180.0">
+      <TextField layoutX="176.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
+      <TextField layoutX="176.0" layoutY="193.0" prefHeight="26.0" prefWidth="270.0" />
+      <TextField layoutX="176.0" layoutY="158.0" prefHeight="26.0" prefWidth="270.0" />
+      <Button layoutX="155.0" layoutY="274.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
+      <Button layoutX="275.0" layoutY="274.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
+      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="173.0" layoutY="283.0">
          <image>
             <Image url="@../image/search.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="1110.0" layoutY="180.0">
+      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="293.0" layoutY="283.0">
          <image>
             <Image url="@../image/replay.png" />
          </image>
       </ImageView>
-      <DatePicker layoutX="153.0" layoutY="209.0" prefHeight="26.0" prefWidth="150.0" />
-      <TitledPane animated="false" collapsible="false" layoutX="40.0" layoutY="300.0" prefHeight="400.0" prefWidth="1191.0" text="Danh sách hóa đơn">
+      <DatePicker layoutX="174.0" layoutY="234.0" prefHeight="26.0" prefWidth="150.0" />
+      <TitledPane animated="false" collapsible="false" layoutX="36.0" layoutY="326.0" prefHeight="400.0" prefWidth="1213.0" text="Chi tiết Hóa đơn" AnchorPane.rightAnchor="36.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="262.0" prefWidth="1190.0">
+          <AnchorPane layoutX="36.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="1216.0">
                <children>
-                  <TableView fx:id="tableView_HoaDon" layoutX="10.0" layoutY="15.0" prefHeight="342.0" prefWidth="1157.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="5.0">
+                  <TableView prefHeight="374.0" prefWidth="1198.0">
                     <columns>
-                      <TableColumn fx:id="col_maHoaDon" prefWidth="199.2000116109848" text="Mã HD" />
-                      <TableColumn fx:id="col_tenKhachHang" prefWidth="316.0" text="Tên KH" />
-                        <TableColumn fx:id="col_sdtKhachHang" prefWidth="226.39996337890625" text="SĐT KH" />
-                        <TableColumn fx:id="col_ngayLap" prefWidth="214.4000244140625" text="Ngày Lập" />
-                        <TableColumn fx:id="col_thoiGian" minWidth="0.0" prefWidth="199.199951171875" text="Thời Gian" />
+                      <TableColumn prefWidth="180.0" text="Mã Hóa Đơn" />
+                      <TableColumn prefWidth="210.0" text="Nhân viên lập" />
+                        <TableColumn prefWidth="210.0" text="Khách Hàng" />
+                        <TableColumn prefWidth="150.0" text="Ngày Lập" />
+                        <TableColumn prefWidth="150.0" text="Tiền phòng" />
+                        <TableColumn prefWidth="150.0" text="Tiền dịch vụ" />
+                        <TableColumn prefWidth="145.0" text="Tổng tiền" />
                     </columns>
                   </TableView>
-                  <ScrollBar layoutX="1168.0" layoutY="15.0" orientation="VERTICAL" prefHeight="344.0" prefWidth="14.0" AnchorPane.rightAnchor="5.0" />
+                  <ScrollBar layoutX="1196.0" orientation="VERTICAL" prefHeight="374.0" prefWidth="18.0" />
                </children>
             </AnchorPane>
         </content>
+      </TitledPane>
+      <TitledPane animated="false" collapsible="false" layoutX="480.0" layoutY="104.0" prefHeight="214.0" prefWidth="766.0" text="Danh sách Hóa đơn">
+         <content>
+            <AnchorPane layoutX="36.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="1216.0">
+               <children>
+                  <TableView layoutX="-1.0" layoutY="1.0" prefHeight="187.0" prefWidth="750.0">
+                    <columns>
+                      <TableColumn prefWidth="180.0" text="Mã Hóa Đơn" />
+                      <TableColumn prefWidth="200.0" text="Tên Khách Hàng" />
+                        <TableColumn minWidth="0.0" prefWidth="200.0" text="SDT Khách Hàng" />
+                        <TableColumn prefWidth="180.0" text="Ngày Lập" />
+                    </columns>
+                  </TableView>
+                  <ScrollBar layoutX="748.0" layoutY="1.0" orientation="VERTICAL" prefHeight="186.0" prefWidth="17.0" />
+               </children>
+            </AnchorPane>
+         </content>
       </TitledPane>
    </children>
 </AnchorPane>
