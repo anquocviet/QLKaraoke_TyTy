@@ -27,11 +27,11 @@ public class HoaDonThanhToan {
     private long tongTien;
 
     public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDate ngayLap) {
-        this.maHoaDon = maHoaDon;
-        this.nhanVienLap = nhanVienLap;
-        this.khachHang = khachHang;
-        this.khuyenMai = khuyenMai;
-        this.ngayLap = ngayLap;
+        setMaHoaDon(maHoaDon);
+        setNhanVienLap(nhanVienLap);
+        setKhachHang(khachHang);
+        setKhuyenMai(khuyenMai);
+        setNgayLap(ngayLap);
     }
 
     public HoaDonThanhToan() {
