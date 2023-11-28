@@ -4,22 +4,16 @@
  */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -29,12 +23,12 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javax.swing.JOptionPane;
 import main.App;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
@@ -73,26 +67,66 @@ public class GD_ThanhToanController implements Initializable {
 		}
 
 		try {
-			maPhongCol.setCellValueFactory(cellData -> {
-				String maPhong = cellData.getValue().getPhong().getMaPhong();
-				return new ReadOnlyStringWrapper(maPhong);
+			maPhongCol.setCellValueFactory((param) -> {
+				String maHoaDon = param.getValue().getValue().getPhong().getMaPhong();
+				return new ReadOnlyObjectWrapper<>(maHoaDon);
 			});
-			gioVaoCol.setCellValueFactory(cellData -> {
-				String gioVao = cellData.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-				return new ReadOnlyObjectWrapper<String>(gioVao);
+			loaiPhongCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getPhong() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String loaiPhong = param.getValue().getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
+				return new ReadOnlyObjectWrapper<>(loaiPhong);
 			});
-			gioRaCol.setCellValueFactory(cellData -> {
-				String gioRa = cellData.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-				return new ReadOnlyObjectWrapper<String>(gioRa);
+			gioVaoCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getGioVao() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioVao = param.getValue().getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioVao);
 			});
-			thanhTienPCol.setCellValueFactory(cellData -> {
-				float time = Duration.between(cellData.getValue().getGioVao(), cellData.getValue().getGioRa()).toMillis() / 1000;
-				long giaPhong = cellData.getValue().getPhong().getGiaPhong();
-
-				return new ReadOnlyObjectWrapper<Long>((long) (time * giaPhong));
+			gioRaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioRa = param.getValue().getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioRa);
 			});
-
-			tablePhong.setItems(ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD));
+			gioSuDungCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getGioVao() == null || param.getValue().getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				float gioSuDung = param.getValue().getValue().tinhTongGioSuDung();
+				return new ReadOnlyObjectWrapper<>(gioSuDung);
+			});
+			donGiaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getPhong() == null || param.getValue().getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				long donGia = param.getValue().getValue().getPhong().getGiaPhong();
+				return new ReadOnlyObjectWrapper<>(df.format(donGia));
+			});
+			thanhTienCol.setCellValueFactory((param) -> {
+				if (param.getValue().getValue().getThanhTien() == 0) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				float time = Duration.between(param.getValue().getValue().getGioVao(), param.getValue().getValue().getGioRa()).toMillis() / 1000;
+				System.out.println(param.getValue().getValue().tinhTongGioSuDung());
+				System.out.println(time);
+				long giaPhong = param.getValue().getValue().getPhong().getGiaPhong();
+				return new ReadOnlyObjectWrapper<String>(df.format((long) (time * giaPhong)));
+			});
+			ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD).forEach(ct -> {
+				try {
+					TreeItem root = new TreeItem(new ChiTietHD_Phong(hd, new Phong(GD_QLKinhDoanhPhongController.roomID)));
+					ct.setGioRa(LocalDateTime.now());
+					TreeItem room = new TreeItem(ct);
+					root.getChildren().add(room);
+					tablePhong.setRoot(root);
+				} catch (Exception ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			});
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -106,14 +140,17 @@ public class GD_ThanhToanController implements Initializable {
 		for (ChiTietHD_DichVu ct : tableDichVu.getItems()) {
 			tienDV += ct.getThanhTien();
 		}
-		for (ChiTietHD_Phong ct : tablePhong.getItems()) {
-			float time = Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000;
-			long giaPhong = ct.getPhong().getGiaPhong();
+		for (TreeItem<ChiTietHD_Phong> ct : tablePhong.getRoot().getChildren()) {
+			if (ct.getValue().getGioRa() == null) {
+				continue;
+			}
+			float time = Duration.between(ct.getValue().getGioVao(), ct.getValue().getGioRa()).toMillis() / 1000;
+			long giaPhong = ct.getValue().getPhong().getGiaPhong();
 			tienPhong += time * giaPhong;
 		}
-		txtTienDichVu.setText(tienDV + "");
-		txtTienPhong.setText(tienPhong + "");
-		txtTongTien.setText(Integer.parseInt(txtTienDichVu.getText()) + Integer.parseInt(txtTienPhong.getText()) + "");
+		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
+		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
+		txtTongTien.setText(df.format(tienPhong + tienDV) + " VNĐ");
 		handleEventInputInput();
 		handleEventInBtn();
 	}
@@ -132,7 +169,7 @@ public class GD_ThanhToanController implements Initializable {
 			}
 		});
 	}
-	
+
 	public void handleEventInBtn() {
 		btnThanhToan.setOnAction(evt -> {
 			try {
@@ -144,10 +181,10 @@ public class GD_ThanhToanController implements Initializable {
 						gioRa));
 				Phong.updateStatusRoom(txtMaPhong.getText(), 0);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-					alert.setTitle("Thanh toán phòng thành công");
-					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
-					alert.showAndWait();
+				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+				alert.setTitle("Thanh toán phòng thành công");
+				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+				alert.showAndWait();
 				App.setRoot("GD_QLKinhDoanhPhong");
 			} catch (Exception ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,6 +192,7 @@ public class GD_ThanhToanController implements Initializable {
 		});
 	}
 
+	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 	//Bảng phòng
 	@FXML
 	private TextField txtMaPhong;
@@ -197,15 +235,21 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private SplitMenuButton cbPhong;
 	@FXML
-	private TableView<ChiTietHD_Phong> tablePhong;
+	private TreeTableView<ChiTietHD_Phong> tablePhong;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, String> maPhongCol;
+	private TreeTableColumn<ChiTietHD_Phong, String> maPhongCol;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, String> gioVaoCol;
+	private TreeTableColumn<ChiTietHD_Phong, String> loaiPhongCol;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, String> gioRaCol;
+	private TreeTableColumn<ChiTietHD_Phong, String> gioVaoCol;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, Long> thanhTienPCol;
+	private TreeTableColumn<ChiTietHD_Phong, String> gioRaCol;
+	@FXML
+	private TreeTableColumn<ChiTietHD_Phong, Float> gioSuDungCol;
+	@FXML
+	private TreeTableColumn<ChiTietHD_Phong, String> donGiaCol;
+	@FXML
+	private TreeTableColumn<ChiTietHD_Phong, String> thanhTienCol;
 	@FXML
 	private Button btnThanhToan;
 	@FXML

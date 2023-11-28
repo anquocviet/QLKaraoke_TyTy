@@ -22,7 +22,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#moTrangChu" text="Trang Chủ" />
                         <MenuItem fx:id="taiKhoanMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDDangKy" text="Tài Khoản" />
                         <MenuItem mnemonicParsing="false" text="Trợ Giúp" />
-                        <MenuItem mnemonicParsing="false" text="Đăng Xuất" />
+                        <MenuItem mnemonicParsing="false" text="Đăng Xuất" onAction="#dangXuat" />
                         <MenuItem mnemonicParsing="false" onAction="#dongUngDung" text="Thoát" />
                     </items>
                     <graphic>
