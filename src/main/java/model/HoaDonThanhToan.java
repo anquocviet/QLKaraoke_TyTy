@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Objects;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -128,8 +126,6 @@ public class HoaDonThanhToan {
     }
 
     public void tinhTongTien() {
-//        có lẽ là sẽ kết nối tới database để tính tổng tiền
-//        chứ trong class hóa đơn này, ko tính có cách nào tính đc tổng tiền
     }
 
     public static HoaDonThanhToan getBillByID(String billID) {

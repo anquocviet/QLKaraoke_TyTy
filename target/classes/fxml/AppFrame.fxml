@@ -33,7 +33,7 @@
                         </ImageView>
                     </graphic>
                 </Menu>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Danh Mục">
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Lưu Trữ">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#moGDQLKhachHang" text="Khách Hàng" />
                         <MenuItem fx:id="qlNhanVienMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDQLNhanVien" text="Nhân Viên" />
@@ -59,7 +59,7 @@
                         </ImageView>
                     </graphic>
                 </Menu>
-                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Tìm Kiếm">
+                <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Tra Cứu">
                     <MenuItem mnemonicParsing="false" onAction="#moGDTraCuuHoaDon" text="Tra cứu hóa đơn" />
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">

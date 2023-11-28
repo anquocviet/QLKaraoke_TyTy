@@ -6,6 +6,7 @@ package controllers;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,13 +24,14 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+import javax.swing.JOptionPane;
 import main.App;
+import model.CT_KhuyenMai;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
@@ -68,65 +70,53 @@ public class GD_ThanhToanController implements Initializable {
 
 		try {
 			maPhongCol.setCellValueFactory((param) -> {
-				String maHoaDon = param.getValue().getValue().getPhong().getMaPhong();
+				String maHoaDon = param.getValue().getPhong().getMaPhong();
 				return new ReadOnlyObjectWrapper<>(maHoaDon);
 			});
 			loaiPhongCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getPhong() == null) {
+				if (param.getValue().getPhong() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				String loaiPhong = param.getValue().getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
+				String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
 				return new ReadOnlyObjectWrapper<>(loaiPhong);
 			});
 			gioVaoCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getGioVao() == null) {
+				if (param.getValue().getGioVao() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				String gioVao = param.getValue().getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 				return new ReadOnlyObjectWrapper<>(gioVao);
 			});
 			gioRaCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getGioRa() == null) {
+				if (param.getValue().getGioRa() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				String gioRa = param.getValue().getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 				return new ReadOnlyObjectWrapper<>(gioRa);
 			});
 			gioSuDungCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getGioVao() == null || param.getValue().getValue().getGioRa() == null) {
+				if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				float gioSuDung = param.getValue().getValue().tinhTongGioSuDung();
+				float gioSuDung = param.getValue().tinhTongGioSuDung();
 				return new ReadOnlyObjectWrapper<>(gioSuDung);
 			});
 			donGiaCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getPhong() == null || param.getValue().getValue().getGioRa() == null) {
+				if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				long donGia = param.getValue().getValue().getPhong().getGiaPhong();
+				long donGia = param.getValue().getPhong().getGiaPhong();
 				return new ReadOnlyObjectWrapper<>(df.format(donGia));
 			});
 			thanhTienCol.setCellValueFactory((param) -> {
-				if (param.getValue().getValue().getThanhTien() == 0) {
+				if (param.getValue().getThanhTien() == 0) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				float time = Duration.between(param.getValue().getValue().getGioVao(), param.getValue().getValue().getGioRa()).toMillis() / 1000;
-				System.out.println(param.getValue().getValue().tinhTongGioSuDung());
-				System.out.println(time);
-				long giaPhong = param.getValue().getValue().getPhong().getGiaPhong();
+				float time = Duration.between(param.getValue().getGioVao(), param.getValue().getGioRa()).toMillis() / 1000;
+				long giaPhong = param.getValue().getPhong().getGiaPhong();
 				return new ReadOnlyObjectWrapper<String>(df.format((long) (time * giaPhong)));
 			});
-			ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD).forEach(ct -> {
-				try {
-					TreeItem root = new TreeItem(new ChiTietHD_Phong(hd, new Phong(GD_QLKinhDoanhPhongController.roomID)));
-					ct.setGioRa(LocalDateTime.now());
-					TreeItem room = new TreeItem(ct);
-					root.getChildren().add(room);
-					tablePhong.setRoot(root);
-				} catch (Exception ex) {
-					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			});
+			tablePhong.setItems(ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD));
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -140,12 +130,12 @@ public class GD_ThanhToanController implements Initializable {
 		for (ChiTietHD_DichVu ct : tableDichVu.getItems()) {
 			tienDV += ct.getThanhTien();
 		}
-		for (TreeItem<ChiTietHD_Phong> ct : tablePhong.getRoot().getChildren()) {
-			if (ct.getValue().getGioRa() == null) {
+		for (ChiTietHD_Phong ct : tablePhong.getItems()) {
+			if (ct.getGioRa() == null) {
 				continue;
 			}
-			float time = Duration.between(ct.getValue().getGioVao(), ct.getValue().getGioRa()).toMillis() / 1000;
-			long giaPhong = ct.getValue().getPhong().getGiaPhong();
+			float time = Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000;
+			long giaPhong = ct.getPhong().getGiaPhong();
 			tienPhong += time * giaPhong;
 		}
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
@@ -158,13 +148,46 @@ public class GD_ThanhToanController implements Initializable {
 	public void handleEventInputInput() {
 		txtTienNhan.setOnKeyPressed(evt -> {
 			if (evt.getCode() == KeyCode.ENTER) {
-				String tienNhan = txtTienNhan.getText().trim();
-				String tongTien = txtTongTien.getText().trim();
-				long tienThua = Integer.parseInt(tienNhan) - Integer.parseInt(tongTien);
-				if (tienThua < 0) {
-//					JOptionPane.showConfirmDialog(null, "Tiền nhận được ít hơn tổng tiền cần thanh toán! Vui lòng kiểm tra lại.");
-				} else {
-					txtTienThua.setText(tienThua + "");
+				long tienNhan;
+				try {
+					tienNhan = df.parse(txtTienNhan.getText().trim()).longValue();
+				}
+				catch (ParseException ex) {
+					tienNhan = Long.parseLong(txtTienNhan.getText().trim());
+				}
+				try {
+					long tongTien = df.parse(txtTongTien.getText().trim()).longValue();
+					long tienThua = tienNhan - tongTien;
+					if (tienThua < 0) {
+						Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại số tiền nhận.", ButtonType.OK);
+						alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+						alert.setTitle("Lỗi");
+						alert.setHeaderText("Tiền đã nhận ít hơn tổng tiền!");
+						alert.showAndWait();
+					} else {
+						txtTienThua.setText(df.format(tienThua) + " VND");
+					}
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+		});
+		txtMaKhuyenMai.setOnKeyPressed((evt) -> {
+			if (evt.getCode() == KeyCode.ENTER) {
+				CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
+				try {
+					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
+					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
+					long tongTien = tienPhong + tienDV;
+					if (ctkm != null) {
+						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
+						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
+					} else {
+						imgCheckKM.setImage(new Image("file:src/main/resources/image/check-false.png"));
+					}
+					txtTongTien.setText(df.format(tongTien) + " VND");
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		});
@@ -235,21 +258,21 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private SplitMenuButton cbPhong;
 	@FXML
-	private TreeTableView<ChiTietHD_Phong> tablePhong;
+	private TableView<ChiTietHD_Phong> tablePhong;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> maPhongCol;
+	private TableColumn<ChiTietHD_Phong, String> maPhongCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> loaiPhongCol;
+	private TableColumn<ChiTietHD_Phong, String> loaiPhongCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> gioVaoCol;
+	private TableColumn<ChiTietHD_Phong, String> gioVaoCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> gioRaCol;
+	private TableColumn<ChiTietHD_Phong, String> gioRaCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, Float> gioSuDungCol;
+	private TableColumn<ChiTietHD_Phong, Float> gioSuDungCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> donGiaCol;
+	private TableColumn<ChiTietHD_Phong, String> donGiaCol;
 	@FXML
-	private TreeTableColumn<ChiTietHD_Phong, String> thanhTienCol;
+	private TableColumn<ChiTietHD_Phong, String> thanhTienCol;
 	@FXML
 	private Button btnThanhToan;
 	@FXML
@@ -268,4 +291,8 @@ public class GD_ThanhToanController implements Initializable {
 	private Text txtTongTien;
 	@FXML
 	private Text txtTienThua;
+	@FXML
+	private ImageView imgCheckKM;
+	@FXML
+	private ImageView imgCheckTienNhan;
 }
