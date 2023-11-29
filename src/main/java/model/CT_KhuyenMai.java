@@ -335,4 +335,37 @@ public class CT_KhuyenMai {
         }
         return n > 0;
     }
+	
+	public static boolean capNhatLuotSuDungKhuyenMai(String maKM, int luot) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "UPDATE CT_KhuyenMai SET LuotSuDungConLai = ? WHERE MaKhuyenMai = ?";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            if (pstm != null) {
+                pstm.setInt(1, luot);
+                pstm.setString(2, maKM);
+                n = pstm.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLCTKhuyenMaiController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLCTKhuyenMaiController.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
 }

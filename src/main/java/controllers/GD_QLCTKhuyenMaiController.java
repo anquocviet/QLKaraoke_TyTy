@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -20,7 +21,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -31,7 +34,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javax.swing.JOptionPane;
 import model.CT_KhuyenMai;
 
 /**
@@ -100,7 +102,6 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     @FXML
     private Button btnSearch;
 
-    ObservableList<CT_KhuyenMai> danhSachCT_KhuyenMai;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,11 +113,10 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
         col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
-
-        danhSachCT_KhuyenMai = CT_KhuyenMai.getListCT_KhuyenMai();
-        tableView_CTKhuyenMai.setItems(danhSachCT_KhuyenMai);
+      
+        tableView_CTKhuyenMai.setItems( CT_KhuyenMai.getListCT_KhuyenMai());
         tableView_CTKhuyenMai.requestFocus();
-        docDuLieuTuTable();
+        
         handleEventInTable();
 
         btnAdd.setOnAction(this::handleThemKhuyenMaiButtonAction);
@@ -149,14 +149,14 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         LocalDate ngayKetThuc = (LocalDate) dateNgayKetThuc.getValue();
 
         if (!kiemTraTrungMaKhuyenMai(maKhuyenMai)) {
-            JOptionPane.showMessageDialog(null, "Mã khuyến mãi đã bị trùng!");
+            thongBao("Mã khuyến mãi đã bị trùng!");
             txtMaKhuyenMai.selectAll();
             txtMaKhuyenMai.requestFocus();
             return;
         }
 
         if (!kiemTraTrungTenKhuyenMai(tenKhuyenMai)) {
-            JOptionPane.showMessageDialog(null, "Tên khuyến mãi đã bị trùng!");
+            thongBao("Tên khuyến mãi đã bị trùng!");
             txtTenKhuyenMai.selectAll();
             txtTenKhuyenMai.requestFocus();
             return;
@@ -164,7 +164,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         try {
             km = new CT_KhuyenMai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, luotSuDungConLai, chietKhau);
             CT_KhuyenMai.themCTKhuyenMai(km);
-            tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
+            xuLyLamMoiKhuyenMai();
         } catch (Exception e) {
             String exception = e.getMessage();
             if (exception.equals("Ngày kết thúc phải lớn hơn ngày bắt đầu")) {
@@ -177,7 +177,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
                 txtChietKhau.selectAll();
                 txtChietKhau.requestFocus();
             }
-            JOptionPane.showMessageDialog(null, exception);
+            thongBao(exception);
 
         }
 
@@ -224,9 +224,8 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         Integer chietKhau = Integer.parseInt(txtChietKhau.getText());
         LocalDate ngayBatDau = (LocalDate) dateNgayBatDau.getValue();
         LocalDate ngayKetThuc = (LocalDate) dateNgayKetThuc.getValue();
-
         if (!kiemTraTrungTenKhuyenMai(tenKhuyenMai)) {
-            JOptionPane.showMessageDialog(null, "Tên khuyến mãi đã bị trùng!");
+            thongBao("Tên khuyến mãi đã bị trùng!");
             txtTenKhuyenMai.selectAll();
             txtTenKhuyenMai.requestFocus();
             return;
@@ -247,7 +246,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
                 txtChietKhau.selectAll();
                 txtChietKhau.requestFocus();
             }
-            JOptionPane.showMessageDialog(null, exception);
+            thongBao(exception);
         }
     }
 //
@@ -260,10 +259,10 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyXoaKhuyenMai() {
+    private void xuLyXoaKhuyenMai() throws IOException {
         String maKhuyenMai = txtMaKhuyenMai.getText();
         if (maKhuyenMai == null) {
-            JOptionPane.showMessageDialog(null, "Hãy chọn khuyến mãi để thực hiện xóa");
+            thongBao("Hãy chọn khuyến mãi để thực hiện xóa");
             return;
         }
 
@@ -273,6 +272,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
     }
 //
+
     public void handleLamMoiButtonAction(ActionEvent event) {
         try {
             xuLyLamMoiKhuyenMai();
@@ -283,6 +283,8 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
     private void xuLyLamMoiKhuyenMai() {
         txtMaKhuyenMai.setText("");
+        txtMaKhuyenMai.setEditable(true);
+        txtMaKhuyenMai.setDisable(false);
         txtTenKhuyenMai.setText("");
         txtLuotSuDung.setText("");
         dateNgayBatDau.setValue(null);
@@ -291,6 +293,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         txtTimMaKhuyenMai.setText("");
         tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
         tableView_CTKhuyenMai.refresh();
+        tableView_CTKhuyenMai.getSelectionModel().clearSelection();
     }
 //
 
@@ -302,11 +305,11 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyTimKhuyenMai() {
+    private void xuLyTimKhuyenMai() throws IOException {
         String maTimKiem = txtTimMaKhuyenMai.getText();
         System.out.println(maTimKiem);
         if (txtTimMaKhuyenMai == null) {
-            JOptionPane.showMessageDialog(null, "Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
+            thongBao("Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
             return;
         }
         xuLyLamMoiKhuyenMai();
@@ -318,6 +321,8 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         tableView_CTKhuyenMai.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                txtMaKhuyenMai.setEditable(false);
+                txtMaKhuyenMai.setDisable(true);
                 docDuLieuTuTable();
             }
 
@@ -326,6 +331,8 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+                    txtMaKhuyenMai.setEditable(false);
+                    txtMaKhuyenMai.setDisable(true);
                     docDuLieuTuTable();
                 }
             }
@@ -347,39 +354,39 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
     private boolean kiemTraRong() throws Exception {
         if (txtMaKhuyenMai.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Mã khuyến mãi không được rỗng");
+            thongBao("Mã khuyến mãi không được rỗng");
             txtMaKhuyenMai.selectAll();
             txtMaKhuyenMai.requestFocus();
             return false;
         }
 
         if (txtTenKhuyenMai.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Tên khuyến mãi không được rỗng");
+            thongBao("Tên khuyến mãi không được rỗng");
             txtTenKhuyenMai.selectAll();
             txtTenKhuyenMai.requestFocus();
             return false;
         }
         if (dateNgayBatDau.getValue() == null) {
-            JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được rỗng");
+            thongBao("Ngày bắt đầu không được rỗng");
             dateNgayBatDau.requestFocus();
             return false;
         }
 
         if (dateNgayKetThuc.getValue() == null) {
-            JOptionPane.showMessageDialog(null, "Ngày kết thúc không được rỗng");
+            thongBao("Ngày kết thúc không được rỗng");
             dateNgayKetThuc.requestFocus();
             return false;
         }
 
         if (txtLuotSuDung.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Lượt sử dụng không được rỗng");
+            thongBao("Lượt sử dụng không được rỗng");
             txtLuotSuDung.selectAll();
             txtLuotSuDung.requestFocus();
             return false;
         }
 
         if (txtChietKhau.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Chiết khấu không được rỗng");
+            thongBao("Chiết khấu không được rỗng");
             txtChietKhau.selectAll();
             txtChietKhau.requestFocus();
             return false;
@@ -387,4 +394,13 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
         return true;
     }
+
+    public void thongBao(String noiDung) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng nhập lại thông tin!", ButtonType.OK);
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.setTitle("Có lỗi xảy ra");
+        alert.setHeaderText(noiDung);
+        alert.showAndWait();
+    }
+
 }
