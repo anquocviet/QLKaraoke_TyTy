@@ -40,7 +40,7 @@
                      </font>
                   </Text>
                   <TextField fx:id="txtMaKhuyenMai" layoutX="192.0" layoutY="24.0" prefHeight="31.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtLuotSuDung" layoutX="663.0" layoutY="82.0" prefHeight="9.0" prefWidth="154.0" style="-fx-font-size: 15;" />
+                  <TextField fx:id="txtLuotSuDung" layoutX="666.0" layoutY="83.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
                   <Text layoutX="522.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt sử dụng:">
                      <font>
                         <Font size="22.0" />
@@ -58,7 +58,7 @@
                      </font>
                   </Text>
                   <DatePicker fx:id="dateNgayKetThuc" layoutX="192.0" layoutY="146.0" prefHeight="18.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtTenKhuyenMai" layoutX="663.0" layoutY="22.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
+                  <TextField fx:id="txtTenKhuyenMai" layoutX="666.0" layoutY="22.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
                      <font>
                         <Font size="17.0" />
                      </font></TextField>
