@@ -7,8 +7,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
@@ -29,22 +27,22 @@
             </font>
         </Text>
         <Line endX="1080.0" endY="-40.0" layoutX="198.0" layoutY="151.0" startX="-198.00001525878906" startY="-40.0" strokeWidth="2.0" />
-        <TitledPane collapsible="false" layoutY="145.0" prefHeight="296.0" prefWidth="710.0" text="Phòng">
+        <TitledPane collapsible="false" layoutY="145.0" prefHeight="253.0" prefWidth="708.0" text="Phòng">
             <content>
-                <TreeTableView fx:id="tablePhong" prefHeight="332.0" prefWidth="708.0">
+                <TableView fx:id="tablePhong" prefHeight="253.0" prefWidth="708.0">
                     <columns>
-                        <TreeTableColumn fx:id="maPhongCol" prefWidth="90.0" text="Mã" />
-                        <TreeTableColumn fx:id="loaiPhongCol" prefWidth="82.0" text="Loại phòng" />
-                        <TreeTableColumn fx:id="gioVaoCol" prefWidth="115.0" text="Giờ vào" />
-                        <TreeTableColumn fx:id="gioRaCol" prefWidth="115.0" text="Giờ ra" />
-                        <TreeTableColumn fx:id="gioSuDungCol" sortable="false" text="Số giờ SD" />
-                        <TreeTableColumn fx:id="donGiaCol" text="Đơn giá" />
-                        <TreeTableColumn fx:id="thanhTienCol" prefWidth="140.0" text="Thành tiền" />
+                        <TableColumn fx:id="maPhongCol" prefWidth="90.0" text="Mã" />
+                        <TableColumn fx:id="loaiPhongCol" prefWidth="82.0" text="Loại phòng" />
+                        <TableColumn fx:id="gioVaoCol" prefWidth="115.0" text="Giờ vào" />
+                        <TableColumn fx:id="gioRaCol" prefWidth="115.0" text="Giờ ra" />
+                        <TableColumn fx:id="gioSuDungCol" text="Số giờ SD" />
+                        <TableColumn fx:id="donGiaCol" text="Đơn giá" />
+                        <TableColumn fx:id="thanhTienCol" prefWidth="144.0" text="Thành tiền" />
                     </columns>
-                </TreeTableView>
+                </TableView>
             </content>
         </TitledPane>
-        <TitledPane collapsible="false" layoutY="451.0" prefHeight="312.0" prefWidth="708.0" text="Dịch vụ">
+        <TitledPane collapsible="false" layoutY="415.0" prefHeight="348.0" prefWidth="708.0" text="Dịch vụ">
             <content>
                 <TableView fx:id="tableDichVu" prefHeight="249.0" prefWidth="706.0">
                     <columns>
@@ -137,24 +135,24 @@
                                         <Font size="16.0" />
                                     </font>
                                 </TextField>
-                                <ImageView fitHeight="18.0" fitWidth="22.0">
+                                <ImageView fx:id="imgCheckKM" fitHeight="18.0" fitWidth="22.0">
                                     <image>
                                         <Image url="@../image/check_false.png" />
                                     </image>
                                 </ImageView>
                             </children>
                         </HBox>
-                        <Label layoutX="12.0" layoutY="335.0" text="Tổng tiền:">
+                        <Label layoutX="12.0" layoutY="335.0" style="-fx-font-size: 16;" text="Tổng tiền:">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="1" wrappingWidth="220.0">
+                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Text>
-                        <Label layoutX="12.0" layoutY="375.0" text="Tiền nhận:">
+                        <Label layoutX="12.0" layoutY="375.0" style="-fx-font-size: 16;" text="Tiền nhận:">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -162,19 +160,19 @@
                         <HBox alignment="CENTER" layoutX="150.0" layoutY="372.0" spacing="16.0">
                             <children>
                                 <TextField fx:id="txtTienNhan" prefHeight="26.0" prefWidth="220.0" style="-fx-font-size: 16;" />
-                                <ImageView fitHeight="18.0" fitWidth="22.0">
+                                <ImageView fx:id="imgCheckTienNhan" fitHeight="18.0" fitWidth="22.0">
                                     <image>
                                         <Image url="@../image/check_false.png" />
                                     </image>
                                 </ImageView>
                             </children>
                         </HBox>
-                        <Label layoutX="12.0" layoutY="415.0" text="Tiền thừa:">
+                        <Label layoutX="12.0" layoutY="415.0" style="-fx-font-size: 16;" text="Tiền thừa:">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <Text fx:id="txtTienThua" layoutX="150.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="1" wrappingWidth="220.0">
+                        <Text fx:id="txtTienThua" layoutX="150.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>

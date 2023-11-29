@@ -309,7 +309,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
             JOptionPane.showMessageDialog(null, "Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
             return;
         }
-
+        xuLyLamMoiKhuyenMai();
         tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getKhuyenMaiTheoMa(maTimKiem));
         tableView_CTKhuyenMai.refresh();
     }

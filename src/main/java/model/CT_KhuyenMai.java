@@ -184,6 +184,7 @@ public class CT_KhuyenMai {
         return list;
     }
 
+
     public static ObservableList<CT_KhuyenMai> getKhuyenMaiTheoMa(String id) {
         ObservableList<CT_KhuyenMai> list = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
@@ -218,6 +219,31 @@ public class CT_KhuyenMai {
         return list;
     }
 
+	public static CT_KhuyenMai getCT_KhuyenMaiTheoMaKM(String maKM) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+		CT_KhuyenMai ctkm = null;
+        try {
+			String sql = String.format("SELECT * FROM CT_KhuyenMai WHERE MaKhuyenMai = '%s'", maKM);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String tenKhuyenMai = rs.getString("TenKhuyenMai");
+                LocalDate ngayBatDau = rs.getDate("NgayBatDau").toLocalDate();
+                LocalDate ngayKetThuc = rs.getDate("NgayKetThuc").toLocalDate();
+                Integer soLuotSuDungConLai = rs.getInt("LuotSuDungConLai");
+                Integer chietKhau = rs.getInt("ChietKhau");
+                ctkm = new CT_KhuyenMai(maKM, tenKhuyenMai, ngayBatDau, ngayKetThuc, soLuotSuDungConLai, chietKhau);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        return ctkm;
+    }
+	
     public static boolean capNhatThongTinKhuyenMai(CT_KhuyenMai km) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getConnection();
