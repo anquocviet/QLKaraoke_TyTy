@@ -142,22 +142,22 @@
                                 </ImageView>
                             </children>
                         </HBox>
-                        <Label layoutX="12.0" layoutY="335.0" style="-fx-font-size: 16;" text="Tổng tiền:">
+                        <Label layoutX="12.0" layoutY="375.0" style="-fx-font-size: 16;" text="Tổng tiền:">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" wrappingWidth="220.0">
+                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Text>
-                        <Label layoutX="12.0" layoutY="375.0" style="-fx-font-size: 16;" text="Tiền nhận:">
+                        <Label layoutX="12.0" layoutY="335.0" style="-fx-font-size: 16;" text="Tiền đã giảm:">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <HBox alignment="CENTER" layoutX="150.0" layoutY="372.0" spacing="16.0">
+                        <HBox alignment="CENTER" layoutX="150.0" layoutY="413.0" spacing="16.0">
                             <children>
                                 <TextField fx:id="txtTienNhan" prefHeight="26.0" prefWidth="220.0" style="-fx-font-size: 16;" />
                                 <ImageView fx:id="imgCheckTienNhan" fitHeight="18.0" fitWidth="22.0">
@@ -167,33 +167,33 @@
                                 </ImageView>
                             </children>
                         </HBox>
-                        <Label layoutX="12.0" layoutY="415.0" style="-fx-font-size: 16;" text="Tiền thừa:">
+                        <Label layoutX="12.0" layoutY="418.0" style="-fx-font-size: 16;" text="Tiền nhận:">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <Text fx:id="txtTienThua" layoutX="150.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
+                        <Text fx:id="txtTienThua" layoutX="149.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Text>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="234.0" layoutY="511.0" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="233.0" layoutY="523.0" preserveRatio="true">
                             <image>
                                 <Image url="@../image/print.png" />
                             </image>
-                            <effect>
-                                <Lighting>
-                                    <bumpInput>
-                                        <Shadow />
-                                    </bumpInput>
-                                    <light>
-                                        <Light.Distant />
-                                    </light>
-                                </Lighting>
-                            </effect>
                         </ImageView>
-                        <CheckBox layoutX="201.0" layoutY="511.0" mnemonicParsing="false" selected="true" />
-                        <Button fx:id="btnThanhToan" layoutX="280.0" layoutY="508.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="139.0" style="-fx-background-color: LIGHTGREEN;" text="Xác nhận thanh toán" />
+                        <CheckBox layoutX="206.0" layoutY="527.0" mnemonicParsing="false" selected="true" />
+                        <Button fx:id="btnThanhToan" layoutX="279.0" layoutY="520.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="139.0" style="-fx-background-color: LIGHTGREEN;" text="Xác nhận thanh toán" />
+                  <Label layoutX="12.0" layoutY="464.0" style="-fx-font-size: 16;" text="Tiền thừa:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="txtTienDaGiam" layoutX="150.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
                     </children>
                 </Pane>
             </content>

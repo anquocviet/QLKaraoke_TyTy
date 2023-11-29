@@ -151,7 +151,7 @@ public class GD_ThuePhongController implements Initializable {
         NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
         
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, ngayThue);
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDate.now());
         Phong p = Phong.getPhongTheoMaPhong(soPhong);
         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p , LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
         System.out.println(ctP);

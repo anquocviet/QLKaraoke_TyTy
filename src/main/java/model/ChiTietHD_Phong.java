@@ -8,8 +8,7 @@ import connect.ConnectDB;
 import controllers.GD_ChuyenPhongController;
 import controllers.GD_QLKhachHangController;
 
-import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Connection;;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +16,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -102,34 +100,14 @@ public class ChiTietHD_Phong {
         }
     }
 
-	public long getThanhTien() {
-		return thanhTien;
-	}
-
     public long tinhThanhTien() {
         thanhTien = (long) (tinhTongGioSuDung() * phong.getGiaPhong());
         return thanhTien;
     }
 
     public float tinhTongGioSuDung() {
-        float hour = 0;
-        int minute = 0;
-
-        LocalDateTime tmp;
-        Duration duration = Duration.ofHours(gioVao.getHour()).plusMinutes(gioVao.getMinute());
-        tmp = gioRa.minus(duration);
-
-        hour = tmp.getHour();
-        minute = tmp.getMinute();
-
-        if (minute < 10) {
-            minute = 0;
-        } else if (minute < 40) {
-            hour += 0.5;
-        } else {
-            hour += 1;
-        }
-        return hour;
+        float time = ((float) Duration.between(gioVao, gioRa).toMillis()) / 1000 / 3600;
+        return time;
     }
 
     @Override
@@ -230,36 +208,6 @@ public class ChiTietHD_Phong {
         return hdP;
     }
 
-    public static boolean suaChiTietHD_Phong(ChiTietHD_Phong hdP) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
-        String sql = "UPDATE ChiTietHD_Phong "
-                + "SET GioVao = ?, GioRa = ? "
-                + "WHERE MaHoaDon = ? AND MaPhong = ?";
-        try {
-            pstm = conn.prepareStatement(sql);
-
-            pstm.setTimestamp(1, Timestamp.valueOf(hdP.getGioVao()));
-            pstm.setTimestamp(2, Timestamp.valueOf(hdP.getGioRa()));
-            pstm.setString(3, hdP.getHoaDon().getMaHoaDon());
-            pstm.setString(4, hdP.getPhong().getMaPhong());
-            n = pstm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-
-                assert pstm != null;
-                pstm.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return n > 0;
-    }
-
     public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
@@ -298,16 +246,15 @@ public class ChiTietHD_Phong {
     }
 	
 	public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
-		ConnectDB.getInstance();
-		Connection conn = ConnectDB.getInstance().getConnection();
+		Connection conn = ConnectDB.getConnection();
 		PreparedStatement pstm = null;
 		int n = 0;
 		String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setDate(1, Date.valueOf(ct.gioRa.toLocalDate()));
-			pstm.setFloat(2, Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000);
-			pstm.setLong(3, ct.thanhTien);
+			pstm.setTimestamp(1, Timestamp.valueOf(ct.gioRa));
+			pstm.setFloat(2, ct.tinhTongGioSuDung());
+			pstm.setLong(3, ct.tinhThanhTien());
 			pstm.setString(4, ct.getHoaDon().getMaHoaDon());
 			pstm.setString(5, ct.getPhong().getMaPhong());
 			n = pstm.executeUpdate();
