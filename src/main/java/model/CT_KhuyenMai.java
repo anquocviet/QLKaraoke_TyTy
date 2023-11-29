@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import java.util.Objects;
@@ -183,6 +184,40 @@ public class CT_KhuyenMai {
         return list;
     }
 
+    public static ObservableList<CT_KhuyenMai> getKhuyenMaiTheoMa(String id) {
+        ObservableList<CT_KhuyenMai> list = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        String query = "SELECT * FROM CT_KhuyenMai WHERE MaKhuyenMai LIKE '%" + id + "%'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String maKhuyenMai = rs.getString("MaKhuyenMai");
+                String tenKhuyenMai = rs.getString("TenKhuyenMai");
+                java.sql.Date ns = rs.getDate("NgayBatDau");
+                LocalDate ngayBatDau = ns.toLocalDate();
+                ns = rs.getDate("NgayKetThuc");
+                LocalDate ngayKetThuc = ns.toLocalDate();
+                int luotSuDungConLai = rs.getInt("LuotSuDungConLai");
+                int chietKhau = rs.getInt("ChietKhau");
+                list.add(new CT_KhuyenMai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, luotSuDungConLai, chietKhau));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLCTKhuyenMaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return list;
+    }
+
     public static boolean capNhatThongTinKhuyenMai(CT_KhuyenMai km) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getConnection();
@@ -252,7 +287,7 @@ public class CT_KhuyenMai {
         return n > 0;
     }
 
-    public static boolean xoaCTKhuyenMai(String maKhuyenMai){
+    public static boolean xoaCTKhuyenMai(String maKhuyenMai) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
         PreparedStatement pstm = null;

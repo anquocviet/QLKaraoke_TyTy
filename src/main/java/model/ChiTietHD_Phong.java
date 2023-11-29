@@ -47,11 +47,11 @@ public class ChiTietHD_Phong {
         tinhThanhTien();
 
     }
-	
-	public ChiTietHD_Phong(HoaDonThanhToan hoaDon, Phong phong) throws Exception {
-		setHoaDon(hoaDon);
-		setPhong(phong);
-	}
+
+    public ChiTietHD_Phong(HoaDonThanhToan hoaDon, Phong phong) throws Exception {
+        setHoaDon(hoaDon);
+        setPhong(phong);
+    }
 
     public HoaDonThanhToan getHoaDon() {
         return hoaDon;
@@ -102,9 +102,9 @@ public class ChiTietHD_Phong {
         }
     }
 
-	public long getThanhTien() {
-		return thanhTien;
-	}
+    public long getThanhTien() {
+        return thanhTien;
+    }
 
     public long tinhThanhTien() {
         thanhTien = (long) (tinhTongGioSuDung() * phong.getGiaPhong());
@@ -136,8 +136,8 @@ public class ChiTietHD_Phong {
     public String toString() {
         return "ChiTietHD_Phong{" + "hoaDon=" + hoaDon + ", phong=" + phong + ", gioVao=" + gioVao + ", gioRa=" + gioRa + '}';
     }
-	
-	public static ObservableList<ChiTietHD_Phong> getCT_PhongTheoMaHD(String maHD) {
+
+    public static ObservableList<ChiTietHD_Phong> getCT_PhongTheoMaHD(String maHD) {
         ObservableList<ChiTietHD_Phong> dsChiTietHD_Phong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
@@ -146,11 +146,11 @@ public class ChiTietHD_Phong {
             String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE ChiTietHD_Phong.MaHoaDon = '%s'", maHD);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-				String maPhong = rs.getString("MaPhong");
-				LocalDateTime gioVao = rs.getTimestamp("GioVao").toLocalDateTime();
-				LocalDateTime gioRa = rs.getTimestamp("GioRa").toLocalDateTime();
+                String maPhong = rs.getString("MaPhong");
+                LocalDateTime gioVao = rs.getTimestamp("GioVao").toLocalDateTime();
+                LocalDateTime gioRa = rs.getTimestamp("GioRa").toLocalDateTime();
 //				LocalDateTime gioRa = rs.getDate("GioRa").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				Phong p = Phong.getPhongTheoMaPhong(maPhong);
+                Phong p = Phong.getPhongTheoMaPhong(maPhong);
                 dsChiTietHD_Phong.add(new ChiTietHD_Phong(new HoaDonThanhToan(maHD), p, gioVao, gioRa));
             }
         } catch (Exception e) {
@@ -266,13 +266,13 @@ public class ChiTietHD_Phong {
         PreparedStatement pstm = null;
         int n = 0;
 
-        String sql = "MERGE INTO ChiTietHD_Phong AS target " +
-                 "USING (VALUES (?, ?, ?, ?)) AS source (MaHoaDon, MaPhong, GioVao, GioRa) " +
-                 "ON target.MaHoaDon = source.MaHoaDon AND target.MaPhong = source.MaPhong " +
-                 "WHEN MATCHED THEN " +
-                 "UPDATE SET target.GioVao = source.GioVao, target.GioRa = source.GioRa " +
-                 "WHEN NOT MATCHED THEN " +
-                 "INSERT (MaHoaDon, MaPhong, GioVao, GioRa) VALUES (source.MaHoaDon, source.MaPhong, source.GioVao, source.GioRa);";
+        String sql = "MERGE INTO ChiTietHD_Phong AS target "
+                + "USING (VALUES (?, ?, ?, ?)) AS source (MaHoaDon, MaPhong, GioVao, GioRa) "
+                + "ON target.MaHoaDon = source.MaHoaDon AND target.MaPhong = source.MaPhong "
+                + "WHEN MATCHED THEN "
+                + "UPDATE SET target.GioVao = source.GioVao, target.GioRa = source.GioRa "
+                + "WHEN NOT MATCHED THEN "
+                + "INSERT (MaHoaDon, MaPhong, GioVao, GioRa) VALUES (source.MaHoaDon, source.MaPhong, source.GioVao, source.GioRa);";
 
         try {
             pstm = conn.prepareStatement(sql);
@@ -296,31 +296,31 @@ public class ChiTietHD_Phong {
 
         return n > 0;
     }
-	
-	public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
-		ConnectDB.getInstance();
-		Connection conn = ConnectDB.getInstance().getConnection();
-		PreparedStatement pstm = null;
-		int n = 0;
-		String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
-		try {
-			pstm = conn.prepareStatement(sql);
-			pstm.setDate(1, Date.valueOf(ct.gioRa.toLocalDate()));
-			pstm.setFloat(2, Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000);
-			pstm.setLong(3, ct.thanhTien);
-			pstm.setString(4, ct.getHoaDon().getMaHoaDon());
-			pstm.setString(5, ct.getPhong().getMaPhong());
-			n = pstm.executeUpdate();
-		} catch (SQLException ex) {
-			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			try {
+
+    public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setDate(1, Date.valueOf(ct.gioRa.toLocalDate()));
+            pstm.setFloat(2, Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000);
+            pstm.setLong(3, ct.thanhTien);
+            pstm.setString(4, ct.getHoaDon().getMaHoaDon());
+            pstm.setString(5, ct.getPhong().getMaPhong());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
                 assert pstm != null;
                 pstm.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		return n > 0;
-	}
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
 }

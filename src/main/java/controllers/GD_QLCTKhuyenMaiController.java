@@ -212,8 +212,43 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyCapNhatThongTinKhuyenMai() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void xuLyCapNhatThongTinKhuyenMai() throws Exception {
+        if (!kiemTraRong()) {
+            return;
+        }
+        CT_KhuyenMai km = null;
+        String maKhuyenMai = txtMaKhuyenMai.getText();
+        String tenKhuyenMai = txtTenKhuyenMai.getText();
+
+        Integer luotSuDungConLai = Integer.parseInt(txtLuotSuDung.getText());
+        Integer chietKhau = Integer.parseInt(txtChietKhau.getText());
+        LocalDate ngayBatDau = (LocalDate) dateNgayBatDau.getValue();
+        LocalDate ngayKetThuc = (LocalDate) dateNgayKetThuc.getValue();
+
+        if (!kiemTraTrungTenKhuyenMai(tenKhuyenMai)) {
+            JOptionPane.showMessageDialog(null, "Tên khuyến mãi đã bị trùng!");
+            txtTenKhuyenMai.selectAll();
+            txtTenKhuyenMai.requestFocus();
+            return;
+        }
+        try {
+            km = new CT_KhuyenMai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, luotSuDungConLai, chietKhau);
+            CT_KhuyenMai.capNhatThongTinKhuyenMai(km);
+            xuLyLamMoiKhuyenMai();
+        } catch (Exception e) {
+            String exception = e.getMessage();
+            if (exception.equals("Ngày kết thúc phải lớn hơn ngày bắt đầu")) {
+                dateNgayBatDau.requestFocus();
+                dateNgayBatDau.setValue(null);
+            } else if (exception.equals("Lượt sử dụng khuyến mãi phải lớn hơn 0")) {
+                txtLuotSuDung.selectAll();
+                txtLuotSuDung.requestFocus();
+            } else if (exception.equals("Chiết khấu phải lớn hơn 0 và nhỏ hơn hoặc bằng 50")) {
+                txtChietKhau.selectAll();
+                txtChietKhau.requestFocus();
+            }
+            JOptionPane.showMessageDialog(null, exception);
+        }
     }
 //
 
@@ -231,14 +266,13 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
             JOptionPane.showMessageDialog(null, "Hãy chọn khuyến mãi để thực hiện xóa");
             return;
         }
-        
+
         CT_KhuyenMai.xoaCTKhuyenMai(maKhuyenMai);
         tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
         xuLyLamMoiKhuyenMai();
 
     }
 //
-
     public void handleLamMoiButtonAction(ActionEvent event) {
         try {
             xuLyLamMoiKhuyenMai();
@@ -254,7 +288,11 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         dateNgayBatDau.setValue(null);
         dateNgayKetThuc.setValue(null);
         txtChietKhau.setText("");
+        txtTimMaKhuyenMai.setText("");
+        tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
+        tableView_CTKhuyenMai.refresh();
     }
+//
 
     public void handleTimKhuyenMaiButtonAction(ActionEvent event) {
         try {
@@ -262,6 +300,18 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void xuLyTimKhuyenMai() {
+        String maTimKiem = txtTimMaKhuyenMai.getText();
+        System.out.println(maTimKiem);
+        if (txtTimMaKhuyenMai == null) {
+            JOptionPane.showMessageDialog(null, "Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
+            return;
+        }
+
+        tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getKhuyenMaiTheoMa(maTimKiem));
+        tableView_CTKhuyenMai.refresh();
     }
 
     public void handleEventInTable() {
@@ -336,9 +386,5 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
 
         return true;
-    }
-
-    private void xuLyTimKhuyenMai() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
