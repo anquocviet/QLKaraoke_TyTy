@@ -7,7 +7,7 @@ package controllers;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -15,12 +15,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,12 +29,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
-import javax.swing.JOptionPane;
 import main.App;
 import model.CT_KhuyenMai;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
+import model.KhachHang;
+import model.NhanVien;
 import model.Phong;
 
 /**
@@ -98,7 +99,7 @@ public class GD_ThanhToanController implements Initializable {
 				if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
 					return new ReadOnlyObjectWrapper<>();
 				}
-				float gioSuDung = param.getValue().tinhTongGioSuDung();
+				String gioSuDung = df.format(param.getValue().tinhTongGioSuDung());
 				return new ReadOnlyObjectWrapper<>(gioSuDung);
 			});
 			donGiaCol.setCellValueFactory((param) -> {
@@ -109,14 +110,18 @@ public class GD_ThanhToanController implements Initializable {
 				return new ReadOnlyObjectWrapper<>(df.format(donGia));
 			});
 			thanhTienCol.setCellValueFactory((param) -> {
-				if (param.getValue().getThanhTien() == 0) {
-					return new ReadOnlyObjectWrapper<>();
-				}
-				float time = Duration.between(param.getValue().getGioVao(), param.getValue().getGioRa()).toMillis() / 1000;
-				long giaPhong = param.getValue().getPhong().getGiaPhong();
-				return new ReadOnlyObjectWrapper<String>(df.format((long) (time * giaPhong)));
+				return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
 			});
-			tablePhong.setItems(ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD));
+			
+			 ObservableList<ChiTietHD_Phong> dsPhong =  ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
+			 dsPhong.forEach(ct -> {
+				try {
+					ct.setGioRa(LocalDateTime.now());
+				} catch (Exception ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			 });
+			tablePhong.setItems(dsPhong);
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -131,21 +136,16 @@ public class GD_ThanhToanController implements Initializable {
 			tienDV += ct.getThanhTien();
 		}
 		for (ChiTietHD_Phong ct : tablePhong.getItems()) {
-			if (ct.getGioRa() == null) {
-				continue;
-			}
-			float time = Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000;
-			long giaPhong = ct.getPhong().getGiaPhong();
-			tienPhong += time * giaPhong;
+			tienPhong += ct.tinhThanhTien();
 		}
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
 		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
 		txtTongTien.setText(df.format(tienPhong + tienDV) + " VNĐ");
-		handleEventInputInput();
+		handleEventInInput();
 		handleEventInBtn();
 	}
 
-	public void handleEventInputInput() {
+	public void handleEventInInput() {
 		txtTienNhan.setOnKeyPressed(evt -> {
 			if (evt.getCode() == KeyCode.ENTER) {
 				long tienNhan;
@@ -181,9 +181,11 @@ public class GD_ThanhToanController implements Initializable {
 					long tongTien = tienPhong + tienDV;
 					if (ctkm != null) {
 						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
+						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");
 						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
 					} else {
-						imgCheckKM.setImage(new Image("file:src/main/resources/image/check-false.png"));
+						imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
+						txtTienDaGiam.setText(df.format(0 + " VND"));
 					}
 					txtTongTien.setText(df.format(tongTien) + " VND");
 				} catch (ParseException ex) {
@@ -197,12 +199,17 @@ public class GD_ThanhToanController implements Initializable {
 		btnThanhToan.setOnAction(evt -> {
 			try {
 				LocalDateTime gioRa = LocalDateTime.now();
-				ChiTietHD_Phong.suaChiTietHD_Phong(new ChiTietHD_Phong(
-						HoaDonThanhToan.getBillByID(txtMaHoaDon.getText()),
-						Phong.getPhongTheoMaPhong(txtMaPhong.getText()),
-						LocalDateTime.now(),
-						gioRa));
-				Phong.updateStatusRoom(txtMaPhong.getText(), 0);
+				tablePhong.getItems().forEach((ct) -> {
+					ChiTietHD_Phong.updateCTHD_Phong(ct);
+					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 0);
+				});
+				HoaDonThanhToan.updateHoaDonThanhToan(new HoaDonThanhToan(
+					txtMaHoaDon.getText(), 
+						new NhanVien(txtNhanVien.getText()),
+						new KhachHang(txtKhachHang.getText()),
+						new CT_KhuyenMai(txtMaKhuyenMai.getText().trim()), 
+						LocalDate.now())
+				);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
 				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
 				alert.setTitle("Thanh toán phòng thành công");
@@ -218,7 +225,7 @@ public class GD_ThanhToanController implements Initializable {
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 	//Bảng phòng
 	@FXML
-	private TextField txtMaPhong;
+	private Text txtMaPhong;
 	@FXML
 	private TextField txtNgay;
 	@FXML
@@ -256,8 +263,6 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private TextField txtTienNhan;
 	@FXML
-	private SplitMenuButton cbPhong;
-	@FXML
 	private TableView<ChiTietHD_Phong> tablePhong;
 	@FXML
 	private TableColumn<ChiTietHD_Phong, String> maPhongCol;
@@ -268,7 +273,7 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private TableColumn<ChiTietHD_Phong, String> gioRaCol;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, Float> gioSuDungCol;
+	private TableColumn<ChiTietHD_Phong, String> gioSuDungCol;
 	@FXML
 	private TableColumn<ChiTietHD_Phong, String> donGiaCol;
 	@FXML
@@ -289,6 +294,8 @@ public class GD_ThanhToanController implements Initializable {
 	private Text txtTienDichVu;
 	@FXML
 	private Text txtTongTien;
+	@FXML
+	private Text txtTienDaGiam;
 	@FXML
 	private Text txtTienThua;
 	@FXML
