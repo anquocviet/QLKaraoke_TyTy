@@ -112,15 +112,15 @@ public class GD_ThanhToanController implements Initializable {
 			thanhTienCol.setCellValueFactory((param) -> {
 				return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
 			});
-			
-			 ObservableList<ChiTietHD_Phong> dsPhong =  ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
-			 dsPhong.forEach(ct -> {
+
+			ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
+			dsPhong.forEach(ct -> {
 				try {
 					ct.setGioRa(LocalDateTime.now());
 				} catch (Exception ex) {
 					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 				}
-			 });
+			});
 			tablePhong.setItems(dsPhong);
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
@@ -151,8 +151,7 @@ public class GD_ThanhToanController implements Initializable {
 				long tienNhan;
 				try {
 					tienNhan = df.parse(txtTienNhan.getText().trim()).longValue();
-				}
-				catch (ParseException ex) {
+				} catch (ParseException ex) {
 					tienNhan = Long.parseLong(txtTienNhan.getText().trim());
 				}
 				try {
@@ -198,18 +197,30 @@ public class GD_ThanhToanController implements Initializable {
 	public void handleEventInBtn() {
 		btnThanhToan.setOnAction(evt -> {
 			try {
-				LocalDateTime gioRa = LocalDateTime.now();
+				if (txtTienThua.getText().equals("0")) {
+					Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại tiền nhận!", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Lỗi");
+					alert.setHeaderText("Tiền nhận không phù hợp");
+					alert.showAndWait();
+					return;
+				}
+
+				CT_KhuyenMai km = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
+				if (km == null) {
+					km = new CT_KhuyenMai("DEFAULT");
+				} else {
+					CT_KhuyenMai.capNhatLuotSuDungKhuyenMai(km.getMaKhuyenMai(), km.getLuotSuDungConLai() - 1);
+				}
 				tablePhong.getItems().forEach((ct) -> {
 					ChiTietHD_Phong.updateCTHD_Phong(ct);
 					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 0);
 				});
-				HoaDonThanhToan.updateHoaDonThanhToan(new HoaDonThanhToan(
-					txtMaHoaDon.getText(), 
-						new NhanVien(txtNhanVien.getText()),
-						new KhachHang(txtKhachHang.getText()),
-						new CT_KhuyenMai(txtMaKhuyenMai.getText().trim()), 
-						LocalDate.now())
-				);
+				String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
+				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
+				hd.setKhuyenMai(km);
+				hd.setNgayLap(LocalDate.now());
+				HoaDonThanhToan.updateHoaDonThanhToan(hd);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
 				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
 				alert.setTitle("Thanh toán phòng thành công");
@@ -223,29 +234,6 @@ public class GD_ThanhToanController implements Initializable {
 	}
 
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
-	//Bảng phòng
-	@FXML
-	private Text txtMaPhong;
-	@FXML
-	private TextField txtNgay;
-	@FXML
-	private TextField txtGioVao;
-	@FXML
-	private TextField txtGioRa;
-	@FXML
-	private TextField txtTongGioSuDung;
-	@FXML
-	private TextField txtThanhTienP;
-
-	//Bảng Dịch vụ
-	@FXML
-	private TextField txtTenDichVu;
-	@FXML
-	private TextField txtSoLuong;
-	@FXML
-	private TextField txtDonViTinh;
-	@FXML
-	private TextField txtThanhTienDV;
 
 	@FXML
 	private TableView<ChiTietHD_DichVu> tableDichVu;
