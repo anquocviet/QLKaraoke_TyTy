@@ -41,6 +41,8 @@ import model.DichVu;
  */
 public class GD_QLDichVuController implements Initializable {
 
+    private String tenAnhMinhHoa;
+
     /**
      *
      * @param location
@@ -160,8 +162,9 @@ public class GD_QLDichVuController implements Initializable {
             return false;
         }
 
-        if (txtDonViTinh.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Đơn vị tính của dịch vụ không được rỗng");
+        String donViTinh = txtDonViTinh.getText().trim();
+        if (donViTinh.isEmpty() || !kiemTraDinhDangDonViTinh(donViTinh)) {
+            JOptionPane.showMessageDialog(null, "Đơn vị tính của dịch vụ không được rỗng và phải đúng định dạng");
             txtDonViTinh.selectAll();
             txtDonViTinh.requestFocus();
             return false;
@@ -176,6 +179,20 @@ public class GD_QLDichVuController implements Initializable {
         }
 
         return true;
+    }
+
+    private boolean kiemTraDinhDangDonViTinh(String donViTinh) {
+        // Danh sách các đơn vị tính cho phép
+        String[] allowedUnits = {"Dĩa", "Thùng", "Lon", "Chai", "Bịch", "Gói", "Trái", "Con"};
+
+        // Kiểm tra xem đơn vị tính có trong danh sách cho phép hay không
+        for (String allowedUnit : allowedUnits) {
+            if (allowedUnit.equalsIgnoreCase(donViTinh)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public String phatSinhMaDichVu() throws SQLException {
@@ -197,7 +214,7 @@ public class GD_QLDichVuController implements Initializable {
         int soLuongTon = Integer.parseInt(txtSoLuong.getText());
         String donViTinh = txtDonViTinh.getText();
         long donGia = Long.parseLong(txtDonGia.getText());
-        String anhMinhHoa = "file:src/main/resources/image/dich-vu/";
+        String anhMinhHoa = tenAnhMinhHoa;
 
         if (!kiemTraTrungDichVu(tenDichVu, donViTinh)) {
             JOptionPane.showMessageDialog(null, "Dịch vụ này đã có trên hệ thống!");
@@ -210,6 +227,7 @@ public class GD_QLDichVuController implements Initializable {
         DichVu.themDichVu(dv);
         tableView_DichVu.setItems(DichVu.getAllDichVu());
 
+        JOptionPane.showMessageDialog(null, "Thêm thông tin dịch vụ thành công");
     }
 
     public boolean kiemTraTrungDichVu(String tenDichVu, String donViTinh) throws Exception {
@@ -232,20 +250,26 @@ public class GD_QLDichVuController implements Initializable {
     }
 
     public void xuLySuaThongTinDichVu() throws SQLException, Exception {
+        if (!kiemTraRong()) {
+            return;
+        }
         String maDichVu = txtMaDichVu.getText();
         String tenDV = txtTenDichVu.getText();
         int soLuong = Integer.parseInt(txtSoLuong.getText());
         long donGia = Long.parseLong(txtDonGia.getText());
         String donViTinh = txtDonViTinh.getText();
 
-        String anhMinhHoa = "file:src/main/resources/image/dich-vu/";
+        String anhMinhHoa = tenAnhMinhHoa;
         DichVu dv = new DichVu(maDichVu, tenDV, soLuong, donGia, donViTinh, anhMinhHoa);
         DichVu.capNhatThongTinDichVu(dv);
 
         tableView_DichVu.setItems(DichVu.getAllDichVu());
         tableView_DichVu.refresh();
+
+        JOptionPane.showMessageDialog(null, "Cập nhật thông tin dịch vụ thành công");
+
     }
-    
+
     @FXML
     private TextField txtMaDichVu;
     @FXML
@@ -265,7 +289,7 @@ public class GD_QLDichVuController implements Initializable {
         FileChooser fileChooser = new FileChooser();
 
         // Đặt đường dẫn mặc định tại đây
-        String defaultPath = "C:\\PTUD\\QLKaraoke_TyTy\\src\\main\\resources\\image";
+        String defaultPath = "C:\\PTUD\\QLKaraoke_TyTy\\src\\main\\resources\\image\\dich-vu";
         fileChooser.setInitialDirectory(new File(defaultPath));
 
         fileChooser.getExtensionFilters().add(
@@ -277,6 +301,8 @@ public class GD_QLDichVuController implements Initializable {
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
             imgDichVu.setImage(image);
+            
+            tenAnhMinhHoa = selectedFile.getName();
         }
     }
 
