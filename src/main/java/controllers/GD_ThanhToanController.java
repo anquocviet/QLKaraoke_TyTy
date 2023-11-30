@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -34,8 +35,6 @@ import model.CT_KhuyenMai;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
-import model.KhachHang;
-import model.NhanVien;
 import model.Phong;
 
 /**
@@ -178,13 +177,13 @@ public class GD_ThanhToanController implements Initializable {
 					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
 					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
 					long tongTien = tienPhong + tienDV;
-					if (ctkm != null) {
+					if (checkUseVoucher(ctkm)) {
 						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
 						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");
 						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
 					} else {
 						imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
-						txtTienDaGiam.setText(df.format(0 + " VND"));
+						txtTienDaGiam.setText(0 + " VND");
 					}
 					txtTongTien.setText(df.format(tongTien) + " VND");
 				} catch (ParseException ex) {
@@ -205,12 +204,11 @@ public class GD_ThanhToanController implements Initializable {
 					alert.showAndWait();
 					return;
 				}
-
-				CT_KhuyenMai km = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
-				if (km == null) {
-					km = new CT_KhuyenMai("DEFAULT");
-				} else {
+				CT_KhuyenMai km = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim().toUpperCase());
+				if (checkUseVoucher(km)) {
 					CT_KhuyenMai.capNhatLuotSuDungKhuyenMai(km.getMaKhuyenMai(), km.getLuotSuDungConLai() - 1);
+				} else {
+					km = new CT_KhuyenMai("DEFAULT");
 				}
 				tablePhong.getItems().forEach((ct) -> {
 					ChiTietHD_Phong.updateCTHD_Phong(ct);
@@ -231,10 +229,26 @@ public class GD_ThanhToanController implements Initializable {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
+		btnBack.setOnAction(evt -> {
+			try {
+				App.setRoot("GD_QLKinhDoanhPhong");
+			} catch (IOException ex) {
+				Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		});
+	}
+	
+	public boolean checkUseVoucher(CT_KhuyenMai km) {
+		if (km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now())) {
+			return true;
+		}
+		return false;
 	}
 
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 
+	@FXML
+	private Button btnBack;
 	@FXML
 	private TableView<ChiTietHD_DichVu> tableDichVu;
 	@FXML
