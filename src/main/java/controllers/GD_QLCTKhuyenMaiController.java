@@ -102,7 +102,6 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     @FXML
     private Button btnSearch;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -113,10 +112,14 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
         col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
-      
-        tableView_CTKhuyenMai.setItems( CT_KhuyenMai.getListCT_KhuyenMai());
+
+        tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
         tableView_CTKhuyenMai.requestFocus();
-        
+
+        tableView_CTKhuyenMai.requestFocus();
+        tableView_CTKhuyenMai.getSelectionModel().select(0);
+        tableView_CTKhuyenMai.getSelectionModel().focus(0);
+        docDuLieuTuTable();
         handleEventInTable();
 
         btnAdd.setOnAction(this::handleThemKhuyenMaiButtonAction);
@@ -259,17 +262,13 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyXoaKhuyenMai() throws IOException {
-        String maKhuyenMai = txtMaKhuyenMai.getText();
-        if (maKhuyenMai == null) {
-            thongBao("Hãy chọn khuyến mãi để thực hiện xóa");
+    private void xuLyXoaKhuyenMai() throws IOException, Exception {
+        if (!kiemTraRong()){
             return;
         }
-
-        CT_KhuyenMai.xoaCTKhuyenMai(maKhuyenMai);
+        CT_KhuyenMai.xoaCTKhuyenMai(txtMaKhuyenMai.getText());
         tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
         xuLyLamMoiKhuyenMai();
-
     }
 //
 
@@ -305,11 +304,10 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyTimKhuyenMai() throws IOException {
+    private void xuLyTimKhuyenMai() throws IOException, Exception {
         String maTimKiem = txtTimMaKhuyenMai.getText();
         System.out.println(maTimKiem);
-        if (txtTimMaKhuyenMai == null) {
-            thongBao("Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
+        if (!kiemTraRong()){
             return;
         }
         xuLyLamMoiKhuyenMai();
