@@ -339,4 +339,61 @@ public class Phong {
         return phong;
     }
 
+    public static void addPhong(String maPhong, String loaiPhong, int tinhTrang, int sucChua, float giaPhong){
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+
+
+
+
+        String sql = "INSERT INTO Phong(maphong, loaiphong, tinhtrang, succhua, giaphong) VALUES (?, ?, ?, ?, ?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, maPhong);
+            pstm.setString(2, loaiPhong);
+            pstm.setInt(3, tinhTrang);
+            pstm.setInt(4, sucChua);
+            pstm.setFloat(5, giaPhong);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert pstm != null;
+                pstm.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void updatePhong(String maPhong, String loaiPhong, int tinhTrang, int sucChua, float giaPhong){
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+
+        String sql = "UPDATE Phong SET loaiphong = ?, tinhtrang = ?, succhua = ?, giaphong = ? WHERE maphong = ?";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, loaiPhong);
+            pstm.setInt(2, tinhTrang);
+            pstm.setInt(3, sucChua);
+            pstm.setFloat(4, giaPhong);
+            pstm.setString(5, maPhong);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert pstm != null;
+                pstm.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

@@ -4,22 +4,17 @@
  */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -30,12 +25,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javax.swing.JOptionPane;
 import main.App;
+import model.CT_KhuyenMai;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
@@ -73,25 +69,53 @@ public class GD_ThanhToanController implements Initializable {
 		}
 
 		try {
-			maPhongCol.setCellValueFactory(cellData -> {
-				String maPhong = cellData.getValue().getPhong().getMaPhong();
-				return new ReadOnlyStringWrapper(maPhong);
+			maPhongCol.setCellValueFactory((param) -> {
+				String maHoaDon = param.getValue().getPhong().getMaPhong();
+				return new ReadOnlyObjectWrapper<>(maHoaDon);
 			});
-			gioVaoCol.setCellValueFactory(cellData -> {
-				String gioVao = cellData.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-				return new ReadOnlyObjectWrapper<String>(gioVao);
+			loaiPhongCol.setCellValueFactory((param) -> {
+				if (param.getValue().getPhong() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
+				return new ReadOnlyObjectWrapper<>(loaiPhong);
 			});
-			gioRaCol.setCellValueFactory(cellData -> {
-				String gioRa = cellData.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-				return new ReadOnlyObjectWrapper<String>(gioRa);
+			gioVaoCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioVao() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioVao);
 			});
-			thanhTienPCol.setCellValueFactory(cellData -> {
-				float time = Duration.between(cellData.getValue().getGioVao(), cellData.getValue().getGioRa()).toMillis() / 1000;
-				long giaPhong = cellData.getValue().getPhong().getGiaPhong();
-
-				return new ReadOnlyObjectWrapper<Long>((long) (time * giaPhong));
+			gioRaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioRa);
 			});
-
+			gioSuDungCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				float gioSuDung = param.getValue().tinhTongGioSuDung();
+				return new ReadOnlyObjectWrapper<>(gioSuDung);
+			});
+			donGiaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				long donGia = param.getValue().getPhong().getGiaPhong();
+				return new ReadOnlyObjectWrapper<>(df.format(donGia));
+			});
+			thanhTienCol.setCellValueFactory((param) -> {
+				if (param.getValue().getThanhTien() == 0) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				float time = Duration.between(param.getValue().getGioVao(), param.getValue().getGioRa()).toMillis() / 1000;
+				long giaPhong = param.getValue().getPhong().getGiaPhong();
+				return new ReadOnlyObjectWrapper<String>(df.format((long) (time * giaPhong)));
+			});
 			tablePhong.setItems(ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD));
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,13 +131,16 @@ public class GD_ThanhToanController implements Initializable {
 			tienDV += ct.getThanhTien();
 		}
 		for (ChiTietHD_Phong ct : tablePhong.getItems()) {
+			if (ct.getGioRa() == null) {
+				continue;
+			}
 			float time = Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis() / 1000;
 			long giaPhong = ct.getPhong().getGiaPhong();
 			tienPhong += time * giaPhong;
 		}
-		txtTienDichVu.setText(tienDV + "");
-		txtTienPhong.setText(tienPhong + "");
-		txtTongTien.setText(Integer.parseInt(txtTienDichVu.getText()) + Integer.parseInt(txtTienPhong.getText()) + "");
+		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
+		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
+		txtTongTien.setText(df.format(tienPhong + tienDV) + " VNĐ");
 		handleEventInputInput();
 		handleEventInBtn();
 	}
@@ -121,18 +148,51 @@ public class GD_ThanhToanController implements Initializable {
 	public void handleEventInputInput() {
 		txtTienNhan.setOnKeyPressed(evt -> {
 			if (evt.getCode() == KeyCode.ENTER) {
-				String tienNhan = txtTienNhan.getText().trim();
-				String tongTien = txtTongTien.getText().trim();
-				long tienThua = Integer.parseInt(tienNhan) - Integer.parseInt(tongTien);
-				if (tienThua < 0) {
-//					JOptionPane.showConfirmDialog(null, "Tiền nhận được ít hơn tổng tiền cần thanh toán! Vui lòng kiểm tra lại.");
-				} else {
-					txtTienThua.setText(tienThua + "");
+				long tienNhan;
+				try {
+					tienNhan = df.parse(txtTienNhan.getText().trim()).longValue();
+				}
+				catch (ParseException ex) {
+					tienNhan = Long.parseLong(txtTienNhan.getText().trim());
+				}
+				try {
+					long tongTien = df.parse(txtTongTien.getText().trim()).longValue();
+					long tienThua = tienNhan - tongTien;
+					if (tienThua < 0) {
+						Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại số tiền nhận.", ButtonType.OK);
+						alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+						alert.setTitle("Lỗi");
+						alert.setHeaderText("Tiền đã nhận ít hơn tổng tiền!");
+						alert.showAndWait();
+					} else {
+						txtTienThua.setText(df.format(tienThua) + " VND");
+					}
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+		});
+		txtMaKhuyenMai.setOnKeyPressed((evt) -> {
+			if (evt.getCode() == KeyCode.ENTER) {
+				CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
+				try {
+					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
+					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
+					long tongTien = tienPhong + tienDV;
+					if (ctkm != null) {
+						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
+						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
+					} else {
+						imgCheckKM.setImage(new Image("file:src/main/resources/image/check-false.png"));
+					}
+					txtTongTien.setText(df.format(tongTien) + " VND");
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		});
 	}
-	
+
 	public void handleEventInBtn() {
 		btnThanhToan.setOnAction(evt -> {
 			try {
@@ -144,10 +204,10 @@ public class GD_ThanhToanController implements Initializable {
 						gioRa));
 				Phong.updateStatusRoom(txtMaPhong.getText(), 0);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-					alert.setTitle("Thanh toán phòng thành công");
-					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
-					alert.showAndWait();
+				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+				alert.setTitle("Thanh toán phòng thành công");
+				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+				alert.showAndWait();
 				App.setRoot("GD_QLKinhDoanhPhong");
 			} catch (Exception ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,6 +215,7 @@ public class GD_ThanhToanController implements Initializable {
 		});
 	}
 
+	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 	//Bảng phòng
 	@FXML
 	private TextField txtMaPhong;
@@ -201,11 +262,17 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private TableColumn<ChiTietHD_Phong, String> maPhongCol;
 	@FXML
+	private TableColumn<ChiTietHD_Phong, String> loaiPhongCol;
+	@FXML
 	private TableColumn<ChiTietHD_Phong, String> gioVaoCol;
 	@FXML
 	private TableColumn<ChiTietHD_Phong, String> gioRaCol;
 	@FXML
-	private TableColumn<ChiTietHD_Phong, Long> thanhTienPCol;
+	private TableColumn<ChiTietHD_Phong, Float> gioSuDungCol;
+	@FXML
+	private TableColumn<ChiTietHD_Phong, String> donGiaCol;
+	@FXML
+	private TableColumn<ChiTietHD_Phong, String> thanhTienCol;
 	@FXML
 	private Button btnThanhToan;
 	@FXML
@@ -224,4 +291,8 @@ public class GD_ThanhToanController implements Initializable {
 	private Text txtTongTien;
 	@FXML
 	private Text txtTienThua;
+	@FXML
+	private ImageView imgCheckKM;
+	@FXML
+	private ImageView imgCheckTienNhan;
 }
