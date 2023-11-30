@@ -287,6 +287,7 @@ public class HoaDonThanhToan {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, hd.getKhachHang().getMaKhachHang());
 			pstm.setString(2, hd.getNhanVienLap().getMaNhanVien());
+			System.out.println(hd.getKhuyenMai().getMaKhuyenMai());
 			pstm.setString(3, hd.getKhuyenMai().getMaKhuyenMai());
 			pstm.setDate(4, Date.valueOf(hd.getNgayLap()));
 			pstm.setString(5, hd.getMaHoaDon());

@@ -304,11 +304,10 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         }
     }
 
-    private void xuLyTimKhuyenMai() throws IOException {
+    private void xuLyTimKhuyenMai() throws IOException, Exception {
         String maTimKiem = txtTimMaKhuyenMai.getText();
         System.out.println(maTimKiem);
-        if (txtTimMaKhuyenMai == null) {
-            thongBao("Hãy nhập mã khuyến mãi để thực hiện tìm kiếm!");
+        if (!kiemTraRong()){
             return;
         }
         xuLyLamMoiKhuyenMai();
