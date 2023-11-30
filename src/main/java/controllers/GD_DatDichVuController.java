@@ -256,8 +256,17 @@ public class GD_DatDichVuController implements Initializable {
 										ttDichVu.setSoLuong(ttDichVu.getSoLuong() + 1);
 										ct.setSoLuong(ct.getSoLuong() - 1);
 									} else {
-										dsDichVuDaDat.remove(ct);
-										ttDichVu.setSoLuong(ttDichVu.getSoLuong() + 1);
+										Alert alert = new Alert(Alert.AlertType.WARNING, "Nhấn YES để xác nhận, NO để hủy", ButtonType.YES, ButtonType.NO);
+										alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+										alert.setTitle("Thông báo");
+										alert.setHeaderText("Bạn có chắc muốn bỏ " + ct.getDichVu().getTenDichVu() + " ra khỏi danh sách đặt của mình không?");
+										alert.showAndWait();
+										if (alert.getResult() == ButtonType.YES) {
+											getTableView().getItems().remove(ct);
+											ttDichVu.setSoLuong(ttDichVu.getSoLuong() + ct.getSoLuong());
+										} else {
+											return;
+										}
 									}
 									getTableView().refresh();
 									tableThongTinDichVu.refresh();
@@ -313,7 +322,7 @@ public class GD_DatDichVuController implements Initializable {
 										ttDichVu.setSoLuong(ttDichVu.getSoLuong() + ct.getSoLuong());
 										tableThongTinDichVu.refresh();
 									} else {
-										alert.close();
+										return;
 									}
 
 								} catch (Exception ex) {
@@ -383,6 +392,11 @@ public class GD_DatDichVuController implements Initializable {
 					}
 				} catch (Exception ex) {
 					Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			});
+			ChiTietHD_DichVu.getCTDichVuTheoMaHD(orderID).forEach(ct -> {
+				if (!dsDichVuDaDat.contains(ct)) {
+					ChiTietHD_DichVu.deleteChiTietHD_DichVu(ct);
 				}
 			});
 			Alert alertSucces = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
