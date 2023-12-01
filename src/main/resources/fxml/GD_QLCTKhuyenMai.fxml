@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -39,8 +40,8 @@
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtMaKhuyenMai" layoutX="192.0" layoutY="24.0" prefHeight="31.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtLuotSuDung" layoutX="666.0" layoutY="83.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
+                  <TextField fx:id="txtMaKhuyenMai" layoutX="195.0" layoutY="24.0" prefHeight="31.0" prefWidth="278.0" style="-fx-font-size: 15;" />
+                  <TextField fx:id="txtLuotSuDung" layoutX="670.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
                   <Text layoutX="522.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt sử dụng:">
                      <font>
                         <Font size="22.0" />
@@ -51,14 +52,14 @@
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <DatePicker fx:id="dateNgayBatDau" layoutX="192.0" layoutY="85.0" prefHeight="29.0" prefWidth="278.0" style="-fx-font-size: 15;" />
+                  <DatePicker fx:id="dateNgayBatDau" editable="false" layoutX="195.0" layoutY="85.0" prefHeight="29.0" prefWidth="278.0" style="-fx-font-size: 15;" />
                   <Text layoutX="42.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày kết thúc:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <DatePicker fx:id="dateNgayKetThuc" layoutX="192.0" layoutY="146.0" prefHeight="18.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtTenKhuyenMai" layoutX="666.0" layoutY="22.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
+                  <DatePicker fx:id="dateNgayKetThuc" editable="false" layoutX="195.0" layoutY="146.0" prefHeight="18.0" prefWidth="278.0" style="-fx-font-size: 15;" />
+                  <TextField fx:id="txtTenKhuyenMai" layoutX="670.0" layoutY="24.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
                      <font>
                         <Font size="17.0" />
                      </font></TextField>
@@ -67,7 +68,7 @@
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtChietKhau" layoutX="960.0" layoutY="81.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
+                  <TextField fx:id="txtChietKhau" layoutX="960.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
                   <Button fx:id="btnAdd" layoutX="545.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="91.0" style="-fx-font-size: 16;" text="    Thêm">
                      <font>
                         <Font size="18.0" />
@@ -108,6 +109,26 @@
                         <Image url="@../image/reload.png" />
                      </image>
                   </ImageView>
+                  <Label fx:id="lblErrorId" layoutX="45.0" layoutY="60.0" prefHeight="20.0" prefWidth="430.0" style="-fx-font-size: 14; -fx-font-style: italic;" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblErrorTen" layoutX="509.0" layoutY="60.0" prefHeight="20.0" prefWidth="490.0" style="-fx-font-size: 14; -fx-font-style: italic;" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblErrorLuotSuDung" layoutX="531.0" layoutY="120.0" prefHeight="20.0" prefWidth="292.0" style="-fx-font-size: 14; -fx-font-style: italic;" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblErrorChietKhau" layoutX="858.0" layoutY="120.0" prefHeight="20.0" prefWidth="292.0" style="-fx-font-size: 14; -fx-font-style: italic;" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <Button fx:id="btnSearch" layoutX="1144.0" layoutY="144.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="123.0" style="-fx-font-size: 16;" text="Tìm kiếm" textAlignment="RIGHT">
@@ -122,7 +143,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <TextField fx:id="txtTimMaKhuyenMai" layoutX="996.0" layoutY="146.0" prefHeight="36.0" prefWidth="140.0" promptText="Mã khuyến mãi" style="-fx-font-size: 15;" />
+            <TextField fx:id="txtTimMaKhuyenMai" layoutX="996.0" layoutY="145.0" prefHeight="36.0" prefWidth="140.0" promptText="Mã khuyến mãi" style="-fx-font-size: 15;" />
          </children></Pane>
       <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="343.0" prefHeight="422.0" prefWidth="1280.0" vbarPolicy="ALWAYS">
         <content>

@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -21,10 +24,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -102,6 +107,18 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     @FXML
     private Button btnSearch;
 
+    @FXML
+    private Label lblErrorId;
+
+    @FXML
+    private Label lblErrorTen;
+
+    @FXML
+    private Label lblErrorLuotSuDung;
+
+    @FXML
+    private Label lblErrorChietKhau;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -114,14 +131,16 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
 
         tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
-        tableView_CTKhuyenMai.requestFocus();
 
-        tableView_CTKhuyenMai.requestFocus();
         tableView_CTKhuyenMai.getSelectionModel().select(0);
         tableView_CTKhuyenMai.getSelectionModel().focus(0);
+        txtMaKhuyenMai.setEditable(false);
+        txtMaKhuyenMai.setDisable(true);
         docDuLieuTuTable();
         handleEventInTable();
 
+        batLoiNhapDuLieu();
+        tableView_CTKhuyenMai.requestFocus();
         btnAdd.setOnAction(this::handleThemKhuyenMaiButtonAction);
         btnUpdate.setOnAction(this::handleCapNhatKhuyenMaiButtonAction);
         btnDelete.setOnAction(this::handleXoaKhuyenMaiButtonAction);
@@ -188,20 +207,27 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
     public boolean kiemTraTrungMaKhuyenMai(String cc) throws Exception {
         ObservableList<CT_KhuyenMai> dsKhuyenMai = CT_KhuyenMai.getListCT_KhuyenMai();
+
         for (CT_KhuyenMai km : dsKhuyenMai) {
             if (cc.trim().equals(km.getMaKhuyenMai())) {
                 return false;
             }
         }
+
         return true;
     }
 
     public boolean kiemTraTrungTenKhuyenMai(String cc) throws Exception {
         ObservableList<CT_KhuyenMai> dsKhuyenMai = CT_KhuyenMai.getListCT_KhuyenMai();
+        int count = 0;
         for (CT_KhuyenMai km : dsKhuyenMai) {
             if (cc.trim().equals(km.getTenKhuyenMai())) {
-                return false;
+                count++;
+
             }
+        }
+        if (count == 2) {
+            return false;
         }
         return true;
     }
@@ -225,8 +251,13 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
         Integer luotSuDungConLai = Integer.parseInt(txtLuotSuDung.getText());
         Integer chietKhau = Integer.parseInt(txtChietKhau.getText());
-        LocalDate ngayBatDau = (LocalDate) dateNgayBatDau.getValue();
-        LocalDate ngayKetThuc = (LocalDate) dateNgayKetThuc.getValue();
+//        String dateString = dateNgayBatDau.getEditor().getText();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        LocalDate ngayBatDau = LocalDate.parse(dateString, formatter);
+//        dateString = dateNgayKetThuc.getEditor().getText();
+//        LocalDate ngayKetThuc = LocalDate.parse(dateString, formatter);
+        LocalDate ngayBatDau = dateNgayBatDau.getValue();
+        LocalDate ngayKetThuc = dateNgayKetThuc.getValue();
         if (!kiemTraTrungTenKhuyenMai(tenKhuyenMai)) {
             thongBao("Tên khuyến mãi đã bị trùng!");
             txtTenKhuyenMai.selectAll();
@@ -241,7 +272,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
             String exception = e.getMessage();
             if (exception.equals("Ngày kết thúc phải lớn hơn ngày bắt đầu")) {
                 dateNgayBatDau.requestFocus();
-                dateNgayBatDau.setValue(null);
+                dateNgayBatDau.getEditor().selectAll();
             } else if (exception.equals("Lượt sử dụng khuyến mãi phải lớn hơn 0")) {
                 txtLuotSuDung.selectAll();
                 txtLuotSuDung.requestFocus();
@@ -263,12 +294,23 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     }
 
     private void xuLyXoaKhuyenMai() throws IOException, Exception {
-        if (!kiemTraRong()){
+        if (!kiemTraRong()) {
             return;
         }
-        CT_KhuyenMai.xoaCTKhuyenMai(txtMaKhuyenMai.getText());
-        tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
-        xuLyLamMoiKhuyenMai();
+
+        Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.YES, ButtonType.NO);
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.setTitle("Vui lòng xác nhận");
+        alert.setHeaderText("Bạn có muốn xóa dữ liệu này không ?");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                CT_KhuyenMai.xoaCTKhuyenMai(txtMaKhuyenMai.getText());
+                tableView_CTKhuyenMai.setItems(CT_KhuyenMai.getListCT_KhuyenMai());
+                xuLyLamMoiKhuyenMai();
+            } else {
+                return;
+            }
+        });
     }
 //
 
@@ -307,7 +349,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     private void xuLyTimKhuyenMai() throws IOException, Exception {
         String maTimKiem = txtTimMaKhuyenMai.getText();
         System.out.println(maTimKiem);
-        if (!kiemTraRong()){
+        if (!kiemTraRong()) {
             return;
         }
         xuLyLamMoiKhuyenMai();
@@ -316,6 +358,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     }
 
     public void handleEventInTable() {
+
         tableView_CTKhuyenMai.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -351,40 +394,42 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
     }
 
     private boolean kiemTraRong() throws Exception {
-        if (txtMaKhuyenMai.getText().equals("")) {
-            thongBao("Mã khuyến mãi không được rỗng");
+        if (txtMaKhuyenMai.getText().equals("") || !validateId(txtMaKhuyenMai.getText())) {
+            thongBao("Mã khuyến mãi không được rỗng hoặc cú pháp không hợp lệ");
             txtMaKhuyenMai.selectAll();
             txtMaKhuyenMai.requestFocus();
             return false;
         }
 
-        if (txtTenKhuyenMai.getText().equals("")) {
-            thongBao("Tên khuyến mãi không được rỗng");
+        if (txtTenKhuyenMai.getText().equals("") || !validateName(txtTenKhuyenMai.getText())) {
+            thongBao("Tên khuyến mãi không được rỗng hoặc cú pháp không hợp lệ");
             txtTenKhuyenMai.selectAll();
             txtTenKhuyenMai.requestFocus();
             return false;
         }
-        if (dateNgayBatDau.getValue() == null) {
-            thongBao("Ngày bắt đầu không được rỗng");
+        if (dateNgayBatDau.getEditor().getText() == null) {
+            thongBao("Ngày bắt đầu không được rỗng hoặc cú pháp không hợp lệ");
             dateNgayBatDau.requestFocus();
+            dateNgayBatDau.getEditor().selectAll();
             return false;
         }
 
         if (dateNgayKetThuc.getValue() == null) {
-            thongBao("Ngày kết thúc không được rỗng");
+            thongBao("Ngày kết thúc không được rỗng hoặc cú pháp không hợp lệ");
             dateNgayKetThuc.requestFocus();
+            dateNgayKetThuc.getEditor().selectAll();
             return false;
         }
 
-        if (txtLuotSuDung.getText().equals("")) {
-            thongBao("Lượt sử dụng không được rỗng");
+        if (txtLuotSuDung.getText().equals("") || !validateNumber(txtLuotSuDung.getText())) {
+            thongBao("Lượt sử dụng không được rỗng hoặc cú pháp không hợp lệ");
             txtLuotSuDung.selectAll();
             txtLuotSuDung.requestFocus();
             return false;
         }
 
-        if (txtChietKhau.getText().equals("")) {
-            thongBao("Chiết khấu không được rỗng");
+        if (txtChietKhau.getText().equals("") || !validateNumber(txtChietKhau.getText())) {
+            thongBao("Chiết khấu không được rỗng hoặc cú pháp không hợp lệ");
             txtChietKhau.selectAll();
             txtChietKhau.requestFocus();
             return false;
@@ -401,4 +446,90 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         alert.showAndWait();
     }
 
+    public void batLoiNhapDuLieu() {
+        txtMaKhuyenMai.setOnKeyTyped((event) -> {
+            String text = txtMaKhuyenMai.getText();
+            if (text.isEmpty()) {
+                lblErrorId.setText("");
+            } else if (validateId(text)) {
+                lblErrorId.setText("");
+            } else {
+                lblErrorId.setText("Chuỗi chỉ chấp nhận chữ cái (không có dấu) hoặc số!");
+            }
+        });
+
+        txtTenKhuyenMai.setOnKeyTyped((event) -> {
+            String text = txtTenKhuyenMai.getText();
+            if (text.isEmpty()) {
+                lblErrorTen.setText("");
+            } else if (validateName(text)) {
+                lblErrorTen.setText("");
+            } else {
+                lblErrorTen.setText("Chuỗi chỉ chấp nhận chữ cái, số và dấu cách!");
+            }
+
+        });
+
+//        dateNgayBatDau.setOnKeyTyped((event) -> {
+//            String text = dateNgayBatDau.getEditor().getText();
+//            System.out.println(text);
+//            if (text.isEmpty()) {
+//                lblErrorTen.setText("Chuỗi chỉ chấp nhận với định dạng dd/mm/yyyy");
+//            } else if (validateDate(text)) {
+//                lblErrorTen.setText("");
+//            }
+//        });
+        txtLuotSuDung.setOnKeyTyped((event) -> {
+            String text = txtLuotSuDung.getText();
+            if (text.isEmpty()) {
+                lblErrorLuotSuDung.setText("");
+            } else if (validateNumber(text)) {
+                lblErrorLuotSuDung.setText("");
+            } else {
+                lblErrorLuotSuDung.setText("Chuỗi chỉ chấp nhận là số!");
+            }
+        });
+        txtChietKhau.setOnKeyTyped((event) -> {
+            String text = txtChietKhau.getText();
+            if (text.isEmpty()) {
+                lblErrorChietKhau.setText("");
+            } else if (validateNumber(text)) {
+                lblErrorChietKhau.setText("");
+            } else {
+                lblErrorChietKhau.setText("Chuỗi chỉ chấp nhận là số!");
+            }
+        });
+    }
+
+    // check Id va Ten
+    private boolean validateId(String input) {
+        String regexPattern = "^[a-zA-Z0-9]+$";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
+    private boolean validateName(String input) {
+        String regexPattern = "^[\\p{L}0-9 ]+$";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+// check Ngay 
+
+//    private boolean validateDate(String input) {
+//
+//        String regexPattern = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(\\d{4})$";
+//        Pattern pattern = Pattern.compile(regexPattern);
+//        Matcher matcher = pattern.matcher(input);
+//        return matcher.matches();
+//    }
+
+// check Luot su dung va Chiet khau
+    private boolean validateNumber(String input) {
+        String regexPattern = "^[0-9]+$";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
 }
