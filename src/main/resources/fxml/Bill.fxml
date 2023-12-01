@@ -189,7 +189,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Line endX="349.0" fill="BLACK" layoutX="101.0" layoutY="548.0" startX="-100.0" />
+      <Line endX="340.0" fill="BLACK" layoutX="101.0" layoutY="548.0" startX="-90.0" />
       <Text layoutX="220.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa:">
          <font>
             <Font size="14.0" />
