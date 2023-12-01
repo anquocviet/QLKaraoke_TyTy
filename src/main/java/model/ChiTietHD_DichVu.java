@@ -24,73 +24,73 @@ import javafx.collections.ObservableList;
  */
 public class ChiTietHD_DichVu {
 
-    private HoaDonThanhToan hoaDon;
-    private DichVu dichVu;
-    private int soLuong;
-    private long thanhTien;
+	private HoaDonThanhToan hoaDon;
+	private DichVu dichVu;
+	private int soLuong;
+	private long thanhTien;
 
-    public ChiTietHD_DichVu() {
-    }
+	public ChiTietHD_DichVu() {
+	}
 
-    public ChiTietHD_DichVu(HoaDonThanhToan hoaDon, DichVu dichVu, int soLuong) {
-        setHoaDon(hoaDon);
-        setDichVu(dichVu);
-        setSoLuong(soLuong);
-        this.thanhTien = soLuong * dichVu.getDonGia();
-    }
+	public ChiTietHD_DichVu(HoaDonThanhToan hoaDon, DichVu dichVu, int soLuong) {
+		setHoaDon(hoaDon);
+		setDichVu(dichVu);
+		setSoLuong(soLuong);
+		this.thanhTien = soLuong * dichVu.getDonGia();
+	}
 
-    public ChiTietHD_DichVu(HoaDonThanhToan hoaDon) {
-        this.hoaDon = hoaDon;
-    }
+	public ChiTietHD_DichVu(HoaDonThanhToan hoaDon) {
+		this.hoaDon = hoaDon;
+	}
 
-    public HoaDonThanhToan getHoaDon() {
-        return hoaDon;
-    }
+	public HoaDonThanhToan getHoaDon() {
+		return hoaDon;
+	}
 
-    public void setHoaDon(HoaDonThanhToan hoaDon) throws IllegalArgumentException {
-        if (hoaDon == null) {
-            throw new IllegalArgumentException("Hóa đơn không được rỗng");
-        } else {
-            this.hoaDon = hoaDon;
-        }
-    }
+	public void setHoaDon(HoaDonThanhToan hoaDon) throws IllegalArgumentException {
+		if (hoaDon == null) {
+			throw new IllegalArgumentException("Hóa đơn không được rỗng");
+		} else {
+			this.hoaDon = hoaDon;
+		}
+	}
 
-    public DichVu getDichVu() {
-        return dichVu;
-    }
+	public DichVu getDichVu() {
+		return dichVu;
+	}
 
-    public void setDichVu(DichVu dichVu) throws IllegalArgumentException {
-        if (dichVu == null) {
-            throw new IllegalArgumentException("Dịch vụ không được rỗng");
-        } else {
-            this.dichVu = dichVu;
-        }
-    }
+	public void setDichVu(DichVu dichVu) throws IllegalArgumentException {
+		if (dichVu == null) {
+			throw new IllegalArgumentException("Dịch vụ không được rỗng");
+		} else {
+			this.dichVu = dichVu;
+		}
+	}
 
-    public int getSoLuong() {
-        return soLuong;
-    }
+	public int getSoLuong() {
+		return soLuong;
+	}
 
-    public void setSoLuong(int soLuong) throws IllegalArgumentException {
-        if (soLuong <= 0) {
-            throw new IllegalArgumentException("Số lượng không được rỗng và phải lớn hơn 0");
-        } else {
-            this.soLuong = soLuong;
-        }
-    }
+	public void setSoLuong(int soLuong) throws IllegalArgumentException {
+		if (soLuong <= 0) {
+			throw new IllegalArgumentException("Số lượng không được rỗng và phải lớn hơn 0");
+		} else {
+			this.soLuong = soLuong;
+		}
+	}
 
-    public void tinhThanhTien() {
-        thanhTien = soLuong * dichVu.getDonGia();
-    }
+	public void tinhThanhTien() {
+		thanhTien = soLuong * dichVu.getDonGia();
+	}
 
-    public long getThanhTien() {
-        return thanhTien;
-    }
+	public long getThanhTien() {
+		return thanhTien;
+	}
 
-    @Override
-    public String toString() {
-        return "ChiTietHD_DichVu{" + "hoaDon=" + hoaDon + ", dichVu=" + dichVu + ", soLuong=" + soLuong + '}';
-    }
+	@Override
+	public String toString() {
+		return "ChiTietHD_DichVu{" + "hoaDon=" + hoaDon + ", dichVu=" + dichVu + ", soLuong=" + soLuong + '}';
+	}
 
 	@Override
 	public int hashCode() {
@@ -115,56 +115,54 @@ public class ChiTietHD_DichVu {
 		}
 		return Objects.equals(this.dichVu, other.dichVu);
 	}
-	
-	
 
-    // Get Data From DB
-    public static ObservableList<ChiTietHD_DichVu> getCTDichVuTheoMaHD(String maHD) throws SQLException, Exception {
-        ObservableList<ChiTietHD_DichVu> dsCTDichVu = FXCollections.observableArrayList();
-        Connection conn = ConnectDB.getConnection();
-        Statement stmt = null;
+	// Get Data From DB
+	public static ObservableList<ChiTietHD_DichVu> getCTDichVuTheoMaHD(String maHD) {
+		ObservableList<ChiTietHD_DichVu> dsCTDichVu = FXCollections.observableArrayList();
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
 
-        try {
-            stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM ChiTietHD_DichVu JOIN DichVu ON ChiTietHD_DichVu.MaDichVu = DichVu.MaDichVu WHERE MaHoaDon = '%s'", maHD);
-            ResultSet rs = stmt.executeQuery(sql);
+		try {
+			stmt = conn.createStatement();
+			String sql = String.format("SELECT * FROM ChiTietHD_DichVu JOIN DichVu ON ChiTietHD_DichVu.MaDichVu = DichVu.MaDichVu WHERE MaHoaDon = '%s'", maHD);
+			ResultSet rs = stmt.executeQuery(sql);
 
-            while (rs.next()) {
-                // Lấy dữ liệu từ ResultSet
-                String maHoaDon = rs.getString("MaHoaDon");
-                String maDichVu = rs.getString("MaDichVu");
-                int soLuong = rs.getInt("SoLuong");
-                long thanhTien = rs.getLong("ThanhTien");
+			while (rs.next()) {
+				// Lấy dữ liệu từ ResultSet
+				String maHoaDon = rs.getString("MaHoaDon");
+				String maDichVu = rs.getString("MaDichVu");
+				int soLuong = rs.getInt("SoLuong");
+				long thanhTien = rs.getLong("ThanhTien");
 
-                // Lấy thêm dữ liệu từ bảng "DichVu"
-                String tenDichVu = rs.getString("TenDichVu");
-                String donViTinh = rs.getString("DonViTinh");
+				// Lấy thêm dữ liệu từ bảng "DichVu"
+				String tenDichVu = rs.getString("TenDichVu");
+				String donViTinh = rs.getString("DonViTinh");
 				long donGia = rs.getLong("DonGia");
 				String anhMH = rs.getString("AnhMinhHoa");
 
-                // Tạo đối tượng HoaDonThanhToan và DichVu
-                HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon);
-                DichVu dichVu = new DichVu(maDichVu, tenDichVu, soLuong, donGia, donViTinh, anhMH);
+				// Tạo đối tượng HoaDonThanhToan và DichVu
+				HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon);
+				DichVu dichVu = new DichVu(maDichVu, tenDichVu, soLuong, donGia, donViTinh, anhMH);
 
-                // Thêm vào danh sách
-                dsCTDichVu.add(new ChiTietHD_DichVu(hoaDon, dichVu, soLuong));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return dsCTDichVu;
-    }
-	
+				// Thêm vào danh sách
+				dsCTDichVu.add(new ChiTietHD_DichVu(hoaDon, dichVu, soLuong));
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(GD_QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return dsCTDichVu;
+	}
+
 	public static boolean addChiTietHD_DichVu(ChiTietHD_DichVu ct) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
@@ -189,7 +187,7 @@ public class ChiTietHD_DichVu {
 		}
 		return n > 0;
 	}
-	
+
 	public static boolean updateChiTietHD_DichVu(ChiTietHD_DichVu ct) {
 		ConnectDB.getInstance();
 		Connection conn = ConnectDB.getConnection();
@@ -202,6 +200,30 @@ public class ChiTietHD_DichVu {
 			pstm.setLong(2, ct.getThanhTien());
 			pstm.setString(3, ct.getHoaDon().getMaHoaDon());
 			pstm.setString(4, ct.getDichVu().getMaDichVu());
+			n = pstm.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				pstm.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return n > 0;
+	}
+
+	public static boolean deleteChiTietHD_DichVu(ChiTietHD_DichVu ct) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getConnection();
+		PreparedStatement pstm = null;
+		int n = 0;
+		String sql = "DELETE ChiTietHD_DichVu WHERE MaHoaDon = ? AND MaDichVu = ?";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, ct.getHoaDon().getMaHoaDon());
+			pstm.setString(2, ct.getDichVu().getMaDichVu());
+			
 			n = pstm.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);

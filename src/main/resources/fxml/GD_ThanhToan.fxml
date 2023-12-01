@@ -175,7 +175,7 @@
                                 <Font size="16.0" />
                             </font>
                         </Text>
-                        <CheckBox layoutX="206.0" layoutY="527.0" mnemonicParsing="false" selected="true" />
+                        <CheckBox fx:id="checkBoxInHD" layoutX="206.0" layoutY="527.0" mnemonicParsing="false" selected="true" />
                         <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="233.0" layoutY="523.0" preserveRatio="true">
                             <image>
                                 <Image url="@../image/print.png" />
@@ -186,5 +186,14 @@
                 </Pane>
             </content>
         </TitledPane>
+      <Button fx:id="btnBack" layoutY="55.0"  mnemonicParsing="false" styleClass="btnBack">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

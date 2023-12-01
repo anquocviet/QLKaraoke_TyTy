@@ -7,6 +7,7 @@ enums\Enum_ChucVu.class
 controllers\GD_ChuyenPhongController$2.class
 controllers\GD_DatDichVuController$5.class
 controllers\GD_QLCTKhuyenMaiController.class
+controllers\BillController.class
 controllers\GD_DangKyController.class
 controllers\GD_QLPhongController.class
 controllers\GD_DatDichVuController$3$1.class
@@ -54,7 +55,6 @@ controllers\GD_ThuePhongController.class
 controllers\GD_QLNhanVienController.class
 controllers\GD_DatDichVuController$4.class
 controllers\GD_DatDichVuController.class
-controllers\CT_KhuyenMai.class
 controllers\GD_QLNhanVienController$2.class
 controllers\GD_DatDichVuController$3.class
 controllers\GD_QLDichVuController.class

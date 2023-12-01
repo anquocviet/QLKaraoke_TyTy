@@ -12,17 +12,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AppFrame" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppFrameController">
+<AnchorPane id="AppFrame" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppFrameController">
     <children>
         <fx:include fx:id="TrangChu" source="TrangChu.fxml" />
-        <MenuBar layoutY="1.0" prefWidth="1280.0">
+        <MenuBar layoutY="1.0" prefWidth="1280.0" style="-fx-background-color: FFF6F6;">
             <menus>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#moTrangChu" text="Trang Chủ" />
-                        <MenuItem fx:id="taiKhoanMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDDangKy" text="Tài Khoản" />
+                        <MenuItem fx:id="taiKhoanMenuItem" disable="true" mnemonicParsing="false" onAction="#moGDDangKy" text="Tài Khoản" />
                         <MenuItem mnemonicParsing="false" text="Trợ Giúp" />
-                        <MenuItem mnemonicParsing="false" text="Đăng Xuất" onAction="#dangXuat" />
+                        <MenuItem mnemonicParsing="false" onAction="#dangXuat" text="Đăng Xuất" />
                         <MenuItem mnemonicParsing="false" onAction="#dongUngDung" text="Thoát" />
                     </items>
                     <graphic>
@@ -36,10 +36,10 @@
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Lưu Trữ">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#moGDQLKhachHang" text="Khách Hàng" />
-                        <MenuItem fx:id="qlNhanVienMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDQLNhanVien" text="Nhân Viên" />
-                        <MenuItem fx:id="qlPhongMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDQLPhong" text="Phòng" />
-                        <MenuItem fx:id="qlDichVuMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDQLDichVu"  text="Dịch Vụ" />
-                        <MenuItem fx:id="qlCTKhuyenMaiMenuItem" disable="true"  mnemonicParsing="false" onAction="#moGDQLCTKhuyenMai" text="Khuyến Mãi" />
+                        <MenuItem fx:id="qlNhanVienMenuItem" disable="true" mnemonicParsing="false" onAction="#moGDQLNhanVien" text="Nhân Viên" />
+                        <MenuItem fx:id="qlPhongMenuItem" disable="true" mnemonicParsing="false" onAction="#moGDQLPhong" text="Phòng" />
+                        <MenuItem fx:id="qlDichVuMenuItem" disable="true" mnemonicParsing="false" onAction="#moGDQLDichVu" text="Dịch Vụ" />
+                        <MenuItem fx:id="qlCTKhuyenMaiMenuItem" disable="true" mnemonicParsing="false" onAction="#moGDQLCTKhuyenMai" text="Khuyến Mãi" />
                     </items>
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -69,16 +69,16 @@
                         </ImageView>
                     </graphic>
                 </Menu>
-                <Menu fx:id="thongKeMenu" disable="true"  mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
+                <Menu fx:id="thongKeMenu" disable="true" mnemonicParsing="false" style="-fx-font-size: 20;" text="Thống Kê">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../image/chart.png" />
                             </image>
                         </ImageView>
                     </graphic>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Thống kê" onAction="#moGDThongKe"  />
+                        <MenuItem mnemonicParsing="false" onAction="#moGDThongKe" text="Thống kê" />
                     </items>
                 </Menu>
             </menus>
