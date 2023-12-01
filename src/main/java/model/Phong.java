@@ -280,6 +280,52 @@ public class Phong {
         }
         return dsPhong;
     }
+	
+	public static int countStatusRoom(int status) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+		int qty = 0;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaPhong) AS QTY FROM Phong WHERE TinhTrang = " + status;
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                qty = rs.getInt("QTY");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return qty;
+	}
+	
+	public static int countTypeRoom(int type) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+		int qty = 0;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaPhong) AS QTY FROM Phong WHERE LoaiPhong = " + type;
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                qty = rs.getInt("QTY");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return qty;
+	}
 
     public static boolean updateStatusRoom(String roomID, int status) {
         ConnectDB.getInstance();
