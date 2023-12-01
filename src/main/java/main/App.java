@@ -25,6 +25,10 @@ public class App extends Application {
     public static final int heightModal = 684;
     public static final int widthModalLogin = 732;
     public static final int heightModalLogin = 517;
+	public static final int widthModalBill = 450;
+    public static final int heightModalBill = 760;
+	public static final int VAT = 5;
+	public static final int TTDB = 30;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -32,6 +36,7 @@ public class App extends Application {
         
 //        Open Modal Login
         openModal("GD_DangNhap", widthModalLogin, heightModalLogin);
+//        openModal("Bill", widthModalBill, heightModalBill);
     }
 	
 	public static void openMainGUI() throws IOException {
