@@ -186,5 +186,14 @@
                 </Pane>
             </content>
         </TitledPane>
+      <Button fx:id="btnBack" layoutY="55.0"  mnemonicParsing="false" styleClass="btnBack">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

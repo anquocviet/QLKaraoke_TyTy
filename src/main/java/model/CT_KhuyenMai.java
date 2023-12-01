@@ -108,8 +108,8 @@ public class CT_KhuyenMai {
     }
 
     public void setLuotSuDungConLai(int luotSuDungConLai) throws IllegalArgumentException {
-        if (luotSuDungConLai <= 0) {
-            throw new IllegalArgumentException("Lượt sử dụng khuyến mãi phải lớn hơn 0");
+        if (luotSuDungConLai < 0) {
+            throw new IllegalArgumentException("Lượt sử dụng khuyến mãi phải lớn hơn hoặc bằng 0");
         } else {
             this.luotSuDungConLai = luotSuDungConLai;
         }
@@ -120,8 +120,8 @@ public class CT_KhuyenMai {
     }
 
     public void setChietKhau(int chietKhau) throws IllegalArgumentException {
-        if (chietKhau <= 0 || chietKhau > 50) {
-            throw new IllegalArgumentException("Chiết khấu phải lớn hơn 0 và nhỏ hơn hoặc bằng 50");
+        if (chietKhau < 0 || chietKhau > 50) {
+            throw new IllegalArgumentException("Chiết khấu phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 50");
         } else {
             this.chietKhau = chietKhau;
         }

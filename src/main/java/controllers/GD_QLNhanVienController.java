@@ -101,16 +101,23 @@ public class GD_QLNhanVienController implements Initializable {
     @FXML
     private Button btnUpdate;
 
+    private String currentMaNhanVien;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         genderGroup = new ToggleGroup();
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
-//        try {
-//            txtMaNhanVien.setText( phatSinhMaNhanVien());
-//        } catch (Exception ex) {
-//            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
+        dateNgaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                // Cập nhật giá trị của currentMaNhanVien khi ngày sinh thay đổi
+                currentMaNhanVien = phatSinhMaNhanVien();
+                txtMaNhanVien.setText(currentMaNhanVien);
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
         colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
@@ -260,7 +267,7 @@ public class GD_QLNhanVienController implements Initializable {
         txtMaNhanVien.setText("");
         txtCCCD.setText("");
         txtHoTen.setText("");
-        dateNgaySinh.setValue(null);
+        dateNgaySinh.setValue(LocalDate.now());
         txtSoDienThoaiNV.setText("");
         txtDiaChi.setText("");
         genderGroup.getToggles().get(0).setSelected(true);
@@ -325,7 +332,8 @@ public class GD_QLNhanVienController implements Initializable {
             return;
         }
         NhanVien nv = null;
-        String maNhanVien = phatSinhMaNhanVien();
+//        String maNhanVien = phatSinhMaNhanVien();
+        String maNhanVien = currentMaNhanVien;
         String hoTen = txtHoTen.getText();
         String cccd = txtCCCD.getText();
         String soDienThoai = txtSoDienThoaiNV.getText();
@@ -383,15 +391,6 @@ public class GD_QLNhanVienController implements Initializable {
         table.refresh();
     }
 
-//    public String phatSinhMaNhanVien() throws SQLException {
-//        String maNhanVien = "NV";
-//        int totalEmployees = NhanVien.demSLNhanVien();
-//        DecimalFormat dfSoThuTu = new DecimalFormat("00");
-//        String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
-//        String namSinhSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
-//        maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
-//        return maNhanVien;
-//    }
     public String phatSinhMaNhanVien() throws SQLException {
         String maNhanVien = "NV";
         LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
