@@ -131,7 +131,7 @@ public class GD_ThuePhongController implements Initializable {
         String tenKhachHang = txtTenKhachHang.getText();
         String namSinh = txtNamSinh.getText();
         String gioiTinh = ccbGender.getValue().toString();
-        LocalDateTime ngayThue = dateThue.getValue().atStartOfDay();
+        LocalDate ngayThue = dateThue.getValue();
         String gioThue = timeThue.getText();
         if (soDienThoai.equals(null)) {
             showAlert("Lỗi!", "Không được để trống Số điện thoại");
@@ -143,7 +143,7 @@ public class GD_ThuePhongController implements Initializable {
             Phong.updateStatusRoom(soPhong, 1);
         }
 
-        int slHoaDon = HoaDonThanhToan.getSoLuongHoaDonTheoNgay(ngayThue);
+        int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
         String maHoaDon = phatSinhMaHoaDon(slHoaDon);
         
         
@@ -151,7 +151,7 @@ public class GD_ThuePhongController implements Initializable {
         NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
         
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDate.now());
         Phong p = Phong.getPhongTheoMaPhong(soPhong);
         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p , LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
         System.out.println(ctP);

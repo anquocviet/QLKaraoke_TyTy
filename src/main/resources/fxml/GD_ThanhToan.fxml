@@ -175,7 +175,7 @@
                                 <Font size="16.0" />
                             </font>
                         </Text>
-                        <CheckBox fx:id="checkBoxInHD" layoutX="206.0" layoutY="527.0" mnemonicParsing="false" selected="true" />
+                        <CheckBox layoutX="206.0" layoutY="527.0" mnemonicParsing="false" selected="true" />
                         <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="233.0" layoutY="523.0" preserveRatio="true">
                             <image>
                                 <Image url="@../image/print.png" />
