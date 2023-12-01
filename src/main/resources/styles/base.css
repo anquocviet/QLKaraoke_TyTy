@@ -155,3 +155,10 @@
 .tableBill .scroll-bar:horizontal .decrement-button {
     -fx-padding:0;
 }
+
+.tableBill .scroll-bar:vertical .increment-arrow,
+.tableBill .scroll-bar:vertical .decrement-arrow,
+.tableBill .scroll-bar:vertical .increment-button,
+.tableBill .scroll-bar:vertical .decrement-button {
+    -fx-padding:0;
+}
