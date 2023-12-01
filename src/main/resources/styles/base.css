@@ -39,7 +39,7 @@
     -fx-font-size: 7pt;
 }
 
-/*Css for radio button*/
+ /*Css for radio button*/ 
 .radio-button .radio {
     -fx-border-width: 1px;
     -fx-border-color: #000;
@@ -67,8 +67,7 @@
 .radio-button .dot {
     -fx-background-radius: 15px;
     -fx-padding: 5px;
-}
-.radio-button .radio {
+}.radio-button .radio {
     -fx-border-width: 1px;
     -fx-border-color: #000;
     -fx-background-color: white;

@@ -143,7 +143,7 @@ public class GD_ThuePhongController implements Initializable {
             Phong.updateStatusRoom(soPhong, 1);
         }
 
-        int slHoaDon = HoaDonThanhToan.getSoLuongHoaDonTheoNgay(ngayThue);
+        int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
         String maHoaDon = phatSinhMaHoaDon(slHoaDon);
         
         

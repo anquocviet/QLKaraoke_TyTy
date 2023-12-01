@@ -49,73 +49,82 @@ public class GD_ThanhToanController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
 		HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
-		tenDichVuCol.setCellValueFactory(cellData -> {
-			String tenDichVu = cellData.getValue().getDichVu().getTenDichVu();
-			return new ReadOnlyStringWrapper(tenDichVu);
-		});
-		soLuongCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
-		donViTinhCol.setCellValueFactory(cellData -> {
-			String donViTinh = cellData.getValue().getDichVu().getDonViTinh();
-			return new ReadOnlyStringWrapper(donViTinh);
-		});
-		thanhTienDVCol.setCellValueFactory(cellData -> {
-			long thanhTien = cellData.getValue().getThanhTien();
-			return new ReadOnlyObjectWrapper<>(thanhTien);
-		});
-		tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
+		try {
+			tenDichVuCol.setCellValueFactory(cellData -> {
+				String tenDichVu = cellData.getValue().getDichVu().getTenDichVu();
+				return new ReadOnlyStringWrapper(tenDichVu);
+			});
+			soLuongCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+			donViTinhCol.setCellValueFactory(cellData -> {
+				String donViTinh = cellData.getValue().getDichVu().getDonViTinh();
+				return new ReadOnlyStringWrapper(donViTinh);
+			});
+			thanhTienDVCol.setCellValueFactory(cellData -> {
+				long thanhTien = cellData.getValue().getThanhTien();
+				return new ReadOnlyObjectWrapper<>(thanhTien);
+			});
 
-		maPhongCol.setCellValueFactory((param) -> {
-			String maPhong = param.getValue().getPhong().getMaPhong();
-			return new ReadOnlyObjectWrapper<>(maPhong);
-		});
-		loaiPhongCol.setCellValueFactory((param) -> {
-			if (param.getValue().getPhong() == null) {
-				return new ReadOnlyObjectWrapper<>();
-			}
-			String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
-			return new ReadOnlyObjectWrapper<>(loaiPhong);
-		});
-		gioVaoCol.setCellValueFactory((param) -> {
-			if (param.getValue().getGioVao() == null) {
-				return new ReadOnlyObjectWrapper<>();
-			}
-			String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-			return new ReadOnlyObjectWrapper<>(gioVao);
-		});
-		gioRaCol.setCellValueFactory((param) -> {
-			if (param.getValue().getGioRa() == null) {
-				return new ReadOnlyObjectWrapper<>();
-			}
-			String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-			return new ReadOnlyObjectWrapper<>(gioRa);
-		});
-		gioSuDungCol.setCellValueFactory((param) -> {
-			if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
-				return new ReadOnlyObjectWrapper<>();
-			}
-			String gioSuDung = df.format(param.getValue().tinhTongGioSuDung());
-			return new ReadOnlyObjectWrapper<>(gioSuDung);
-		});
-		donGiaCol.setCellValueFactory((param) -> {
-			if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
-				return new ReadOnlyObjectWrapper<>();
-			}
-			long donGia = param.getValue().getPhong().getGiaPhong();
-			return new ReadOnlyObjectWrapper<>(df.format(donGia));
-		});
-		thanhTienCol.setCellValueFactory((param) -> {
-			return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
-		});
+			tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
+		} catch (Exception ex) {
+			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-		ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
-		dsPhong.forEach(ct -> {
-			try {
-				ct.setGioRa(LocalDateTime.now());
-			} catch (Exception ex) {
-				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		});
-		tablePhong.setItems(dsPhong);
+		try {
+			maPhongCol.setCellValueFactory((param) -> {
+				String maHoaDon = param.getValue().getPhong().getMaPhong();
+				return new ReadOnlyObjectWrapper<>(maHoaDon);
+			});
+			loaiPhongCol.setCellValueFactory((param) -> {
+				if (param.getValue().getPhong() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
+				return new ReadOnlyObjectWrapper<>(loaiPhong);
+			});
+			gioVaoCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioVao() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioVao);
+			});
+			gioRaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+				return new ReadOnlyObjectWrapper<>(gioRa);
+			});
+			gioSuDungCol.setCellValueFactory((param) -> {
+				if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				String gioSuDung = df.format(param.getValue().tinhTongGioSuDung());
+				return new ReadOnlyObjectWrapper<>(gioSuDung);
+			});
+			donGiaCol.setCellValueFactory((param) -> {
+				if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
+					return new ReadOnlyObjectWrapper<>();
+				}
+				long donGia = param.getValue().getPhong().getGiaPhong();
+				return new ReadOnlyObjectWrapper<>(df.format(donGia));
+			});
+			thanhTienCol.setCellValueFactory((param) -> {
+				return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
+			});
+
+			ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
+			dsPhong.forEach(ct -> {
+				try {
+					ct.setGioRa(LocalDateTime.now());
+				} catch (Exception ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			});
+			tablePhong.setItems(dsPhong);
+		} catch (Exception ex) {
+			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
 		txtMaHoaDon.setText(maHD);
 		txtNhanVien.setText(hd.getNhanVienLap().getHoTen());
@@ -215,7 +224,7 @@ public class GD_ThanhToanController implements Initializable {
 				alert.setTitle("Thanh toán phòng thành công");
 				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
 				alert.showAndWait();
-				
+
 //				Xuat hoa don
 				if (checkBoxInHD.isSelected()) {
 					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
@@ -234,14 +243,14 @@ public class GD_ThanhToanController implements Initializable {
 			}
 		});
 	}
-
+	
 	public boolean checkUseVoucher(CT_KhuyenMai km) {
 		if (km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now())) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public static long tienNhan = 0;
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 

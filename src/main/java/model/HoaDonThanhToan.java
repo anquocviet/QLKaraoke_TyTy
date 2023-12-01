@@ -6,6 +6,7 @@ package model;
 
 import connect.ConnectDB;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -213,13 +214,13 @@ public class HoaDonThanhToan {
 		return billID;
 	}
 
-	public static int getSoLuongHoaDonTheoNgay(LocalDateTime ngay) {
+	public static int getDemSoLuongHoaDonTheoNgay(LocalDateTime ngay) {
 		int soLuong = 0;
 		Connection conn = ConnectDB.getConnection();
 		PreparedStatement preparedStatement = null;
 
 		try {
-			String sql = "SELECT COUNT(*) AS SoLuong FROM HoaDonThanhToan WHERE NgayLap = ?";
+			String sql = "SELECT COUNT(*) AS SoLuong FROM HoaDonThanhToan WHERE CAST(NgayLap AS DATE) = CAST(? AS DATE)";
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setTimestamp(1, Timestamp.valueOf(ngay));
 

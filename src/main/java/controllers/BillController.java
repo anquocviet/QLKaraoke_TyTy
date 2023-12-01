@@ -57,7 +57,7 @@ public class BillController implements Initializable {
 			String kqHienThi = String.format("%s\n - %s\n=> %s\n\n",
 					dtf.format(gioVao),
 					dtf.format(gioRa),
-					String.format("%dgiờ,%dphút", hours, minutes));
+					String.format("%dgiờ:%dphút", hours, minutes));
 			return new ReadOnlyObjectWrapper<String>(kqHienThi);
 		});
 		giaPhongCol.setCellValueFactory((param) -> {
