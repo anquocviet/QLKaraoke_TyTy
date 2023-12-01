@@ -118,7 +118,7 @@ public class GD_ChuyenPhongController implements Initializable {
             phongHienTai.updateStatusRoom(phongHienTai.getMaPhong(), 2);
             ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhong(phongHienTai.getMaPhong());
             hdPhongHienTai.setGioRa(LocalDateTime.now());
-            ChiTietHD_Phong.suaChiTietHD_Phong(hdPhongHienTai);
+            ChiTietHD_Phong.updateCTHD_Phong(hdPhongHienTai);
             System.out.println(hdPhongHienTai);
             ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, LocalDateTime.now(), LocalDateTime.of(2024, Month.MARCH, 2, 0, 0));
             ChiTietHD_Phong.themChiTietHD_Phong(hdPhongMoi);
