@@ -6,12 +6,12 @@ package model;
 
 import connect.ConnectDB;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,10 +26,10 @@ public class HoaDonThanhToan {
 	private NhanVien nhanVienLap;
 	private KhachHang khachHang;
 	private CT_KhuyenMai khuyenMai;
-	private LocalDate ngayLap;
+	private LocalDateTime ngayLap;
 	private long tongTien;
 
-	public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDate ngayLap) {
+	public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDateTime ngayLap) {
 		setMaHoaDon(maHoaDon);
 		setNhanVienLap(nhanVienLap);
 		setKhachHang(khachHang);
@@ -89,11 +89,11 @@ public class HoaDonThanhToan {
 		this.khuyenMai = khuyenMai;
 	}
 
-	public LocalDate getNgayLap() {
+	public LocalDateTime getNgayLap() {
 		return ngayLap;
 	}
 
-	public void setNgayLap(LocalDate ngayLap) throws IllegalArgumentException {
+	public void setNgayLap(LocalDateTime ngayLap) throws IllegalArgumentException {
 		if (ngayLap == null) {
 			throw new IllegalArgumentException("Ngày lập không được rỗng");
 		} else {
@@ -145,7 +145,7 @@ public class HoaDonThanhToan {
 				String maKH = rs.getString("MaKhachHang");
 				String maNV = rs.getString("MaNhanVien");
 				String maKM = rs.getString("MaKhuyenMai");
-				LocalDate ngayLap = rs.getDate("NgayLap").toLocalDate();
+				LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
 				String tenKH = rs.getString("TenKhachHang");
 				String sdt = rs.getString("SoDienThoai");
 				int namSinh = rs.getInt("NamSinh");
@@ -213,7 +213,7 @@ public class HoaDonThanhToan {
 		return billID;
 	}
 
-	public static int getDemSoLuongHoaDonTheoNgay(LocalDate ngay) {
+	public static int getSoLuongHoaDonTheoNgay(LocalDateTime ngay) {
 		int soLuong = 0;
 		Connection conn = ConnectDB.getConnection();
 		PreparedStatement preparedStatement = null;
@@ -221,7 +221,7 @@ public class HoaDonThanhToan {
 		try {
 			String sql = "SELECT COUNT(*) AS SoLuong FROM HoaDonThanhToan WHERE NgayLap = ?";
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setDate(1, java.sql.Date.valueOf(ngay));
+			preparedStatement.setTimestamp(1, Timestamp.valueOf(ngay));
 
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
 				if (resultSet.next()) {
@@ -255,7 +255,7 @@ public class HoaDonThanhToan {
 			preparedStatement.setString(2, hoaDon.getNhanVienLap().getMaNhanVien());
 			preparedStatement.setString(3, hoaDon.getKhachHang().getMaKhachHang());
 			preparedStatement.setString(4, null);
-			preparedStatement.setDate(5, java.sql.Date.valueOf(hoaDon.getNgayLap()));
+			preparedStatement.setTimestamp(5, Timestamp.valueOf(hoaDon.getNgayLap()));
 
 			int rowCount = preparedStatement.executeUpdate();
 
@@ -289,7 +289,7 @@ public class HoaDonThanhToan {
 			pstm.setString(2, hd.getNhanVienLap().getMaNhanVien());
 			System.out.println(hd.getKhuyenMai().getMaKhuyenMai());
 			pstm.setString(3, hd.getKhuyenMai().getMaKhuyenMai());
-			pstm.setDate(4, Date.valueOf(hd.getNgayLap()));
+			pstm.setTimestamp(4, Timestamp.valueOf(hd.getNgayLap()));
 			pstm.setString(5, hd.getMaHoaDon());
 			n = pstm.executeUpdate();
 		} catch (SQLException ex) {
