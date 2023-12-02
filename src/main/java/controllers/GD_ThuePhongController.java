@@ -131,7 +131,7 @@ public class GD_ThuePhongController implements Initializable {
         String tenKhachHang = txtTenKhachHang.getText();
         String namSinh = txtNamSinh.getText();
         String gioiTinh = ccbGender.getValue().toString();
-        LocalDate ngayThue = dateThue.getValue();
+        LocalDateTime ngayThue = dateThue.getValue().atStartOfDay();
         String gioThue = timeThue.getText();
         if (soDienThoai.equals(null)) {
             showAlert("Lỗi!", "Không được để trống Số điện thoại");
@@ -151,7 +151,7 @@ public class GD_ThuePhongController implements Initializable {
         NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
         
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDate.now());
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
         Phong p = Phong.getPhongTheoMaPhong(soPhong);
         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p , LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
         System.out.println(ctP);
@@ -183,7 +183,7 @@ public class GD_ThuePhongController implements Initializable {
 
     public String phatSinhMaHoaDon(int stt){
         Date ngayLap = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMM");
         String ngayThangNam = dateFormat.format(ngayLap);
 
         String strSTT = String.format("%02d", stt + 1);

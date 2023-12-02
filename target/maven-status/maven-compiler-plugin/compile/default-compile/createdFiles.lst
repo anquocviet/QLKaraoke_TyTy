@@ -2,11 +2,13 @@ enums\Enum_TrangThaiLamViec.class
 controllers\GD_DatDichVuController$2.class
 controllers\GD_QLKhachHangController$2.class
 model\ChiTietHD_DichVu.class
+controllers\GD_QLNhanVienController$3.class
 controllers\GD_ThongKeNgayController.class
 enums\Enum_ChucVu.class
 controllers\GD_ChuyenPhongController$2.class
 controllers\GD_DatDichVuController$5.class
 controllers\GD_QLCTKhuyenMaiController.class
+controllers\BillController.class
 controllers\GD_DangKyController.class
 controllers\GD_QLPhongController.class
 controllers\GD_DatDichVuController$3$1.class
