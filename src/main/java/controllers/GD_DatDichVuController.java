@@ -134,6 +134,14 @@ public class GD_DatDichVuController implements Initializable {
 								try {
 									boolean flag = false;
 									DichVu dv = getTableView().getItems().get(getIndex());
+									if (dv.getSoLuong() == 0) {
+										Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+										alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+										alert.setTitle("Hết hàng");
+										alert.setHeaderText("Dịch vụ này đã hết");
+										alert.showAndWait();
+										return;
+									}
 									for (ChiTietHD_DichVu ct : dsDichVuDaDat) {
 										if (ct.getDichVu().equals(dv)) {
 											try {
@@ -155,12 +163,11 @@ public class GD_DatDichVuController implements Initializable {
 									loadDataFromTableToForm();
 
 								} catch (Exception ex) {
-									Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
-//									Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
-//									alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//									alert.setTitle("Hết hàng");
-//									alert.setHeaderText("Dịch vụ này đã hết");
-//									alert.showAndWait();
+									Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+									alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+									alert.setTitle("Hết hàng");
+									alert.setHeaderText("Dịch vụ này đã hết");
+									alert.showAndWait();
 								}
 								calcMoney();
 							});

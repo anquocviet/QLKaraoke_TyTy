@@ -183,7 +183,7 @@ public class GD_ThuePhongController implements Initializable {
 
     public String phatSinhMaHoaDon(int stt){
         Date ngayLap = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMM");
         String ngayThangNam = dateFormat.format(ngayLap);
 
         String strSTT = String.format("%02d", stt + 1);

@@ -1,5 +1,6 @@
 main/App.class
 controllers/GD_ThanhToanController.class
+controllers/GD_TraCuuHoaDonController$1.class
 controllers/GD_DangKyController$1.class
 controllers/GD_DatDichVuController$6.class
 enums/Enum_TrangThaiLamViec.class
@@ -22,6 +23,7 @@ controllers/GD_QLPhongController$1.class
 controllers/PopupPhongController.class
 model/Phong.class
 model/ChiTietHD_DichVu.class
+controllers/GD_QLNhanVienController$3.class
 controllers/GD_QLNhanVienController.class
 model/HoaDonThanhToan.class
 controllers/GD_DatDichVuController$1.class
@@ -45,6 +47,7 @@ controllers/GD_DatDichVuController$3$1.class
 controllers/GD_DatDichVuController.class
 controllers/GD_ChuyenPhongController$1.class
 controllers/GD_QLKinhDoanhPhongController$2.class
+controllers/GD_TraCuuHoaDonController$2.class
 model/connection.class
 model/PhieuDatPhong.class
 controllers/GD_ThongKeThangController.class
@@ -61,7 +64,6 @@ controllers/GD_QLCTKhuyenMaiController.class
 controllers/GD_DangKyController.class
 controllers/GD_ChuyenPhongController.class
 controllers/GD_DatDichVuController$5.class
-controllers/CT_KhuyenMai.class
 controllers/GD_ThongKeNamController.class
 controllers/GD_ChuyenPhongController$2.class
 enums/Enum_ChucVu.class

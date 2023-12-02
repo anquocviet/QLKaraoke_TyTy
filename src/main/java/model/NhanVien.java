@@ -115,7 +115,7 @@ public class NhanVien {
     public void setNgaySinh(LocalDate ngaySinh) throws Exception {
         if (ngaySinh == null) {
             throw new Exception("Ngày sinh không được trống");
-        } else if (LocalDate.now().getYear() - ngaySinh.getYear() < 18) {
+        } else if ((LocalDate.now().getYear() - ngaySinh.getYear()) < 18) {
             throw new Exception("Nhân viên phải từ 18 tuổi trở lên");
         } else {
             this.ngaySinh = ngaySinh;
@@ -413,6 +413,8 @@ public class NhanVien {
                 + "SET HoTen = ?, CCCD = ?, SoDienThoai = ?, NgaySinh = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ? , TrangThai = ?, AnhDaiDien = ? "
                 + "WHERE MaNhanVien = ?";
 
+        
+        System.out.println(nv.getChucVu());
         String chucVu = "Quản lý";
         if (nv.getChucVu() == Enum_ChucVu.BAOVE) {
             chucVu = "Bảo vệ";
@@ -421,6 +423,8 @@ public class NhanVien {
         } else if (nv.getChucVu() == Enum_ChucVu.NHANVIENTIEPTAN) {
             chucVu = "Nhân viên tiếp tân";
         }
+        
+        System.out.println(chucVu);
 
         try {
             pstm = conn.prepareStatement(sql);
