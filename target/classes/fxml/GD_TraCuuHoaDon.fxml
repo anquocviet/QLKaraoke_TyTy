@@ -13,82 +13,90 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="GD_TraCuuHoaDon" prefHeight="740.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_TraCuuHoaDonController">
-   <children>
-      <Label alignment="CENTER" layoutX="509.0" layoutY="68.0" prefWidth="339.0" text="TRA CỨU HÓA ĐƠN" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="636.8" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="432.00000000000006" AnchorPane.topAnchor="68.0">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="36.0" layoutY="120.0" text="Mã Hóa Đơn:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="36.0" layoutY="228.0" text="Ngày lập:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="36.0" layoutY="158.0" prefHeight="26.0" prefWidth="134.0" text="Tên Khách Hàng:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="36.0" layoutY="194.0" text="SDT Khách hàng:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <TextField layoutX="176.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
-      <TextField layoutX="176.0" layoutY="193.0" prefHeight="26.0" prefWidth="270.0" />
-      <TextField layoutX="176.0" layoutY="158.0" prefHeight="26.0" prefWidth="270.0" />
-      <Button layoutX="155.0" layoutY="274.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
-      <Button layoutX="275.0" layoutY="274.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
-      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="173.0" layoutY="283.0">
-         <image>
-            <Image url="@../image/search.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="293.0" layoutY="283.0">
-         <image>
-            <Image url="@../image/replay.png" />
-         </image>
-      </ImageView>
-      <DatePicker layoutX="174.0" layoutY="234.0" prefHeight="26.0" prefWidth="150.0" />
-      <TitledPane animated="false" collapsible="false" layoutX="36.0" layoutY="326.0" prefHeight="400.0" prefWidth="1213.0" text="Chi tiết Hóa đơn" AnchorPane.rightAnchor="36.0">
-        <content>
-          <AnchorPane layoutX="36.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="1216.0">
-               <children>
-                  <TableView prefHeight="375.0" prefWidth="1214.0">
+    <children>
+        <Label alignment="CENTER" layoutX="509.0" layoutY="68.0" prefWidth="339.0" text="TRA CỨU HÓA ĐƠN" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="636.8" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="432.00000000000006" AnchorPane.topAnchor="68.0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="32.0" layoutY="120.0" text="Mã Hóa Đơn:">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="32.0" layoutY="270.0" text="Ngày lập:">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="32.0" layoutY="170.0" prefHeight="26.0" prefWidth="134.0" text="Tên Khách Hàng:">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="32.0" layoutY="220.0" text="SDT Khách hàng:">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtMaHoaDon" layoutX="176.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
+        <TextField fx:id="txtSDT" layoutX="176.0" layoutY="218.0" prefHeight="26.0" prefWidth="270.0" />
+        <TextField fx:id="txtTenKH" layoutX="176.0" layoutY="168.0" prefHeight="26.0" prefWidth="270.0" />
+        <Button fx:id="btnTimKiem" layoutX="155.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
+        <Button fx:id="btnXoaTrang" layoutX="275.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
+        <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="173.0" layoutY="326.0">
+            <image>
+                <Image url="@../image/search.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="293.0" layoutY="326.0">
+            <image>
+                <Image url="@../image/replay.png" />
+            </image>
+        </ImageView>
+        <DatePicker fx:id="txtNgayLap" layoutX="176.0" layoutY="268.0" prefHeight="26.0" prefWidth="150.0" />
+        <TitledPane  animated="false" collapsible="false" layoutX="480.0" layoutY="104.0" prefHeight="251.0" prefWidth="778.0" text="Danh sách Hóa đơn">
+            <content>
+                <AnchorPane layoutX="36.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="1216.0">
+                    <children>
+                        <TableView fx:id="tableHoaDon" layoutX="-1.0" layoutY="1.0" prefHeight="226.0" prefWidth="778.0">
+                            <columns>
+                                <TableColumn fx:id="maHoaDonCol" prefWidth="180.0" text="Mã Hóa Đơn" />
+                                <TableColumn fx:id="tenKHCol" prefWidth="200.0" text="Tên Khách Hàng" />
+                                <TableColumn fx:id="sdtCol" minWidth="0.0" prefWidth="200.0" text="SDT Khách Hàng" />
+                                <TableColumn fx:id="ngayLapCol" prefWidth="180.0" text="Ngày Lập" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TitledPane collapsible="false" layoutX="23.0" layoutY="394.0" prefHeight="335.0" prefWidth="722.0" text="Phòng" AnchorPane.leftAnchor="20.0">
+            <content>
+                <TableView fx:id="tablePhong" prefHeight="253.0" prefWidth="720.0">
                     <columns>
-                      <TableColumn prefWidth="180.0" text="Mã Hóa Đơn" />
-                      <TableColumn prefWidth="210.0" text="Nhân viên lập" />
-                        <TableColumn prefWidth="210.0" text="Khách Hàng" />
-                        <TableColumn prefWidth="150.0" text="Ngày Lập" />
-                        <TableColumn prefWidth="150.0" text="Tiền phòng" />
-                        <TableColumn prefWidth="150.0" text="Tiền dịch vụ" />
-                        <TableColumn prefWidth="145.0" text="Tổng tiền" />
+                        <TableColumn fx:id="maPhongCol" prefWidth="90.0" text="Mã" />
+                        <TableColumn fx:id="loaiPhongCol" prefWidth="82.0" text="Loại phòng" />
+                        <TableColumn fx:id="gioVaoCol" prefWidth="115.0" text="Giờ vào" />
+                        <TableColumn fx:id="gioRaCol" prefWidth="115.0" text="Giờ ra" />
+                        <TableColumn fx:id="gioSuDungCol" text="Số giờ SD" />
+                        <TableColumn fx:id="donGiaCol" text="Đơn giá" />
+                        <TableColumn fx:id="thanhTienCol" prefWidth="144.0" text="Thành tiền" />
                     </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
-      </TitledPane>
-      <TitledPane animated="false" collapsible="false" layoutX="480.0" layoutY="104.0" prefHeight="214.0" prefWidth="766.0" text="Danh sách Hóa đơn">
-         <content>
-            <AnchorPane layoutX="36.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="1216.0">
-               <children>
-                  <TableView layoutX="-1.0" layoutY="1.0" prefHeight="188.0" prefWidth="766.0">
+                </TableView>
+            </content>
+        </TitledPane>
+        <TitledPane collapsible="false" layoutX="745.0" layoutY="394.0" prefHeight="335.0" prefWidth="510.0" text="Dịch vụ" AnchorPane.rightAnchor="20.0">
+            <content>
+                <TableView fx:id="tableDichVu" prefHeight="249.0" prefWidth="509.0">
                     <columns>
-                      <TableColumn prefWidth="180.0" text="Mã Hóa Đơn" />
-                      <TableColumn prefWidth="200.0" text="Tên Khách Hàng" />
-                        <TableColumn minWidth="0.0" prefWidth="200.0" text="SDT Khách Hàng" />
-                        <TableColumn prefWidth="180.0" text="Ngày Lập" />
+                        <TableColumn fx:id="tenDichVuCol" prefWidth="180.0" resizable="false" text="Tên dịch vụ" />
+                        <TableColumn fx:id="soLuongCol" resizable="false" text="Số lượng" />
+                        <TableColumn fx:id="donViTinhCol" prefWidth="100.0" resizable="false" text="Đơn vị tính" />
+                        <TableColumn fx:id="thanhTienDVCol" minWidth="0.0" prefWidth="140.0" resizable="false" text="Thành tiền" />
                     </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-         </content>
-      </TitledPane>
-   </children>
+                </TableView>
+            </content>
+        </TitledPane>
+    </children>
 </AnchorPane>

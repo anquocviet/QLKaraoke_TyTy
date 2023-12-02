@@ -106,13 +106,6 @@
                             </cursor>
                         </Button>
                         <Button fx:id="btnXoaTrangDichVu" layoutX="257.0" layoutY="377.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="98.0">
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="42.0">
-                                    <image>
-                                        <Image url="@../image/trash.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -122,6 +115,11 @@
                                 <Font size="16.0" />
                             </font>
                         </TextField>
+                  <ImageView fitHeight="35.0" fitWidth="41.0" layoutX="286.0" layoutY="383.0">
+                     <image>
+                        <Image url="@../image/reload.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </AnchorPane>
             </content>
