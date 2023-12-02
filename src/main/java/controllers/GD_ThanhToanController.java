@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -21,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,8 +36,6 @@ import model.CT_KhuyenMai;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
-import model.KhachHang;
-import model.NhanVien;
 import model.Phong;
 
 /**
@@ -148,7 +148,6 @@ public class GD_ThanhToanController implements Initializable {
 	public void handleEventInInput() {
 		txtTienNhan.setOnKeyPressed(evt -> {
 			if (evt.getCode() == KeyCode.ENTER) {
-				long tienNhan;
 				try {
 					tienNhan = df.parse(txtTienNhan.getText().trim()).longValue();
 				} catch (ParseException ex) {
@@ -178,13 +177,13 @@ public class GD_ThanhToanController implements Initializable {
 					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
 					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
 					long tongTien = tienPhong + tienDV;
-					if (ctkm != null) {
+					if (checkUseVoucher(ctkm)) {
 						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
 						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");
 						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
 					} else {
 						imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
-						txtTienDaGiam.setText(df.format(0 + " VND"));
+						txtTienDaGiam.setText(0 + " VND");
 					}
 					txtTongTien.setText(df.format(tongTien) + " VND");
 				} catch (ParseException ex) {
@@ -205,12 +204,11 @@ public class GD_ThanhToanController implements Initializable {
 					alert.showAndWait();
 					return;
 				}
-
-				CT_KhuyenMai km = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
-				if (km == null) {
-					km = new CT_KhuyenMai("DEFAULT");
-				} else {
+				CT_KhuyenMai km = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim().toUpperCase());
+				if (checkUseVoucher(km)) {
 					CT_KhuyenMai.capNhatLuotSuDungKhuyenMai(km.getMaKhuyenMai(), km.getLuotSuDungConLai() - 1);
+				} else {
+					km = new CT_KhuyenMai("DEFAULT");
 				}
 				tablePhong.getItems().forEach((ct) -> {
 					ChiTietHD_Phong.updateCTHD_Phong(ct);
@@ -219,22 +217,45 @@ public class GD_ThanhToanController implements Initializable {
 				String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
 				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
 				hd.setKhuyenMai(km);
-				hd.setNgayLap(LocalDate.now());
+				hd.setNgayLap(LocalDateTime.now());
 				HoaDonThanhToan.updateHoaDonThanhToan(hd);
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
 				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
 				alert.setTitle("Thanh toán phòng thành công");
 				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
 				alert.showAndWait();
+
+//				Xuat hoa don
+				if (checkBoxInHD.isSelected()) {
+					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
+				}
+				
 				App.setRoot("GD_QLKinhDoanhPhong");
 			} catch (Exception ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
+		btnBack.setOnAction(evt -> {
+			try {
+				App.setRoot("GD_QLKinhDoanhPhong");
+			} catch (IOException ex) {
+				Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		});
+	}
+	
+	public boolean checkUseVoucher(CT_KhuyenMai km) {
+		if (km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now())) {
+			return true;
+		}
+		return false;
 	}
 
+	public static long tienNhan = 0;
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 
+	@FXML
+	private Button btnBack;
 	@FXML
 	private TableView<ChiTietHD_DichVu> tableDichVu;
 	@FXML
@@ -289,5 +310,5 @@ public class GD_ThanhToanController implements Initializable {
 	@FXML
 	private ImageView imgCheckKM;
 	@FXML
-	private ImageView imgCheckTienNhan;
+	private CheckBox checkBoxInHD;
 }
