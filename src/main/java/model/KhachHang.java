@@ -32,7 +32,7 @@ public class KhachHang {
 	public KhachHang() {
 	}
 
-	public KhachHang(String maKhachHang, String tenKhachHang, String soDienThoai, int namSinh, boolean gioiTinh) {
+	public KhachHang(String maKhachHang, String tenKhachHang) {
 		this.maKhachHang = maKhachHang;
 		this.tenKhachHang = tenKhachHang;
 		this.soDienThoai = soDienThoai;
@@ -135,7 +135,7 @@ public class KhachHang {
                 String tenKhachhang = rs.getString("TenKhachHang");
                 int namSinh = rs.getInt("NamSinh");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
-                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
+                KhachHang kh = new KhachHang(maKhachhang, tenKhachhang);
                 return kh;
             }
         } catch (SQLException ex) {
@@ -166,7 +166,7 @@ public class KhachHang {
                 String soDienThoai = rs.getString("SoDienThoai");
                 int namSinh = rs.getInt("NamSinh");
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
-                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh));
+                dsKhachHang.add(new KhachHang(maKhachhang, tenKhachhang));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,7 +201,7 @@ public class KhachHang {
 				String soDienThoai = rs.getString("SoDienThoai");
 				int namSinh = rs.getInt("NamSinh");
 				boolean gioiTinh = rs.getBoolean("GioiTinh");
-				KhachHang kh = new KhachHang(maKhachhang, tenKhachhang, soDienThoai, namSinh, gioiTinh);
+				KhachHang kh = new KhachHang(maKhachhang, tenKhachhang);
 				return kh;
 			}
 		} catch (SQLException ex) {

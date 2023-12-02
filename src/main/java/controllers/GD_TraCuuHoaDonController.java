@@ -6,13 +6,30 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import main.App;
+import model.ChiTietHD_DichVu;
+import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
 
 /**
@@ -24,76 +41,84 @@ public class GD_TraCuuHoaDonController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*
-        col_maHoaDon.setCellValueFactory(new PropertyValueFactory<>("maHoaDon"));
-        col_tenKhachHang.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
-        col_sdtKhachHang.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
-        col_ngayLap.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
-        col_thoiGian.setCellValueFactory(new PropertyValueFactory<>("tongGioSuDung"));
-
-        danhSach_HoaDon = HoaDonThanhToan.class();
-        tableView_HoaDon.setItems(danhSach_HoaDon);
-        
-        docDuLieuTuTable();
+        maHoaDonCol.setCellValueFactory(new PropertyValueFactory<>("maHoaDon"));
+        tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
+        sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+        ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
+    
+        danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
+        tableHoaDon.setItems(danhSach_HoaDon);
+        tableHoaDon.requestFocus();
         handleEventInTable();
-        */
     }
-/*
+    
     public void handleEventInTable() {
-        tableView_DichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        tableHoaDon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                docDuLieuTuTable();
             }
-            
+
         });
-    tableView_DichVu.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        tableHoaDon.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
-                    docDuLieuTuTable();
                 }
             }
-            
+
         });
     }
+
+    @FXML
+    private TableView<ChiTietHD_DichVu> tableDichVu;
+    @FXML
+    private TableColumn<ChiTietHD_DichVu, String> tenDichVuCol;
+    @FXML
+    private TableColumn<ChiTietHD_DichVu, Integer> soLuongCol;
+    @FXML
+    private TableColumn<ChiTietHD_DichVu, String> donViTinhCol;
+    @FXML
+    private TableColumn<ChiTietHD_DichVu, Long> thanhTienDVCol;
+
+    @FXML
+    private TableView<ChiTietHD_Phong> tablePhong;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> maPhongCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> loaiPhongCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> gioVaoCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> gioRaCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> gioSuDungCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> donGiaCol;
+    @FXML
+    private TableColumn<ChiTietHD_Phong, String> thanhTienCol;
+
+    @FXML
+    private TableView<HoaDonThanhToan> tableHoaDon;
+    @FXML
+    private TableColumn<HoaDonThanhToan, String> maHoaDonCol;
+    @FXML
+    private TableColumn<HoaDonThanhToan, String> tenKHCol;
+    @FXML
+    private TableColumn<HoaDonThanhToan, String> sdtCol;
+    @FXML
+    private TableColumn<HoaDonThanhToan, String> ngayLapCol;
+
+    @FXML
+    private TextField txtMaHoaDon;
+    @FXML
+    private TextField txtSDT;
+    @FXML
+    private TextField txtTenKH;
+    @FXML
+    private Button btnTimKiem;
+    @FXML
+    private Button btnXoaTrang;
     
-    public void docDuLieuTuTable() {
-        DichVu dv = tableView_DichVu.getSelectionModel().getSelectedItem();
-        if (dv == null) {
-            return;
-        }
-        txtMaHoaDon.setText(dv.getMaDichVu());
-        txtTenKhachHang.setText(dv.getTenDichVu());
-        txtSDTKhachHang.setText(String.valueOf(dv.getSoLuong()));
-        txtNgayLap.setText(String.valueOf(dv.getDonGia()));
-        txtThoiGian.setText(dv.getDonViTinh());
-    }
-    @FXML
-    private TextField txtMaHoaDon;        
-    @FXML
-    private TextField txtTenKhachHang;
-    @FXML
-    private TextField txtSDTKhachHang;
-    @FXML
-    private TextField txtNgayLap;
-    @FXML
-    private TextField txtThoiGian;
-    
-    @FXML
-    private TableView<HoaDonThanhToan> tableView_HoaDon;
-    @FXML
-    private TableColumn<HoaDonThanhToan, String> col_maHoaDon;
-    @FXML
-    private TableColumn<HoaDonThanhToan, String> col_tenKhachHang;
-    @FXML
-    private TableColumn<HoaDonThanhToan, Integer> col_sdtKhachHang;
-    @FXML
-    private TableColumn<HoaDonThanhToan, Long> col_ngayLap;
-    @FXML
-    private TableColumn<HoaDonThanhToan, String> col_thoiGian;
-   
     ObservableList<HoaDonThanhToan> danhSach_HoaDon;
-    //ObservableList<DichVu> danhSach_DichVu
-    */
+
 }

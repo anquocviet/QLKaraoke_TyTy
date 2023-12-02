@@ -3,7 +3,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -107,13 +106,6 @@
                             </cursor>
                         </Button>
                         <Button fx:id="btnXoaTrangDichVu" layoutX="257.0" layoutY="377.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="98.0">
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="42.0">
-                                    <image>
-                                        <Image url="@../image/trash.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
@@ -123,6 +115,11 @@
                                 <Font size="16.0" />
                             </font>
                         </TextField>
+                  <ImageView fitHeight="35.0" fitWidth="41.0" layoutX="286.0" layoutY="383.0">
+                     <image>
+                        <Image url="@../image/reload.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </AnchorPane>
             </content>
@@ -133,21 +130,17 @@
         <TitledPane animated="false" collapsible="false" layoutX="486.0" layoutY="120.0" prefHeight="598.0" prefWidth="777.0" style="-fx-font-size: 16;" text="Danh sách dịch vụ" AnchorPane.rightAnchor="40.0">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
-                    <children>
-                        <ScrollPane vbarPolicy="ALWAYS">
-                            <content>
-                                <TableView fx:id="tableView_DichVu" prefHeight="566.0" prefWidth="760.0">
-                                    <columns>
-                                        <TableColumn fx:id="col_maDichVu" prefWidth="150.0" text="Mã dịch vụ" />
-                                        <TableColumn fx:id="col_tenDichVu" prefWidth="194.66668701171875" text="Tên dịch vụ" />
-                                        <TableColumn fx:id="col_soLuong" prefWidth="85.33331298828125" text="Số lượng" />
-                                        <TableColumn fx:id="col_donViTinh" prefWidth="120.0" text="Đơn vị tính" />
-                                        <TableColumn fx:id="col_donGia" minWidth="0.0" prefWidth="224.0" text="Đơn giá" />
-                                    </columns>
-                                </TableView>
-                            </content>
-                        </ScrollPane>
-                    </children>
+               <children>
+                  <TableView fx:id="tableView_DichVu" prefHeight="566.0" prefWidth="777.0">
+                     <columns>
+                        <TableColumn fx:id="col_maDichVu" prefWidth="150.0" text="Mã dịch vụ" />
+                        <TableColumn fx:id="col_tenDichVu" prefWidth="194.66668701171875" text="Tên dịch vụ" />
+                        <TableColumn fx:id="col_soLuong" prefWidth="85.33331298828125" text="Số lượng" />
+                        <TableColumn fx:id="col_donViTinh" prefWidth="120.0" text="Đơn vị tính" />
+                        <TableColumn fx:id="col_donGia" minWidth="0.0" prefWidth="210.0" text="Đơn giá" />
+                     </columns>
+                  </TableView>
+               </children>
                 </AnchorPane>
             </content>
             <font>

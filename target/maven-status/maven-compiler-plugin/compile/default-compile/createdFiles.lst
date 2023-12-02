@@ -1,5 +1,6 @@
 main/App.class
 controllers/GD_ThanhToanController.class
+controllers/GD_TraCuuHoaDonController$1.class
 controllers/GD_DangKyController$1.class
 controllers/GD_DatDichVuController$6.class
 enums/Enum_TrangThaiLamViec.class
@@ -46,6 +47,7 @@ controllers/GD_DatDichVuController$3$1.class
 controllers/GD_DatDichVuController.class
 controllers/GD_ChuyenPhongController$1.class
 controllers/GD_QLKinhDoanhPhongController$2.class
+controllers/GD_TraCuuHoaDonController$2.class
 model/connection.class
 model/PhieuDatPhong.class
 controllers/GD_ThongKeThangController.class
