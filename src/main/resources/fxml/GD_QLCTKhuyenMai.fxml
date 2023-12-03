@@ -30,45 +30,45 @@
          <children>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="198.0" prefWidth="1280.0">
                <children>
-                  <Text layoutX="844.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chiết khấu:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
                   <Text layoutX="28.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khuyến mãi:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
                   <TextField fx:id="txtMaKhuyenMai" layoutX="195.0" layoutY="24.0" prefHeight="31.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtLuotSuDung" layoutX="670.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
-                  <Text layoutX="522.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt sử dụng:">
+                  <Text layoutX="498.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khuyến mãi: ">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
+                  <TextField fx:id="txtTenKhuyenMai" layoutX="670.0" layoutY="24.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
+                     <font>
+                        <Font size="17.0" />
+                     </font></TextField>
                   <Text layoutX="45.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày bắt đầu:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
                   <DatePicker fx:id="dateNgayBatDau" editable="false" layoutX="195.0" layoutY="85.0" prefHeight="29.0" prefWidth="278.0" style="-fx-font-size: 15;" />
+                  <Text layoutX="522.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lượt sử dụng:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="txtLuotSuDung" layoutX="670.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
+                  <Text layoutX="844.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chiết khấu:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="txtChietKhau" layoutX="960.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
                   <Text layoutX="42.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày kết thúc:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
                   <DatePicker fx:id="dateNgayKetThuc" editable="false" layoutX="195.0" layoutY="146.0" prefHeight="18.0" prefWidth="278.0" style="-fx-font-size: 15;" />
-                  <TextField fx:id="txtTenKhuyenMai" layoutX="670.0" layoutY="24.0" prefHeight="31.0" prefWidth="451.0" style="-fx-font-size: 15;">
-                     <font>
-                        <Font size="17.0" />
-                     </font></TextField>
-                  <Text layoutX="498.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khuyến mãi: ">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="txtChietKhau" layoutX="960.0" layoutY="85.0" prefHeight="31.0" prefWidth="154.0" style="-fx-font-size: 15;" />
                   <Button fx:id="btnAdd" layoutX="545.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="91.0" style="-fx-font-size: 16;" text="    Thêm">
                      <font>
                         <Font size="18.0" />
@@ -131,6 +131,7 @@
                   </Label>
                </children>
             </AnchorPane>
+            <TextField fx:id="txtTimMaKhuyenMai" layoutX="996.0" layoutY="145.0" prefHeight="36.0" prefWidth="140.0" promptText="Mã khuyến mãi" style="-fx-font-size: 15;" />
             <Button fx:id="btnSearch" layoutX="1144.0" layoutY="144.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="123.0" style="-fx-font-size: 16;" text="Tìm kiếm" textAlignment="RIGHT">
                <font>
                   <Font size="18.0" />
@@ -143,7 +144,6 @@
                   </ImageView>
                </graphic>
             </Button>
-            <TextField fx:id="txtTimMaKhuyenMai" layoutX="996.0" layoutY="145.0" prefHeight="36.0" prefWidth="140.0" promptText="Mã khuyến mãi" style="-fx-font-size: 15;" />
          </children></Pane>
       <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="343.0" prefHeight="422.0" prefWidth="1280.0" vbarPolicy="ALWAYS">
         <content>

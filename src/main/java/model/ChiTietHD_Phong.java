@@ -8,7 +8,8 @@ import connect.ConnectDB;
 import controllers.GD_ChuyenPhongController;
 import controllers.GD_QLKhachHangController;
 
-import java.sql.Connection;;
+import java.sql.Connection;
+;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,8 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
+
+
 public class ChiTietHD_Phong {
 
     private HoaDonThanhToan hoaDon;
@@ -106,8 +109,16 @@ public class ChiTietHD_Phong {
     }
 
     public float tinhTongGioSuDung() {
-        float time = ((float) Duration.between(gioVao, gioRa).toMillis()) / 1000 / 3600;
-        return time;
+        float time = ((float) Duration.between(gioVao, gioRa).toMillis()) / 1000 / 60;
+        float minus = (long) time % 60;
+        float hour = ((long) time - minus) / 60;
+
+        if (minus > 40) {
+            hour++;
+        } else if (minus >= 10) {
+            hour += 0.5;
+        }
+        return hour;
     }
 
     @Override
@@ -208,6 +219,37 @@ public class ChiTietHD_Phong {
         return hdP;
     }
 
+    public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhongVaMaHoaDon(String maHoaDon, String maPhong) throws Exception {
+        Connection conn = ConnectDB.getConnection();
+        ObservableList<Phong> tmp = Phong.getListPhongByID(maPhong);
+        Phong phong = tmp.get(0);
+
+        Statement stmt = null;
+        ChiTietHD_Phong hdP = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE MaPhong = '%s' AND MaHoaDon = '%s'", maPhong, maHoaDon);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                HoaDonThanhToan hoaDon = HoaDonThanhToan.getBillByID(maHoaDon);
+                java.sql.Timestamp timestamp = rs.getTimestamp("GioVao");
+                LocalDateTime gioVao = timestamp.toLocalDateTime();
+                timestamp = rs.getTimestamp("GioRa");
+                LocalDateTime gioRa = timestamp.toLocalDateTime();
+                hdP = new ChiTietHD_Phong(hoaDon, phong, gioVao, gioRa);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return hdP;
+    }
+
     public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getInstance().getConnection();
@@ -244,24 +286,24 @@ public class ChiTietHD_Phong {
 
         return n > 0;
     }
-	
-	public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
-		Connection conn = ConnectDB.getConnection();
-		PreparedStatement pstm = null;
-		int n = 0;
-		String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
-		try {
-			pstm = conn.prepareStatement(sql);
-			pstm.setTimestamp(1, Timestamp.valueOf(ct.gioRa));
-			pstm.setFloat(2, ct.tinhTongGioSuDung());
-			pstm.setLong(3, ct.tinhThanhTien());
-			pstm.setString(4, ct.getHoaDon().getMaHoaDon());
-			pstm.setString(5, ct.getPhong().getMaPhong());
-			n = pstm.executeUpdate();
-		} catch (SQLException ex) {
-			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			try {
+
+    public static boolean updateCTHD_Phong(ChiTietHD_Phong ct) {
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "UPDATE ChiTietHD_Phong SET GioRa = ?, TongGioSuDung = ?, ThanhTien = ? WHERE MaHoaDon = ? AND MaPhong = ?";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setTimestamp(1, Timestamp.valueOf(ct.gioRa));
+            pstm.setFloat(2, ct.tinhTongGioSuDung());
+            pstm.setLong(3, ct.tinhThanhTien());
+            pstm.setString(4, ct.getHoaDon().getMaHoaDon());
+            pstm.setString(5, ct.getPhong().getMaPhong());
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
                 assert pstm != null;
                 pstm.close();
             } catch (SQLException ex) {

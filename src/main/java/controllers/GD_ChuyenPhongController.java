@@ -36,6 +36,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.ChiTietHD_Phong;
+import model.HoaDonThanhToan;
 
 import model.Phong;
 
@@ -109,14 +110,16 @@ public class GD_ChuyenPhongController implements Initializable {
     @FXML
     void handleChuyenPhong(ActionEvent event) throws Exception {
         Phong phongDuocChon = table.getSelectionModel().getSelectedItem();
-        System.out.println(phongDuocChon);
+        String maHoaDon = HoaDonThanhToan.getBillIDByRoomID(roomID);
+        System.out.println(maHoaDon);
         ObservableList<Phong> list = Phong.getListPhongByID(roomID);
         Phong phongHienTai = list.get(0);
-        System.out.println(phongHienTai);
+
         if (phongDuocChon != null) {
             phongDuocChon.updateStatusRoom(phongDuocChon.getMaPhong(), 1);
             phongHienTai.updateStatusRoom(phongHienTai.getMaPhong(), 2);
-            ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhong(phongHienTai.getMaPhong());
+            ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhongVaMaHoaDon(phongHienTai.getMaPhong(), maHoaDon);
+            System.out.println(hdPhongHienTai);
             hdPhongHienTai.setGioRa(LocalDateTime.now());
             ChiTietHD_Phong.updateCTHD_Phong(hdPhongHienTai);
             System.out.println(hdPhongHienTai);
