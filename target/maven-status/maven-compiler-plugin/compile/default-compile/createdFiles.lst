@@ -2,7 +2,6 @@ main/App.class
 controllers/GD_ThanhToanController.class
 controllers/GD_TraCuuHoaDonController$1.class
 controllers/GD_DangKyController$1.class
-controllers/GD_DatDichVuController$6.class
 enums/Enum_TrangThaiLamViec.class
 controllers/GD_DatDichVuController$5$1.class
 controllers/GD_QLDichVuController$1.class
@@ -13,8 +12,8 @@ controllers/GD_DatDichVuController$2$1.class
 controllers/BillController.class
 controllers/GD_QLNhanVienController$2.class
 controllers/GD_QLDichVuController$2.class
+controllers/SplashController.class
 model/KhachHang.class
-controllers/GD_DatDichVuController$7.class
 connect/ConnectDB.class
 controllers/GD_DatDichVuController$4$1.class
 module-info.class
@@ -29,6 +28,7 @@ model/HoaDonThanhToan.class
 controllers/GD_DatDichVuController$1.class
 controllers/GD_QLDichVuController$3.class
 enums/Enum_LoaiPhong.class
+main/AppPreloader.class
 controllers/GD_ThuePhongController.class
 model/TaiKhoan.class
 controllers/GD_QLKinhDoanhPhongController.class
