@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
+import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -222,14 +223,14 @@ public class Phong {
         return dsPhong;
     }
 
-    public static ObservableList<Phong> getListPhongByTypeAndStatus(int[] arrType, int[] arrStatus) {
+    public static ObservableList<Phong> getListPhongByType_Status_Capacity(int[] arrType, int[] arrStatus, int capacity) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
             String sql = String.format("SELECT * FROM Phong WHERE LOAIPHONG IN (%d, %d) "
-                    + "AND TINHTRANG IN (%d, %d, %d)", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2]);
+                    + "AND TINHTRANG IN (%d, %d, %d) AND SucChua >= %d", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2], capacity);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhong = rs.getString("Maphong");
@@ -280,6 +281,30 @@ public class Phong {
         }
         return dsPhong;
     }
+	
+	public static ObservableList<Integer> getAllCapacityOfRoom() {
+		ObservableList<Integer> listCapacity = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT SucChua FROM Phong GROUP BY SucChua";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int capacity = rs.getInt("SucChua");
+                listCapacity.add(capacity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listCapacity;
+	}
 	
 	public static int countStatusRoom(int status) {
         Connection conn = ConnectDB.getConnection();

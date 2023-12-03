@@ -154,13 +154,13 @@ public class HoaDonThanhToan {
                 LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
                 String tenKH = rs.getString("TenKhachHang");
                 String sdtKH = rs.getString("SoDienThoai");
+				int namSinhKH = rs.getInt("NamSinh");
+				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
                 
                 dsHoaDon = (ObservableList<HoaDonThanhToan>) new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
-                        new KhachHang(maKH, tenKH),
-                        new CT_KhuyenMai(maKM), ngayLap);
-                
-                //dsHoaDon.add(new HoaDonThanhToan(maHD, NhanVien.getNhanVienTheoMaNhanVien(maNV), new KhachHang(maKH, tenKH, sdtKH), new CT_KhuyenMai(maKM), ngayLap), ngayLap));
+                        new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
+                        new CT_KhuyenMai(maKM), ngayLap);                
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,7 +198,7 @@ public class HoaDonThanhToan {
                 boolean gioiTinh = rs.getBoolean("GioiTinh");
                 bill = new HoaDonThanhToan(billID,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
-                        new KhachHang(maKH, tenKH),
+                        new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh),
                         new CT_KhuyenMai(maKM), ngayLap);
             }
         } catch (Exception e) {

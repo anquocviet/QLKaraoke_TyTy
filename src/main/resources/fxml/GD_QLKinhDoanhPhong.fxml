@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -129,6 +130,11 @@
                </HBox>
             </children>
          </HBox>
+         <Text layoutX="749.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số  người:">
+            <font>
+               <Font size="22.0" />
+            </font>
+         </Text>
          <HBox alignment="CENTER" layoutX="240.0" layoutY="63.0" spacing="19.0">
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại phòng:">
@@ -167,6 +173,7 @@
                     <Font size="20.0" />
                 </font>
             </Button>
+         <Spinner fx:id="spinnerSucChua" editable="true" layoutX="860.0" layoutY="8.0" prefHeight="36.0" prefWidth="191.0" style="-fx-font-size: 20;" />
         </Pane>
         <ScrollPane hbarPolicy="NEVER" layoutX="217.0" layoutY="235.0" prefHeight="461.0" prefWidth="1065.0">
             <content>

@@ -24,6 +24,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -57,6 +59,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		radioStatusUsing.setToggleGroup(statusRoomGroup);
 		radioStatusEmpty.setToggleGroup(statusRoomGroup);
 		radioStatusWaiting.setToggleGroup(statusRoomGroup);
+		spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
+
 		popup = new Popup();
 		createClockView();
 		renderArrayPhong(Phong.getAllPhong());
@@ -67,13 +71,14 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		roomID = id;
 		gridPane.getChildren().get(itemChoosed).getStyleClass().add("itemRoomActive");
 
-		handleEventInRadioButton();
-		handleEventInButton();
-		
 		txtPhongTrong.setText(String.format("Phòng trống(%s)", Phong.countStatusRoom(0)));
 		txtPhongCho.setText(String.format("Phòng chờ(%s)", Phong.countStatusRoom(2)));
 		txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", Phong.countStatusRoom(1)));
 		txtPhongVIP.setText(String.format("Phòng VIP(%s)", Phong.countTypeRoom(1)));
+
+		handleEventInRadioButton();
+		handleEventInSpinner();
+		handleEventInButton();
 	}
 
 	public void renderArrayPhong(ObservableList<Phong> listPhong) {
@@ -158,63 +163,87 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	}
 
 	public void handleEventInRadioButton() {
-		typeRoomGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
-						? new int[]{0, 1, 2}
-						: statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
-						? new int[]{0, 0, 0}
-						: statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
-						? new int[]{1, 1, 1}
-						: new int[]{2, 2, 2};
-				ObservableList<Phong> listRoom;
-				if (newValue.equals(radioTypeAll)) {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(new int[]{0, 1}, arrStatus);
-				} else if (newValue.equals(radioTypeNormal)) {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(new int[]{0, 0}, arrStatus);
-				} else {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(new int[]{1, 1}, arrStatus);
-				}
-				renderArrayPhong(listRoom);
+		typeRoomGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+			int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
+					? new int[]{0, 1, 2}
+					: statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
+					? new int[]{0, 0, 0}
+					: statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+					? new int[]{1, 1, 1}
+					: new int[]{2, 2, 2};
+			ObservableList<Phong> listRoom;
+			int capacity = spinnerSucChua.getValue();
+			if (newValue.equals(radioTypeAll)) {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{0, 1}, arrStatus, capacity);
+			} else if (newValue.equals(radioTypeNormal)) {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{0, 0}, arrStatus, capacity);
+				;
+			} else {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{1, 1}, arrStatus, capacity);
+			}
+			renderArrayPhong(listRoom);
+			if (!listRoom.isEmpty()) {
 				gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
 				txtMaPhong.setText(listRoom.get(0).getMaPhong());
-				itemChoosed = 0;
 			}
-
+			itemChoosed = 0;
 		});
-		statusRoomGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-						? new int[]{0, 1}
-						: typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-						? new int[]{0, 0}
-						: new int[]{1, 1};
-				ObservableList<Phong> listRoom;
-				if (newValue.equals(radioStatusAll)) {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(arrType, new int[]{0, 1, 2});
-				} else if (newValue.equals(radioStatusUsing)) {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(arrType, new int[]{1, 1, 1});
-				} else if (newValue.equals(radioStatusEmpty)) {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(arrType, new int[]{0, 0, 0});
-				} else {
-					gridPane.getChildren().clear();
-					listRoom = Phong.getListPhongByTypeAndStatus(arrType, new int[]{2, 2, 2});
-				}
-				renderArrayPhong(listRoom);
+		statusRoomGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+			int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
+					? new int[]{0, 1}
+					: typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+					? new int[]{0, 0}
+					: new int[]{1, 1};
+			ObservableList<Phong> listRoom;
+			int capacity = spinnerSucChua.getValue();
+			if (newValue.equals(radioStatusAll)) {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(arrType, new int[]{0, 1, 2}, capacity);
+			} else if (newValue.equals(radioStatusUsing)) {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(arrType, new int[]{1, 1, 1}, capacity);
+			} else if (newValue.equals(radioStatusEmpty)) {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(arrType, new int[]{0, 0, 0}, capacity);
+			} else {
+				gridPane.getChildren().clear();
+				listRoom = Phong.getListPhongByType_Status_Capacity(arrType, new int[]{2, 2, 2}, capacity);
+			}
+			renderArrayPhong(listRoom);
+			if (!listRoom.isEmpty()) {
 				gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
 				txtMaPhong.setText(listRoom.get(0).getMaPhong());
-				itemChoosed = 0;
-
 			}
+			itemChoosed = 0;
+		});
+	}
 
+	public void handleEventInSpinner() {
+		spinnerSucChua.valueProperty().addListener((obs, oldVal, newVal) -> {
+			int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
+					? new int[]{0, 1}
+					: typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+					? new int[]{0, 0}
+					: new int[]{1, 1};
+			int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
+					? new int[]{0, 1, 2}
+					: statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
+					? new int[]{0, 0, 0}
+					: statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+					? new int[]{1, 1, 1}
+					: new int[]{2, 2, 2};
+			gridPane.getChildren().clear();
+			ObservableList<Phong> listRoom;
+			listRoom = Phong.getListPhongByType_Status_Capacity(arrType, arrStatus, newVal);
+			renderArrayPhong(listRoom);
+			if (!listRoom.isEmpty()) {
+				gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
+				txtMaPhong.setText(listRoom.get(0).getMaPhong());
+			}
+			itemChoosed = 0;
 		});
 	}
 
@@ -229,6 +258,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			String id = listRoom.get(0).getMaPhong();
 			txtMaPhong.setText(id);
 			gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
+			spinnerSucChua.getValueFactory().setValue(1);
 			roomID = id;
 			itemChoosed = 0;
 		});
@@ -381,6 +411,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	private Text txtPhongCho;
 	@FXML
 	private Text txtPhongDangSD;
+	@FXML
+	Spinner<Integer> spinnerSucChua;
 	@FXML
 	private Text txtPhongVIP;
 	@FXML

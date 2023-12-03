@@ -140,7 +140,13 @@ public class GD_ThanhToanController implements Initializable {
 		}
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
 		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
-		txtTongTien.setText(df.format(tienPhong + tienDV) + " VNĐ");
+		
+		long tongTien = tienPhong + tienDV;
+		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
+		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
+		tongTien = tongTien + tienVAT + tienThueTTDB;
+		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+		txtTongTien.setText(df.format(tongTien) + " VNĐ");
 		handleEventInInput();
 		handleEventInBtn();
 	}
@@ -301,6 +307,8 @@ public class GD_ThanhToanController implements Initializable {
 	private Text txtTienPhong;
 	@FXML
 	private Text txtTienDichVu;
+	@FXML
+	private Text txtTienThue;
 	@FXML
 	private Text txtTongTien;
 	@FXML

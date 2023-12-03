@@ -7,6 +7,7 @@ package main;
 import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -19,6 +20,7 @@ public class AppPreloader extends Preloader {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.preloaderStage = primaryStage;
+		primaryStage.initStyle(StageStyle.UNDECORATED);
 		Scene scene = new Scene(App.loadFXML("Splash"));
 		primaryStage.setScene(scene);
 		primaryStage.show();
