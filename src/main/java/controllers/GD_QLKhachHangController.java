@@ -112,7 +112,7 @@ public class GD_QLKhachHangController implements Initializable {
         if (genderGroup.getToggles().get(1).isSelected()) {
             gioiTinh = false;
         }
-        KhachHang kh = new KhachHang(maKH, tenKH);
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
         KhachHang.themKhachHang(kh);
         table.setItems(KhachHang.getAllKhachHang());
     }
@@ -126,7 +126,7 @@ public class GD_QLKhachHangController implements Initializable {
         if (genderGroup.getToggles().get(1).isSelected()) {
             gioiTinh = false;
         }
-        KhachHang kh = new KhachHang(maKH, tenKH);
+        KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
         KhachHang.suaKhachHang(kh);
         table.setItems(KhachHang.getAllKhachHang());
         table.refresh();

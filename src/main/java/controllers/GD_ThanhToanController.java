@@ -140,7 +140,13 @@ public class GD_ThanhToanController implements Initializable {
 		}
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
 		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
-		txtTongTien.setText(df.format(tienPhong + tienDV) + " VNĐ");
+		
+		long tongTien = tienPhong + tienDV;
+		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
+		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
+		tongTien = tongTien + tienVAT + tienThueTTDB;
+		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+		txtTongTien.setText(df.format(tongTien) + " VNĐ");
 		handleEventInInput();
 		handleEventInBtn();
 	}
@@ -174,9 +180,7 @@ public class GD_ThanhToanController implements Initializable {
 			if (evt.getCode() == KeyCode.ENTER) {
 				CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
 				try {
-					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
-					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
-					long tongTien = tienPhong + tienDV;
+					long tongTien = df.parse(txtTongTien.getText()).longValue();
 					if (checkUseVoucher(ctkm)) {
 						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
 						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");
@@ -301,6 +305,8 @@ public class GD_ThanhToanController implements Initializable {
 	private Text txtTienPhong;
 	@FXML
 	private Text txtTienDichVu;
+	@FXML
+	private Text txtTienThue;
 	@FXML
 	private Text txtTongTien;
 	@FXML

@@ -150,7 +150,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
+                        <Text fx:id="txtTongTien" layoutX="150.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0 VNĐ" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -169,13 +169,13 @@
                                 </ImageView>
                             </children>
                         </HBox>
-                  <Text fx:id="txtTienDaGiam" layoutX="150.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
+                  <Text fx:id="txtTienDaGiam" layoutX="150.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0 VNĐ" wrappingWidth="220.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
                           <TextField fx:id="txtTienNhan" layoutX="150.0" layoutY="450.0" prefHeight="26.0" prefWidth="220.0" style="-fx-font-size: 16;" />
-                        <Text fx:id="txtTienThua" layoutX="150.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
+                        <Text fx:id="txtTienThua" layoutX="150.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0 VNĐ" wrappingWidth="220.0">
                             <font>
                                 <Font size="16.0" />
                             </font>
