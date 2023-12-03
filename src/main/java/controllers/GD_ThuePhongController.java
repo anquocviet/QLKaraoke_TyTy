@@ -34,6 +34,7 @@ import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
 import model.KhachHang;
 import model.NhanVien;
+import model.PhieuDatPhong;
 import model.Phong;
 
 /**
@@ -71,6 +72,24 @@ public class GD_ThuePhongController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
+
+        try {
+            if (Phong.getListPhongByStatus(1).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
+                KhachHang khachHang = PhieuDatPhong.getCustomerInfoByRoomID(GD_QLKinhDoanhPhongController.roomID);
+                txtTenKhachHang.setText(khachHang.getTenKhachHang());
+                txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
+                ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+                // Cập nhật dateThue với ngày hiện tại
+                dateThue.setValue(LocalDate.now());
+                // Cập nhật timeThue với thời gian hiện tại
+                LocalTime currentTime = LocalTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                String formattedTime = currentTime.format(formatter);
+                timeThue.setText(formattedTime);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         btnKiemTraSĐT.setOnAction(this::handleKiemTraSDT);
         btnExit.setOnAction(this::handleExit);
@@ -118,7 +137,7 @@ public class GD_ThuePhongController implements Initializable {
     }
 
     @FXML
-    public void handleExit(ActionEvent event)  {
+    public void handleExit(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
@@ -145,22 +164,21 @@ public class GD_ThuePhongController implements Initializable {
 
         int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
         String maHoaDon = phatSinhMaHoaDon(slHoaDon);
-        
-        
+
         String maNV = App.user;
         NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-        
+
         HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
         Phong p = Phong.getPhongTheoMaPhong(soPhong);
-        ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p , LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+        ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
         System.out.println(ctP);
         ChiTietHD_Phong.themChiTietHoaDon(ctP);
         HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
-        
+
         showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        
+
         try {
             App.setRoot("GD_QLKinhDoanhPhong");
         } catch (IOException ex) {
@@ -181,7 +199,7 @@ public class GD_ThuePhongController implements Initializable {
         alert.showAndWait();
     }
 
-    public String phatSinhMaHoaDon(int stt){
+    public String phatSinhMaHoaDon(int stt) {
         Date ngayLap = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMM");
         String ngayThangNam = dateFormat.format(ngayLap);
@@ -195,5 +213,5 @@ public class GD_ThuePhongController implements Initializable {
 
         return maHoaDon;
     }
-    
+
 }
