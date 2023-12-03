@@ -142,7 +142,7 @@ public class HoaDonThanhToan {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM HoaDonThanhToan JOIN KhachHang "
+            String sql = "SELECT * FROM HoaDonThanhToan "
                     + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang ";
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -155,12 +155,11 @@ public class HoaDonThanhToan {
                 String tenKH = rs.getString("TenKhachHang");
                 String sdtKH = rs.getString("SoDienThoai");
                 
-                dsHoaDon = (ObservableList<HoaDonThanhToan>) new HoaDonThanhToan(maHD,
+                dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH),
-                        new CT_KhuyenMai(maKM), ngayLap);
+                        new CT_KhuyenMai(maKM), ngayLap));
                 
-                //dsHoaDon.add(new HoaDonThanhToan(maHD, NhanVien.getNhanVienTheoMaNhanVien(maNV), new KhachHang(maKH, tenKH, sdtKH), new CT_KhuyenMai(maKM), ngayLap), ngayLap));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
