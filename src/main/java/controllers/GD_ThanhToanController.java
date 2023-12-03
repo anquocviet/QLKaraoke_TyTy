@@ -180,9 +180,7 @@ public class GD_ThanhToanController implements Initializable {
 			if (evt.getCode() == KeyCode.ENTER) {
 				CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
 				try {
-					long tienPhong = df.parse(txtTienPhong.getText()).longValue();
-					long tienDV = df.parse(txtTienDichVu.getText()).longValue();
-					long tongTien = tienPhong + tienDV;
+					long tongTien = df.parse(txtTongTien.getText()).longValue();
 					if (checkUseVoucher(ctkm)) {
 						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
 						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");

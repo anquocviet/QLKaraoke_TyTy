@@ -18,7 +18,6 @@ controllers/GD_DatDichVuController$4$1.class
 module-info.class
 controllers/GD_DatPhongChoController.class
 controllers/GD_QLPhongController$1.class
-controllers/PopupPhongController.class
 model/Phong.class
 model/ChiTietHD_DichVu.class
 controllers/GD_QLNhanVienController$3.class
