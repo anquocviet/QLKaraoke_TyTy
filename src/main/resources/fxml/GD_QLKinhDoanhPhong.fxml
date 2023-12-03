@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -85,7 +86,7 @@
             <Insets top="20.0" />
          </padding>
       </VBox>
-        <Pane layoutX="222.0" layoutY="129.0" prefHeight="106.0" prefWidth="1058.0">
+        <Pane layoutX="220.0" layoutY="129.0" prefHeight="106.0" prefWidth="1058.0">
          <HBox alignment="CENTER" layoutX="28.0" layoutY="15.0" spacing="16.0">
             <children>
        
@@ -129,6 +130,11 @@
                </HBox>
             </children>
          </HBox>
+         <Text layoutX="749.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số  người:">
+            <font>
+               <Font size="22.0" />
+            </font>
+         </Text>
          <HBox alignment="CENTER" layoutX="240.0" layoutY="63.0" spacing="19.0">
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại phòng:">
@@ -167,10 +173,11 @@
                     <Font size="20.0" />
                 </font>
             </Button>
+         <Spinner fx:id="spinnerSucChua" editable="true" layoutX="860.0" layoutY="8.0" prefHeight="36.0" prefWidth="191.0" style="-fx-font-size: 20;" />
         </Pane>
-        <ScrollPane hbarPolicy="NEVER" layoutX="217.0" layoutY="235.0" prefHeight="461.0" prefWidth="1065.0">
+        <ScrollPane hbarPolicy="NEVER" layoutX="220.0" layoutY="235.0" prefHeight="461.0" prefWidth="1060.0">
             <content>
-                <GridPane fx:id="gridPane" prefWidth="1040.0">
+                <GridPane fx:id="gridPane" prefWidth="1045.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -189,7 +196,7 @@
                               <Image url="@../image/Blue-screen.png" />
                           </image>
                       </ImageView>
-                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng trống">
+                      <Text fx:id="txtPhongTrong" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng trống">
                           <font>
                               <Font size="16.0" />
                           </font>
@@ -203,7 +210,7 @@
                               <Image url="@../image/Orange-screen.png" />
                           </image>
                       </ImageView>
-                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng chờ">
+                      <Text fx:id="txtPhongCho" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng chờ">
                           <font>
                               <Font size="16.0" />
                           </font>
@@ -217,7 +224,7 @@
                               <Image url="@../image/Red-screen.png" />
                           </image>
                       </ImageView>
-                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng đang sử dụng">
+                      <Text fx:id="txtPhongDangSD" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng đang sử dụng">
                           <font>
                               <Font size="16.0" />
                           </font>
@@ -231,7 +238,7 @@
                               <Image url="@../image/VIP.png" />
                           </image>
                       </ImageView>
-                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng VIP">
+                      <Text fx:id="txtPhongVIP" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng VIP">
                           <font>
                               <Font size="16.0" />
                           </font>

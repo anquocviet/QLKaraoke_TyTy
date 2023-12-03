@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -74,19 +73,19 @@ public class GD_DatDichVuController implements Initializable {
 //        Table Dich vu da them
 		dtSttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(tableDichVuDaThem.getItems().indexOf(param.getValue()) + 1));
 		dtTenDichVuCol.setCellValueFactory(cellData -> {
-			return new ReadOnlyObjectWrapper<String>(cellData.getValue().getDichVu().getTenDichVu());
+			return new ReadOnlyObjectWrapper<>(cellData.getValue().getDichVu().getTenDichVu());
 		});
 		dtDonGiaCol.setCellValueFactory(cellData -> {
 			long donGia = cellData.getValue().getDichVu().getDonGia();
 			DecimalFormat df = new DecimalFormat("#,###,###,##0.## VND");
-			return new ReadOnlyObjectWrapper<String>(df.format(donGia));
+			return new ReadOnlyObjectWrapper<>(df.format(donGia));
 		});
 		dtDaThemCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
 		dtThanhTienCol.setCellValueFactory(cellData -> {
 			int daThem = cellData.getValue().getSoLuong();
 			long donGia = cellData.getValue().getDichVu().getDonGia();
 			DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
-			return new ReadOnlyObjectWrapper<String>(df.format(daThem * donGia));
+			return new ReadOnlyObjectWrapper<>(df.format(daThem * donGia));
 		});
 		dtThemCol.setCellValueFactory(new PropertyValueFactory<>(""));
 		dtThemCol.setCellFactory(handleBtnAddTableDatDV());
@@ -134,12 +133,20 @@ public class GD_DatDichVuController implements Initializable {
 								try {
 									boolean flag = false;
 									DichVu dv = getTableView().getItems().get(getIndex());
+									if (dv.getSoLuong() == 0) {
+										Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+										alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+										alert.setTitle("Hết hàng");
+										alert.setHeaderText("Dịch vụ này đã hết");
+										alert.showAndWait();
+										return;
+									}
 									for (ChiTietHD_DichVu ct : dsDichVuDaDat) {
 										if (ct.getDichVu().equals(dv)) {
 											try {
 												flag = true;
 												ct.setSoLuong(ct.getSoLuong() + 1);
-											} catch (Exception ex) {
+											} catch (IllegalArgumentException ex) {
 												Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
 											}
 										}
@@ -155,12 +162,11 @@ public class GD_DatDichVuController implements Initializable {
 									loadDataFromTableToForm();
 
 								} catch (Exception ex) {
-									Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
-//									Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
-//									alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//									alert.setTitle("Hết hàng");
-//									alert.setHeaderText("Dịch vụ này đã hết");
-//									alert.showAndWait();
+									Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+									alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+									alert.setTitle("Hết hàng");
+									alert.setHeaderText("Dịch vụ này đã hết");
+									alert.showAndWait();
 								}
 								calcMoney();
 							});
@@ -197,7 +203,7 @@ public class GD_DatDichVuController implements Initializable {
 						} else {
 							btn.setOnAction(event -> {
 								ChiTietHD_DichVu ct = getTableView().getItems().get(getIndex());
-								ObservableList<DichVu> dsThongTinDV = dsThongTinDV = tableThongTinDichVu.getItems();
+								ObservableList<DichVu> dsThongTinDV = tableThongTinDichVu.getItems();
 								DichVu ttDichVu = dsThongTinDV.get(dsThongTinDV.indexOf(ct.getDichVu()));
 								if (ttDichVu.getSoLuong() > 0) {
 									try {
@@ -209,7 +215,8 @@ public class GD_DatDichVuController implements Initializable {
 										Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
 									}
 								} else {
-									Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
+									Alert alert;
+									alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn dịch vụ khác", ButtonType.OK);
 									alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
 									alert.setTitle("Hết hàng");
 									alert.setHeaderText("Dịch vụ này đã hết");
@@ -309,7 +316,7 @@ public class GD_DatDichVuController implements Initializable {
 							btn.setOnAction(event -> {
 								try {
 									ChiTietHD_DichVu ct = getTableView().getItems().get(getIndex());
-									ObservableList<DichVu> dsThongTinDV = dsThongTinDV = tableThongTinDichVu.getItems();
+									ObservableList<DichVu> dsThongTinDV = tableThongTinDichVu.getItems();
 									DichVu ttDichVu = dsThongTinDV.get(dsThongTinDV.indexOf(ct.getDichVu()));
 
 									Alert alert = new Alert(Alert.AlertType.WARNING, "Nhấn YES để xác nhận, NO để hủy", ButtonType.YES, ButtonType.NO);
@@ -341,21 +348,13 @@ public class GD_DatDichVuController implements Initializable {
 	}
 
 	public void handleEventInTableThongTin() {
-		tableThongTinDichVu.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
+		tableThongTinDichVu.setOnMouseClicked((MouseEvent event) -> {
+			loadDataFromTableToForm();
+		});
+		tableThongTinDichVu.setOnKeyPressed((KeyEvent event) -> {
+			if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
 				loadDataFromTableToForm();
 			}
-
-		});
-		tableThongTinDichVu.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
-					loadDataFromTableToForm();
-				}
-			}
-
 		});
 	}
 

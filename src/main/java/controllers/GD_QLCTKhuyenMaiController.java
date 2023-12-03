@@ -146,7 +146,6 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         btnDelete.setOnAction(this::handleXoaKhuyenMaiButtonAction);
         btnRefresh.setOnAction(this::handleLamMoiButtonAction);
         btnSearch.setOnAction(this::handleTimKhuyenMaiButtonAction);
-
     }
 
     public void handleThemKhuyenMaiButtonAction(ActionEvent event) {

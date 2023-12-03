@@ -4,12 +4,12 @@ T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNgayControlle
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\BillController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\KhachHang.java
-T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\PopupPhongController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_DichVu.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DatPhongChoController.java
+T:\PTUD Project\QLKaraoke_TyTy\src\main\java\main\AppPreloader.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\CT_KhuyenMai.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThanhToanController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
@@ -28,6 +28,7 @@ T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLCTKhuyenMaiControl
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\enums\Enum_Nvien.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLPhongController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKinhDoanhPhongController.java
+T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\SplashController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\Phong.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\connection.java

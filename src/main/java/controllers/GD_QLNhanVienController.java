@@ -38,7 +38,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -101,16 +100,26 @@ public class GD_QLNhanVienController implements Initializable {
     @FXML
     private Button btnUpdate;
 
+    private String currentMaNhanVien;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         genderGroup = new ToggleGroup();
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
-//        try {
-//            txtMaNhanVien.setText( phatSinhMaNhanVien());
-//        } catch (Exception ex) {
-//            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
+
+        dateNgaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                NhanVien nv = table.getSelectionModel().getSelectedItem();
+                if (nv == null) {
+                    currentMaNhanVien = phatSinhMaNhanVien();
+                    txtMaNhanVien.setText(currentMaNhanVien);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
         colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
@@ -132,7 +141,6 @@ public class GD_QLNhanVienController implements Initializable {
                 chucVuString = "Quản lý";
             }
             return new ReadOnlyStringWrapper(chucVuString);
-
         });
         colGioiTinh.setCellValueFactory(cellData -> {
             boolean gioiTinh = cellData.getValue().isGioiTinh();
@@ -173,9 +181,14 @@ public class GD_QLNhanVienController implements Initializable {
         txtCCCD.setText(nv.getCccd());
         txtHoTen.setText(nv.getHoTen());
         dateNgaySinh.setValue(nv.getNgaySinh());
+//        cbbChucVu.getItems().clear();
+//        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+//        cbbChucVu.setValue(nv.getChucVu());
         cbbChucVu.getItems().clear();
-        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
-        cbbChucVu.setValue(nv.getChucVu());
+        for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
+            cbbChucVu.getItems().add(chucVuToString(chucVu));
+        }
+        cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
         txtSoDienThoaiNV.setText(nv.getSoDienThoai());
         txtDiaChi.setText(nv.getDiaChi());
         if (nv.isGioiTinh()) {
@@ -260,24 +273,33 @@ public class GD_QLNhanVienController implements Initializable {
         txtMaNhanVien.setText("");
         txtCCCD.setText("");
         txtHoTen.setText("");
-        dateNgaySinh.setValue(null);
+        dateNgaySinh.setValue(LocalDate.now());
         txtSoDienThoaiNV.setText("");
         txtDiaChi.setText("");
         genderGroup.getToggles().get(0).setSelected(true);
         cbbChucVu.setValue(null);
         imgNV.setImage(new Image("file:src/main/resources/image/employe.png"));
         table.getSelectionModel().clearSelection();
-
-        // Cập nhật dữ liệu trong ComboBox
         cbbChucVu.getItems().clear();
-        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+        //cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+//        cbbChucVu.getItems().clear();
+        for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
+            cbbChucVu.getItems().add(chucVuToString(chucVu));
+        }
         cbbChucVu.getSelectionModel().selectFirst();
+        //cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
     }
 
     private boolean kiemTraRong() throws Exception {
         String cccd = txtCCCD.getText();
         String soDienThoai = txtSoDienThoaiNV.getText();
 
+        if (txtMaNhanVien.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return false;
+        }
         if (txtCCCD.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "CCCD nhân viên không được rỗng");
             txtCCCD.selectAll();
@@ -293,6 +315,12 @@ public class GD_QLNhanVienController implements Initializable {
         }
         if (dateNgaySinh.getValue() == null) {
             JOptionPane.showMessageDialog(null, "Ngày sinh không được rỗng");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+        
+        if ((LocalDate.now().getYear() - dateNgaySinh.getValue().getYear()) < 18) {
+            JOptionPane.showMessageDialog(null, "Nhân viên phải từ 18 trở lên");
             dateNgaySinh.requestFocus();
             return false;
         }
@@ -325,7 +353,8 @@ public class GD_QLNhanVienController implements Initializable {
             return;
         }
         NhanVien nv = null;
-        String maNhanVien = phatSinhMaNhanVien();
+//        String maNhanVien = phatSinhMaNhanVien();
+        String maNhanVien = currentMaNhanVien;
         String hoTen = txtHoTen.getText();
         String cccd = txtCCCD.getText();
         String soDienThoai = txtSoDienThoaiNV.getText();
@@ -335,7 +364,9 @@ public class GD_QLNhanVienController implements Initializable {
         if (genderGroup.getToggles().get(1).isSelected()) {
             gioiTinh = false;
         }
-        Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue();
+//        Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue();
+        String chucVuString = (String) cbbChucVu.getValue();
+        Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
         String anhDaiDien = imgNV.getImage().getUrl();
 
@@ -370,12 +401,17 @@ public class GD_QLNhanVienController implements Initializable {
         if (genderGroup.getToggles().get(1).isSelected()) {
             gioiTinh = false;
         }
-        Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue();
+
+        String chucVuString = (String) cbbChucVu.getValue();
+        Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
 
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
 
-        String anhDaiDien = imgNV.getStyle();
-
+//        String anhDaiDien = imgNV.getStyle();
+        String anhDaiDienUrl = imgNV.getImage().getUrl();
+        File file = new File(anhDaiDienUrl);
+        String anhDaiDien = file.getName();
+        System.out.println(anhDaiDien);
         NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.capNhatThongTinNhanVien(nv);
 
@@ -383,15 +419,6 @@ public class GD_QLNhanVienController implements Initializable {
         table.refresh();
     }
 
-//    public String phatSinhMaNhanVien() throws SQLException {
-//        String maNhanVien = "NV";
-//        int totalEmployees = NhanVien.demSLNhanVien();
-//        DecimalFormat dfSoThuTu = new DecimalFormat("00");
-//        String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
-//        String namSinhSuffix = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
-//        maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
-//        return maNhanVien;
-//    }
     public String phatSinhMaNhanVien() throws SQLException {
         String maNhanVien = "NV";
         LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
@@ -422,6 +449,46 @@ public class GD_QLNhanVienController implements Initializable {
             }
         }
         return true;
+    }
+
+    public boolean kiemTraTrungMaNV(String maNV) throws Exception {
+        ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        for (NhanVien NV : dsNhanVien) {
+            if (maNV.equals(NV.getMaNhanVien())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String chucVuToString(Enum_ChucVu chucVu) {
+        switch (chucVu) {
+            case BAOVE:
+                return "Bảo vệ";
+            case NHANVIENPHUCVU:
+                return "Nhân viên phục vụ";
+            case NHANVIENTIEPTAN:
+                return "Nhân viên tiếp tân";
+            case QUANLY:
+                return "Quản lý";
+            default:
+                return "";
+        }
+    }
+
+    public Enum_ChucVu chucVuToStringDB(String chucVu) {
+        switch (chucVu) {
+            case "Bảo vệ":
+                return Enum_ChucVu.BAOVE;
+            case "Nhân viên phục vụ":
+                return Enum_ChucVu.NHANVIENPHUCVU;
+            case "Nhân viên tiếp tân":
+                return Enum_ChucVu.NHANVIENTIEPTAN;
+            case "Quản lý":
+                return Enum_ChucVu.QUANLY;
+            default:
+                return null;
+        }
     }
 
 }
