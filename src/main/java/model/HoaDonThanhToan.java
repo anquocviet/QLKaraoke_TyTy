@@ -142,7 +142,7 @@ public class HoaDonThanhToan {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM HoaDonThanhToan JOIN KhachHang "
+            String sql = "SELECT * FROM HoaDonThanhToan "
                     + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang ";
 
             ResultSet rs = stmt.executeQuery(sql);
