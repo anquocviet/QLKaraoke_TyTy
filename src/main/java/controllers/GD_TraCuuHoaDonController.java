@@ -39,25 +39,114 @@ import model.HoaDonThanhToan;
  */
 public class GD_TraCuuHoaDonController implements Initializable {
 
+    private DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         maHoaDonCol.setCellValueFactory(new PropertyValueFactory<>("maHoaDon"));
-        tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
-        sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+        tenKHCol.setCellValueFactory(cellData -> {
+            String tenKhachHang = cellData.getValue().getKhachHang().getTenKhachHang();
+            return new ReadOnlyStringWrapper(tenKhachHang);
+        });
+        sdtCol.setCellValueFactory(cellData -> {
+            String soDienThoai = cellData.getValue().getKhachHang().getSoDienThoai();
+            return new ReadOnlyStringWrapper(soDienThoai);
+        });
         ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
-    
+
         danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
         tableHoaDon.setItems(danhSach_HoaDon);
         tableHoaDon.requestFocus();
         handleEventInTable();
+
+        tableHoaDon.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                String maHD = newSelection.getMaHoaDon();
+                try {
+                    tenDichVuCol.setCellValueFactory(cellData -> {
+                        String tenDichVu = cellData.getValue().getDichVu().getTenDichVu();
+                        return new ReadOnlyStringWrapper(tenDichVu);
+                    });
+                    soLuongCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+                    donViTinhCol.setCellValueFactory(cellData -> {
+                        String donViTinh = cellData.getValue().getDichVu().getDonViTinh();
+                        return new ReadOnlyStringWrapper(donViTinh);
+                    });
+                    thanhTienDVCol.setCellValueFactory(cellData -> {
+                        long thanhTien = cellData.getValue().getThanhTien();
+                        return new ReadOnlyObjectWrapper<>(thanhTien);
+                    });
+
+                    tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
+                } catch (Exception ex) {
+                    Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    maPhongCol.setCellValueFactory((param) -> {
+                        String maPhong = param.getValue().getPhong().getMaPhong();
+                        return new ReadOnlyObjectWrapper<>(maPhong);
+                    });
+                    loaiPhongCol.setCellValueFactory((param) -> {
+                        if (param.getValue().getPhong() == null) {
+                            return new ReadOnlyObjectWrapper<>();
+                        }
+                        String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
+                        return new ReadOnlyObjectWrapper<>(loaiPhong);
+                    });
+                    gioVaoCol.setCellValueFactory((param) -> {
+                        if (param.getValue().getGioVao() == null) {
+                            return new ReadOnlyObjectWrapper<>();
+                        }
+                        String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+                        return new ReadOnlyObjectWrapper<>(gioVao);
+                    });
+                    gioRaCol.setCellValueFactory((param) -> {
+                        if (param.getValue().getGioRa() == null) {
+                            return new ReadOnlyObjectWrapper<>();
+                        }
+                        String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+                        return new ReadOnlyObjectWrapper<>(gioRa);
+                    });
+                    gioSuDungCol.setCellValueFactory((param) -> {
+                        if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
+                            return new ReadOnlyObjectWrapper<>();
+                        }
+                        String gioSuDung = df.format(param.getValue().tinhTongGioSuDung());
+                        return new ReadOnlyObjectWrapper<>(gioSuDung);
+                    });
+                    donGiaCol.setCellValueFactory((param) -> {
+                        if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
+                            return new ReadOnlyObjectWrapper<>();
+                        }
+                        long donGia = param.getValue().getPhong().getGiaPhong();
+                        return new ReadOnlyObjectWrapper<>(df.format(donGia));
+                    });
+                    thanhTienCol.setCellValueFactory((param) -> {
+                        return new ReadOnlyObjectWrapper<>(df.format(param.getValue().tinhThanhTien()));
+                    });
+
+                    ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
+                    dsPhong.forEach(ct -> {
+                        try {
+                            ct.setGioRa(LocalDateTime.now());
+                        } catch (Exception ex) {
+                            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    tablePhong.setItems(dsPhong);
+                } catch (Exception ex) {
+                    Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
-    
+
     public void handleEventInTable() {
         tableHoaDon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
             }
-
         });
         tableHoaDon.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -65,7 +154,6 @@ public class GD_TraCuuHoaDonController implements Initializable {
                 if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
                 }
             }
-
         });
     }
 
@@ -118,7 +206,7 @@ public class GD_TraCuuHoaDonController implements Initializable {
     private Button btnTimKiem;
     @FXML
     private Button btnXoaTrang;
-    
+
     ObservableList<HoaDonThanhToan> danhSach_HoaDon;
 
 }

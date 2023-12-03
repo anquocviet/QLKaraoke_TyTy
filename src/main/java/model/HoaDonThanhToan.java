@@ -154,12 +154,15 @@ public class HoaDonThanhToan {
                 LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
                 String tenKH = rs.getString("TenKhachHang");
                 String sdtKH = rs.getString("SoDienThoai");
-                
+
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+
                 dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
-                        new KhachHang(maKH, tenKH),
+                        new KhachHang(maKH, tenKH, sdtKH),
                         new CT_KhuyenMai(maKM), ngayLap));
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);

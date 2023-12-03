@@ -1,5 +1,6 @@
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNamController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNgayController.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\main\AppPreloader.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\connection.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\main\App.java
@@ -23,13 +24,13 @@ C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\enums\Enum_Nvien.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_TraCuuHoaDonController.java
-C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\CT_KhuyenMai.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\enums\Enum_LoaiPhong.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKinhDoanhPhongController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_ThanhToanController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\connect\ConnectDB.java
+C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\SplashController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\enums\Enum_ChucVu.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
 C:\PTUD\QLKaraoke_TyTy\src\main\java\controllers\BillController.java

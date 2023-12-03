@@ -69,6 +69,11 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
 		handleEventInRadioButton();
 		handleEventInButton();
+		
+		txtPhongTrong.setText(String.format("Phòng trống(%s)", Phong.countStatusRoom(0)));
+		txtPhongCho.setText(String.format("Phòng chờ(%s)", Phong.countStatusRoom(2)));
+		txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", Phong.countStatusRoom(1)));
+		txtPhongVIP.setText(String.format("Phòng VIP(%s)", Phong.countTypeRoom(1)));
 	}
 
 	public void renderArrayPhong(ObservableList<Phong> listPhong) {
@@ -308,6 +313,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				alertSucces.setTitle("Thành công");
 				alertSucces.setHeaderText("Hủy phòng chờ thành công!");
 				alertSucces.showAndWait();
+				txtPhongTrong.setText(String.format("Phòng trống(%s)", Phong.countStatusRoom(0)));
+				txtPhongCho.setText(String.format("Phòng chờ(%s)", Phong.countStatusRoom(2)));
 			}
 		}
 	}
@@ -368,6 +375,14 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	private GridPane gridPane;
 	@FXML
 	private Text txtMaPhong;
+	@FXML
+	private Text txtPhongTrong;
+	@FXML
+	private Text txtPhongCho;
+	@FXML
+	private Text txtPhongDangSD;
+	@FXML
+	private Text txtPhongVIP;
 	@FXML
 	private RadioButton radioTypeAll;
 	@FXML
