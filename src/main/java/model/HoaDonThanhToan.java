@@ -351,4 +351,42 @@ public class HoaDonThanhToan {
         return n > 0;
     }
 
+    public static HoaDonThanhToan getBillByCustomer(String customerID) {
+        HoaDonThanhToan bill = null;
+        Connection conn = ConnectDB.getConnection();
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(
+                "SELECT * FROM HoaDonThanhToan "
+                + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                + "WHERE HoaDonThanhToan.MaKhachHang = ?")) {
+
+            preparedStatement.setString(1, customerID);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    String maHD = rs.getString("MaHoaDon");
+                    String maKH = rs.getString("MaKhachHang");
+                    String maNV = rs.getString("MaNhanVien");
+                    String maKM = rs.getString("MaKhuyenMai");
+                    LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
+                    String tenKH = rs.getString("TenKhachHang");
+                    String sdtKH = rs.getString("SoDienThoai");
+                    int namSinhKH = rs.getInt("NamSinh");
+                    boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+
+                    bill = new HoaDonThanhToan(maHD,
+                            NhanVien.getNhanVienTheoMaNhanVien(maNV),
+                            new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
+                            new CT_KhuyenMai(maKM), ngayLap);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return bill;
+    }
+
 }
