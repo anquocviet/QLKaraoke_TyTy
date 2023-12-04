@@ -7,7 +7,6 @@ package model;
 import connect.ConnectDB;
 import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class PhieuDatPhong {
+public final class PhieuDatPhong {
 
 	private String maPhieuDat;
 	private KhachHang khachHang;
@@ -172,8 +171,8 @@ public class PhieuDatPhong {
 				String maPhong = rs.getString("MaPhong");
 				String maKH = rs.getString("MaKhachHang");
 				String maNV = rs.getString("MaNhanVien");
-				LocalDateTime thoiGianLap = rs.getDate("ThoiGianLap").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				LocalDateTime thoiGianNhan = rs.getDate("ThoiGianNhan").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				LocalDateTime thoiGianLap = rs.getTimestamp("ThoiGianLap").toLocalDateTime();
+				LocalDateTime thoiGianNhan = rs.getTimestamp("ThoiGianNhan").toLocalDateTime();
 				String ghiChu = rs.getString("GhiChu");
 				dsPhieu.add(new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, ghiChu));
 			}
