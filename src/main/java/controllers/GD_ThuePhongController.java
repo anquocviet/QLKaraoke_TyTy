@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,25 +76,26 @@ public class GD_ThuePhongController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
 
-        try {
-            if (Phong.getListPhongByStatus(2).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
-                KhachHang khachHang = PhieuDatPhong.getCustomerInfoByRoomID(GD_QLKinhDoanhPhongController.roomID);
-                txtSDTKhachHang.setText(khachHang.getSoDienThoai());
-                txtTenKhachHang.setText(khachHang.getTenKhachHang());
-                txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
-                ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
-                // Cập nhật dateThue với ngày hiện tại
-                dateThue.setValue(LocalDate.now());
-                // Cập nhật timeThue với thời gian hiện tại
-                LocalTime currentTime = LocalTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                String formattedTime = currentTime.format(formatter);
-                timeThue.setText(formattedTime);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            if (Phong.getListPhongByStatus(2).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
+//                KhachHang khachHang = PhieuDatPhong.getCustomerInfoByRoomID(GD_QLKinhDoanhPhongController.roomID);
+//                txtSDTKhachHang.setText(khachHang.getSoDienThoai());
+//                txtTenKhachHang.setText(khachHang.getTenKhachHang());
+//                txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
+//                ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+//                // Cập nhật dateThue với ngày hiện tại
+//                dateThue.setValue(LocalDate.now());
+//                // Cập nhật timeThue với thời gian hiện tại
+//                LocalTime currentTime = LocalTime.now();
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//                String formattedTime = currentTime.format(formatter);
+//                timeThue.setText(formattedTime);
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
+        txtSDTKhachHang.setOnAction(this::handleKiemTraSDT);
         btnKiemTraSĐT.setOnAction(this::handleKiemTraSDT);
         btnExit.setOnAction(this::handleExit);
         btnRefresh.setOnAction(this::handleRefresh);
