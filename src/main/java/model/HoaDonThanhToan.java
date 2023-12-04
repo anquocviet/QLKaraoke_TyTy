@@ -157,10 +157,10 @@ public class HoaDonThanhToan {
 				int namSinhKH = rs.getInt("NamSinh");
 				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
                 
-                dsHoaDon = (ObservableList<HoaDonThanhToan>) new HoaDonThanhToan(maHD,
+                dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLap);                
+                        new CT_KhuyenMai(maKM), ngayLap));             
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);

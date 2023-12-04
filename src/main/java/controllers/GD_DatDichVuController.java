@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -80,7 +82,11 @@ public class GD_DatDichVuController implements Initializable {
 			DecimalFormat df = new DecimalFormat("#,###,###,##0.## VND");
 			return new ReadOnlyObjectWrapper<>(df.format(donGia));
 		});
-		dtDaThemCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+		dtDaThemCol.setCellValueFactory(cellData -> {
+			int daThem = cellData.getValue().getSoLuong();
+			return new ReadOnlyObjectWrapper<>(daThem + "");
+		});
+		dtDaThemCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		dtThanhTienCol.setCellValueFactory(cellData -> {
 			int daThem = cellData.getValue().getSoLuong();
 			long donGia = cellData.getValue().getDichVu().getDonGia();
@@ -102,6 +108,7 @@ public class GD_DatDichVuController implements Initializable {
 				return r == 0 ? 1 : r;
 			}
 		});
+		tableDichVuDaThem.setEditable(true);
 		renderInfoInGuiWithRoomID(roomID);
 
 		calcMoney();
@@ -155,10 +162,8 @@ public class GD_DatDichVuController implements Initializable {
 										dsDichVuDaDat.add(new ChiTietHD_DichVu(bill, dv, 1));
 									}
 									dv.setSoLuong(dv.getSoLuong() - 1);
-									getTableView().refresh();
-									tableDichVuDaThem.refresh();
-									getTableView().requestFocus();
-									getTableView().getSelectionModel().select(getIndex());
+									refreshTableThongTin();
+									refreshTableDaDat();
 									loadDataFromTableToForm();
 
 								} catch (Exception ex) {
@@ -209,8 +214,8 @@ public class GD_DatDichVuController implements Initializable {
 									try {
 										ct.setSoLuong(ct.getSoLuong() + 1);
 										ttDichVu.setSoLuong(ttDichVu.getSoLuong() - 1);
-										getTableView().refresh();
-										tableThongTinDichVu.refresh();
+										refreshTableThongTin();
+										refreshTableDaDat();
 									} catch (Exception ex) {
 										Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
 									}
@@ -275,8 +280,8 @@ public class GD_DatDichVuController implements Initializable {
 											return;
 										}
 									}
-									getTableView().refresh();
-									tableThongTinDichVu.refresh();
+									refreshTableThongTin();
+									refreshTableDaDat();
 								} catch (Exception ex) {
 									Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
 								}
@@ -347,6 +352,59 @@ public class GD_DatDichVuController implements Initializable {
 		});
 	}
 
+	@FXML
+	public void changeQtyAddedTable(TableColumn.CellEditEvent edittedCell) throws Exception {
+		ChiTietHD_DichVu ct = tableDichVuDaThem.getSelectionModel().getSelectedItem();
+		String newValueStr = edittedCell.getNewValue().toString();
+		DichVu dv = tableThongTinDichVu.getItems().get(tableThongTinDichVu.getItems().indexOf(ct.getDichVu()));
+		if (!Pattern.matches("\\d*", newValueStr) || Integer.parseInt(newValueStr) < 0) {
+			refreshTableDaDat();
+			return;
+		}
+		int newValue = Integer.parseInt(newValueStr);
+		if (dv.getSoLuong() < newValue - ct.getSoLuong()) {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Nhấn YES để đặt với số còn lại, NO để hủy.", ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle(dv.getTenDichVu() + " không đủ số lượng");
+			alert.setHeaderText(String.format("%s hiện tại chỉ còn %s %s, bạn có muốn đặt với số lượng còn lại không?", dv.getTenDichVu(), dv.getSoLuong(), dv.getDonViTinh()));
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.YES) {
+				ct.setSoLuong(ct.getSoLuong() + dv.getSoLuong());
+				dv.setSoLuong(0);
+				refreshTableThongTin();
+				refreshTableDaDat();
+				return;
+			} else {
+				refreshTableDaDat();
+				return;
+			}
+		}
+		if (newValue == 0) {
+			Alert alert = new Alert(Alert.AlertType.WARNING, "Nhấn YES để xác nhận, NO để hủy", ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+			alert.setTitle("Thông báo");
+			alert.setHeaderText("Bạn có chắc muốn bỏ " + ct.getDichVu().getTenDichVu() + " ra khỏi danh sách đặt của mình không?");
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.YES) {
+				dv.setSoLuong(dv.getSoLuong() + ct.getSoLuong());
+				tableDichVuDaThem.getItems().remove(ct);
+				refreshTableThongTin();
+				return;
+			} else {
+				refreshTableDaDat();
+				return;
+			}
+		}
+		if (ct.getSoLuong() < newValue) {
+			dv.setSoLuong(dv.getSoLuong() - (newValue - ct.getSoLuong()));
+		} else {
+			dv.setSoLuong(dv.getSoLuong() + (ct.getSoLuong() - newValue));
+		}
+		ct.setSoLuong(newValue);
+		refreshTableThongTin();
+		refreshTableDaDat();
+	}
+
 	public void handleEventInTableThongTin() {
 		tableThongTinDichVu.setOnMouseClicked((MouseEvent event) -> {
 			loadDataFromTableToForm();
@@ -412,6 +470,18 @@ public class GD_DatDichVuController implements Initializable {
 			renderInfoInGuiWithRoomID(roomID);
 		});
 	}
+	
+	public void refreshTableThongTin() {
+		int index = tableThongTinDichVu.getSelectionModel().getSelectedIndex();
+		tableThongTinDichVu.refresh();
+		tableThongTinDichVu.getSelectionModel().select(index);
+	}
+	
+	public void refreshTableDaDat() {
+		int index = tableDichVuDaThem.getSelectionModel().getSelectedIndex();
+		tableDichVuDaThem.refresh();
+		tableDichVuDaThem.getSelectionModel().select(index);
+	}
 
 	public void renderInfoInGuiWithRoomID(String roomID) {
 		txtMaHoaDon.setText(HoaDonThanhToan.getBillIDByRoomID(roomID));
@@ -430,6 +500,7 @@ public class GD_DatDichVuController implements Initializable {
 	public void calcMoney() {
 		long money = 0;
 		for (ChiTietHD_DichVu ct : dsDichVuDaDat) {
+			System.out.println(ct.toString());
 			money += ct.getThanhTien();
 		}
 		DecimalFormat df = new DecimalFormat("#,###,###,##0.## VND");
@@ -480,7 +551,7 @@ public class GD_DatDichVuController implements Initializable {
 	@FXML
 	private TableColumn<ChiTietHD_DichVu, String> dtDonGiaCol;
 	@FXML
-	private TableColumn<ChiTietHD_DichVu, Integer> dtDaThemCol;
+	private TableColumn<ChiTietHD_DichVu, String> dtDaThemCol;
 	@FXML
 	private TableColumn<ChiTietHD_DichVu, String> dtThanhTienCol;
 	@FXML
