@@ -68,9 +68,9 @@
                   <TableColumn fx:id="maPhongCol" editable="false" prefWidth="108.00000005960464" resizable="false" text="Mã phòng" />
                   <TableColumn fx:id="loaiPhongCol" editable="false" prefWidth="116.00003051757812" resizable="false" text="Loại phòng" />
                   <TableColumn fx:id="soNguoiCol" editable="false" minWidth="0.0" prefWidth="106.39996337890625" resizable="false" text="Số Người" />
-                  <TableColumn fx:id="trangThaiCol" editable="false" minWidth="0.0" prefWidth="113.60003662109375" resizable="false" text="Trạng thái" />
-                  <TableColumn fx:id="giaTienMoiGioCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="124.0" resizable="false" text="Giá tiền" />
-                  <TableColumn fx:id="tongGioSuDungCol" editable="false" prefWidth="227.99993896484375" resizable="false" text="Giờ sử dụng tối đa" />
+                  <TableColumn fx:id="trangThaiCol" editable="false" minWidth="0.0" prefWidth="107.20001220703125" resizable="false" text="Trạng thái" />
+                  <TableColumn fx:id="giaTienMoiGioCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="140.79998779296875" resizable="false" text="Giá tiền" />
+                  <TableColumn fx:id="tongGioSuDungCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="219.199951171875" resizable="false" text="Giờ sử dụng tối đa" />
                </columns>
             </TableView>
          </content>

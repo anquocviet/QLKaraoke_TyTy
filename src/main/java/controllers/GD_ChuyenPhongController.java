@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -90,9 +92,7 @@ public class GD_ChuyenPhongController implements Initializable {
             long giaPhong = cellData.getValue().getGiaPhong();
             return new ReadOnlyStringWrapper(giaPhong + "K/H");
         });
-        tongGioSuDungCol.setCellValueFactory(new PropertyValueFactory<>("tongGioSuDungCol"));
 
-        // Tạo một CellFactory để xử lý giá trị hiển thị cho cột
         try {
             dataPhong();
         } catch (Exception ex) {
@@ -123,21 +123,18 @@ public class GD_ChuyenPhongController implements Initializable {
 
     @FXML
     void handleRefresh(ActionEvent event) throws Exception {
-        table.refresh();
         dataPhong();
         table.setItems(listPhong);
-        // handleEventInTable();
         lblPhongMoi.setText("");
+        txtSearch.setText("");
     }
-//  Render and handle in View'
-
+    
     public void docDuLieuTuTable() {
         Phong cp = table.getSelectionModel().getSelectedItem();
         if (cp == null) {
             return;
         }
         lblPhongMoi.setText(cp.getMaPhong());
-
     }
 
 //  lấy dữ liệu phòng có thể chuyển 
@@ -146,32 +143,36 @@ public class GD_ChuyenPhongController implements Initializable {
         listPhong.addAll(Phong.getListPhongByStatus(2));
         ObservableList<PhieuDatPhong> listPhieuPhongDaDat = PhieuDatPhong.getAllBookingTicket();
 
-        for (PhieuDatPhong phieuDatPhong : listPhieuPhongDaDat) {
-
-            float time = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 3600;
-            if (time >= 2) {
-                tongGioSuDungCol.setCellValueFactory(cellData -> {
-
-                    float gioSuDung = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 60;
-                    long minus = (long) gioSuDung % 60;
-                    long hour = ((long) gioSuDung - minus) / 60;
-
+        ObservableList<String> listTongGio = FXCollections.observableArrayList();
+        ObservableList<Phong> listXoa = FXCollections.observableArrayList();
+        for (Phong phong : listPhong) {
+            boolean hasMatchingPhieuDatPhong = false;
+            boolean checkXoa = false;
+            for (PhieuDatPhong phieuDatPhong : listPhieuPhongDaDat) {
+                if (phong.equals(phieuDatPhong.getPhong())) {
+                    float time = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 3600;
                     if (time >= 2) {
-                        try {
-                        } catch (Exception ex) {
-                            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        return new ReadOnlyStringWrapper(hour + " giờ " + minus + " phút");
+                        float gioSuDung = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 60;
+                        long minus = (long) gioSuDung % 60;
+                        long hour = ((long) gioSuDung - minus) / 60;
+                        listTongGio.add(hour + " giờ " + minus + " phút");
+                        listPhieuPhongDaDat.remove(phieuDatPhong);
+                        hasMatchingPhieuDatPhong = true;
+                        break;
                     } else {
-                        return new ReadOnlyStringWrapper("Đến khi trả phòng hoặc đóng cửa");
+                        checkXoa = true;
+                        listXoa.add(phong);
+                        break;
                     }
-                });
-            } else {
-                listPhong.remove(Phong.getPhongTheoMaPhong(phieuDatPhong.getPhong().getMaPhong()));
+                }
+            }
+            if (!hasMatchingPhieuDatPhong && checkXoa == false) {
+                listTongGio.add("Đến khi trả phòng hoặc đóng cửa");
             }
 
         }
-        //FXCollections.sort(listPhong, (obj1, obj2) -> obj1.getMaPhong().compareTo(obj2.getMaPhong()));
+        listPhong.removeAll(listXoa);
+        tongGioSuDungCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(listTongGio.get(table.getItems().indexOf(param.getValue()))));
     }
 
     @FXML

@@ -252,7 +252,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			} else if (newValue.equals(radioTypeNormal)) {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{0, 0}, arrStatus, capacity);
-				;
 			} else {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{1, 1}, arrStatus, capacity);
