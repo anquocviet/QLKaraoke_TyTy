@@ -58,7 +58,7 @@ public class BillController implements Initializable {
 					dtf.format(gioVao),
 					dtf.format(gioRa),
 					String.format("%dgiờ:%dphút", hours, minutes));
-			return new ReadOnlyObjectWrapper<String>(kqHienThi);
+			return new ReadOnlyObjectWrapper<>(kqHienThi);
 		});
 		giaPhongCol.setCellValueFactory((param) -> {
 			if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
@@ -68,7 +68,7 @@ public class BillController implements Initializable {
 			return new ReadOnlyObjectWrapper<>(df.format(donGia));
 		});
 		tienPhongCol.setCellValueFactory((param) -> {
-			return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
+			return new ReadOnlyObjectWrapper<>(df.format(param.getValue().tinhThanhTien()));
 		});
 		ObservableList<ChiTietHD_Phong> dsPhong =  ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
 		tablePhong.setItems(dsPhong);
@@ -106,7 +106,6 @@ public class BillController implements Initializable {
 		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
 		txtTienThueVAT.setText(df.format(tienVAT) + "đ");
 		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
-		txtTienThueTTDB.setText(df.format(tienThueTTDB) + "đ");
 		txtLuongGiamGia.setText(String.format("Giảm giá (%s%%):", hd.getKhuyenMai().getChietKhau()));
 		long tienGiamGia = (long) (tongTien * hd.getKhuyenMai().getChietKhau() / 100.0);
 		txtGiamGia.setText(df.format(tienGiamGia) + "đ");
@@ -155,8 +154,6 @@ public class BillController implements Initializable {
 	private Text txtTongTien;
 	@FXML
 	private Text txtTienThueVAT;
-	@FXML
-	private Text txtTienThueTTDB;
 	@FXML
 	private Text txtLuongGiamGia;
 	@FXML
