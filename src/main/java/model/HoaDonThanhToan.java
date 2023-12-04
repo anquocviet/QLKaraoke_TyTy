@@ -177,6 +177,63 @@ public class HoaDonThanhToan {
         return dsHoaDon;
     }
 
+    public static ObservableList<HoaDonThanhToan> timHoaDon(String maHoaDon, String tenKH, String sdt, LocalDateTime ngayLap) {
+        ObservableList<HoaDonThanhToan> ketQuaTimKiem = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            // Xây dựng câu truy vấn tìm kiếm dựa trên thông tin nhập vào
+            String sql = "SELECT * FROM HoaDonThanhToan "
+                    + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE MaHoaDon LIKE ? AND TenKhachHang LIKE ? AND SoDienThoai LIKE ? "
+                    + "AND (NgayLap >= ? OR ? IS NULL)";
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + maHoaDon + "%");
+            preparedStatement.setString(2, "%" + tenKH + "%");
+            preparedStatement.setString(3, "%" + sdt + "%");
+            if (ngayLap != null) {
+                preparedStatement.setTimestamp(4, Timestamp.valueOf(ngayLap));
+            } else {
+                preparedStatement.setNull(4, java.sql.Types.TIMESTAMP);
+            }
+            preparedStatement.setNull(5, java.sql.Types.TIMESTAMP);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String maHD = rs.getString("MaHoaDon");
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                String maKM = rs.getString("MaKhuyenMai");
+                LocalDateTime ngayLapResult = rs.getTimestamp("NgayLap").toLocalDateTime();
+                String tenKHResult = rs.getString("TenKhachHang");
+                String sdtResult = rs.getString("SoDienThoai");
+                int namSinhKH = rs.getInt("NamSinh");
+                boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+
+                ketQuaTimKiem.add(new HoaDonThanhToan(maHD,
+                        NhanVien.getNhanVienTheoMaNhanVien(maNV),
+                        new KhachHang(maKH, tenKHResult, sdtResult, namSinhKH, gioiTinhKH),
+                        new CT_KhuyenMai(maKM), ngayLapResult));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ketQuaTimKiem;
+    }
+
     public static HoaDonThanhToan getBillByID(String billID) {
         HoaDonThanhToan bill = null;
         Connection conn = ConnectDB.getConnection();
