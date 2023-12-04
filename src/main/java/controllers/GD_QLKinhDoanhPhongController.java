@@ -348,10 +348,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     @FXML
     private void moGDThuePhong() {
         try {
-            if (!Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
-                App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+            if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+                showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
             } else  {
-                showAlert("Phòng không phù hợp!", "Vui lòng không chọn phòng đã thuê để thuê phòng!");
+                App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
             }
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);

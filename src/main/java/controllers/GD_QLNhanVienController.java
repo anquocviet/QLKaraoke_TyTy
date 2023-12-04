@@ -108,7 +108,6 @@ public class GD_QLNhanVienController implements Initializable {
         radioButtonNam.setToggleGroup(genderGroup);
         radioButtonNu.setToggleGroup(genderGroup);
 
-
         dateNgaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 NhanVien nv = table.getSelectionModel().getSelectedItem();
@@ -125,6 +124,13 @@ public class GD_QLNhanVienController implements Initializable {
         colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
         colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
         colNgaySinh.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
+//        colNgaySinh.setCellValueFactory(cellData -> {
+//            LocalDate ngaySinh = cellData.getValue().getNgaySinh();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//            String ngaySinhFormatted = ngaySinh.format(formatter);
+//            return new ReadOnlyStringWrapper(ngaySinhFormatted);
+//        });
+
         colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
         colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         //colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
@@ -318,7 +324,7 @@ public class GD_QLNhanVienController implements Initializable {
             dateNgaySinh.requestFocus();
             return false;
         }
-        
+
         if ((LocalDate.now().getYear() - dateNgaySinh.getValue().getYear()) < 18) {
             showAlert("Lỗi nhập dữ liệu", "Nhân viên phải từ 18 trở lên");
             dateNgaySinh.requestFocus();
@@ -490,6 +496,7 @@ public class GD_QLNhanVienController implements Initializable {
                 return null;
         }
     }
+
     public void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
