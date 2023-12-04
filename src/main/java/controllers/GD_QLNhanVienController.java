@@ -41,7 +41,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import model.NhanVien;
 
 /**
@@ -296,52 +295,52 @@ public class GD_QLNhanVienController implements Initializable {
         String soDienThoai = txtSoDienThoaiNV.getText();
 
         if (txtMaNhanVien.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
+            showAlert("Lỗi nhập dữ liệu", "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
             txtCCCD.selectAll();
             txtCCCD.requestFocus();
             return false;
         }
         if (txtCCCD.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "CCCD nhân viên không được rỗng");
+            showAlert("Lỗi nhập dữ liệu", "CCCD nhân viên không được rỗng");
             txtCCCD.selectAll();
             txtCCCD.requestFocus();
             return false;
         }
 
         if (txtHoTen.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Họ tên nhân viên không được rỗng");
+            showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên không được rỗng");
             txtHoTen.selectAll();
             txtHoTen.requestFocus();
             return false;
         }
         if (dateNgaySinh.getValue() == null) {
-            JOptionPane.showMessageDialog(null, "Ngày sinh không được rỗng");
+            showAlert("Lỗi nhập dữ liệu", "Ngày sinh không được rỗng");
             dateNgaySinh.requestFocus();
             return false;
         }
         
         if ((LocalDate.now().getYear() - dateNgaySinh.getValue().getYear()) < 18) {
-            JOptionPane.showMessageDialog(null, "Nhân viên phải từ 18 trở lên");
+            showAlert("Lỗi nhập dữ liệu", "Nhân viên phải từ 18 trở lên");
             dateNgaySinh.requestFocus();
             return false;
         }
 
         if (txtSoDienThoaiNV.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại nhân viên không được rỗng");
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên không được rỗng");
             txtSoDienThoaiNV.selectAll();
             txtSoDienThoaiNV.requestFocus();
             return false;
         }
 
         if (txtDiaChi.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Địa chỉ nhân viên không được rỗng");
+            showAlert("Lỗi nhập dữ liệu", "Địa chỉ nhân viên không được rỗng");
             txtDiaChi.selectAll();
             txtDiaChi.requestFocus();
             return false;
         }
 
         if (cbbChucVu.getValue() == null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn chức vụ");
+            showAlert("Lỗi nhập dữ liệu", "Vui lòng chọn chức vụ");
             cbbChucVu.requestFocus();
             return false;
         }
@@ -372,14 +371,14 @@ public class GD_QLNhanVienController implements Initializable {
         String anhDaiDien = imgNV.getImage().getUrl();
 
         if (!kiemTraTrungCCCD(cccd)) {
-            JOptionPane.showMessageDialog(null, "Mã căn cước công dân không được phép trùng!");
+            showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
             txtCCCD.selectAll();
             txtCCCD.requestFocus();
             return;
         }
 
         if (!kiemTraTrungSDT(soDienThoai)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại không được phép trùng!");
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại không được phép trùng!");
             txtSoDienThoaiNV.selectAll();
             txtSoDienThoaiNV.requestFocus();
             return;

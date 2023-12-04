@@ -11,10 +11,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,8 +76,9 @@ public class GD_ThuePhongController implements Initializable {
         txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
 
         try {
-            if (Phong.getListPhongByStatus(1).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
+            if (Phong.getListPhongByStatus(2).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
                 KhachHang khachHang = PhieuDatPhong.getCustomerInfoByRoomID(GD_QLKinhDoanhPhongController.roomID);
+                txtSDTKhachHang.setText(khachHang.getSoDienThoai());
                 txtTenKhachHang.setText(khachHang.getTenKhachHang());
                 txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
                 ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
@@ -162,19 +165,34 @@ public class GD_ThuePhongController implements Initializable {
             Phong.updateStatusRoom(soPhong, 1);
         }
 
-        int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
-        String maHoaDon = phatSinhMaHoaDon(slHoaDon);
-
+        String maHoaDon;
         String maNV = App.user;
         NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
-        Phong p = Phong.getPhongTheoMaPhong(soPhong);
-        ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-        System.out.println(ctP);
-        ChiTietHD_Phong.themChiTietHoaDon(ctP);
-        HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+        HoaDonThanhToan existingHoaDon = HoaDonThanhToan.getBillByCustomer(khachHang.getMaKhachHang());
+        System.out.println(existingHoaDon);
+        if (existingHoaDon != null) {
+            // Nếu đã có hóa đơn, sử dụng mã hóa đơn đã có
+            maHoaDon = existingHoaDon.getMaHoaDon();
+            HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
+            Phong p = Phong.getPhongTheoMaPhong(soPhong);
+
+            ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+            System.out.println("da có hoa don thanh toan");
+            ChiTietHD_Phong.themChiTietHoaDon(ctP);
+        } else {
+            // Nếu chưa có hóa đơn, tạo mới mã hóa đơn
+            int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
+            maHoaDon = phatSinhMaHoaDon(slHoaDon);
+            HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
+            Phong p = Phong.getPhongTheoMaPhong(soPhong);
+
+            ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+            System.out.println("chưa có hoa don thanh toan");
+            ChiTietHD_Phong.themChiTietHoaDon(ctP);
+            HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+        }
 
         showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
