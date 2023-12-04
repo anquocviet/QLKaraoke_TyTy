@@ -51,6 +51,7 @@ controllers/GD_ThongKeThangController.class
 model/DichVu.class
 controllers/AppFrameController.class
 model/ChiTietHD_Phong.class
+controllers/GD_TraCuuHoaDonController$3.class
 controllers/GD_QLPhongController.class
 controllers/GD_QLKhachHangController.class
 controllers/GD_QLKhachHangController$2.class
@@ -65,3 +66,4 @@ controllers/GD_ThongKeNamController.class
 controllers/GD_ChuyenPhongController$2.class
 enums/Enum_ChucVu.class
 controllers/GD_ThongKeNgayController.class
+controllers/GD_TraCuuHoaDonController$4.class

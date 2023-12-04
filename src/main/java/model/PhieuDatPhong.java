@@ -157,86 +157,124 @@ public class PhieuDatPhong {
     public String toString() {
         return "PhieuDatPhong{" + "maPhieuDat=" + maPhieuDat + ", khachHang=" + khachHang + ", phong=" + phong + ", nhanVienLap=" + nhanVienLap + ", thoiGianLap=" + thoiGianLap + ", thoiGianNhan=" + thoiGianNhan + ", ghiChu=" + ghiChu + '}';
     }
-	
-	public static ObservableList<PhieuDatPhong> getAllBookingTicket() throws Exception {
-		ObservableList<PhieuDatPhong> dsPhieu = FXCollections.observableArrayList();
-		Connection conn = ConnectDB.getConnection();
-		Statement stmt = null;
-		try {
-			stmt = conn.createStatement();
-			String sql = "SELECT * FROM PhieuDatPhong";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				String maPhieu = rs.getString("MaPhieuDat");
-				String maPhong = rs.getString("MaPhong");
-				String maKH = rs.getString("MaKhachHang");
-				String maNV = rs.getString("MaNhanVien");
-				LocalDateTime thoiGianLap = rs.getDate("ThoiGianLap").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				LocalDateTime thoiGianNhan = rs.getDate("ThoiGianNhan").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				String ghiChu = rs.getString("GhiChu");
-				dsPhieu.add(new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, ghiChu));
-			}
-		} catch (SQLException ex) {
-			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			try {
-				stmt.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		return dsPhieu;
-	}
-	
-	public static boolean themPhieDat(PhieuDatPhong phieu) {
-		ConnectDB.getInstance();
-		Connection conn = ConnectDB.getConnection();
-		PreparedStatement pstm = null;
-		int n = 0;
-		String sql = "INSERT INTO PhieuDatPhong (MaPhieuDat, MaPhong, MaKhachHang, MaNhanVien, ThoiGianLap, ThoiGianNhan, GhiChu) VALUES(?, ?, ?, ?, ?, ?, ?)";
-		try {
-			pstm = conn.prepareStatement(sql);
-			pstm.setString(1, phieu.getMaPhieuDat());
-			pstm.setString(2, phieu.getPhong().getMaPhong());
-			pstm.setString(3, phieu.getKhachHang().getMaKhachHang());
-			pstm.setString(4, phieu.getNhanVienLap().getMaNhanVien());
-			pstm.setDate(5, Date.valueOf(phieu.getThoiGianLap().toLocalDate()));
-			pstm.setDate(6, Date.valueOf(phieu.getThoiGianNhan().toLocalDate()));
-			pstm.setString(7, phieu.ghiChu);
-			n = pstm.executeUpdate();
-		} catch (SQLException ex) {
-			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			try {
-				pstm.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		return n > 0;
-	}
-	
-	public static int countTicketInDay() throws Exception {
-		int quantity = 0;
-		Connection conn = ConnectDB.getConnection();
-		Statement stmt = null;
-		try {
-			stmt = conn.createStatement();
-			String sql = "SELECT COUNT(MaPhieuDat) AS QTY FROM PhieuDatPhong";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				quantity = rs.getInt("QTY");
-			}
-		} catch (SQLException ex) {
-			Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			try {
-				stmt.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		return quantity;
-	}
+
+    public static ObservableList<PhieuDatPhong> getAllBookingTicket() throws Exception {
+        ObservableList<PhieuDatPhong> dsPhieu = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM PhieuDatPhong";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maPhieu = rs.getString("MaPhieuDat");
+                String maPhong = rs.getString("MaPhong");
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                LocalDateTime thoiGianLap = rs.getDate("ThoiGianLap").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                LocalDateTime thoiGianNhan = rs.getDate("ThoiGianNhan").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                String ghiChu = rs.getString("GhiChu");
+                dsPhieu.add(new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, ghiChu));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsPhieu;
+    }
+
+    public static boolean themPhieDat(PhieuDatPhong phieu) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+        String sql = "INSERT INTO PhieuDatPhong (MaPhieuDat, MaPhong, MaKhachHang, MaNhanVien, ThoiGianLap, ThoiGianNhan, GhiChu) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, phieu.getMaPhieuDat());
+            pstm.setString(2, phieu.getPhong().getMaPhong());
+            pstm.setString(3, phieu.getKhachHang().getMaKhachHang());
+            pstm.setString(4, phieu.getNhanVienLap().getMaNhanVien());
+            pstm.setDate(5, Date.valueOf(phieu.getThoiGianLap().toLocalDate()));
+            pstm.setDate(6, Date.valueOf(phieu.getThoiGianNhan().toLocalDate()));
+            pstm.setString(7, phieu.ghiChu);
+            n = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pstm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return n > 0;
+    }
+
+    public static int countTicketInDay() throws Exception {
+        int quantity = 0;
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaPhieuDat) AS QTY FROM PhieuDatPhong";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                quantity = rs.getInt("QTY");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return quantity;
+    }
+
+    public static KhachHang getCustomerInfoByRoomID(String roomID) {
+        KhachHang customer = null;
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "SELECT KhachHang.* FROM PhieuDatPhong "
+                    + "JOIN KhachHang ON PhieuDatPhong.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE PhieuDatPhong.MaPhong = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, roomID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String maKH = rs.getString("MaKhachHang");
+                String tenKH = rs.getString("TenKhachHang");
+                String sdt = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+
+                customer = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return customer;
+    }
 
 }

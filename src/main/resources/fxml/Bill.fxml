@@ -139,63 +139,53 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="219.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thuế TTĐB (30%):">
+      <Text fx:id="txtLuongGiamGia" layoutX="219.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giảm giá (0%):">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="txtTienThueTTDB" layoutX="338.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="89.947265625">
+      <Text fx:id="txtGiamGia" layoutX="317.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="110.9130859375">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="txtLuongGiamGia" layoutX="219.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giảm giá (0%):">
+      <Text layoutX="220.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thanh toán:">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="txtGiamGia" layoutX="317.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="110.9130859375">
+      <Text fx:id="txtThanhToan" layoutX="306.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="122.4521484375">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="220.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thanh toán:">
+      <Text layoutX="220.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền khách đưa:">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="txtThanhToan" layoutX="306.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="122.4521484375">
+      <Text fx:id="txtTienKhach" layoutX="325.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="103.2294921875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="220.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền khách đưa:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTienKhach" layoutX="325.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="103.2294921875">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="157.0" layoutY="724.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CẢM ƠN QUÝ KHÁCH">
+      <Text layoutX="157.0" layoutY="711.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CẢM ƠN QUÝ KHÁCH">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="182.0" layoutY="742.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hẹn gặp lại !!!">
+      <Text layoutX="182.0" layoutY="729.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hẹn gặp lại !!!">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <Line endX="340.0" fill="BLACK" layoutX="101.0" layoutY="548.0" startX="-90.0" />
-      <Text layoutX="220.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa:">
+      <Text layoutX="220.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa:">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="txtTienThua" layoutX="295.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
+      <Text fx:id="txtTienThua" layoutX="295.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
          <font>
             <Font size="14.0" />
          </font>

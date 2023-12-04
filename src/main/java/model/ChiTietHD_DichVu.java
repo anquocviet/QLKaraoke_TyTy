@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.App;
 
 /**
  *
@@ -24,6 +25,7 @@ import javafx.collections.ObservableList;
  */
 public class ChiTietHD_DichVu {
 
+	private final int TIENLOI = 10;
 	private HoaDonThanhToan hoaDon;
 	private DichVu dichVu;
 	private int soLuong;
@@ -80,10 +82,11 @@ public class ChiTietHD_DichVu {
 	}
 
 	public void tinhThanhTien() {
-		thanhTien = soLuong * dichVu.getDonGia();
+		thanhTien = soLuong * (dichVu.getDonGia() + dichVu.getDonGia() * App.VATDV / 100 + dichVu.getDonGia() * TIENLOI / 100);
 	}
 
 	public long getThanhTien() {
+		tinhThanhTien();
 		return thanhTien;
 	}
 

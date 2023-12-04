@@ -31,7 +31,9 @@ public class App extends Application {
 	public static final int widthModalBill = 450;
 	public static final int heightModalBill = 760;
 	public static final int VAT = 5;
+	public static final int VATDV = 10;
 	public static final int TTDB = 30;
+	public static final long TIENPHONGTHEMDEM = 50000;
 
 	@Override
 	public void init() throws Exception {
