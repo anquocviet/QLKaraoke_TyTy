@@ -428,6 +428,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                 alert.showAndWait();
             } else {
                 App.openModal("GD_ChuyenPhong", App.widthModal, App.heightModal);
+                gridPane.getChildren().clear();
+                renderArrayPhong(Phong.getAllPhong());
             }
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);

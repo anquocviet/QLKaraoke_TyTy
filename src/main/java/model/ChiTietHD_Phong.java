@@ -26,6 +26,7 @@ import main.App;
  *
  * @author vie
  */
+
 public final class ChiTietHD_Phong {
 	private HoaDonThanhToan hoaDon;
 	private Phong phong;
@@ -213,11 +214,41 @@ public final class ChiTietHD_Phong {
 		return hdP;
 	}
 
-	public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
-		ConnectDB.getInstance();
-		Connection conn = ConnectDB.getInstance().getConnection();
-		PreparedStatement pstm = null;
-		int n = 0;
+    public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhongVaMaHoaDon(String maHoaDon, String maPhong) throws Exception {
+        Connection conn = ConnectDB.getConnection();
+        Phong phong = Phong.getPhongTheoMaPhong(maPhong);
+
+        Statement stmt = null;
+        ChiTietHD_Phong hdP = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE MaPhong = '%s' AND MaHoaDon = '%s'", maPhong, maHoaDon);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                HoaDonThanhToan hoaDon = HoaDonThanhToan.getBillByID(maHoaDon);
+                java.sql.Timestamp timestamp = rs.getTimestamp("GioVao");
+                LocalDateTime gioVao = timestamp.toLocalDateTime();
+                timestamp = rs.getTimestamp("GioRa");
+                LocalDateTime gioRa = timestamp.toLocalDateTime();
+                hdP = new ChiTietHD_Phong(hoaDon, phong, gioVao, gioRa);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return hdP;
+    }
+
+    public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getInstance().getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
 
 		String sql = "MERGE INTO ChiTietHD_Phong AS target "
 				+ "USING (VALUES (?, ?, ?, ?)) AS source (MaHoaDon, MaPhong, GioVao, GioRa) "
