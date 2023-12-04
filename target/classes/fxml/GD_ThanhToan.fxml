@@ -186,7 +186,7 @@
                                 <Image url="@../image/print.png" />
                             </image>
                         </ImageView>
-                        <Button fx:id="btnThanhToan" layoutX="324.0" layoutY="540.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="139.0" style="-fx-background-color: LIGHTGREEN;" text="Xác nhận thanh toán" />
+                        <Button fx:id="btnThanhToan" disable="true" layoutX="324.0" layoutY="540.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="139.0" style="-fx-background-color: LIGHTGREEN;" text="Xác nhận thanh toán" />
                   <Text fx:id="txtTienThue" layoutX="150.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="0" wrappingWidth="220.0">
                      <font>
                         <Font size="16.0" />

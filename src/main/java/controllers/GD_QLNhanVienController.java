@@ -77,7 +77,7 @@ public class GD_QLNhanVienController implements Initializable {
     @FXML
     private TableColumn<NhanVien, String> colHoTen;
     @FXML
-    private TableColumn<String, Integer> colNgaySinh;
+    private TableColumn<NhanVien, String> colNgaySinh;
     @FXML
     private TableColumn<NhanVien, String> colSoDienThoai;
     @FXML
@@ -123,13 +123,12 @@ public class GD_QLNhanVienController implements Initializable {
         colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
         colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
         colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
-        colNgaySinh.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
-//        colNgaySinh.setCellValueFactory(cellData -> {
-//            LocalDate ngaySinh = cellData.getValue().getNgaySinh();
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//            String ngaySinhFormatted = ngaySinh.format(formatter);
-//            return new ReadOnlyStringWrapper(ngaySinhFormatted);
-//        });
+        colNgaySinh.setCellValueFactory(cellData -> {
+            LocalDate ngaySinh = cellData.getValue().getNgaySinh();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ngaySinhFormatted = ngaySinh.format(formatter);
+            return new ReadOnlyStringWrapper(ngaySinhFormatted);
+        });
 
         colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
         colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));

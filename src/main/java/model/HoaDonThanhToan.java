@@ -416,7 +416,7 @@ public class HoaDonThanhToan {
         try (PreparedStatement preparedStatement = conn.prepareStatement(
                 "SELECT * FROM HoaDonThanhToan "
                 + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
-                + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai = NULL")) {
+                + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai IS NULL")) {
 
             preparedStatement.setString(1, customerID);
 

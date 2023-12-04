@@ -102,7 +102,7 @@ public class GD_DatPhongChoController implements Initializable {
 		});
 		btnBookWaitingRoom.setOnAction(evt -> {
 			try {
-				String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countTicketInDay());
+				String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countBookingTicketInDay());
 				KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
 				Phong phong = new Phong(txtMaPhong.getText());
 				NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
