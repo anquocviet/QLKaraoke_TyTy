@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+     * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package controllers;
 
@@ -9,6 +9,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -57,6 +59,7 @@ public class GD_TraCuuHoaDonController implements Initializable {
         danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
         tableHoaDon.setItems(danhSach_HoaDon);
         tableHoaDon.requestFocus();
+
         handleEventInTable();
 
         tableHoaDon.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -140,6 +143,59 @@ public class GD_TraCuuHoaDonController implements Initializable {
                 }
             }
         });
+
+        btnTimKiem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    xuLyTimHoaDon();
+                } catch (Exception ex) {
+                    Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        btnXoaTrangLamMoi.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Gọi phương thức xóa trắng và hiển thị lại danh sách hóa đơn
+                xoaTrangVaHienDanhSach();
+            }
+        });
+    }
+
+    private void xuLyTimHoaDon() throws IOException, Exception {
+        String maHoaDon = txtMaHoaDon.getText();
+        String tenKH = txtTenKH.getText();
+        String sdt = txtSDT.getText();
+        DatePicker ngayLapPicker = txtNgayLap;
+        LocalDate ngayLapDate = ngayLapPicker.getValue();
+
+        ObservableList<HoaDonThanhToan> ketQuaTimKiem;
+        if (ngayLapDate != null) {
+
+            LocalDateTime ngayLap = ngayLapDate.atStartOfDay();
+            System.out.println("NgayLap: " + ngayLap);
+
+            ketQuaTimKiem = HoaDonThanhToan.timHoaDon(maHoaDon, tenKH, sdt, ngayLap);
+        } else {
+            // Nếu ngày không được chọn, thực hiện tìm kiếm không sử dụng ngày
+            ketQuaTimKiem = HoaDonThanhToan.timHoaDon(maHoaDon, tenKH, sdt, null);
+        }
+        tableHoaDon.setItems(ketQuaTimKiem);
+        tableHoaDon.refresh();
+    }
+
+    private void xoaTrangVaHienDanhSach() {
+        // Xóa trắng các TextField
+        txtMaHoaDon.clear();
+        txtTenKH.clear();
+        txtSDT.clear();
+        txtNgayLap.setValue(null);
+        // Lấy lại toàn bộ danh sách hóa đơn và hiển thị
+        danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
+        tableHoaDon.setItems(danhSach_HoaDon);
+        tableHoaDon.refresh();
     }
 
     public void handleEventInTable() {
@@ -203,9 +259,11 @@ public class GD_TraCuuHoaDonController implements Initializable {
     @FXML
     private TextField txtTenKH;
     @FXML
+    private DatePicker txtNgayLap;
+    @FXML
     private Button btnTimKiem;
     @FXML
-    private Button btnXoaTrang;
+    private Button btnXoaTrangLamMoi;
 
     ObservableList<HoaDonThanhToan> danhSach_HoaDon;
 

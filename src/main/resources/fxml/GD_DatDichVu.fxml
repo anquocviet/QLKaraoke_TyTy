@@ -120,7 +120,7 @@
                                 <TableColumn fx:id="dtSttCol" prefWidth="24.0" resizable="false" text="#" />
                                 <TableColumn fx:id="dtTenDichVuCol" prefWidth="129.0" resizable="false" text="Tên dịch vụ" />
                                 <TableColumn fx:id="dtDonGiaCol" prefWidth="112.7813720703125" resizable="false" text="Đơn giá" />
-                                <TableColumn fx:id="dtDaThemCol" prefWidth="124.71856689453125" resizable="false" text="Đã thêm" />
+                                <TableColumn fx:id="dtDaThemCol" prefWidth="124.71856689453125" resizable="false" text="Đã thêm" onEditCommit="#changeQtyAddedTable"  />
                                 <TableColumn fx:id="dtThanhTienCol" prefWidth="111.1666259765625" resizable="false" text="Thành tiền" />
                                 <TableColumn fx:id="dtThemCol" editable="false" prefWidth="56.3333740234375" resizable="false" sortable="false" text="Thêm" />
                                 <TableColumn fx:id="dtBotCol" editable="false" prefWidth="55.5" resizable="false" sortable="false" text="Bớt" />

@@ -157,10 +157,10 @@ public class HoaDonThanhToan {
 				int namSinhKH = rs.getInt("NamSinh");
 				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
                 
-                dsHoaDon = (ObservableList<HoaDonThanhToan>) new HoaDonThanhToan(maHD,
+                dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLap);                
+                        new CT_KhuyenMai(maKM), ngayLap));             
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,6 +175,64 @@ public class HoaDonThanhToan {
             }
         }
         return dsHoaDon;
+    }
+
+    public static ObservableList<HoaDonThanhToan> timHoaDon(String maHoaDon, String tenKH, String sdt, LocalDateTime ngayLap) {
+        ObservableList<HoaDonThanhToan> ketQuaTimKiem = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            // Xây dựng câu truy vấn tìm kiếm dựa trên thông tin nhập vào
+            String sql = "SELECT * FROM HoaDonThanhToan "
+                    + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE MaHoaDon LIKE ? AND TenKhachHang LIKE ? AND SoDienThoai LIKE ? "
+                    + "AND (NgayLap = COALESCE(?, NgayLap) OR ? IS NULL)";
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + maHoaDon + "%");
+            preparedStatement.setString(2, "%" + tenKH + "%");
+            preparedStatement.setString(3, "%" + sdt + "%");
+            if (ngayLap != null) {
+                preparedStatement.setTimestamp(4, Timestamp.valueOf(ngayLap));
+                preparedStatement.setTimestamp(5, Timestamp.valueOf(ngayLap));
+            } else {
+                preparedStatement.setNull(4, java.sql.Types.TIMESTAMP);
+                preparedStatement.setNull(5, java.sql.Types.TIMESTAMP);
+            }
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String maHD = rs.getString("MaHoaDon");
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                String maKM = rs.getString("MaKhuyenMai");
+                LocalDateTime ngayLapResult = rs.getTimestamp("NgayLap").toLocalDateTime();
+                String tenKHResult = rs.getString("TenKhachHang");
+                String sdtResult = rs.getString("SoDienThoai");
+                int namSinhKH = rs.getInt("NamSinh");
+                boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+
+                ketQuaTimKiem.add(new HoaDonThanhToan(maHD,
+                        NhanVien.getNhanVienTheoMaNhanVien(maNV),
+                        new KhachHang(maKH, tenKHResult, sdtResult, namSinhKH, gioiTinhKH),
+                        new CT_KhuyenMai(maKM), ngayLapResult));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ketQuaTimKiem;
     }
 
     public static HoaDonThanhToan getBillByID(String billID) {
@@ -349,6 +407,44 @@ public class HoaDonThanhToan {
             }
         }
         return n > 0;
+    }
+
+    public static HoaDonThanhToan getBillByCustomer(String customerID) {
+        HoaDonThanhToan bill = null;
+        Connection conn = ConnectDB.getConnection();
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(
+                "SELECT * FROM HoaDonThanhToan "
+                + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai = NULL")) {
+
+            preparedStatement.setString(1, customerID);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    String maHD = rs.getString("MaHoaDon");
+                    String maKH = rs.getString("MaKhachHang");
+                    String maNV = rs.getString("MaNhanVien");
+                    String maKM = rs.getString("MaKhuyenMai");
+                    LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
+                    String tenKH = rs.getString("TenKhachHang");
+                    String sdtKH = rs.getString("SoDienThoai");
+                    int namSinhKH = rs.getInt("NamSinh");
+                    boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+
+                    bill = new HoaDonThanhToan(maHD,
+                            NhanVien.getNhanVienTheoMaNhanVien(maNV),
+                            new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
+                            new CT_KhuyenMai(maKM), ngayLap);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return bill;
     }
 
 }

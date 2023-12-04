@@ -38,6 +38,7 @@ controllers\GD_QLDichVuController$1.class
 controllers\SplashController.class
 model\HoaDonThanhToan.class
 model\NhanVien.class
+controllers\GD_TraCuuHoaDonController$3.class
 controllers\GD_QLPhongController$1.class
 enums\Enum_Nvien.class
 controllers\GD_QLKinhDoanhPhongController.class
@@ -62,6 +63,7 @@ controllers\GD_DangNhapController.class
 controllers\GD_DatDichVuController$2$1.class
 controllers\GD_ChuyenPhongController$1.class
 model\PhieuDatPhong.class
+controllers\GD_TraCuuHoaDonController$4.class
 model\CT_KhuyenMai.class
 controllers\GD_QLKhachHangController$1.class
 enums\Enum_LoaiPhong.class

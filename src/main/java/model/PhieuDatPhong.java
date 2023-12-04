@@ -244,4 +244,42 @@ public class PhieuDatPhong {
         return quantity;
     }
 
+    public static KhachHang getCustomerInfoByRoomID(String roomID) {
+        KhachHang customer = null;
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "SELECT KhachHang.* FROM PhieuDatPhong "
+                    + "JOIN KhachHang ON PhieuDatPhong.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE PhieuDatPhong.MaPhong = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, roomID);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String maKH = rs.getString("MaKhachHang");
+                String tenKH = rs.getString("TenKhachHang");
+                String sdt = rs.getString("SoDienThoai");
+                int namSinh = rs.getInt("NamSinh");
+                boolean gioiTinh = rs.getBoolean("GioiTinh");
+
+                customer = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return customer;
+    }
+
 }

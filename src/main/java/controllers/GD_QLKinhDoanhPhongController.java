@@ -9,8 +9,10 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -50,18 +53,27 @@ import model.Phong;
  */
 public class GD_QLKinhDoanhPhongController implements Initializable {
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        typeRoomGroup = new ToggleGroup();
-        radioTypeAll.setToggleGroup(typeRoomGroup);
-        radioTypeNormal.setToggleGroup(typeRoomGroup);
-        radioTypeVIP.setToggleGroup(typeRoomGroup);
-        statusRoomGroup = new ToggleGroup();
-        radioStatusAll.setToggleGroup(statusRoomGroup);
-        radioStatusUsing.setToggleGroup(statusRoomGroup);
-        radioStatusEmpty.setToggleGroup(statusRoomGroup);
-        radioStatusWaiting.setToggleGroup(statusRoomGroup);
-        spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		typeRoomGroup = new ToggleGroup();
+		radioTypeAll.setToggleGroup(typeRoomGroup);
+		radioTypeNormal.setToggleGroup(typeRoomGroup);
+		radioTypeVIP.setToggleGroup(typeRoomGroup);
+		statusRoomGroup = new ToggleGroup();
+		radioStatusAll.setToggleGroup(statusRoomGroup);
+		radioStatusUsing.setToggleGroup(statusRoomGroup);
+		radioStatusEmpty.setToggleGroup(statusRoomGroup);
+		radioStatusWaiting.setToggleGroup(statusRoomGroup);
+		spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
+		UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (!Pattern.matches("\\d*", newText)) {
+                change.setText("1");
+            }
+			return change;
+        };
+		TextFormatter<Integer> textFormatter = new TextFormatter<>(filter);
+        spinnerSucChua.getEditor().setTextFormatter(textFormatter);
 
         popup = new Popup();
         createClockView();
@@ -133,61 +145,53 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         lblMaPhong.setPadding(new Insets(0, 0, 8, 0));
         roomItem.getChildren().add(lblMaPhong);
 
-        Label lblSucChua = new Label("Sức chứa: " + phong.getSucChua());
-        lblSucChua.setStyle("-fx-font-size: 18; -fx-font-weight: 600");
-        lblSucChua.setPadding(new Insets(0, 0, 8, 0));
-        roomItem.getChildren().add(lblSucChua);
+		Label lblSucChua = new Label("Tối đa: " + phong.getSucChua() + " người");
+		lblSucChua.setStyle("-fx-font-size: 18; -fx-font-weight: 600");
+		lblSucChua.setPadding(new Insets(0, 0, 8, 0));
+		roomItem.getChildren().add(lblSucChua);
 
-        String strBtnLeft = phong.getTinhTrang() == 0 ? "Thuê phòng"
-                : phong.getTinhTrang() == 1 ? "Chuyển phòng" : "Hủy phòng";
-        String strBtnRight = phong.getTinhTrang() == 0 ? "Đặt phòng"
-                : phong.getTinhTrang() == 1 ? "Thanh toán" : "Nhận phòng";
-        Button btnLeft = new Button(strBtnLeft);
-        Button btnRight = new Button(strBtnRight);
-        switch (phong.getTinhTrang()) {
-            case 0:
-                btnLeft.setStyle("-fx-background-color: #FBFF16; -fx-font-size: 16");
-                btnLeft.setOnAction((event) -> {
-                    roomID = phong.getMaPhong();
-                    moGDThuePhong();
-                });
-                break;
-            case 1:
-                btnLeft.setStyle("-fx-background-color: #4078E3; -fx-text-fill: #fff; -fx-font-size: 16");
-                btnLeft.setOnAction(((event) -> {
-                    roomID = phong.getMaPhong();
-                    moGDChuyenPhong();
-                }));
-                break;
-            default:
-                btnLeft.setOnAction((event) -> {
-                    roomID = phong.getMaPhong();
-                    huyPhongCho();
-                });
-                btnLeft.setStyle("-fx-background-color: #CF2A27; -fx-text-fill: #fff; -fx-font-size: 16");
-                break;
-        }
-        btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
-        switch (phong.getTinhTrang()) {
-            case 0:
-                btnRight.setOnAction((event) -> {
-                    roomID = phong.getMaPhong();
-                    moGDDatPhongCho();
-                });
-                break;
-            case 1:
-                btnRight.setOnAction((event) -> {
-                    roomID = phong.getMaPhong();
-                    moGDThanhToan();
-                });
-                break;
-            default:
-                btnRight.setOnAction((event) -> {
-                    roomID = phong.getMaPhong();
-                    moGDNhanPhongCho();
-                });
-                break;
-        }
+		String strBtnLeft = phong.getTinhTrang() == 0 ? "Thuê phòng"
+				: phong.getTinhTrang() == 1 ? "Đặt dịch vụ" : "Hủy phòng";
+		String strBtnRight = phong.getTinhTrang() == 0 ? "Đặt phòng"
+				: phong.getTinhTrang() == 1 ? "Thanh toán" : "Nhận phòng";
+		Button btnLeft = new Button(strBtnLeft);
+		Button btnRight = new Button(strBtnRight);
+		switch (phong.getTinhTrang()) {
+			case 0:
+				btnLeft.setStyle("-fx-background-color: #FBFF16; -fx-font-size: 16");
+				btnLeft.setOnAction((event) -> {
+					roomID = phong.getMaPhong();
+					moGDThuePhong();
+				});
+				btnRight.setOnAction((event) -> {
+					roomID = phong.getMaPhong();
+					moGDDatPhongCho();
+				});
+				break;
+			case 1:
+				btnLeft.setStyle("-fx-background-color: #4078E3; -fx-text-fill: #fff; -fx-font-size: 16");
+				btnLeft.setOnAction(((event) -> {
+					roomID = phong.getMaPhong();
+					moGDDatDichVu();
+				}));
+				btnRight.setOnAction((event) -> {
+					roomID = phong.getMaPhong();
+					moGDThanhToan();
+				});
+				break;
+			default:
+				btnLeft.setStyle("-fx-background-color: #CF2A27; -fx-text-fill: #fff; -fx-font-size: 16");
+				btnLeft.setOnAction((event) -> {
+					roomID = phong.getMaPhong();
+					huyPhongCho();
+				});
+				btnRight.setOnAction((event) -> {
+					roomID = phong.getMaPhong();
+					moGDNhanPhongCho();
+				});
+				break;
+		}
+		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
 
         HBox hbox = new HBox(btnLeft, btnRight);
         hbox.setSpacing(30);
@@ -349,12 +353,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private void moGDThuePhong() {
         try {
             if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn một phòng phù hợp để thuê", ButtonType.OK);
-                alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-                alert.setTitle("Có lỗi xảy ra");
-                alert.setHeaderText("Bạn chưa chọn phòng trống để thuê!");
-                alert.showAndWait();
-            } else {
+                showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
+            } else  {
                 App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
             }
         } catch (Exception ex) {
@@ -468,6 +468,14 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private static short itemChoosed = 0;

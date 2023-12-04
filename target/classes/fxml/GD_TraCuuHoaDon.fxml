@@ -43,7 +43,7 @@
         <TextField fx:id="txtSDT" layoutX="176.0" layoutY="218.0" prefHeight="26.0" prefWidth="270.0" />
         <TextField fx:id="txtTenKH" layoutX="176.0" layoutY="168.0" prefHeight="26.0" prefWidth="270.0" />
         <Button fx:id="btnTimKiem" layoutX="155.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
-        <Button fx:id="btnXoaTrang" layoutX="275.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
+        <Button fx:id="btnXoaTrangLamMoi" layoutX="275.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="72.0" text="          " />
         <ImageView fitHeight="26.0" fitWidth="36.0" layoutX="173.0" layoutY="326.0">
             <image>
                 <Image url="@../image/search.png" />
