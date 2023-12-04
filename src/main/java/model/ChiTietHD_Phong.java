@@ -221,8 +221,7 @@ public class ChiTietHD_Phong {
 
     public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhongVaMaHoaDon(String maHoaDon, String maPhong) throws Exception {
         Connection conn = ConnectDB.getConnection();
-        ObservableList<Phong> tmp = Phong.getListPhongByID(maPhong);
-        Phong phong = tmp.get(0);
+        Phong phong = Phong.getPhongTheoMaPhong(maPhong);
 
         Statement stmt = null;
         ChiTietHD_Phong hdP = null;

@@ -83,11 +83,12 @@ public class GD_ChuyenPhongController implements Initializable {
         });
         giaTienMoiGioCol.setCellValueFactory(cellData -> {
             long giaPhong = cellData.getValue().getGiaPhong();
-            return new ReadOnlyStringWrapper(giaPhong + " K/H");
+            return new ReadOnlyStringWrapper(giaPhong + "K/H");
         });
         // giaTienMoiGioCol.setCellValueFactory(new PropertyValueFactory<>("giaPhong"));
         //  table.setItems(layTatCaPhong());
-        table.setItems(Phong.getListPhongByStatus(0));
+        listPhong = Phong.getListPhongByStatus(0);
+        table.setItems(listPhong);
         // ActionEvent event = null;
         //handleRefresh(event);
         handleEventInTable();
@@ -118,12 +119,13 @@ public class GD_ChuyenPhongController implements Initializable {
         if (phongDuocChon != null) {
             phongDuocChon.updateStatusRoom(phongDuocChon.getMaPhong(), 1);
             phongHienTai.updateStatusRoom(phongHienTai.getMaPhong(), 2);
-            ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhongVaMaHoaDon(phongHienTai.getMaPhong(), maHoaDon);
+            ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhongVaMaHoaDon(maHoaDon, phongHienTai.getMaPhong());
             System.out.println(hdPhongHienTai);
+
             hdPhongHienTai.setGioRa(LocalDateTime.now());
             ChiTietHD_Phong.updateCTHD_Phong(hdPhongHienTai);
             System.out.println(hdPhongHienTai);
-            ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, LocalDateTime.now(), LocalDateTime.of(2024, Month.MARCH, 2, 0, 0));
+            ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, LocalDateTime.now(), LocalDateTime.of(2024, Month.JANUARY, 1, 0, 0));
             ChiTietHD_Phong.themChiTietHD_Phong(hdPhongMoi);
             System.out.println(hdPhongMoi);
             showSuccessAlert();
@@ -160,6 +162,7 @@ public class GD_ChuyenPhongController implements Initializable {
             Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
             buttonOK.setOnAction(event -> {
                 handleExit(event);
+               
                 alert.close();
             });
         }
@@ -191,7 +194,7 @@ public class GD_ChuyenPhongController implements Initializable {
             return;
         }
         lblPhongMoi.setText(cp.getMaPhong());
-
+        
     }
 
     //fxml Chuyển Phòng
@@ -228,6 +231,8 @@ public class GD_ChuyenPhongController implements Initializable {
 
     @FXML
     private Button searchButton;
+    
+    ObservableList<Phong> listPhong;
 
     @FXML
     public void handleSearch(ActionEvent event) {
