@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
@@ -171,8 +172,12 @@ public class PhieuDatPhong {
                 String maPhong = rs.getString("MaPhong");
                 String maKH = rs.getString("MaKhachHang");
                 String maNV = rs.getString("MaNhanVien");
-                LocalDateTime thoiGianLap = rs.getDate("ThoiGianLap").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                LocalDateTime thoiGianNhan = rs.getDate("ThoiGianNhan").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                java.sql.Timestamp timestamp = rs.getTimestamp("ThoiGianLap");
+                LocalDateTime thoiGianLap = timestamp.toLocalDateTime();
+                timestamp = rs.getTimestamp("ThoiGianNhan");
+                LocalDateTime thoiGianNhan = timestamp.toLocalDateTime();
+//                LocalDateTime thoiGianLap = rs.getDate("ThoiGianLap").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//                LocalDateTime thoiGianNhan = rs.getDate("ThoiGianNhan").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                 String ghiChu = rs.getString("GhiChu");
                 dsPhieu.add(new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, ghiChu));
             }
@@ -200,8 +205,8 @@ public class PhieuDatPhong {
             pstm.setString(2, phieu.getPhong().getMaPhong());
             pstm.setString(3, phieu.getKhachHang().getMaKhachHang());
             pstm.setString(4, phieu.getNhanVienLap().getMaNhanVien());
-            pstm.setDate(5, Date.valueOf(phieu.getThoiGianLap().toLocalDate()));
-            pstm.setDate(6, Date.valueOf(phieu.getThoiGianNhan().toLocalDate()));
+            pstm.setTimestamp(5, Timestamp.valueOf(phieu.thoiGianLap));
+            pstm.setTimestamp(6, Timestamp.valueOf(phieu.thoiGianNhan));
             pstm.setString(7, phieu.ghiChu);
             n = pstm.executeUpdate();
         } catch (SQLException ex) {
