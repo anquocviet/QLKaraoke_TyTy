@@ -187,7 +187,7 @@ public class HoaDonThanhToan {
             String sql = "SELECT * FROM HoaDonThanhToan "
                     + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
                     + "WHERE MaHoaDon LIKE ? AND TenKhachHang LIKE ? AND SoDienThoai LIKE ? "
-                    + "AND (NgayLap >= ? OR ? IS NULL)";
+                    + "AND (NgayLap = COALESCE(?, NgayLap) OR ? IS NULL)";
 
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, "%" + maHoaDon + "%");
@@ -195,10 +195,11 @@ public class HoaDonThanhToan {
             preparedStatement.setString(3, "%" + sdt + "%");
             if (ngayLap != null) {
                 preparedStatement.setTimestamp(4, Timestamp.valueOf(ngayLap));
+                preparedStatement.setTimestamp(5, Timestamp.valueOf(ngayLap));
             } else {
                 preparedStatement.setNull(4, java.sql.Types.TIMESTAMP);
+                preparedStatement.setNull(5, java.sql.Types.TIMESTAMP);
             }
-            preparedStatement.setNull(5, java.sql.Types.TIMESTAMP);
 
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -415,7 +416,7 @@ public class HoaDonThanhToan {
         try (PreparedStatement preparedStatement = conn.prepareStatement(
                 "SELECT * FROM HoaDonThanhToan "
                 + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
-                + "WHERE HoaDonThanhToan.MaKhachHang = ?")) {
+                + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai = NULL")) {
 
             preparedStatement.setString(1, customerID);
 
