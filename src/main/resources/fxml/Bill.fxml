@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -12,183 +13,186 @@
     <stylesheets>
         <URL value="@/styles/base.css" />
     </stylesheets>
-   <children>
-      <Text layoutX="165.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Karaoke Tỷ Tỷ">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Text>
-      <Text layoutX="82.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12 Nguyễn Văn Bảo, P4, Gò Vấp, TP Hồ Chí Minh">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="170.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEL: 0393504301">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="128.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HÓA ĐƠN THANH TOÁN">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="27.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hóa đơn:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtHoaDon" layoutX="120.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="27.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian lập: ">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtThoiGianLap" layoutX="120.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="262.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtNhanVien" layoutX="345.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="262.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khách hàng:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtKhachHang" layoutX="345.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="163.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THÔNG TIN PHÒNG">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Text>
-      <TableView fx:id="tablePhong" layoutX="19.0" layoutY="213.0" maxHeight="130.0" prefWidth="411.0" styleClass="tableBill" stylesheets="@../styles/base.css">
-        <columns>
-          <TableColumn fx:id="phongCol" editable="false" prefWidth="75.0" sortable="false" text="Phòng" />
-          <TableColumn fx:id="gioPhongCol" editable="false" prefWidth="167.0" sortable="false" text="Thông tin giờ" />
-            <TableColumn fx:id="giaPhongCol" editable="false" prefWidth="73.0" sortable="false" text="Giá phòng" />
-            <TableColumn fx:id="tienPhongCol" editable="false" prefWidth="95.0" sortable="false" text="Thành tiền" />
-        </columns>
-      </TableView>
-      <Text layoutX="164.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THÔNG TIN DỊCH VỤ">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Text>
-      <TableView fx:id="tableDichVu" layoutX="21.0" layoutY="395.0" maxHeight="167.0" prefHeight="130.0" prefWidth="411.0" styleClass="tableBill" stylesheets="@../styles/base.css">
-         <columns>
-            <TableColumn fx:id="tenDVCol" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Tên" />
-            <TableColumn fx:id="soLuongDVCol" editable="false" prefWidth="84.0" resizable="false" sortable="false" text="Số lượng" />
-            <TableColumn fx:id="giaDVCol" editable="false" prefWidth="98.0" resizable="false" sortable="false" text="Đơn giá" />
-            <TableColumn fx:id="tienDichVuCol" editable="false" prefWidth="95.0" resizable="false" sortable="false" text="Thành tiền" />
-         </columns>
-      </TableView>
-      <Text layoutX="219.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền phòng: ">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTongTienPhong" layoutX="326.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="101.623046875">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="219.0" layoutY="539.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền dịch vụ:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTongTienDichVu" layoutX="334.0" layoutY="539.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="93.365234375">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="219.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTongTien" layoutX="294.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="219.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thuế VAT (5%):">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTienThueVAT" layoutX="326.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="101.623046875">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtLuongGiamGia" layoutX="219.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giảm giá (0%):">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtGiamGia" layoutX="317.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="110.9130859375">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="220.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thanh toán:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtThanhToan" layoutX="306.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="122.4521484375">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="220.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền khách đưa:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTienKhach" layoutX="325.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="103.2294921875">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="157.0" layoutY="711.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CẢM ƠN QUÝ KHÁCH">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="182.0" layoutY="729.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hẹn gặp lại !!!">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Line endX="340.0" fill="BLACK" layoutX="101.0" layoutY="548.0" startX="-90.0" />
-      <Text layoutX="220.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTienThua" layoutX="295.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-   </children>
+    <children>
+        <Text layoutX="165.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Karaoke Tỷ Tỷ">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Text>
+        <Text layoutX="82.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12 Nguyễn Văn Bảo, P4, Gò Vấp, TP Hồ Chí Minh">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="170.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEL: 0393504301">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="128.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HÓA ĐƠN THANH TOÁN">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Text>
+        <Text layoutX="27.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hóa đơn:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtHoaDon" layoutX="120.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="27.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian lập: ">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtThoiGianLap" layoutX="120.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="262.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtNhanVien" layoutX="345.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="262.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khách hàng:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtKhachHang" layoutX="345.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="163.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THÔNG TIN PHÒNG">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Text>
+        <TableView fx:id="tablePhong" layoutX="19.0" layoutY="213.0" maxHeight="130.0" prefWidth="411.0" styleClass="tableBill" stylesheets="@../styles/base.css">
+            <columns>
+                <TableColumn fx:id="phongCol" editable="false" prefWidth="75.0" sortable="false" text="Phòng" />
+                <TableColumn fx:id="gioPhongCol" editable="false" prefWidth="167.0" sortable="false" text="Thông tin giờ" />
+                <TableColumn fx:id="giaPhongCol" editable="false" prefWidth="73.0" sortable="false" text="Giá phòng" />
+                <TableColumn fx:id="tienPhongCol" editable="false" prefWidth="95.0" sortable="false" text="Thành tiền" />
+            </columns>
+        </TableView>
+        <Text layoutX="164.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THÔNG TIN DỊCH VỤ">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Text>
+        <TableView fx:id="tableDichVu" layoutX="21.0" layoutY="395.0" maxHeight="167.0" prefHeight="130.0" prefWidth="411.0" styleClass="tableBill" stylesheets="@../styles/base.css">
+            <placeholder>
+                <Label text=""/>
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="tenDVCol" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Tên" />
+                <TableColumn fx:id="soLuongDVCol" editable="false" prefWidth="84.0" resizable="false" sortable="false" text="Số lượng" />
+                <TableColumn fx:id="giaDVCol" editable="false" prefWidth="98.0" resizable="false" sortable="false" text="Đơn giá" />
+                <TableColumn fx:id="tienDichVuCol" editable="false" prefWidth="95.0" resizable="false" sortable="false" text="Thành tiền" />
+            </columns>
+        </TableView>
+        <Text layoutX="219.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền phòng: ">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTongTienPhong" layoutX="326.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="101.623046875">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="219.0" layoutY="539.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền dịch vụ:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTongTienDichVu" layoutX="334.0" layoutY="539.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="93.365234375">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="219.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTongTien" layoutX="294.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="219.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thuế VAT (5%):">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTienThueVAT" layoutX="326.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="101.623046875">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtLuongGiamGia" layoutX="219.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giảm giá (0%):">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtGiamGia" layoutX="317.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="110.9130859375">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="220.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thanh toán:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtThanhToan" layoutX="306.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="122.4521484375">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="220.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền khách đưa:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTienKhach" layoutX="325.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="103.2294921875">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="157.0" layoutY="711.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CẢM ƠN QUÝ KHÁCH">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Text>
+        <Text layoutX="182.0" layoutY="729.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hẹn gặp lại !!!">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Line endX="340.0" fill="BLACK" layoutX="101.0" layoutY="548.0" startX="-90.0" />
+        <Text layoutX="220.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <Text fx:id="txtTienThua" layoutX="295.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="133.8203125">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+    </children>
 </AnchorPane>

@@ -89,29 +89,26 @@ public class GD_DatPhongChoController implements Initializable {
         });
     }
 
-    public void handleEventInButton() {
-        btnClose.setOnAction(evt -> {
-            ((Stage) txtMaPhong.getScene().getWindow()).close();
-        });
-        btnRefresh.setOnAction(evt -> {
-            txtSDT.setText("");
-            txtTenKH.setText("");
-            dpNgayNhan.setValue(LocalDate.now());
-            cbGioNhan.getSelectionModel().selectFirst();
-            cbPhutNhan.getSelectionModel().selectFirst();
-        });
-        btnBookWaitingRoom.setOnAction(evt -> {
-            try {
-                String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countTicketInDay());
-                KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
-                Phong phong = new Phong(txtMaPhong.getText());
-                NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
-                LocalDateTime thoiGianLap = LocalDateTime.now();
-                System.out.println(cbGioNhan.getValue());
-                System.out.println(cbPhutNhan.getValue());
-                LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
-                System.out.println(thoiGianNhan);
-                String ghiChu = "";
+	public void handleEventInButton() {
+		btnClose.setOnAction(evt -> {
+			((Stage) txtMaPhong.getScene().getWindow()).close();
+		});
+		btnRefresh.setOnAction(evt -> {
+			txtSDT.setText("");
+			txtTenKH.setText("");
+			dpNgayNhan.setValue(LocalDate.now());
+			cbGioNhan.getSelectionModel().selectFirst();
+			cbPhutNhan.getSelectionModel().selectFirst();
+		});
+		btnBookWaitingRoom.setOnAction(evt -> {
+			try {
+				String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countBookingTicketInDay());
+				KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
+				Phong phong = new Phong(txtMaPhong.getText());
+				NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
+				LocalDateTime thoiGianLap = LocalDateTime.now();
+				LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
+				String ghiChu = "";
 
                 boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, ghiChu));
                 if (result == true) {
