@@ -1,41 +1,42 @@
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_DatDichVuController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\DichVu.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLNhanVienController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\connection.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\KhachHang.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\main\AppPreloader.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_DatPhongChoController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\NhanVien.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLDichVuController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNamController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_DichVu.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\SplashController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_Phong.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_DangNhapController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\enums\Enum_Nvien.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLCTKhuyenMaiController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeQuyController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\CT_KhuyenMai.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNgayController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ChuyenPhongController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKinhDoanhPhongController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\AppFrameController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\connect\ConnectDB.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKhachHangController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThanhToanController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\enums\Enum_TrangThaiLamViec.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\Phong.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\BillController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\enums\Enum_LoaiPhong.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLPhongController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\main\App.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\module-info.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_TraCuuHoaDonController.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\enums\Enum_ChucVu.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
-D:\Desktop\New folder (2)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeThangController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\KhachHang.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_DangNhapController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNamController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\AppFrameController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\enums\Enum_Nvien.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKhachHangController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\enums\Enum_LoaiPhong.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLNhanVienController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_TraCuuHoaDonController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLCTKhuyenMaiController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKinhDoanhPhongController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThanhToanController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\DichVu.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\connect\ConnectDB.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\connection.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLDichVuController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\module-info.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ChuyenPhongController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeNgayController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\main\App.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_DatDichVuController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\main\AppPreloader.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_DichVu.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_DatPhongChoController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeThangController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\NhanVien.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\BillController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeQuyController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\CT_KhuyenMai.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\enums\Enum_ChucVu.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\enums\Enum_TrangThaiLamViec.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\PopupPhongController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_Phong.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\GD_QLPhongController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\controllers\SplashController.java
+D:\QLKaraoke_TyTy (1)\QLKaraoke_TyTy\src\main\java\model\Phong.java
