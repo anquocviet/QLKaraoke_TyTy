@@ -214,7 +214,9 @@ public class GD_QLNhanVienController implements Initializable {
 
     public void handleThemNhanVienButtonAction(ActionEvent event) {
         try {
-            xuLyThemNhanVien();
+            if(!xuLyThemNhanVien()){
+                showAlert("Thông báo", "Thêm nhân viên không thành công");
+            };
         } catch (Exception ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -222,7 +224,9 @@ public class GD_QLNhanVienController implements Initializable {
 
     public void handleCapNhatNhanVienButtonAction(ActionEvent event) {
         try {
-            xuLySuaThongTinNhanVien();
+            if(!xuLySuaThongTinNhanVien()){
+                showAlert("Thông báo", "Cập nhật không thành công");
+            };
         } catch (Exception ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -236,7 +240,7 @@ public class GD_QLNhanVienController implements Initializable {
         });
     }
 
-    private void openFileChooser() {
+    public void openFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Chọn ảnh");
         fileChooser.getExtensionFilters().addAll(
@@ -295,12 +299,15 @@ public class GD_QLNhanVienController implements Initializable {
         //cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
     }
 
-    private boolean kiemTraRong() throws Exception {
-        String cccd = txtCCCD.getText();
-        String soDienThoai = txtSoDienThoaiNV.getText();
+    public boolean kiemTraDuLieu() throws Exception {
 
         if (txtMaNhanVien.getText().equals("")) {
             showAlert("Lỗi nhập dữ liệu", "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+        if (!txtCCCD.getText().matches("\\d{12}")) {
+            showAlert("Lỗi nhập dữ liệu", "CCCD là một dãy gồm 12 số");
             txtCCCD.selectAll();
             txtCCCD.requestFocus();
             return false;
@@ -314,6 +321,12 @@ public class GD_QLNhanVienController implements Initializable {
 
         if (txtHoTen.getText().equals("")) {
             showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên không được rỗng");
+            txtHoTen.selectAll();
+            txtHoTen.requestFocus();
+            return false;
+        }
+        if (!isNameFormatValid(txtHoTen.getText())) {
+            showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên phải in hoa ký tự đầu");
             txtHoTen.selectAll();
             txtHoTen.requestFocus();
             return false;
@@ -336,6 +349,12 @@ public class GD_QLNhanVienController implements Initializable {
             txtSoDienThoaiNV.requestFocus();
             return false;
         }
+        if (!txtSoDienThoaiNV.getText().matches("0[23789]\\d{8}")) {
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên là dãy gồm 10 ký số. 2 ký số đầu là {02, 03, 05, 07, 08, 09}");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return false;
+        }
 
         if (txtDiaChi.getText().equals("")) {
             showAlert("Lỗi nhập dữ liệu", "Địa chỉ nhân viên không được rỗng");
@@ -350,12 +369,19 @@ public class GD_QLNhanVienController implements Initializable {
             return false;
         }
 
+        Image img = new Image("file:src/main/resources/image/employe.png");
+
+        if (imgNV.getImage() != null && imgNV.getImage().getUrl().equals(img.getUrl())) {
+            showAlert("Lỗi nhập dữ liệu", "Vui lòng nhấn đúp chuột trái vào ảnh nhân viên minh họa để chọn ảnh!");
+            return false;
+        }
+
         return true;
     }
 
-    public void xuLyThemNhanVien() throws Exception {
-        if (!kiemTraRong()) {
-            return;
+    public boolean xuLyThemNhanVien() throws Exception {
+        if (!kiemTraDuLieu()) {
+            return false;
         }
         NhanVien nv = null;
 //        String maNhanVien = phatSinhMaNhanVien();
@@ -373,29 +399,36 @@ public class GD_QLNhanVienController implements Initializable {
         String chucVuString = (String) cbbChucVu.getValue();
         Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
         Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
-        String anhDaiDien = imgNV.getImage().getUrl();
+        //String anhDaiDien = imgNV.getImage().getUrl();
+        String anhDaiDienUrl = imgNV.getImage().getUrl();
+        File file = new File(anhDaiDienUrl);
+        String anhDaiDien = file.getName();
 
         if (!kiemTraTrungCCCD(cccd)) {
             showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
             txtCCCD.selectAll();
             txtCCCD.requestFocus();
-            return;
+            return false;
         }
 
         if (!kiemTraTrungSDT(soDienThoai)) {
             showAlert("Lỗi nhập dữ liệu", "Số điện thoại không được phép trùng!");
             txtSoDienThoaiNV.selectAll();
             txtSoDienThoaiNV.requestFocus();
-            return;
+            return false;
         }
 
         nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.themNhanVien(nv);
         table.setItems(NhanVien.getAllNhanVien());
-
+        showAlert("Thông báo", "Thêm nhân viên thành công");
+        return true;
     }
 
-    public void xuLySuaThongTinNhanVien() throws SQLException, Exception {
+    public boolean xuLySuaThongTinNhanVien() throws SQLException, Exception {
+        if (!kiemTraDuLieu()) {
+            return false;
+        }
         String maNhanVien = txtMaNhanVien.getText();
         String hoTen = txtHoTen.getText();
         String cccd = txtCCCD.getText();
@@ -422,6 +455,8 @@ public class GD_QLNhanVienController implements Initializable {
 
         table.setItems(NhanVien.getAllNhanVien());
         table.refresh();
+        showAlert("Thông báo", "Đã cập nhật");
+        return true;
     }
 
     public String phatSinhMaNhanVien() throws SQLException {
@@ -502,6 +537,16 @@ public class GD_QLNhanVienController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public boolean isNameFormatValid(String name) {
+        String[] words = name.split("\\s+");
+        for (String word : words) {
+            if (!word.matches("\\p{Lu}\\p{Ll}*")) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
