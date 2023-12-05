@@ -91,7 +91,11 @@ public class App extends Application {
 	}
 
 	public static void main(String[] args) {
+
 //		System.setProperty("javafx.preloader", AppPreloader.class.getName());
+
+		System.setProperty("javafx.preloader", AppPreloader.class.getName());
+
 		launch(App.class, args);
 	}
 

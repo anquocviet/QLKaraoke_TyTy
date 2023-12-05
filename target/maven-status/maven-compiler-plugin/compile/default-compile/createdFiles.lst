@@ -33,7 +33,6 @@ controllers\GD_ThanhToanController.class
 model\DichVu.class
 controllers\GD_TraCuuHoaDonController$1.class
 controllers\GD_DatDichVuController$4$1.class
-controllers\PopupPhongController.class
 model\TaiKhoan.class
 controllers\GD_QLDichVuController$1.class
 controllers\SplashController.class
