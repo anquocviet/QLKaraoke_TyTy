@@ -7,7 +7,6 @@ package model;
 import connect.ConnectDB;
 import controllers.GD_TraCuuHoaDonController;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class HoaDonThanhToan {
+public final class HoaDonThanhToan {
 
     private String maHoaDon;
     private NhanVien nhanVienLap;

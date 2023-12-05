@@ -5,10 +5,11 @@
 package controllers;
 
 import enums.Enum_LoaiPhong;
-import enums.Enum_ChucVu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -19,8 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import model.KhachHang;
 import model.Phong;
 
 /**
@@ -38,6 +37,8 @@ public class GD_QLPhongController implements Initializable {
     private Button btnUpdate;
     @FXML
     private ComboBox<String> cbbTinhTrang;
+
+    private static final String regexPhong ="^P([1-9]\\d{0,1})0([1-9]\\d{0,1})$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -80,8 +81,35 @@ public class GD_QLPhongController implements Initializable {
         docDuLieuTuTable();
 
 
+
+
         btnAdd.setOnAction(e -> {
+            if(checkEmptyField()){
+                AlterErr("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+
             String maPhong = txtMaPhong.getText();
+
+            if(!checkMaPhong(maPhong.trim())){
+                AlterErr("Mã phòng không hợp lệ phải theo định dạng Pxx0xx");
+                return;
+            }
+
+            if(checkIsExist(maPhong.trim())){
+                AlterErr("Mã phòng đã tồn tại");
+                return;
+            }
+            if(!checkKieuSoNguyenDuong(txtSucChua.getText())){
+                AlterErr("Sức chứa phải là số nguyên dương");
+                return;
+            }
+
+            if(!checkKieuSoNguyenDuong(txtGiaPhong.getText())){
+                AlterErr("Giá phòng phải là số nguyên dương");
+                return;
+            }
+
             int sucChua = Integer.parseInt(txtSucChua.getText());
             String tinhTrang = cbbTinhTrang.getValue();
             float giaPhong = Float.parseFloat(txtGiaPhong.getText());
@@ -89,6 +117,12 @@ public class GD_QLPhongController implements Initializable {
 
             String loaiPhongDb = loaiPhong.equals("VIP") ? "1" : "0";
             int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("ĐÃ THUÊ") ? 1 : 2;
+
+
+            if(loaiPhongDb.equals("1")){
+                maPhong = maPhong + "VIP";
+            }
+            System.out.println(maPhong);
 
             Phong.addPhong(maPhong, loaiPhongDb, tinhTrangDb, sucChua, giaPhong);
             table.setItems(Phong.getAllPhong());
@@ -105,6 +139,25 @@ public class GD_QLPhongController implements Initializable {
         });
 
         btnUpdate.setOnAction(e->{
+
+            if(checkEmptyField()){
+                AlterErr("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+
+            if(!checkKieuSoNguyenDuong(txtSucChua.getText())){
+                AlterErr("Sức chứa phải là số nguyên dương");
+                return;
+            }
+
+            if(!checkKieuSoNguyenDuong(txtGiaPhong.getText())){
+                AlterErr("Giá phòng phải là số nguyên dương");
+                return;
+            }
+
+            Phong p = table.getSelectionModel().getSelectedItem();
+
+
             String maPhong = txtMaPhong.getText();
             int sucChua = Integer.parseInt(txtSucChua.getText());
             String tinhTrang = cbbTinhTrang.getValue();
@@ -113,13 +166,32 @@ public class GD_QLPhongController implements Initializable {
 
             String loaiPhongDb = loaiPhong.equals("VIP") ? "1" : "0";
             int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("ĐÃ THUÊ") ? 1 : 2;
+            String maPhongCu = p.getMaPhong();
 
-            Phong.updatePhong(maPhong, loaiPhongDb, tinhTrangDb, sucChua, giaPhong);
+            if(loaiPhongDb.equals("1")){
+                maPhong = maPhong + "VIP";
+            }
+
+            if(!maPhong.equals(maPhongCu) && checkIsExist(maPhong.trim())){
+                AlterErr("Mã phòng đã tồn tại");
+                return;
+            }
+
+
+            Phong.updatePhong(maPhong, loaiPhongDb, tinhTrangDb, sucChua, giaPhong, maPhongCu);
             table.setItems(Phong.getAllPhong());
             table.refresh();
         });
 
     }
+
+    private static void AlterErr(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText(s);
+        alert.showAndWait();
+    }
+
 
     public void handleEventInTable() {
         table.setOnMouseClicked(event -> docDuLieuTuTable());
@@ -133,6 +205,26 @@ public class GD_QLPhongController implements Initializable {
 
 
         });
+    }
+
+    private boolean checkEmptyField() {
+        return txtMaPhong.getText().isEmpty() || txtSucChua.getText().isEmpty() || cbbTinhTrang.getValue().isEmpty() || txtGiaPhong.getText().isEmpty() || cbbLoaiPhong.getValue().toString().isEmpty();
+    }
+
+    private boolean checkMaPhong(String maPhong){
+        Pattern pattern = Pattern.compile(regexPhong);
+        Matcher matcher = pattern.matcher(maPhong);
+        return matcher.matches();
+    }
+
+    private boolean checkIsExist(String maPhong){
+        return Phong.isExisted(maPhong);
+    }
+
+    private boolean checkKieuSoNguyenDuong(String so){
+        Pattern pattern = Pattern.compile("^[1-9]\\d*$");
+        Matcher matcher = pattern.matcher(so);
+        return matcher.matches();
     }
 
     //  Render and handle in View'
