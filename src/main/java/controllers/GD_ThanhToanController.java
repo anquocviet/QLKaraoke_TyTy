@@ -10,7 +10,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -69,12 +68,12 @@ public class GD_ThanhToanController implements Initializable {
 
 			tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
 			tableDichVu.setSkin(new TableViewSkin<ChiTietHD_DichVu>(tableDichVu) {
-			@Override
-			public int getItemCount() {
-				int r = super.getItemCount();
-				return r == 0 ? 1 : r;
-			}
-		});
+				@Override
+				public int getItemCount() {
+					int r = super.getItemCount();
+					return r == 0 ? 1 : r;
+				}
+			});
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -138,9 +137,11 @@ public class GD_ThanhToanController implements Initializable {
 
 		long tongTien = tienPhong + tienDV;
 		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
-		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
-		tongTien = tongTien + tienVAT + tienThueTTDB;
-		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+//		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
+//		tongTien = tongTien + tienVAT + tienThueTTDB;
+//		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+		tongTien = tongTien + tienVAT;
+		txtTienThue.setText(df.format(tienVAT) + " VNĐ");
 		txtTongTien.setText(df.format(tongTien) + " VNĐ");
 		handleEventInInput();
 		handleEventInBtn();

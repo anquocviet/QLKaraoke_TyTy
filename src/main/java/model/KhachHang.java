@@ -21,7 +21,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class KhachHang {
+public final class KhachHang {
 
     private String maKhachHang;
     private String tenKhachHang;

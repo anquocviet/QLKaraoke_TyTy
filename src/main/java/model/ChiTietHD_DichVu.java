@@ -23,9 +23,7 @@ import main.App;
  *
  * @author fil
  */
-public class ChiTietHD_DichVu {
-
-	private final int TIENLOI = 10;
+public final class ChiTietHD_DichVu {
 	private HoaDonThanhToan hoaDon;
 	private DichVu dichVu;
 	private int soLuong;
@@ -82,7 +80,7 @@ public class ChiTietHD_DichVu {
 	}
 
 	public void tinhThanhTien() {
-		thanhTien = soLuong * (dichVu.getDonGia() + dichVu.getDonGia() * App.VATDV / 100 + dichVu.getDonGia() * TIENLOI / 100);
+		thanhTien = soLuong * dichVu.getDonGia();
 	}
 
 	public long getThanhTien() {

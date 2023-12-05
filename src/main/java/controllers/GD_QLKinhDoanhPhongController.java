@@ -42,7 +42,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.util.Duration;
 import main.App;
 import model.PhieuDatPhong;
@@ -204,7 +203,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				});
 				break;
 		}
-		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 15");
+		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
 
 		HBox hbox = new HBox(btnLeft, btnRight);
 		hbox.setSpacing(30);
@@ -252,7 +251,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			} else if (newValue.equals(radioTypeNormal)) {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{0, 0}, arrStatus, capacity);
-				;
 			} else {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{1, 1}, arrStatus, capacity);
