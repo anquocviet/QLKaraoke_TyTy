@@ -18,13 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,6 +26,8 @@ import javafx.scene.input.MouseEvent;
 import model.KhachHang;
 import model.NhanVien;
 import model.TaiKhoan;
+
+import javax.swing.plaf.TableUI;
 
 /**
  * FXML Controller class
@@ -65,6 +61,8 @@ public class GD_DangKyController implements Initializable {
 
     }
 
+
+
     public void handleEventInTable() {
         table.setOnMouseClicked(event -> docDuLieuTuTable());
         table.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -80,12 +78,10 @@ public class GD_DangKyController implements Initializable {
 
     @FXML
     public void xuLyDangKy() throws Exception {
-        cbbNvien.getItems().clear();
-        cbbNvien.getItems().addAll(Enum_Nvien.values());
-        cbbNvien.getSelectionModel().selectFirst();
+
     }
 
-//  Render and handle in View'
+    //  Render and handle in View'
     public void docDuLieuTuTable() {
         TaiKhoan tk = table.getSelectionModel().getSelectedItem();
         if (tk == null) {
@@ -95,9 +91,7 @@ public class GD_DangKyController implements Initializable {
         txtTenTaiKhoan.setText(tk.getTenDangNhap());
         pwMatKhau.setText(tk.getMatKhau());
         pwNhapLaiMatKhau.setText(tk.getMatKhau());
-        cbbNvien.getItems().clear();
-        cbbNvien.getItems().addAll(Enum_Nvien.values());
-        Enum_Nvien nvien = (Enum_Nvien) cbbNvien.getValue();
+
         cbMaNhanVien.setValue(tk.getNhanVien().getMaNhanVien());
         /*
         if (p.getLoaiPhong()==0){
@@ -111,14 +105,38 @@ public class GD_DangKyController implements Initializable {
 
     @FXML
     public void addDuLieuVaoTable() throws Exception {
+        if(txtHoVaTen.getText().isEmpty() || txtTenTaiKhoan.getText().isEmpty() || pwMatKhau.getText().isEmpty() || pwNhapLaiMatKhau.getText().isEmpty() || cbMaNhanVien.getValue() == null){
+            AlterErr("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+
+        if(pwMatKhau.getText().length() < 8){
+            AlterErr("Mật khẩu phải có ít nhất 8 ký tự");
+            return;
+        }
+
         String hoTen = txtHoVaTen.getText();
         String tenTaiKhoan = txtTenTaiKhoan.getText();
         String matKhau = pwMatKhau.getText();
         String nhapLaiMK = pwNhapLaiMatKhau.getText();
         String maNhanVien = cbMaNhanVien.getValue();
 
+
+
+        if (TaiKhoan.isExisted(tenTaiKhoan)) {
+            AlterErr("Tên tài khoản đã tồn tại");
+            return;
+        }
+
         if (!Objects.equals(matKhau, nhapLaiMK)) {
-            System.err.println("MK Khong trung khop, nhap lai");
+            AlterErr("Mật khẩu không khớp");
+            return;
+
+        }
+
+        if(TaiKhoan.isExistedMaNhanVien(maNhanVien)){
+            AlterErr("Nhân viên đã có tài khoản");
+            return;
         }
 
         TaiKhoan tk = new TaiKhoan();
@@ -128,8 +146,16 @@ public class GD_DangKyController implements Initializable {
         tk.setNhanVien(new NhanVien(maNhanVien));
 
         TaiKhoan tksave = TaiKhoan.save(tk);
+        System.out.println("thanh cong");
 
         table.setItems(TaiKhoan.getAllTaiKhoanFull());
+    }
+
+    private static void AlterErr(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText(s);
+        alert.showAndWait();
     }
 
     @FXML
@@ -157,8 +183,7 @@ public class GD_DangKyController implements Initializable {
     private PasswordField pwMatKhau;
     @FXML
     private PasswordField pwNhapLaiMatKhau;
-    @FXML
-    private ComboBox cbbNvien;
+
     @FXML
     private Button btnThem;
 

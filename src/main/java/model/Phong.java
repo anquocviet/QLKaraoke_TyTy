@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
+import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -40,6 +41,7 @@ public class Phong {
     public Phong(String maPhong) throws Exception {
         setMaPhong(maPhong);
     }
+
 
     public String getMaPhong() {
         return maPhong;
@@ -222,14 +224,14 @@ public class Phong {
         return dsPhong;
     }
 
-    public static ObservableList<Phong> getListPhongByTypeAndStatus(int[] arrType, int[] arrStatus) {
+    public static ObservableList<Phong> getListPhongByType_Status_Capacity(int[] arrType, int[] arrStatus, int capacity) {
         ObservableList<Phong> dsPhong = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
             String sql = String.format("SELECT * FROM Phong WHERE LOAIPHONG IN (%d, %d) "
-                    + "AND TINHTRANG IN (%d, %d, %d)", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2]);
+                    + "AND TINHTRANG IN (%d, %d, %d) AND SucChua >= %d", arrType[0], arrType[1], arrStatus[0], arrStatus[1], arrStatus[2], capacity);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhong = rs.getString("Maphong");
@@ -280,6 +282,76 @@ public class Phong {
         }
         return dsPhong;
     }
+	
+	public static ObservableList<Integer> getAllCapacityOfRoom() {
+		ObservableList<Integer> listCapacity = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT SucChua FROM Phong GROUP BY SucChua";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int capacity = rs.getInt("SucChua");
+                listCapacity.add(capacity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listCapacity;
+	}
+	
+	public static int countStatusRoom(int status) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+		int qty = 0;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaPhong) AS QTY FROM Phong WHERE TinhTrang = " + status;
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                qty = rs.getInt("QTY");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return qty;
+	}
+	
+	public static int countTypeRoom(int type) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+		int qty = 0;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT COUNT(MaPhong) AS QTY FROM Phong WHERE LoaiPhong = " + type;
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                qty = rs.getInt("QTY");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return qty;
+	}
 
     public static boolean updateStatusRoom(String roomID, int status) {
         ConnectDB.getInstance();
@@ -369,20 +441,21 @@ public class Phong {
     }
 
 
-    public static void updatePhong(String maPhong, String loaiPhong, int tinhTrang, int sucChua, float giaPhong){
+    public static void updatePhong(String maPhong, String loaiPhong, int tinhTrang, int sucChua, float giaPhong, String maPhongCu){
         ConnectDB.getInstance();
         Connection conn = ConnectDB.getConnection();
         PreparedStatement pstm = null;
 
-        String sql = "UPDATE Phong SET loaiphong = ?, tinhtrang = ?, succhua = ?, giaphong = ? WHERE maphong = ?";
+        String sql = "UPDATE Phong SET maphong = ?, loaiphong = ?, tinhtrang = ?, succhua = ?, giaphong = ? WHERE maphong = ?";
 
         try {
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, loaiPhong);
-            pstm.setInt(2, tinhTrang);
-            pstm.setInt(3, sucChua);
-            pstm.setFloat(4, giaPhong);
-            pstm.setString(5, maPhong);
+            pstm.setString(1, maPhong);
+            pstm.setString(2, loaiPhong);
+            pstm.setInt(3, tinhTrang);
+            pstm.setInt(4, sucChua);
+            pstm.setFloat(5, giaPhong);
+            pstm.setString(6, maPhongCu);
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -394,6 +467,31 @@ public class Phong {
                 ex.printStackTrace();
             }
         }
+    }
+    public static boolean isExisted(String maPhong) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+
+        String sql = "SELECT * FROM Phong WHERE maphong = ?";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, maPhong);
+            ResultSet rs = pstm.executeQuery();
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert pstm != null;
+                pstm.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
     }
 
 }

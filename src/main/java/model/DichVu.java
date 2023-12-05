@@ -6,7 +6,6 @@ package model;
 
 import connect.ConnectDB;
 import controllers.GD_QLDichVuController;
-import controllers.GD_QLKhachHangController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -278,7 +277,7 @@ public class DichVu {
 
     public static boolean capNhatThongTinDichVu(DichVu dv) {
         ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
+        Connection conn = ConnectDB.getConnection();
         PreparedStatement pstm = null;
         int n = 0;
 

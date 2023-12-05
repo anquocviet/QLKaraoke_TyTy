@@ -54,6 +54,9 @@ public class TaiKhoan {
         this.maTaiKhoan = maTaiKhoan;
     }
 
+
+
+
     public String getMaTaiKhoan() {
         return maTaiKhoan;
     }
@@ -273,5 +276,55 @@ public class TaiKhoan {
         }
         return dsTaiKhoan;
     }
+    public static boolean isExisted(String tenTaiKhoan) {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        boolean isExisted = false;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM TaiKhoan WHERE TenDangNhap = '%s'", tenTaiKhoan);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                isExisted = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return isExisted;
+    }
 
+    public static boolean isExistedMaNhanVien(String maNhanVien) {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        boolean isExisted = false;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT * FROM TaiKhoan WHERE MaNhanVien = '%s'", maNhanVien);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                isExisted = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return isExisted;
+    }
 }
