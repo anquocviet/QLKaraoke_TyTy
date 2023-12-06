@@ -6,9 +6,12 @@ package controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +20,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -53,7 +60,6 @@ public class GD_QLDichVuController implements Initializable {
         col_maDichVu.setCellValueFactory(new PropertyValueFactory<>("maDichVu"));
         col_tenDichVu.setCellValueFactory(new PropertyValueFactory<>("tenDichVu"));
         col_soLuong.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
-        //col_donGia.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         col_donGia.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         col_donGia.setCellFactory(column -> {
             return new TableCell<DichVu, Long>() {
@@ -148,7 +154,7 @@ public class GD_QLDichVuController implements Initializable {
 
     private boolean kiemTraRong() throws Exception {
         if (txtTenDichVu.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Tên dịch vụ không được rỗng");
+            showAlert("Tên dịch vụ không được rỗng", AlertType.ERROR);
             txtTenDichVu.selectAll();
             txtTenDichVu.requestFocus();
             return false;
@@ -156,7 +162,7 @@ public class GD_QLDichVuController implements Initializable {
 
         Integer tmp1 = Integer.parseInt(txtSoLuong.getText());
         if (txtSoLuong.getText().equals("") || tmp1 < 0) {
-            JOptionPane.showMessageDialog(null, "Số lượng không được rỗng và phải lớn hơn 0");
+            showAlert("Số lượng không được rỗng và phải lớn hơn 0", AlertType.ERROR);
             txtSoLuong.selectAll();
             txtSoLuong.requestFocus();
             return false;
@@ -164,7 +170,7 @@ public class GD_QLDichVuController implements Initializable {
 
         String donViTinh = txtDonViTinh.getText().trim();
         if (donViTinh.isEmpty() || !kiemTraDinhDangDonViTinh(donViTinh)) {
-            JOptionPane.showMessageDialog(null, "Đơn vị tính của dịch vụ không được rỗng và phải đúng định dạng");
+            showAlert("Đơn vị tính của dịch vụ không được rỗng và phải đúng định dạng", AlertType.ERROR);
             txtDonViTinh.selectAll();
             txtDonViTinh.requestFocus();
             return false;
@@ -172,7 +178,7 @@ public class GD_QLDichVuController implements Initializable {
 
         long tmp2 = Long.parseLong(txtDonGia.getText());
         if (txtDonGia.getText().equals("") || tmp2 < 0) {
-            JOptionPane.showMessageDialog(null, "Đơn giá của dịch vụ  không được rỗng và phải lớn hơn 0");
+            showAlert("Đơn giá của dịch vụ  không được rỗng và phải lớn hơn 0", AlertType.ERROR);
             txtDonGia.selectAll();
             txtDonGia.requestFocus();
             return false;
@@ -217,7 +223,7 @@ public class GD_QLDichVuController implements Initializable {
         String anhMinhHoa = tenAnhMinhHoa;
 
         if (!kiemTraTrungDichVu(tenDichVu, donViTinh)) {
-            JOptionPane.showMessageDialog(null, "Dịch vụ này đã có trên hệ thống!");
+            showAlert("Dịch vụ này đã có trên hệ thống!", AlertType.ERROR);
             txtTenDichVu.selectAll();
             txtTenDichVu.requestFocus();
             return;
@@ -227,7 +233,7 @@ public class GD_QLDichVuController implements Initializable {
         DichVu.themDichVu(dv);
         tableView_DichVu.setItems(DichVu.getAllDichVu());
 
-        JOptionPane.showMessageDialog(null, "Thêm thông tin dịch vụ thành công");
+        showAlert("Thêm thông tin dịch vụ thành công", AlertType.NONE);
     }
 
     public boolean kiemTraTrungDichVu(String tenDichVu, String donViTinh) throws Exception {
@@ -266,7 +272,7 @@ public class GD_QLDichVuController implements Initializable {
         tableView_DichVu.setItems(DichVu.getAllDichVu());
         tableView_DichVu.refresh();
 
-        JOptionPane.showMessageDialog(null, "Cập nhật thông tin dịch vụ thành công");
+        showAlert("Cập nhật thông tin dịch vụ thành công", AlertType.NONE);
 
     }
 
@@ -287,22 +293,45 @@ public class GD_QLDichVuController implements Initializable {
     @FXML
     private void chonAnh(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-
-        // Đặt đường dẫn mặc định tại đây
-        String defaultPath = "C:\\PTUD\\QLKaraoke_TyTy\\src\\main\\resources\\image\\dich-vu";
-        fileChooser.setInitialDirectory(new File(defaultPath));
-
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Ảnh Files", "*.png", "*.jpg", "*.gif")
         );
 
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        String initialDirectoryPath = "src/main/resources/image/dich-vu/";
+        Path initialDirectory = Paths.get(initialDirectoryPath).toAbsolutePath();
 
-        if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            imgDichVu.setImage(image);
-            
-            tenAnhMinhHoa = selectedFile.getName();
+        fileChooser.setInitialDirectory(initialDirectory.toFile());
+
+        try {
+            Stage stage = new Stage();
+            File selectedFile = fileChooser.showOpenDialog(stage);
+
+            if (selectedFile != null) {
+                String imagePath = "file:///" + selectedFile.getAbsolutePath().replace("\\", "/");
+                Image image = new Image(imagePath);
+                imgDichVu.setImage(image);
+                tenAnhMinhHoa = selectedFile.getName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Phương thức showAlert
+    private void showAlert(String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Thông báo");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        ButtonType buttonTypeOK = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        alert.getButtonTypes().setAll(buttonTypeOK);
+
+        // Đợi người dùng nhấn OK
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == buttonTypeOK) {
+            // Người dùng đã nhấn OK, bạn có thể thực hiện các hành động sau khi đóng Alert ở đây
+            // Ví dụ: stage.close(); // Đóng cửa sổ chứa Alert
         }
     }
 
