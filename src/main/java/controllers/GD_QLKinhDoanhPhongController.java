@@ -150,13 +150,16 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		lblSucChua.setPadding(new Insets(0, 0, 8, 0));
 		roomItem.getChildren().add(lblSucChua);
 
+//		Kiểm tra thêm thông tin của phòng chờ
 		if (phong.getTinhTrang() == 2) {
 			try {
 				PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong());
-				Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
-				lblGioNhan.setStyle("-fx-font-size: 16; -fx-font-weight: 600");
-				lblGioNhan.setPadding(new Insets(0, 0, 8, 0));
-				roomItem.getChildren().add(lblGioNhan);
+				if (phieu != null) {
+					Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
+					lblGioNhan.setStyle("-fx-font-size: 16; -fx-font-weight: 600");
+					lblGioNhan.setPadding(new Insets(0, 0, 8, 0));
+					roomItem.getChildren().add(lblGioNhan);
+				}
 			} catch (Exception ex) {
 				Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -411,6 +414,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				alert.setHeaderText("Bạn có chắc muốn hủy phòng chờ này không?");
 				alert.showAndWait();
 				if (alert.getResult() == ButtonType.YES) {
+					PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+					if (phieu != null) {
+						PhieuDatPhong.updateTrangThaiPhieuDat(phieu.getMaPhieuDat(), true);
+					}
 					Phong.updateStatusRoom(roomID, 0);
 					gridPane.getChildren().clear();
 					renderArrayPhong(Phong.getAllPhong());
@@ -490,7 +497,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	}
 
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
-	
+
 	private static short itemChoosed = 0;
 	public static String roomID;
 	@FXML

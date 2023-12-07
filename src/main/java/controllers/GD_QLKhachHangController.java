@@ -140,6 +140,11 @@ public class GD_QLKhachHangController implements Initializable {
         genderGroup.getToggles().get(0).setSelected(true);
         table.getSelectionModel().clearSelection();
     }
+	
+	public boolean kiemTraThongTinNhapVao() {
+//		String 
+		return true;
+	}
 
     public String phatSinhMaKhachHang() {
         String maKH = "KH";
