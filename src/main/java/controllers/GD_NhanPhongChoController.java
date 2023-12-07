@@ -159,11 +159,11 @@ public class GD_NhanPhongChoController implements Initializable {
         isComboBoxEventEnabled = false;
         txtSoPhong.setText("");
         txtSDTKhachHang.setText("");
-        ccbMaPhieuDat.getItems().removeAll();
+        ccbMaPhieuDat.getItems().clear();
         ccbMaPhieuDat.setValue("");
         txtTenKhachHang.clear();
         txtNamSinh.clear();
-        ccbGender.getItems().removeAll();
+        ccbGender.getItems().clear();
         ccbGender.setValue("");
         dateNhanPhong.setValue(null);
         timeNhanPhong.setText("00 : 00");
@@ -172,8 +172,8 @@ public class GD_NhanPhongChoController implements Initializable {
     @FXML
     public void handleExit(ActionEvent event) {
         isComboBoxEventEnabled = false;
-        ccbMaPhieuDat.getItems().removeAll();
-        ccbGender.getItems().removeAll();
+        ccbMaPhieuDat.getItems().clear();
+        ccbGender.getItems().clear();
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }

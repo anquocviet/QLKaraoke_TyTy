@@ -149,7 +149,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         lblSucChua.setStyle("-fx-font-size: 18; -fx-font-weight: 600");
         lblSucChua.setPadding(new Insets(0, 0, 8, 0));
         roomItem.getChildren().add(lblSucChua);
-
+//		Kiểm tra thêm thông tin của phòng chờ
         if (phong.getTinhTrang() == 2) {
             try {
                 PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong());
@@ -422,8 +422,11 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                 alert.setHeaderText("Bạn có chắc muốn hủy phòng chờ này không?");
                 alert.showAndWait();
                 if (alert.getResult() == ButtonType.YES) {
+                    PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+                    if (phieu != null) {
+                        PhieuDatPhong.updateTrangThaiPhieuDat(phieu.getMaPhieuDat(), true);
+                    }
                     Phong.updateStatusRoom(roomID, 0);
-                    
                     gridPane.getChildren().clear();
                     renderArrayPhong(Phong.getAllPhong());
                     Alert alertSucces = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);

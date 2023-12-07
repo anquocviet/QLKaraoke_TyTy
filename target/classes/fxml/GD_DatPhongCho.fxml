@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="GD_DatPhongCho" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DatPhongChoController">
+<AnchorPane fx:id="GD_DatPhongCho" prefHeight="684.0" prefWidth="800.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DatPhongChoController">
     <children>
         <Label alignment="CENTER" layoutY="-1.0" prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: LightSeaGreen;" text="ĐẶT PHÒNG CHỜ" textAlignment="CENTER">
             <font>

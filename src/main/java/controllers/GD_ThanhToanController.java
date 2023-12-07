@@ -219,7 +219,7 @@ public class GD_ThanhToanController implements Initializable {
 				}
 				tablePhong.getItems().forEach((ct) -> {
 					ChiTietHD_Phong.updateCTHD_Phong(ct);
-					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 0);
+					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 2);
 				});
 				String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
 				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
