@@ -108,7 +108,7 @@ public class GD_DatPhongChoController implements Initializable {
 				LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
 				String ghiChu = "";
 
-                boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, ghiChu));
+                boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
                 if (result == true) {
                     Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
                     App.setRoot("GD_QLKinhDoanhPhong");
