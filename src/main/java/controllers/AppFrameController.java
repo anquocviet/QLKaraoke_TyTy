@@ -90,6 +90,7 @@ public class AppFrameController implements Initializable {
 		App.setRoot("GD_DangKy");
 	}
 
+
 	@FXML
 	private void dangXuat(ActionEvent event) throws IOException {
 		App.user = "";
