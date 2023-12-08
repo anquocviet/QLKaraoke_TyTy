@@ -73,17 +73,17 @@
                 <Font size="18.0" />
             </font>
         </TitledPane>
-        <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="166.0" prefHeight="602.0" prefWidth="740.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
+        <TitledPane animated="false" collapsible="false" layoutX="544.0" layoutY="166.0" prefHeight="598.0" prefWidth="740.0" style="-fx-font-size: 18;" text="Danh sách khách hàng">
             <content>
                 <ScrollPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #DDDDDD; -fx-font-size: 18;">
-                    <TableView fx:id="table" prefHeight="565.0" prefWidth="738.0">
+                    <TableView fx:id="table" prefHeight="565.0" prefWidth="730.0">
                         <columns>
                             <TableColumn fx:id="sttCol" prefWidth="38.5" resizable="false" sortable="false" text="#" />
                             <TableColumn fx:id="maKHCol" prefWidth="115.0" resizable="false" text="Mã KH" />
                             <TableColumn fx:id="tenKHCol" prefWidth="205.5" resizable="false" text="Tên KH" />
                             <TableColumn fx:id="sdtCol" minWidth="0.0" prefWidth="157.5" resizable="false" text="SĐT" />
                             <TableColumn fx:id="namSinhCol" minWidth="0.0" prefWidth="118.16668701171875" resizable="false" text="Năm sinh" />
-                            <TableColumn fx:id="gioiTinhCol" maxWidth="1.7976931348623157E308" prefWidth="101.0" resizable="false" text="Giới tính" />
+                            <TableColumn fx:id="gioiTinhCol" maxWidth="1.7976931348623157E308" prefWidth="88.0" resizable="false" text="Giới tính" />
                         </columns>
                     </TableView>
                 </ScrollPane>
@@ -94,7 +94,7 @@
         </TitledPane>
         <Pane layoutX="941.0" layoutY="94.0" prefHeight="33.0" prefWidth="304.0">
             <children>
-                <TextField fx:id="inputTimKiem" prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT">
+                <TextField fx:id="inputTimKiem" prefHeight="33.0" prefWidth="304.0" promptText="Mã KH/Tên KH/SĐT" style="-fx-font-size: 18;">
                     <font>
                         <Font size="18.0" />
                     </font>

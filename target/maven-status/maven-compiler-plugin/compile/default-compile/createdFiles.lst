@@ -41,7 +41,6 @@ controllers/GD_ThongKeQuyController.class
 controllers/GD_DatPhongChoController$1.class
 model/CT_KhuyenMai.class
 model/NhanVien.class
-controllers/GD_QLKhachHangController$1.class
 controllers/GD_DatDichVuController$3$1.class
 controllers/GD_DatDichVuController.class
 controllers/GD_ChuyenPhongController$1.class
@@ -54,7 +53,6 @@ model/ChiTietHD_Phong.class
 controllers/GD_TraCuuHoaDonController$3.class
 controllers/GD_QLPhongController.class
 controllers/GD_QLKhachHangController.class
-controllers/GD_QLKhachHangController$2.class
 enums/Enum_Nvien.class
 controllers/GD_DatDichVuController$4.class
 controllers/GD_QLNhanVienController$1.class

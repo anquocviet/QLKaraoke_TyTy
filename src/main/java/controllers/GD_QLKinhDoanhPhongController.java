@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -30,7 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -66,15 +65,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		radioStatusEmpty.setToggleGroup(statusRoomGroup);
 		radioStatusWaiting.setToggleGroup(statusRoomGroup);
 		spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
-		UnaryOperator<TextFormatter.Change> filter = change -> {
-			String newText = change.getControlNewText();
-			if (!Pattern.matches("\\d*", newText)) {
-				change.setText("1");
-			}
-			return change;
-		};
-		TextFormatter<Integer> textFormatter = new TextFormatter<>(filter);
-		spinnerSucChua.getEditor().setTextFormatter(textFormatter);
 
 		createClockView();
 		renderArrayPhong(Phong.getAllPhong());
@@ -318,6 +308,17 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				txtMaPhong.setText(listRoom.get(0).getMaPhong());
 			}
 			itemChoosed = 0;
+		});
+		spinnerSucChua.getEditor().setOnKeyTyped((event) -> {
+			TextField txtSucChua = spinnerSucChua.getEditor();
+			if (!Pattern.matches("[\\d]*", txtSucChua.getText().trim())) {
+				txtSucChua.setText(txtSucChua.getText().trim().replaceAll("[^\\d]", ""));
+			}
+			if (txtSucChua.getText().trim().isEmpty()) {
+				txtSucChua.setText("1");
+				return;
+			}
+			txtSucChua.positionCaret(txtSucChua.getText().length());
 		});
 	}
 
