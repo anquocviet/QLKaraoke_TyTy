@@ -217,19 +217,24 @@ public class GD_ThanhToanController implements Initializable {
 				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
 				hd.setKhuyenMai(km);
 				hd.setNgayLap(LocalDateTime.now());
-				HoaDonThanhToan.updateHoaDonThanhToan(hd);
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-				alert.setTitle("Thanh toán phòng thành công");
-				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
-				alert.showAndWait();
+				try {
+					long tongTien = df.parse(txtTongTien.getText()).longValue();
+					HoaDonThanhToan.updateHoaDonThanhToan(hd, tongTien);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Thanh toán phòng thành công");
+					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+					alert.showAndWait();
 
 //				Xuat hoa don
-				if (checkBoxInHD.isSelected()) {
-					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
-				}
+					if (checkBoxInHD.isSelected()) {
+						App.openModal("Bill", App.widthModalBill, App.heightModalBill);
+					}
 
-				App.setRoot("GD_QLKinhDoanhPhong");
+					App.setRoot("GD_QLKinhDoanhPhong");
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
 			} catch (IOException | IllegalArgumentException ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
