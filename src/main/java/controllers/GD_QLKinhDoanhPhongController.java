@@ -7,6 +7,8 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -53,18 +55,18 @@ import model.Phong;
  */
 public class GD_QLKinhDoanhPhongController implements Initializable {
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		typeRoomGroup = new ToggleGroup();
-		radioTypeAll.setToggleGroup(typeRoomGroup);
-		radioTypeNormal.setToggleGroup(typeRoomGroup);
-		radioTypeVIP.setToggleGroup(typeRoomGroup);
-		statusRoomGroup = new ToggleGroup();
-		radioStatusAll.setToggleGroup(statusRoomGroup);
-		radioStatusUsing.setToggleGroup(statusRoomGroup);
-		radioStatusEmpty.setToggleGroup(statusRoomGroup);
-		radioStatusWaiting.setToggleGroup(statusRoomGroup);
-		spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        typeRoomGroup = new ToggleGroup();
+        radioTypeAll.setToggleGroup(typeRoomGroup);
+        radioTypeNormal.setToggleGroup(typeRoomGroup);
+        radioTypeVIP.setToggleGroup(typeRoomGroup);
+        statusRoomGroup = new ToggleGroup();
+        radioStatusAll.setToggleGroup(statusRoomGroup);
+        radioStatusUsing.setToggleGroup(statusRoomGroup);
+        radioStatusEmpty.setToggleGroup(statusRoomGroup);
+        radioStatusWaiting.setToggleGroup(statusRoomGroup);
+        spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
 
         createClockView();
         renderArrayPhong(Phong.getAllPhong());
@@ -284,42 +286,42 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         });
     }
 
-	public void handleEventInSpinner() {
-		spinnerSucChua.valueProperty().addListener((obs, oldVal, newVal) -> {
-			int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-					? new int[]{0, 1}
-					: typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-					? new int[]{0, 0}
-					: new int[]{1, 1};
-			int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
-					? new int[]{0, 1, 2}
-					: statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
-					? new int[]{0, 0, 0}
-					: statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
-					? new int[]{1, 1, 1}
-					: new int[]{2, 2, 2};
-			gridPane.getChildren().clear();
-			ObservableList<Phong> listRoom;
-			listRoom = Phong.getListPhongByType_Status_Capacity(arrType, arrStatus, newVal);
-			renderArrayPhong(listRoom);
-			if (!listRoom.isEmpty()) {
-				gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
-				txtMaPhong.setText(listRoom.get(0).getMaPhong());
-			}
-			itemChoosed = 0;
-		});
-		spinnerSucChua.getEditor().setOnKeyTyped((event) -> {
-			TextField txtSucChua = spinnerSucChua.getEditor();
-			if (!Pattern.matches("[\\d]*", txtSucChua.getText().trim())) {
-				txtSucChua.setText(txtSucChua.getText().trim().replaceAll("[^\\d]", ""));
-			}
-			if (txtSucChua.getText().trim().isEmpty()) {
-				txtSucChua.setText("1");
-				return;
-			}
-			txtSucChua.positionCaret(txtSucChua.getText().length());
-		});
-	}
+    public void handleEventInSpinner() {
+        spinnerSucChua.valueProperty().addListener((obs, oldVal, newVal) -> {
+            int arrType[] = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
+                    ? new int[]{0, 1}
+                    : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+                    ? new int[]{0, 0}
+                    : new int[]{1, 1};
+            int arrStatus[] = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
+                    ? new int[]{0, 1, 2}
+                    : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
+                    ? new int[]{0, 0, 0}
+                    : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+                    ? new int[]{1, 1, 1}
+                    : new int[]{2, 2, 2};
+            gridPane.getChildren().clear();
+            ObservableList<Phong> listRoom;
+            listRoom = Phong.getListPhongByType_Status_Capacity(arrType, arrStatus, newVal);
+            renderArrayPhong(listRoom);
+            if (!listRoom.isEmpty()) {
+                gridPane.getChildren().get(0).getStyleClass().add("itemRoomActive");
+                txtMaPhong.setText(listRoom.get(0).getMaPhong());
+            }
+            itemChoosed = 0;
+        });
+        spinnerSucChua.getEditor().setOnKeyTyped((event) -> {
+            TextField txtSucChua = spinnerSucChua.getEditor();
+            if (!Pattern.matches("[\\d]*", txtSucChua.getText().trim())) {
+                txtSucChua.setText(txtSucChua.getText().trim().replaceAll("[^\\d]", ""));
+            }
+            if (txtSucChua.getText().trim().isEmpty()) {
+                txtSucChua.setText("1");
+                return;
+            }
+            txtSucChua.positionCaret(txtSucChua.getText().length());
+        });
+    }
 
     public void handleEventInButton() {
         btnRefresh.setOnAction(evt -> {
@@ -366,10 +368,23 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     @FXML
     private void moGDThuePhong() {
         try {
-            if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+            if (Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
                 showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
             } else {
-                App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+                PhieuDatPhong phieuDat = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+                LocalDateTime thoiGianNhan = phieuDat.getThoiGianNhan();
+                LocalDateTime thoiGianHienTai = LocalDateTime.now();
+                if (Phong.getListPhongByStatus(2).contains(new Phong(roomID))) {
+                    // Kiểm tra nếu thời gian hiện tại cách thời gian nhận phòng ít nhất 4 giờ
+                    if (thoiGianHienTai.isAfter(thoiGianNhan.plusHours(4))) {
+                        App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+                    } else {
+                        showAlert("Không thể thuê phòng!", "Phòng chờ sấp đến giờ nhận khách. Vui lòng chọn phòng khác!");
+                    }
+                }else{
+                    App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+                }
+
             }
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
