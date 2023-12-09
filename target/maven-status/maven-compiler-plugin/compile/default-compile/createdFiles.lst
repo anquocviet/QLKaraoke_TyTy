@@ -47,6 +47,7 @@ controllers/GD_ChuyenPhongController$1.class
 controllers/GD_TraCuuHoaDonController$2.class
 model/PhieuDatPhong.class
 controllers/GD_ThongKeThangController.class
+controllers/GD_ThongKeThangController$1.class
 model/DichVu.class
 controllers/AppFrameController.class
 model/ChiTietHD_Phong.class
