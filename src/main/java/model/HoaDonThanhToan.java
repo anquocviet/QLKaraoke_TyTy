@@ -380,14 +380,53 @@ public final class HoaDonThanhToan {
 		return soLuong;
 	}
 	
-	public static int countBillInMonth(LocalDate date) {
+	public static int countBill(LocalDate date) {
 		Connection conn = ConnectDB.getConnection();
 		Statement stmt = null;
 		int soLuong = 0;
+		String sql = "";
+		if (date != null) {
+			sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+					+ "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
+		} 
+		else {
+			sql = "SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan";
+		}
 		try {
 			stmt = conn.createStatement();
-			String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				soLuong = rs.getInt("SoLuong");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return soLuong;
+	}
+	
+	public static int calcTotalMoneyBill(LocalDate date) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		int soLuong = 0;
+		String sql = "";
+		if (date != null) {
+			sql = String.format("SELECT SUM(TongTien) AS SoLuong "
 					+ "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
+		} 
+		else {
+			sql = "SELECT SUM(TongTien) AS SoLuong FROM HoaDonThanhToan";
+		}
+		try {
+			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				soLuong = rs.getInt("SoLuong");
