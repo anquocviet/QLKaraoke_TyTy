@@ -69,9 +69,9 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <StackedBarChart layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
+            <StackedBarChart fx:id="chart" layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <CategoryAxis fx:id="xAxis" side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />
