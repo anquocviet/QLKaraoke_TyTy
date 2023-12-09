@@ -6,11 +6,9 @@ package controllers;
 
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +17,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import model.HoaDonThanhToan;
+import model.KhachHang;
 
 /**
  * FXML Controller class
@@ -36,7 +34,30 @@ public class GD_ThongKeThangController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		datePicker.setValue(LocalDate.now());
-		txtTongHDThang.setText(HoaDonThanhToan.countBillInMonth(datePicker.getValue()) + "");
+		datePicker.setConverter(new StringConverter<LocalDate>() {
+			private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			@Override
+			public String toString(LocalDate date) {
+				if (date != null) {
+					return dateFormatter.format(date);
+				} else {
+					return "";
+				}
+			}
+
+			@Override
+			public LocalDate fromString(String string) {
+				if (string != null && !string.isEmpty()) {
+					return LocalDate.parse(string, dateFormatter);
+				} else {
+					return null;
+				}
+			}
+		});
+		txtTongHoaDon.setText(HoaDonThanhToan.countBill(null) + "");
+		txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyBill(null)) + " VNĐ");
+		txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
 		xAxis.setTickLabelFormatter(new StringConverter<Number>() {
 			@Override
 			public String toString(Number object) {
@@ -48,21 +69,32 @@ public class GD_ThongKeThangController implements Initializable {
 
 			@Override
 			public Number fromString(String string) {
-				Number val = Double.parseDouble(string);
+				Number val = Double.valueOf(string);
 				return val.intValue();
 			}
 		});
-		
+		loadDataWhenChangeDate();
+		handleInDatePicker();
+	}
+	
+	public void handleInDatePicker() {
+		datePicker.setOnAction((event) -> {
+			loadDataWhenChangeDate();
+		});
+	}
 
-//		Create data
+	public void loadDataWhenChangeDate() {
+		txtTongHDThang.setText(HoaDonThanhToan.countBill(datePicker.getValue()) + "");
+		txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyBill(datePicker.getValue())) + " VNĐ");
+		// Create data
 		XYChart.Series series = new XYChart.Series();
 		series.setName("Doanh thu trong ngày");
 		ObservableList arr = HoaDonThanhToan.statisticalByMonth(datePicker.getValue());
 		for (int i = 0; i < arr.size(); i = i + 2) {
 			series.getData().add(new XYChart.Data(arr.get(i), arr.get(i + 1)));
 		}
+		chart.getData().clear();
 		chart.getData().add(series);
-
 	}
 
 	DecimalFormat df = new DecimalFormat("#,###,###,##0");
