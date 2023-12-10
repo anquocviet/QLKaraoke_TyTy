@@ -45,7 +45,7 @@ public class GD_QLPhongController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cbbTinhTrang.getItems().addAll("PHÒNG TRỐNG", "ĐÃ THUÊ", "ĐÃ ĐẶT");
+        cbbTinhTrang.getItems().addAll("PHÒNG TRỐNG","PHÒNG ĐANG SỬ DỤNG","PHÒNG CHỜ");
         cbbLoaiPhong.setItems(Enum_LoaiPhong.getListLoaiPhong());
         sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
         maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
@@ -56,17 +56,20 @@ public class GD_QLPhongController implements Initializable {
             if (tinhTrang == 0) {
                 tinhTrangString = "PHÒNG TRỐNG";
             } else if (tinhTrang == 1) {
-                tinhTrangString = "ĐÃ THUÊ";
+                tinhTrangString = "PHÒNG ĐANG SỬ DỤNG";
             } else {
-                tinhTrangString = "ĐÃ ĐẶT";
+                tinhTrangString = "PHÒNG CHỜ";
             }
             return new ReadOnlyStringWrapper(tinhTrangString);
         });
 
 
         giaPhongCol.setCellValueFactory(cellData -> {
-            long giaPhong = cellData.getValue().getGiaPhong();
-            return new ReadOnlyStringWrapper(giaPhong + " K/H");
+            // hỉen thị giá phòng theo định dạng 100.000đ/h
+            float giaPhong = cellData.getValue().getGiaPhong();
+            String giaPhongString = String.format("%,.0f", giaPhong);
+            return new ReadOnlyStringWrapper(giaPhongString + "đ/h");
+
         });
         loaiPhongCol.setCellValueFactory(cellData -> {
             int loaiPhong = cellData.getValue().getLoaiPhong();
@@ -119,7 +122,7 @@ public class GD_QLPhongController implements Initializable {
             String loaiPhong = cbbLoaiPhong.getValue().toString();
 
             String loaiPhongDb = loaiPhong.equals("VIP") ? "1" : "0";
-            int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("ĐÃ THUÊ") ? 1 : 2;
+            int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("PHÒNG ĐANG SỬ DỤNG") ? 1 : 2;
 
 
             if(loaiPhongDb.equals("1")){
@@ -168,7 +171,7 @@ public class GD_QLPhongController implements Initializable {
             String loaiPhong = cbbLoaiPhong.getValue().toString();
 
             String loaiPhongDb = loaiPhong.equals("VIP") ? "1" : "0";
-            int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("ĐÃ THUÊ") ? 1 : 2;
+            int tinhTrangDb = tinhTrang.equals("PHÒNG TRỐNG") ? 0 : tinhTrang.equals("PHÒNG ĐANG SỬ DỤNG") ? 1 : 2;
             String maPhongCu = p.getMaPhong();
 
             if(loaiPhongDb.equals("1")){
@@ -241,11 +244,11 @@ public class GD_QLPhongController implements Initializable {
         txtSucChua.setText((emptyString + p.getSucChua()));
 
         if (p.getTinhTrang() == 0) {
-            cbbTinhTrang.setValue("Phòng Trống");
+            cbbTinhTrang.setValue("PHÒNG TRỐNG");
         } else if (p.getTinhTrang() == 1) {
-            cbbTinhTrang.setValue("Đã Thuê");
+            cbbTinhTrang.setValue("PHÒNG ĐANG SỬ DỤNG");
         } else if (p.getTinhTrang() == 2) {
-            cbbTinhTrang.setValue("Đã Đặt");
+            cbbTinhTrang.setValue("PHÒNG CHỜ");
         } else {
             cbbTinhTrang.getSelectionModel().clearSelection();
         }

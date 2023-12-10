@@ -391,7 +391,8 @@ public class NhanVien {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT MaNhanVien FROM NhanVien";
+            String sql = "select * from NhanVien where ChucVu = N'Nhân viên tiếp tân'\n" +
+                    "                          or ChucVu = N'Nhân viên phục vụ';";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maNhanVien = rs.getString("MaNhanVien");
