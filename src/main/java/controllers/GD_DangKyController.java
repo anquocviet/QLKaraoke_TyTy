@@ -91,7 +91,6 @@ public class GD_DangKyController implements Initializable {
     }
 
 
-
     public void handleEventInTable() {
         table.setOnMouseClicked(event -> docDuLieuTuTable());
         table.setOnKeyPressed(new EventHandler<KeyEvent>() {
