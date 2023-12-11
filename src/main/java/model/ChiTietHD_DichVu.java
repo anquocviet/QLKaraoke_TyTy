@@ -17,13 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.App;
 
 /**
  *
  * @author fil
  */
-public class ChiTietHD_DichVu {
-
+public final class ChiTietHD_DichVu {
 	private HoaDonThanhToan hoaDon;
 	private DichVu dichVu;
 	private int soLuong;
@@ -84,6 +84,7 @@ public class ChiTietHD_DichVu {
 	}
 
 	public long getThanhTien() {
+		tinhThanhTien();
 		return thanhTien;
 	}
 

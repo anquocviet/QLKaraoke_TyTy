@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -65,6 +67,13 @@ public class GD_ThanhToanController implements Initializable {
 			});
 
 			tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
+			tableDichVu.setSkin(new TableViewSkin<ChiTietHD_DichVu>(tableDichVu) {
+				@Override
+				public int getItemCount() {
+					int r = super.getItemCount();
+					return r == 0 ? 1 : r;
+				}
+			});
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -75,42 +84,27 @@ public class GD_ThanhToanController implements Initializable {
 				return new ReadOnlyObjectWrapper<>(maHoaDon);
 			});
 			loaiPhongCol.setCellValueFactory((param) -> {
-				if (param.getValue().getPhong() == null) {
-					return new ReadOnlyObjectWrapper<>();
-				}
 				String loaiPhong = param.getValue().getPhong().getLoaiPhong() == 1 ? "VIP" : "Thường";
 				return new ReadOnlyObjectWrapper<>(loaiPhong);
 			});
 			gioVaoCol.setCellValueFactory((param) -> {
-				if (param.getValue().getGioVao() == null) {
-					return new ReadOnlyObjectWrapper<>();
-				}
 				String gioVao = param.getValue().getGioVao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 				return new ReadOnlyObjectWrapper<>(gioVao);
 			});
 			gioRaCol.setCellValueFactory((param) -> {
-				if (param.getValue().getGioRa() == null) {
-					return new ReadOnlyObjectWrapper<>();
-				}
 				String gioRa = param.getValue().getGioRa().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 				return new ReadOnlyObjectWrapper<>(gioRa);
 			});
 			gioSuDungCol.setCellValueFactory((param) -> {
-				if (param.getValue().getGioVao() == null || param.getValue().getGioRa() == null) {
-					return new ReadOnlyObjectWrapper<>();
-				}
 				String gioSuDung = df.format(param.getValue().tinhTongGioSuDung());
 				return new ReadOnlyObjectWrapper<>(gioSuDung);
 			});
 			donGiaCol.setCellValueFactory((param) -> {
-				if (param.getValue().getPhong() == null || param.getValue().getGioRa() == null) {
-					return new ReadOnlyObjectWrapper<>();
-				}
 				long donGia = param.getValue().getPhong().getGiaPhong();
 				return new ReadOnlyObjectWrapper<>(df.format(donGia));
 			});
 			thanhTienCol.setCellValueFactory((param) -> {
-				return new ReadOnlyObjectWrapper<String>(df.format(param.getValue().tinhThanhTien()));
+				return new ReadOnlyObjectWrapper<>(df.format(param.getValue().tinhThanhTien()));
 			});
 
 			ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
@@ -140,40 +134,49 @@ public class GD_ThanhToanController implements Initializable {
 		}
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
 		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
-		
+
 		long tongTien = tienPhong + tienDV;
 		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
-		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
-		tongTien = tongTien + tienVAT + tienThueTTDB;
-		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+//		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
+//		tongTien = tongTien + tienVAT + tienThueTTDB;
+//		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+		tongTien = tongTien + tienVAT;
+		txtTienThue.setText(df.format(tienVAT) + " VNĐ");
 		txtTongTien.setText(df.format(tongTien) + " VNĐ");
 		handleEventInInput();
 		handleEventInBtn();
 	}
 
 	public void handleEventInInput() {
-		txtTienNhan.setOnKeyPressed(evt -> {
-			if (evt.getCode() == KeyCode.ENTER) {
+		txtTienNhan.setOnKeyReleased(evt -> {
+			if (txtTienNhan.getText().trim().isEmpty()) {
+				return;
+			}
+			if (!Pattern.matches("[\\d,]*", txtTienNhan.getText().trim())) {
+				txtTienNhan.setText(txtTienNhan.getText().trim().replaceAll("[^\\d,]", ""));
+				txtTienNhan.positionCaret(txtTienNhan.getText().length());
+			}
+			try {
+				tienNhan = Long.parseLong(txtTienNhan.getText().trim());
+			} catch (NumberFormatException nf) {
 				try {
 					tienNhan = df.parse(txtTienNhan.getText().trim()).longValue();
 				} catch (ParseException ex) {
-					tienNhan = Long.parseLong(txtTienNhan.getText().trim());
-				}
-				try {
-					long tongTien = df.parse(txtTongTien.getText().trim()).longValue();
-					long tienThua = tienNhan - tongTien;
-					if (tienThua < 0) {
-						Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại số tiền nhận.", ButtonType.OK);
-						alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-						alert.setTitle("Lỗi");
-						alert.setHeaderText("Tiền đã nhận ít hơn tổng tiền!");
-						alert.showAndWait();
-					} else {
-						txtTienThua.setText(df.format(tienThua) + " VND");
-					}
-				} catch (ParseException ex) {
 					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 				}
+			}
+			try {
+				long tongTien = df.parse(txtTongTien.getText().trim()).longValue();
+				long tienThua = tienNhan - tongTien;
+				if (tienThua > 0) {
+					btnThanhToan.setDisable(false);
+					txtTienThua.setText(df.format(tienThua) + " VND");
+				} else {
+					btnThanhToan.setDisable(true);
+					txtTienThua.setText("0 VND");
+				}
+			} catch (ParseException ex) {
+				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
 		txtMaKhuyenMai.setOnKeyPressed((evt) -> {
@@ -233,9 +236,9 @@ public class GD_ThanhToanController implements Initializable {
 				if (checkBoxInHD.isSelected()) {
 					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
 				}
-				
+
 				App.setRoot("GD_QLKinhDoanhPhong");
-			} catch (Exception ex) {
+			} catch (IOException | IllegalArgumentException ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
@@ -247,12 +250,9 @@ public class GD_ThanhToanController implements Initializable {
 			}
 		});
 	}
-	
+
 	public boolean checkUseVoucher(CT_KhuyenMai km) {
-		if (km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now())) {
-			return true;
-		}
-		return false;
+		return km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now());
 	}
 
 	public static long tienNhan = 0;

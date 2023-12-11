@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class NhanVien {
+public final class NhanVien {
 
     private String maNhanVien;
     private String cccd;

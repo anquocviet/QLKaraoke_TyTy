@@ -21,7 +21,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class DichVu {
+public final class DichVu {
 
     private String maDichVu;
     private String tenDichVu;

@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
  *
  * @author fil
  */
-public class CT_KhuyenMai {
+public final class CT_KhuyenMai {
 
     public static void xoaCTKhuyenMai(TextField txtMaKhuyenMai) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
