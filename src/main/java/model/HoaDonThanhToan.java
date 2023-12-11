@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.IsoFields;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -193,7 +194,76 @@ public final class HoaDonThanhToan {
 				long tongTien = rs.getLong("TongTien");
 				arr.add(ngay);
 				arr.add(tongTien);
-				
+
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return arr;
+	}
+
+	public static ObservableList statisticalByQuarter(int year) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		ObservableList arr = FXCollections.observableArrayList();
+		try {
+			stmt = conn.createStatement();
+			String sql = String.format("SELECT DATEPART(QUARTER, NgayLap) AS Quy, SUM(TongTien) AS TongTien "
+					+ "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
+					+ "GROUP BY DATEPART(QUARTER, NgayLap)", year);
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				int quy = rs.getInt("Quy");
+				long tongTien = rs.getLong("TongTien");
+				arr.add(quy);
+				arr.add(tongTien);
+
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return arr;
+	}
+	
+
+	
+
+	public static ObservableList statisticalByYear(int year) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		ObservableList arr = FXCollections.observableArrayList();
+		try {
+			stmt = conn.createStatement();
+			String sql = String.format("SELECT MONTH(NgayLap) AS Thang, SUM(TongTien) AS TongTien "
+					+ "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
+					+ "GROUP BY MONTH(NgayLap)", year);
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				int thang = rs.getInt("Thang");
+				long tongTien = rs.getLong("TongTien");
+				arr.add(thang);
+				arr.add(tongTien);
+
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -379,19 +449,39 @@ public final class HoaDonThanhToan {
 
 		return soLuong;
 	}
-	
-	public static int countBill(LocalDate date) {
+
+	public static int countBill() {
 		Connection conn = ConnectDB.getConnection();
 		Statement stmt = null;
 		int soLuong = 0;
-		String sql = "";
-		if (date != null) {
-			sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
-					+ "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
-		} 
-		else {
-			sql = "SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan";
+		String sql = "SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan";
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				soLuong = rs.getInt("SoLuong");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		}
+		return soLuong;
+	}
+
+	public static int countBillByMonth(LocalDate date) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		int soLuong = 0;
+		String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+				+ "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -413,18 +503,14 @@ public final class HoaDonThanhToan {
 		return soLuong;
 	}
 	
-	public static int calcTotalMoneyBill(LocalDate date) {
+	public static int countBillByQuarterInYear(LocalDate date) {
 		Connection conn = ConnectDB.getConnection();
 		Statement stmt = null;
 		int soLuong = 0;
-		String sql = "";
-		if (date != null) {
-			sql = String.format("SELECT SUM(TongTien) AS SoLuong "
-					+ "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
-		} 
-		else {
-			sql = "SELECT SUM(TongTien) AS SoLuong FROM HoaDonThanhToan";
-		}
+		int quarter = date.get(IsoFields.QUARTER_OF_YEAR);
+		int year = date.getYear();
+		String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+				+ "FROM HoaDonThanhToan WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d",  quarter, year);
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -445,8 +531,142 @@ public final class HoaDonThanhToan {
 		}
 		return soLuong;
 	}
+
+	public static int countBillByYear(int year) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		int soLuong = 0;
+		String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+				+ "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				soLuong = rs.getInt("SoLuong");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return soLuong;
+	}
+
+	public static long calcTotalMoneyOfBill() {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		long tongTien = 0;
+		String sql = "SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan";
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				tongTien = rs.getInt("Tien");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return tongTien;
+	}
+
+	public static long calcTotalMoneyOfBillByMonth(LocalDate date) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		long tongTien = 0;
+		String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
+				+ "WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				tongTien = rs.getInt("Tien");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return tongTien;
+	}
 	
-	
+	public static long calcTotalMoneyOfBillByQuarterInYear(LocalDate date) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		long tongTien = 0;
+		int quarter = date.get(IsoFields.QUARTER_OF_YEAR);
+		int year = date.getYear();
+		String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
+				+ "WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d", quarter, year);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				tongTien = rs.getInt("Tien");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return tongTien;
+	}
+
+	public static long calcTotalMoneyOfBillByYear(int year) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		long tongTien = 0;
+		String sql = String.format("SELECT SUM(TongTien) AS Tien "
+				+ "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				tongTien = rs.getInt("Tien");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return tongTien;
+	}
 
 	public static boolean themHoaDonThanhToan(HoaDonThanhToan hoaDon) {
 		Connection conn = ConnectDB.getConnection();
