@@ -4,7 +4,6 @@
  */
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -110,7 +108,7 @@ public class GD_DatPhongChoController implements Initializable {
 				LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
 				String ghiChu = "";
 
-                boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, ghiChu));
+                boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
                 if (result == true) {
                     Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
                     App.setRoot("GD_QLKinhDoanhPhong");

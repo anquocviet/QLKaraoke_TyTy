@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
-import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,7 +18,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class Phong {
+public final class Phong {
 
     private String maPhong;
     private int sucChua;

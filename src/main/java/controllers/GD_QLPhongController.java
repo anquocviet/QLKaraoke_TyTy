@@ -5,7 +5,6 @@
 package controllers;
 
 import enums.Enum_LoaiPhong;
-import enums.Enum_ChucVu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,8 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import model.KhachHang;
 import model.Phong;
 
 /**

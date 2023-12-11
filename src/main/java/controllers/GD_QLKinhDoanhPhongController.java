@@ -7,10 +7,11 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -30,7 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -42,7 +43,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.util.Duration;
 import main.App;
 import model.PhieuDatPhong;
@@ -67,15 +67,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		radioStatusEmpty.setToggleGroup(statusRoomGroup);
 		radioStatusWaiting.setToggleGroup(statusRoomGroup);
 		spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
-		UnaryOperator<TextFormatter.Change> filter = change -> {
-			String newText = change.getControlNewText();
-			if (!Pattern.matches("\\d*", newText)) {
-				change.setText("1");
-			}
-			return change;
-		};
-		TextFormatter<Integer> textFormatter = new TextFormatter<>(filter);
-		spinnerSucChua.getEditor().setTextFormatter(textFormatter);
 
 		createClockView();
 		renderArrayPhong(Phong.getAllPhong());
@@ -150,14 +141,16 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 		lblSucChua.setStyle("-fx-font-size: 18; -fx-font-weight: 600");
 		lblSucChua.setPadding(new Insets(0, 0, 8, 0));
 		roomItem.getChildren().add(lblSucChua);
-
+//		Kiểm tra thêm thông tin của phòng chờ
 		if (phong.getTinhTrang() == 2) {
 			try {
 				PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong());
-				Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
-				lblGioNhan.setStyle("-fx-font-size: 16; -fx-font-weight: 600");
-				lblGioNhan.setPadding(new Insets(0, 0, 8, 0));
-				roomItem.getChildren().add(lblGioNhan);
+				if (phieu != null) {
+					Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
+					lblGioNhan.setStyle("-fx-font-size: 16; -fx-font-weight: 600");
+					lblGioNhan.setPadding(new Insets(0, 0, 8, 0));
+					roomItem.getChildren().add(lblGioNhan);
+				}
 			} catch (Exception ex) {
 				Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -204,7 +197,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				});
 				break;
 		}
-		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 15");
+		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
 
 		HBox hbox = new HBox(btnLeft, btnRight);
 		hbox.setSpacing(30);
@@ -252,7 +245,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			} else if (newValue.equals(radioTypeNormal)) {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{0, 0}, arrStatus, capacity);
-				;
 			} else {
 				gridPane.getChildren().clear();
 				listRoom = Phong.getListPhongByType_Status_Capacity(new int[]{1, 1}, arrStatus, capacity);
@@ -318,6 +310,17 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 			}
 			itemChoosed = 0;
 		});
+		spinnerSucChua.getEditor().setOnKeyTyped((event) -> {
+			TextField txtSucChua = spinnerSucChua.getEditor();
+			if (!Pattern.matches("[\\d]*", txtSucChua.getText().trim())) {
+				txtSucChua.setText(txtSucChua.getText().trim().replaceAll("[^\\d]", ""));
+			}
+			if (txtSucChua.getText().trim().isEmpty()) {
+				txtSucChua.setText("1");
+				return;
+			}
+			txtSucChua.positionCaret(txtSucChua.getText().length());
+		});
 	}
 
 	public void handleEventInButton() {
@@ -365,10 +368,25 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	@FXML
 	private void moGDThuePhong() {
 		try {
-			if (!Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+			if (Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
 				showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
 			} else {
-				App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+				PhieuDatPhong phieuDat = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+				if (phieuDat != null) {
+					LocalDateTime thoiGianNhan = phieuDat.getThoiGianNhan();
+					LocalDateTime thoiGianHienTai = LocalDateTime.now();
+					if (Phong.getListPhongByStatus(2).contains(new Phong(roomID))) {
+						// Kiểm tra nếu thời gian hiện tại cách thời gian nhận phòng ít nhất 4 giờ
+						if (thoiGianHienTai.isAfter(thoiGianNhan.plusHours(4))) {
+							App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+						} else {
+							showAlert("Không thể thuê phòng!", "Phòng chờ sấp đến giờ nhận khách. Vui lòng chọn phòng khác!");
+						}
+					}
+				} else {
+					App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+				}
+
 			}
 		} catch (Exception ex) {
 			Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
@@ -395,6 +413,15 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
 	@FXML
 	private void moGDNhanPhongCho() {
+		try {
+			if (!Phong.getListPhongByStatus(2).contains(new Phong(roomID))) {
+				showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng chờ để nhận phòng!");
+			} else {
+				App.openModal("GD_NhanPhongCho", App.widthModal, App.heightModal);
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	@FXML
@@ -413,6 +440,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 				alert.setHeaderText("Bạn có chắc muốn hủy phòng chờ này không?");
 				alert.showAndWait();
 				if (alert.getResult() == ButtonType.YES) {
+					PhieuDatPhong phieu = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+					if (phieu != null) {
+						PhieuDatPhong.updateTrangThaiPhieuDat(phieu.getMaPhieuDat(), true);
+					}
 					Phong.updateStatusRoom(roomID, 0);
 					gridPane.getChildren().clear();
 					renderArrayPhong(Phong.getAllPhong());
@@ -492,7 +523,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 	}
 
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
-	
+
 	private static short itemChoosed = 0;
 	public static String roomID;
 	@FXML

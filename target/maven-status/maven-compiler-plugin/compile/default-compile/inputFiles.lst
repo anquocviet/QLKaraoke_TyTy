@@ -1,5 +1,6 @@
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_Phong.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\module-info.java
+D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_NhanPhongChoController.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\PhieuDatPhong.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\KhachHang.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_DichVu.java
@@ -16,7 +17,6 @@ D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_Dan
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_QLCTKhuyenMaiController.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_QLNhanVienController.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangController.java
-D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\connection.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\model\DichVu.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_ThuePhongController.java
 D:\bankaraoke moi\QLKaraoke_TyTy\QLKaraoke_TyTy\src\main\java\controllers\GD_ThanhToanController.java

@@ -4,9 +4,6 @@
  */
 package controllers;
 
-import enums.Enum_ChucVu;
-import enums.Enum_Nvien;
-import enums.Enum_LoaiPhong;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -23,12 +20,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import model.KhachHang;
 import model.NhanVien;
 import model.TaiKhoan;
 
-import javax.swing.plaf.TableUI;
 
 /**
  * FXML Controller class
