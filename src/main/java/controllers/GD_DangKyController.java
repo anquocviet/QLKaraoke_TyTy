@@ -5,6 +5,7 @@
 package controllers;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,6 +31,12 @@ import model.TaiKhoan;
  */
 public class GD_DangKyController implements Initializable {
     @FXML
+    private Button btnUpdate;
+    @FXML
+    private Button btnClear;
+    @FXML
+    private TableColumn<TaiKhoan, String> colChucVu;
+    @FXML
     private ComboBox<String> cbMaNhanVien;
 
     @Override
@@ -43,6 +50,11 @@ public class GD_DangKyController implements Initializable {
         });
         tenDangNhapCol.setCellValueFactory(new PropertyValueFactory<>("tenDangNhap"));
         matKhauCol.setCellValueFactory(new PropertyValueFactory<>("matKhau"));
+        colChucVu.setCellValueFactory(cellData -> {
+            TaiKhoan tk = cellData.getValue();
+            return new ReadOnlyStringWrapper(tk.getNhanVien().getChucVu().getTenChucVu());
+
+        });
         table.setItems(TaiKhoan.getAllTaiKhoanFull());
         btnThem.setOnAction(event -> {
             try {
@@ -51,8 +63,31 @@ public class GD_DangKyController implements Initializable {
                 Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+
+
+        btnUpdate.setOnAction(event -> {
+            try {
+                updateDuLieuVaoTable();
+                table.setItems(TaiKhoan.getAllTaiKhoanFull());
+            } catch (Exception ex) {
+                Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
         handleEventInTable();
 
+        btnClear.setOnAction(event -> {
+            clear();
+        });
+
+    }
+
+    private void clear(){
+        txtHoVaTen.setText("");
+        txtTenTaiKhoan.setText("");
+        pwMatKhau.setText("");
+        pwNhapLaiMatKhau.setText("");
+        cbMaNhanVien.setValue(null);
     }
 
 
@@ -94,6 +129,53 @@ public class GD_DangKyController implements Initializable {
             cbbLoaiPhong.getSelectionModel().select(1);
         }
          */
+
+    }
+
+    public void updateDuLieuVaoTable() throws Exception {
+        if(txtHoVaTen.getText().isEmpty() || txtTenTaiKhoan.getText().isEmpty() || pwMatKhau.getText().isEmpty() || pwNhapLaiMatKhau.getText().isEmpty() || cbMaNhanVien.getValue() == null){
+            AlterErr("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+
+        if(pwMatKhau.getText().length() < 8){
+            AlterErr("Mật khẩu phải có ít nhất 8 ký tự");
+            return;
+        }
+
+        if(TaiKhoan.isExistedUsername(txtTenTaiKhoan.getText())){
+            AlterErr("Tên tài khoản đã tồn tại");
+            return;
+        }
+
+        String hoTen = txtHoVaTen.getText();
+        String tenTaiKhoan = txtTenTaiKhoan.getText();
+        String matKhau = pwMatKhau.getText();
+        String nhapLaiMK = pwNhapLaiMatKhau.getText();
+        String maNhanVien = cbMaNhanVien.getValue();
+
+
+
+        if (!Objects.equals(matKhau, nhapLaiMK)) {
+            AlterErr("Mật khẩu không khớp");
+            return;
+
+        }
+
+
+        TaiKhoan tk = new TaiKhoan();
+        tk.setNhanVien(new NhanVien(hoTen));
+        tk.setTenDangNhap(tenTaiKhoan);
+        tk.setMatKhau(matKhau);
+        tk.setNhanVien(new NhanVien(maNhanVien));
+
+        TaiKhoan tkupdate = TaiKhoan.update(tk);
+
+        table.setItems(TaiKhoan.getAllTaiKhoanFull());
+        table.refresh();
+        System.out.println("thanh cong");
+
+
 
     }
 
