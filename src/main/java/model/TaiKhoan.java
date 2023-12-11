@@ -55,8 +55,6 @@ public final class TaiKhoan {
     }
 
 
-
-
     public String getMaTaiKhoan() {
         return maTaiKhoan;
     }
@@ -146,7 +144,7 @@ public final class TaiKhoan {
         return dsTaiKhoan;
     }
 
-    public static int demSoLuongTaiKhoan(){
+    public static int demSoLuongTaiKhoan() {
         int soLuong = 0;
         Connection conn = ConnectDB.getInstance().getConnection();
         Statement stmt = null;
@@ -162,7 +160,7 @@ public final class TaiKhoan {
         } catch (Exception ex) {
             Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return soLuong+1;
+        return soLuong + 1;
     }
 
     public static TaiKhoan getTaiKhoanTheoUserNameAndPassword(String tenDangNhap, String matKhau) {
@@ -201,7 +199,7 @@ public final class TaiKhoan {
             stmt = conn.createStatement();
 
             String insertQuery = String.format("INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, MaNhanVien) VALUES ('%s', '%s', '%s', '%s')",
-                    "TK00"+demSoLuongTaiKhoan(), tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getMaNhanVien());
+                    "TK00" + demSoLuongTaiKhoan(), tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getMaNhanVien());
             stmt.executeUpdate(insertQuery);
 
 
@@ -221,6 +219,33 @@ public final class TaiKhoan {
 
         return tk;
     }
+
+    public static TaiKhoan update(TaiKhoan tk) {
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+
+            String updateQuery = String.format("UPDATE TaiKhoan SET TenDangNhap = '%s', MatKhau = '%s' WHERE MaNhanVien = '%s'",
+                    tk.getTenDangNhap(), tk.getMatKhau(), tk.getNhanVien().getMaNhanVien());
+            stmt.executeUpdate(updateQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tk;
+    }
+
+
 
     public static ObservableList<TaiKhoan> getAllTaiKhoanFull() {
         ObservableList<TaiKhoan> dsTaiKhoan = FXCollections.observableArrayList();
@@ -309,6 +334,32 @@ public final class TaiKhoan {
         try {
             stmt = conn.createStatement();
             String sql = String.format("SELECT * FROM TaiKhoan WHERE MaNhanVien = '%s'", maNhanVien);
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                isExisted = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GD_DangNhapController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return isExisted;
+    }
+
+    public static boolean isExistedUsername(String username){
+        Connection conn = ConnectDB.getInstance().getConnection();
+        Statement stmt = null;
+        boolean isExisted = false;
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT TenDangNhap FROM TaiKhoan WHERE TenDangNhap = '%s'", username);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 isExisted = true;

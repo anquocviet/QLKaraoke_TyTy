@@ -55,8 +55,8 @@ public class GD_ThongKeThangController implements Initializable {
 				}
 			}
 		});
-		txtTongHoaDon.setText(HoaDonThanhToan.countBill(null) + "");
-		txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyBill(null)) + " VNĐ");
+		txtTongHoaDon.setText(HoaDonThanhToan.countBill() + "");
+		txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
 		txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
 		xAxis.setTickLabelFormatter(new StringConverter<Number>() {
 			@Override
@@ -84,8 +84,8 @@ public class GD_ThongKeThangController implements Initializable {
 	}
 
 	public void loadDataWhenChangeDate() {
-		txtTongHDThang.setText(HoaDonThanhToan.countBill(datePicker.getValue()) + "");
-		txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyBill(datePicker.getValue())) + " VNĐ");
+		txtTongHDThang.setText(HoaDonThanhToan.countBillByMonth(datePicker.getValue()) + "");
+		txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBillByMonth(datePicker.getValue())) + " VNĐ");
 		// Create data
 		XYChart.Series series = new XYChart.Series();
 		series.setName("Doanh thu trong ngày");
@@ -96,7 +96,7 @@ public class GD_ThongKeThangController implements Initializable {
 		chart.getData().clear();
 		chart.getData().add(series);
 	}
-
+	
 	DecimalFormat df = new DecimalFormat("#,###,###,##0");
 	@FXML
 	private Label txtTongHDThang;

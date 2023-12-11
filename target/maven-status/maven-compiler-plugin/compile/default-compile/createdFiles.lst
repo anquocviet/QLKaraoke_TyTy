@@ -60,6 +60,7 @@ controllers/GD_NhanPhongChoController$1.class
 controllers/GD_DatDichVuController$4.class
 controllers/GD_QLNhanVienController$1.class
 controllers/GD_QLCTKhuyenMaiController.class
+enums/Enum_ChucVu$1.class
 controllers/GD_NhanPhongChoController.class
 controllers/GD_DangKyController.class
 controllers/GD_ChuyenPhongController.class
