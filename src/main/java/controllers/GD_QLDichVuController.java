@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,7 +24,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,7 +36,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import model.DichVu;
 
 /**
@@ -83,11 +80,11 @@ public class GD_QLDichVuController implements Initializable {
         }
         danhSach_DichVu = DichVu.getAllDichVu();
         tableView_DichVu.setItems(danhSach_DichVu);
-
+		tableView_DichVu.getSelectionModel().select(0);
         tableView_DichVu.requestFocus();
         docDuLieuTuTable();
         handleEventInTable();
-
+		
         btnThemDichVu.setOnAction(this::handleThemDichVuButtonAction);
         btnSuaDichVu.setOnAction(this::handleCapNhatDichVuButtonAction);
         btnXoaTrangDichVu.setOnAction(this::handleLamMoiButtonAction);
@@ -149,7 +146,7 @@ public class GD_QLDichVuController implements Initializable {
         txtDonViTinh.setText(dv.getDonViTinh());
         imgDichVu.setImage(new Image("file:src/main/resources/image/dich-vu/" + dv.getAnhMinhHoa()));
         String imagePath = "file:src/main/resources/image/dich-vu/" + dv.getAnhMinhHoa();
-        System.out.println("Loading image from path: " + imagePath);
+        tenAnhMinhHoa = dv.getAnhMinhHoa();
     }
 
     private boolean kiemTraRong() throws Exception {
@@ -272,7 +269,7 @@ public class GD_QLDichVuController implements Initializable {
         tableView_DichVu.setItems(DichVu.getAllDichVu());
         tableView_DichVu.refresh();
 
-        showAlert("Cập nhật thông tin dịch vụ thành công", AlertType.NONE);
+        showAlert("Cập nhật thông tin dịch vụ thành công", AlertType.INFORMATION);
 
     }
 
@@ -323,7 +320,7 @@ public class GD_QLDichVuController implements Initializable {
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
         alert.setContentText(message);
-
+		alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         ButtonType buttonTypeOK = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         alert.getButtonTypes().setAll(buttonTypeOK);
 

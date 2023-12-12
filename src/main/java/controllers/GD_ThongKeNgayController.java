@@ -109,7 +109,7 @@ public class GD_ThongKeNgayController implements Initializable {
             return new ReadOnlyObjectWrapper<>(gioVao != null ? gioVao.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         });
         colGioRa.setCellValueFactory(cellData -> {
-            LocalDateTime gioRa = cellData.getValue().getGioVao();
+            LocalDateTime gioRa = cellData.getValue().getGioRa();
             return new ReadOnlyObjectWrapper<>(gioRa != null ? gioRa.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         });
         colThanhTien.setCellValueFactory((param) -> {

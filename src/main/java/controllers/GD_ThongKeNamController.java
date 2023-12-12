@@ -8,6 +8,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,6 +40,10 @@ public class GD_ThongKeNamController implements Initializable {
 		txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
 		txtTongHoaDon.setText(df.format(HoaDonThanhToan.countBill()));
 		txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
+		setMaxCategoryWidth(50, 10);
+		chart.widthProperty().addListener((obs, b, b1) -> {
+			Platform.runLater(() -> setMaxCategoryWidth(40, 10));
+		});
 		loadDataWhenChangeYear();
 		handleEventInCombomBox();
     }
@@ -61,6 +66,11 @@ public class GD_ThongKeNamController implements Initializable {
 		comboBoxNam.setOnAction((event) -> {
 			loadDataWhenChangeYear();
 		});
+	}
+	
+	private void setMaxCategoryWidth(double maxCategoryWidth, double minCategoryGap) {
+		double catSpace = xAxis.getCategorySpacing();
+		chart.setCategoryGap(catSpace - Math.min(maxCategoryWidth, catSpace - minCategoryGap));
 	}
 	
 	DecimalFormat df = new DecimalFormat("#,###,###,##0");
