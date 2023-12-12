@@ -243,8 +243,8 @@ public class GD_QLDichVuController implements Initializable {
         return true;
     }
 
-    public void xuLyLamMoiThongTinDichVu() {
-        txtMaDichVu.setText("");
+    public void xuLyLamMoiThongTinDichVu() throws SQLException {
+        txtMaDichVu.setText(phatSinhMaDichVu());
         txtTenDichVu.setText("");
         txtSoLuong.setText("");
         txtDonGia.setText("");

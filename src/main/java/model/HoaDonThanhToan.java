@@ -42,6 +42,15 @@ public final class HoaDonThanhToan {
         setNgayLap(ngayLap);
     }
 
+    public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDateTime ngayLap, long tongTien) {
+        setMaHoaDon(maHoaDon);
+        setNhanVienLap(nhanVienLap);
+        setKhachHang(khachHang);
+        setKhuyenMai(khuyenMai);
+        setNgayLap(ngayLap);
+        this.tongTien = tongTien;
+    }
+
     public HoaDonThanhToan() {
     }
 
@@ -106,6 +115,10 @@ public final class HoaDonThanhToan {
         }
     }
 
+    public long getTongTien() {
+        return tongTien;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -157,11 +170,12 @@ public final class HoaDonThanhToan {
                 String sdtKH = rs.getString("SoDienThoai");
                 int namSinhKH = rs.getInt("NamSinh");
                 boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+                long tongTien = rs.getLong("TongTien");
 
                 dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLap));
+                        new CT_KhuyenMai(maKM), ngayLap, tongTien));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -357,11 +371,12 @@ public final class HoaDonThanhToan {
                 String sdtResult = rs.getString("SoDienThoai");
                 int namSinhKH = rs.getInt("NamSinh");
                 boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+                long tongTien = rs.getLong("TongTien");
 
                 ketQuaTimKiem.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKHResult, sdtResult, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLapResult));
+                        new CT_KhuyenMai(maKM), ngayLapResult, tongTien));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -627,6 +642,32 @@ public final class HoaDonThanhToan {
         }
         return soLuong;
     }
+	
+	public static int countBillOfCustomer(String customerID) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan WHERE MaKhachHang = '%s'", customerID);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
 
     public static long calcTotalMoneyOfBill() {
         Connection conn = ConnectDB.getConnection();
@@ -743,6 +784,33 @@ public final class HoaDonThanhToan {
         long tongTien = 0;
         String sql = String.format("SELECT SUM(TongTien) AS Tien "
                 + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+	
+	public static long calcTotalMoneyOfBillOfCustomer(String customerID) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = String.format("SELECT SUM(TongTien) AS Tien "
+                + "FROM HoaDonThanhToan WHERE MaKhachHang = '%s'", customerID);
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
