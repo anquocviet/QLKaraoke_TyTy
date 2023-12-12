@@ -42,7 +42,6 @@ public final class HoaDonThanhToan {
         setNgayLap(ngayLap);
     }
 
-<<<<<<< HEAD
     public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDateTime ngayLap, long tongTien) {
         setMaHoaDon(maHoaDon);
         setNhanVienLap(nhanVienLap);
@@ -228,7 +227,7 @@ public final class HoaDonThanhToan {
     }
 
     public static ObservableList statisticalByQuarter(int year) {
-=======
+
     public HoaDonThanhToan() {
     }
 
@@ -411,13 +410,14 @@ public final class HoaDonThanhToan {
     }
 
     public static ObservableList statisticalByMonth(LocalDate date) {
->>>>>>> origin/main
+        
+    }
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         ObservableList arr = FXCollections.observableArrayList();
         try {
             stmt = conn.createStatement();
-<<<<<<< HEAD
+
             String sql = String.format("SELECT DATEPART(QUARTER, NgayLap) AS Quy, SUM(TongTien) AS TongTien "
                     + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
                     + "GROUP BY DATEPART(QUARTER, NgayLap)", year);
@@ -427,7 +427,7 @@ public final class HoaDonThanhToan {
                 int quy = rs.getInt("Quy");
                 long tongTien = rs.getLong("TongTien");
                 arr.add(quy);
-=======
+
             String sql = String.format("SELECT DAY(NgayLap) AS Ngay, SUM(TongTien) AS TongTien "
                     + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d AND MONTH(NgayLap) = %d "
                     + "GROUP BY DAY(NgayLap)", date.getYear(), date.getMonthValue());
@@ -437,7 +437,7 @@ public final class HoaDonThanhToan {
                 int ngay = rs.getInt("Ngay");
                 long tongTien = rs.getLong("TongTien");
                 arr.add(ngay);
->>>>>>> origin/main
+
                 arr.add(tongTien);
 
             }
@@ -456,17 +456,17 @@ public final class HoaDonThanhToan {
         return arr;
     }
 
-<<<<<<< HEAD
+
     public static ObservableList statisticalByYear(int year) {
-=======
+
     public static ObservableList statisticalByQuarter(int year) {
->>>>>>> origin/main
+
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         ObservableList arr = FXCollections.observableArrayList();
         try {
             stmt = conn.createStatement();
-<<<<<<< HEAD
+
             String sql = String.format("SELECT MONTH(NgayLap) AS Thang, SUM(TongTien) AS TongTien "
                     + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
                     + "GROUP BY MONTH(NgayLap)", year);
@@ -476,7 +476,7 @@ public final class HoaDonThanhToan {
                 int thang = rs.getInt("Thang");
                 long tongTien = rs.getLong("TongTien");
                 arr.add(thang);
-=======
+
             String sql = String.format("SELECT DATEPART(QUARTER, NgayLap) AS Quy, SUM(TongTien) AS TongTien "
                     + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
                     + "GROUP BY DATEPART(QUARTER, NgayLap)", year);
@@ -486,7 +486,7 @@ public final class HoaDonThanhToan {
                 int quy = rs.getInt("Quy");
                 long tongTien = rs.getLong("TongTien");
                 arr.add(quy);
->>>>>>> origin/main
+
                 arr.add(tongTien);
 
             }
@@ -505,7 +505,7 @@ public final class HoaDonThanhToan {
         return arr;
     }
 
-<<<<<<< HEAD
+
     public static ObservableList<HoaDonThanhToan> timHoaDon(String maHoaDon, String tenKH, String sdt, LocalDateTime ngayLap) {
         ObservableList<HoaDonThanhToan> ketQuaTimKiem = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
@@ -766,7 +766,7 @@ public final class HoaDonThanhToan {
         int soLuong = 0;
         String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
                 + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
-=======
+
     public static ObservableList statisticalByYear(int year) {
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
@@ -975,7 +975,7 @@ public final class HoaDonThanhToan {
         Statement stmt = null;
         int soLuong = 0;
         String sql = "SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan";
->>>>>>> origin/main
+
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -997,29 +997,29 @@ public final class HoaDonThanhToan {
         return soLuong;
     }
 
-<<<<<<< HEAD
+
     public static long calcTotalMoneyOfBill() {
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         long tongTien = 0;
         String sql = "SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan";
-=======
+
     public static int countBillByMonth(LocalDate date) {
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         int soLuong = 0;
         String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
                 + "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
->>>>>>> origin/main
+
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-<<<<<<< HEAD
+
                 tongTien = rs.getInt("Tien");
-=======
+
                 soLuong = rs.getInt("SoLuong");
->>>>>>> origin/main
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1033,7 +1033,7 @@ public final class HoaDonThanhToan {
                 Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-<<<<<<< HEAD
+
         return tongTien;
     }
 
@@ -1043,7 +1043,7 @@ public final class HoaDonThanhToan {
         long tongTien = 0;
         String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
                 + "WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
-=======
+
         return soLuong;
     }
 
@@ -1053,16 +1053,13 @@ public final class HoaDonThanhToan {
         int soLuong = 0;
         String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
                 + "FROM HoaDonThanhToan WHERE DAY(NgayLap) = %d AND MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getDayOfMonth(), date.getMonthValue(), date.getYear());
->>>>>>> origin/main
+
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-<<<<<<< HEAD
                 tongTien = rs.getInt("Tien");
-=======
                 soLuong = rs.getInt("SoLuong");
->>>>>>> origin/main
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1076,7 +1073,6 @@ public final class HoaDonThanhToan {
                 Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-<<<<<<< HEAD
         return tongTien;
     }
 
@@ -1088,7 +1084,6 @@ public final class HoaDonThanhToan {
         int year = date.getYear();
         String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
                 + "WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d", quarter, year);
-=======
         return soLuong;
     }
 
@@ -1100,16 +1095,12 @@ public final class HoaDonThanhToan {
         int year = date.getYear();
         String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
                 + "FROM HoaDonThanhToan WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d", quarter, year);
->>>>>>> origin/main
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-<<<<<<< HEAD
                 tongTien = rs.getInt("Tien");
-=======
                 soLuong = rs.getInt("SoLuong");
->>>>>>> origin/main
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1123,7 +1114,6 @@ public final class HoaDonThanhToan {
                 Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-<<<<<<< HEAD
         return tongTien;
     }
 
@@ -1132,7 +1122,6 @@ public final class HoaDonThanhToan {
         Statement stmt = null;
         long tongTien = 0;
         String sql = String.format("SELECT SUM(TongTien) AS Tien "
-=======
         return soLuong;
     }
 
@@ -1141,17 +1130,13 @@ public final class HoaDonThanhToan {
         Statement stmt = null;
         int soLuong = 0;
         String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
->>>>>>> origin/main
                 + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-<<<<<<< HEAD
                 tongTien = rs.getInt("Tien");
-=======
                 soLuong = rs.getInt("SoLuong");
->>>>>>> origin/main
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1165,7 +1150,6 @@ public final class HoaDonThanhToan {
                 Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-<<<<<<< HEAD
         return tongTien;
     }
 
@@ -1241,7 +1225,6 @@ public final class HoaDonThanhToan {
                 + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
                 + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai IS NULL")) {
 
-=======
         return soLuong;
     }
 
@@ -1453,7 +1436,6 @@ public final class HoaDonThanhToan {
                 + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
                 + "WHERE HoaDonThanhToan.MaKhachHang = ? AND MaKhuyenMai IS NULL")) {
 
->>>>>>> origin/main
             preparedStatement.setString(1, customerID);
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
