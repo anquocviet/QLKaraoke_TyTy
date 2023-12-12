@@ -205,6 +205,7 @@ public class GD_NhanPhongChoController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+		alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         alert.showAndWait();
     }
 

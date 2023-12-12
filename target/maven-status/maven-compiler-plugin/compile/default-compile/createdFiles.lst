@@ -9,17 +9,17 @@ controllers\GD_ChuyenPhongController$2.class
 controllers\GD_DatDichVuController$5.class
 controllers\GD_QLCTKhuyenMaiController.class
 controllers\BillController.class
-controllers\GD_DangKyController.class
 controllers\GD_QLPhongController.class
 controllers\GD_DatDichVuController$3$1.class
 model\KhachHang.class
+controllers\GD_ThongKeNgayController$1.class
 controllers\GD_QLDichVuController$3.class
-controllers\GD_DangKyController$1.class
 controllers\GD_DatPhongChoController$1.class
 connect\ConnectDB.class
 controllers\GD_TraCuuHoaDonController$2.class
 controllers\GD_ThongKeNamController.class
 model\Phong.class
+controllers\GD_QLTaiKhoanController.class
 controllers\GD_ChuyenPhongController.class
 model\ChiTietHD_Phong.class
 controllers\GD_QLCTKhuyenMaiController$1.class
@@ -48,6 +48,7 @@ controllers\GD_NhanPhongChoController.class
 controllers\GD_QLKhachHangController.class
 main\App.class
 controllers\GD_QLNhanVienController$1.class
+controllers\GD_QLTaiKhoanController$1.class
 controllers\GD_DatDichVuController$1.class
 controllers\GD_DatPhongChoController.class
 controllers\GD_QLCTKhuyenMaiController$2.class

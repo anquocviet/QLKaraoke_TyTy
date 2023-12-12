@@ -7,7 +7,6 @@ T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\KhachHang.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_NhanPhongChoController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\HoaDonThanhToan.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_DichVu.java
-T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DangKyController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\TaiKhoan.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_DatPhongChoController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\main\AppPreloader.java
@@ -17,6 +16,7 @@ T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeKhachHangCont
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\main\App.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLKhachHangController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\AppFrameController.java
+T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_QLTaiKhoanController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\NhanVien.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\controllers\GD_ThongKeThangController.java
 T:\PTUD Project\QLKaraoke_TyTy\src\main\java\model\ChiTietHD_Phong.java

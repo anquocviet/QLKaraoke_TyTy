@@ -7,6 +7,7 @@ package model;
 import connect.ConnectDB;
 import controllers.GD_ChuyenPhongController;
 import controllers.GD_QLKhachHangController;
+import controllers.GD_TraCuuHoaDonController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.logging.Level;
@@ -26,8 +28,8 @@ import main.App;
  *
  * @author vie
  */
-
 public final class ChiTietHD_Phong {
+
 	private HoaDonThanhToan hoaDon;
 	private Phong phong;
 	private LocalDateTime gioVao;
@@ -104,8 +106,7 @@ public final class ChiTietHD_Phong {
 	public long tinhThanhTien() {
 		if (gioRa.toLocalTime().isAfter(LocalTime.of(18, 0, 0))) {
 			thanhTien = (long) (tinhTongGioSuDung() * (phong.getGiaPhong() + App.TIENPHONGTHEMDEM));
-		}
-		else {
+		} else {
 			thanhTien = (long) (tinhTongGioSuDung() * phong.getGiaPhong());
 		}
 		return thanhTien;
@@ -214,41 +215,41 @@ public final class ChiTietHD_Phong {
 		return hdP;
 	}
 
-    public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhongVaMaHoaDon(String maHoaDon, String maPhong) throws Exception {
-        Connection conn = ConnectDB.getConnection();
-        Phong phong = Phong.getPhongTheoMaPhong(maPhong);
+	public static ChiTietHD_Phong getChiTietHD_PhongTheoMaPhongVaMaHoaDon(String maHoaDon, String maPhong) throws Exception {
+		Connection conn = ConnectDB.getConnection();
+		Phong phong = Phong.getPhongTheoMaPhong(maPhong);
 
-        Statement stmt = null;
-        ChiTietHD_Phong hdP = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE MaPhong = '%s' AND MaHoaDon = '%s'", maPhong, maHoaDon);
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                HoaDonThanhToan hoaDon = HoaDonThanhToan.getBillByID(maHoaDon);
-                java.sql.Timestamp timestamp = rs.getTimestamp("GioVao");
-                LocalDateTime gioVao = timestamp.toLocalDateTime();
-                timestamp = rs.getTimestamp("GioRa");
-                LocalDateTime gioRa = timestamp.toLocalDateTime();
-                hdP = new ChiTietHD_Phong(hoaDon, phong, gioVao, gioRa);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return hdP;
-    }
+		Statement stmt = null;
+		ChiTietHD_Phong hdP = null;
+		try {
+			stmt = conn.createStatement();
+			String sql = String.format("SELECT * FROM ChiTietHD_Phong WHERE MaPhong = '%s' AND MaHoaDon = '%s'", maPhong, maHoaDon);
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				HoaDonThanhToan hoaDon = HoaDonThanhToan.getBillByID(maHoaDon);
+				java.sql.Timestamp timestamp = rs.getTimestamp("GioVao");
+				LocalDateTime gioVao = timestamp.toLocalDateTime();
+				timestamp = rs.getTimestamp("GioRa");
+				LocalDateTime gioRa = timestamp.toLocalDateTime();
+				hdP = new ChiTietHD_Phong(hoaDon, phong, gioVao, gioRa);
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return hdP;
+	}
 
-    public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
-        ConnectDB.getInstance();
-        Connection conn = ConnectDB.getInstance().getConnection();
-        PreparedStatement pstm = null;
-        int n = 0;
+	public static boolean themChiTietHD_Phong(ChiTietHD_Phong hdP) {
+		ConnectDB.getInstance();
+		Connection conn = ConnectDB.getInstance().getConnection();
+		PreparedStatement pstm = null;
+		int n = 0;
 
 		String sql = "MERGE INTO ChiTietHD_Phong AS target "
 				+ "USING (VALUES (?, ?, ?, ?)) AS source (MaHoaDon, MaPhong, GioVao, GioRa) "
@@ -306,4 +307,68 @@ public final class ChiTietHD_Phong {
 		}
 		return n > 0;
 	}
+
+	public static ObservableList<ChiTietHD_Phong> getCT_PhongTheoNgay(LocalDateTime ngay) throws Exception {
+		ObservableList<ChiTietHD_Phong> dsChiTietHD_Phong = FXCollections.observableArrayList();
+		Connection conn = ConnectDB.getConnection();
+		PreparedStatement preparedStatement = null;
+
+		try {
+			String sql = "SELECT * FROM ChiTietHD_Phong WHERE CAST(ChiTietHD_Phong.GioVao AS DATE) = CAST(? AS DATE)";
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setTimestamp(1, Timestamp.valueOf(ngay));
+
+			try (ResultSet rs = preparedStatement.executeQuery()) {
+				while (rs.next()) {
+					String maPhong = rs.getString("MaPhong");
+					String maHD = rs.getString("MaHoaDon");
+					LocalDateTime gioVao = rs.getTimestamp("GioVao").toLocalDateTime();
+					LocalDateTime gioRa = rs.getTimestamp("GioRa").toLocalDateTime();
+					HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
+					Phong p = Phong.getPhongTheoMaPhong(maPhong);
+					dsChiTietHD_Phong.add(new ChiTietHD_Phong(hd, p, gioVao, gioRa));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dsChiTietHD_Phong;
+	}
+
+	public static float calcTotalHoursOfUseOfCustomer(String customerID) {
+		Connection conn = ConnectDB.getConnection();
+		Statement stmt = null;
+		float totalHours = 0;
+		String sql = String.format("SELECT SUM(TongGioSuDung) AS TongGioSuDung "
+				+ "FROM ChiTietHD_Phong ct JOIN HoaDonThanhToan hd ON ct.MaHoaDon = hd.MaHoaDon "
+				+ "WHERE MaKhachHang = '%s'", customerID);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				totalHours = rs.getFloat("TongGioSuDung");
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				assert stmt != null;
+				stmt.close();
+			} catch (SQLException ex) {
+				Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		return totalHours;
+	}
+
 }

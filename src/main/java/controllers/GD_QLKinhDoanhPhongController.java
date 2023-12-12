@@ -9,6 +9,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -195,10 +196,19 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                     roomID = phong.getMaPhong();
                     moGDNhanPhongCho();
                 });
+                 {
+                    try {
+                        if (PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong()) == null) {
+                            btnRight.setDisable(true);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
+
         }
         btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
-
         HBox hbox = new HBox(btnLeft, btnRight);
         hbox.setSpacing(30);
         hbox.setPadding(new Insets(0, 0, 8, 0));
@@ -368,25 +378,34 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     @FXML
     private void moGDThuePhong() {
         try {
-            if (Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
-                showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
-            } else {
-                PhieuDatPhong phieuDat = PhieuDatPhong.getBookingTicketOfRoom(roomID);
-                if (phieuDat != null) {
-                    LocalDateTime thoiGianNhan = phieuDat.getThoiGianNhan();
-                    LocalDateTime thoiGianHienTai = LocalDateTime.now();
-                    if (Phong.getListPhongByStatus(2).contains(new Phong(roomID))) {
-                        // Kiểm tra nếu thời gian hiện tại cách thời gian nhận phòng ít nhất 4 giờ
-                        if (thoiGianHienTai.isAfter(thoiGianNhan.plusHours(4))) {
-                            App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
-                        } else {
-                            showAlert("Không thể thuê phòng!", "Phòng chờ sấp đến giờ nhận khách. Vui lòng chọn phòng khác!");
-                        }
-                    }
-                } else {
-                    App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
-                }
+            LocalDateTime gioMoCua = LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)); // Giờ mở cửa là 8AM
+            LocalDateTime gioDongCua = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 0)); // Giờ đóng cửa là 11PM
 
+            LocalDateTime thoiGianHienTai = LocalDateTime.now();
+
+            if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
+                if (Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
+                    showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
+                } else if (Phong.getListPhongByStatus(0).contains(new Phong(roomID))) {
+                    App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+                } else {
+                    PhieuDatPhong phieuDat = PhieuDatPhong.getBookingTicketOfRoom(roomID);
+                    if (phieuDat != null) {
+                        LocalDateTime thoiGianNhan = phieuDat.getThoiGianNhan();
+                        if (Phong.getListPhongByStatus(2).contains(new Phong(roomID))) {
+                            // Kiểm tra nếu thời gian hiện tại cách thời gian nhận phòng ít nhất 4 giờ
+                            if (thoiGianHienTai.isAfter(thoiGianNhan.plusHours(4))) {
+                                App.openModal("GD_ThuePhong", App.widthModal, App.heightModal);
+                            } else {
+                                showAlert("Không thể thuê phòng!", "Phòng chờ sắp đến giờ nhận khách. Vui lòng chọn phòng khác!");
+                            }
+                        }
+                    } else {
+                        showAlert("Phòng đang dọn vệ sinh!", "Vui lòng quay lại sau ít phút.");
+                    }
+                }
+            } else {
+                showAlert("Ngoài giờ hoạt động!", "Quán không mở cửa trong khoảng thời gian này.");
             }
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
@@ -467,7 +486,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private void moGDChuyenPhong() {
         try {
             if (!Phong.getListPhongByStatus(1).contains(new Phong(roomID))) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng hoặc phòng chờ thích hợp để chuyển", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng hoặc phòng chờ để chuyển", ButtonType.OK);
                 alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
                 alert.setTitle("Có lỗi xảy ra");
                 alert.setHeaderText("Phòng không thể chuyển!");
@@ -521,6 +540,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         alert.showAndWait();
     }
 

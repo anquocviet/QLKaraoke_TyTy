@@ -81,7 +81,7 @@ public class GD_QLNhanVienController implements Initializable {
     @FXML
     private TableColumn<NhanVien, String> colSoDienThoai;
     @FXML
-    private TableColumn<NhanVien, Integer> colDiaChi;
+    private TableColumn<NhanVien, String> colDiaChi;
     @FXML
     private TableColumn<NhanVien, String> colChucVu;
     @FXML
@@ -536,6 +536,7 @@ public class GD_QLNhanVienController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+		alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         alert.showAndWait();
     }
 
