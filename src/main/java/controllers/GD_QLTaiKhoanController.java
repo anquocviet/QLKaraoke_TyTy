@@ -29,7 +29,7 @@ import model.TaiKhoan;
  *
  * @author thach
  */
-public class GD_DangKyController implements Initializable {
+public class GD_QLTaiKhoanController implements Initializable {
     @FXML
     private Button btnUpdate;
     @FXML
@@ -60,7 +60,7 @@ public class GD_DangKyController implements Initializable {
             try {
                 addDuLieuVaoTable();
             } catch (Exception ex) {
-                Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLTaiKhoanController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -70,7 +70,7 @@ public class GD_DangKyController implements Initializable {
                 updateDuLieuVaoTable();
                 table.setItems(TaiKhoan.getAllTaiKhoanFull());
             } catch (Exception ex) {
-                Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLTaiKhoanController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -89,6 +89,7 @@ public class GD_DangKyController implements Initializable {
         pwNhapLaiMatKhau.setText("");
         cbMaNhanVien.setValue(null);
     }
+
 
 
     public void handleEventInTable() {
@@ -152,8 +153,6 @@ public class GD_DangKyController implements Initializable {
         String matKhau = pwMatKhau.getText();
         String nhapLaiMK = pwNhapLaiMatKhau.getText();
         String maNhanVien = cbMaNhanVien.getValue();
-
-
 
         if (!Objects.equals(matKhau, nhapLaiMK)) {
             AlterErr("Mật khẩu không khớp");

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane id="GD_ThongKeNgay" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0" style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO NGÀY" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThongKeNgayController">
+<TitledPane fx:id="GD_ThongKeNgay" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0" style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO NGÀY" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThongKeNgayController">
    <content>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
@@ -17,13 +17,13 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <DatePicker editable="false" layoutX="328.0" layoutY="17.0" />
+            <DatePicker fx:id="DateNgay" editable="false" layoutX="328.0" layoutY="17.0" />
             <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
+            <Label fx:id="txtTongKH" layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -33,7 +33,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+            <Label fx:id="txtTongHDNgay" layoutX="328.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+            <Label fx:id="txtTongHD" layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+            <Label fx:id="txtTongDoanhThuNgay" layoutX="328.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -63,20 +63,20 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
+            <Label fx:id="txtTongDoanhThu" layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <TableView layoutX="1.0" layoutY="158.0" prefHeight="395.0" prefWidth="1286.0">
+            <TableView fx:id="table" layoutX="1.0" layoutY="158.0" prefHeight="395.0" prefWidth="1286.0">
                <columns>
-                  <TableColumn prefWidth="180.80006003379822" style="-fx-font-size: 20;" text="Mã hóa đơn" />
-                  <TableColumn prefWidth="119.19996643066406" style="-fx-font-size: 20;" text="Mã phòng" />
-                  <TableColumn prefWidth="261.0666809082031" style="-fx-font-size: 20;" text="Số điện thoại KH" />
-                  <TableColumn prefWidth="282.933349609375" style="-fx-font-size: 20;" text="Tên khách hàng" />
-                  <TableColumn prefWidth="102.4000244140625" style="-fx-font-size: 20;" text="Giờ vào" />
-                  <TableColumn prefWidth="128.79998779296875" style="-fx-font-size: 20;" text="Giờ ra" />
-                  <TableColumn prefWidth="214.933349609375" style="-fx-font-size: 20;" text="Thành tiền" />
+                  <TableColumn fx:id="colMaHD" prefWidth="180.80006003379822" style="-fx-font-size: 20;" text="Mã hóa đơn" />
+                  <TableColumn fx:id="colMaPhong" prefWidth="119.19996643066406" style="-fx-font-size: 20;" text="Mã phòng" />
+                  <TableColumn fx:id="colSDT" prefWidth="261.0666809082031" style="-fx-font-size: 20;" text="Số điện thoại KH" />
+                  <TableColumn fx:id="colTenKH" prefWidth="282.933349609375" style="-fx-font-size: 20;" text="Tên khách hàng" />
+                  <TableColumn fx:id="colGioVao" prefWidth="102.4000244140625" style="-fx-font-size: 20;" text="Giờ vào" />
+                  <TableColumn fx:id="colGioRa" prefWidth="128.79998779296875" style="-fx-font-size: 20;" text="Giờ ra" />
+                  <TableColumn fx:id="colThanhTien" prefWidth="214.933349609375" style="-fx-font-size: 20;" text="Thành tiền" />
                </columns>
             </TableView>
          </children>
