@@ -120,7 +120,7 @@ public class GD_ChuyenPhongController implements Initializable {
         lblPhongMoi.setText("");
         txtSearch.setText("");
     }
-    
+
     public void docDuLieuTuTable() {
         Phong cp = table.getSelectionModel().getSelectedItem();
         if (cp == null) {

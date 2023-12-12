@@ -71,7 +71,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="btnKiemTra" layoutX="670.0" layoutY="92.0" mnemonicParsing="false">
+                  <Button fx:id="btnKiemTra" layoutX="670.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleKiemTraSDT">
                      <graphic>
                         <ImageView fitHeight="48.0" fitWidth="48.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -101,12 +101,12 @@
                      <font>
                         <Font size="28.0" />
                      </font></Text>
-                  <Button fx:id="btnExit" layoutX="50.0" layoutY="521.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red; -fx-font-size: 24;" text="Thoát" textFill="WHITE">
+                  <Button fx:id="btnExit" layoutX="50.0" layoutY="521.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: red; -fx-font-size: 24;" text="Thoát" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnRefresh" layoutX="212.0" layoutY="521.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00; -fx-font-size: 24;" text="Xóa rỗng" textAlignment="CENTER">
+                  <Button fx:id="btnRefresh" layoutX="212.0" layoutY="521.0" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: FFFF00; -fx-font-size: 24;" text="Xóa rỗng" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -121,7 +121,11 @@
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="ccbMaPhieuDat" layoutX="363.0" layoutY="99.0" prefHeight="42.0" prefWidth="280.0" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                  <TextField fx:id="txtMaPhieuDat" disable="true" layoutX="363.0" layoutY="100.0" prefHeight="40.0" prefWidth="280.0">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </TextField>
                </children>
             </Pane>
          </children>

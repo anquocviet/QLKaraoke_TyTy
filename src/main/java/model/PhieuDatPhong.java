@@ -197,6 +197,37 @@ public final class PhieuDatPhong {
         }
         return dsPhieu;
     }
+    
+    public static PhieuDatPhong getBookingTicketByID(String maPhieuDat) throws Exception {
+        PhieuDatPhong phieu = null;
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1 AND MaPhieuDat = '" + maPhieuDat + "' ";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maPhieu = rs.getString("MaPhieuDat");
+                String maPhong = rs.getString("MaPhong");
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                LocalDateTime thoiGianLap = rs.getTimestamp("ThoiGianLap").toLocalDateTime();
+                LocalDateTime thoiGianNhan = rs.getTimestamp("ThoiGianNhan").toLocalDateTime();
+                boolean tinhTrang = rs.getBoolean("TinhTrang");
+                String ghiChu = rs.getString("GhiChu");
+                phieu = new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, tinhTrang, ghiChu);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return phieu;
+    }
 
     public static ObservableList<PhieuDatPhong> getAllBookingTicket() throws Exception {
         ObservableList<PhieuDatPhong> dsPhieu = FXCollections.observableArrayList();
