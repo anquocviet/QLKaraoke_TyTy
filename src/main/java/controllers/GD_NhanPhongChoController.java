@@ -182,7 +182,7 @@ public class GD_NhanPhongChoController implements Initializable {
         Phong p = Phong.getPhongTheoMaPhong(roomID);
 
         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-        System.out.println("chưa có hoa don thanh toan");
+
         ChiTietHD_Phong.themChiTietHoaDon(ctP);
         HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
         showSuccessAlert();
