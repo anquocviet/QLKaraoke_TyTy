@@ -5,6 +5,7 @@ enums/Enum_TrangThaiLamViec.class
 controllers/GD_DatDichVuController$5$1.class
 controllers/GD_QLDichVuController$1.class
 controllers/GD_ThongKeThangController$2.class
+controllers/GD_ThongKeNgayController$1.class
 controllers/GD_DatDichVuController$3.class
 controllers/GD_QLCTKhuyenMaiController$2.class
 controllers/GD_DatDichVuController$2$1.class

@@ -81,7 +81,7 @@ public class GD_QLNhanVienController implements Initializable {
     @FXML
     private TableColumn<NhanVien, String> colSoDienThoai;
     @FXML
-    private TableColumn<NhanVien, Integer> colDiaChi;
+    private TableColumn<NhanVien, String> colDiaChi;
     @FXML
     private TableColumn<NhanVien, String> colChucVu;
     @FXML
