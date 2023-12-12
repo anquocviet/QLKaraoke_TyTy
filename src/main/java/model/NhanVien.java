@@ -384,24 +384,27 @@ public class NhanVien {
         return n > 0;
     }
 
-    public static ObservableList<String> getAllMaNhanVien(){
+    public static ObservableList<String> getAllMaVaTenNhanVien(){
         ObservableList<String> result = FXCollections.observableArrayList();
 
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT MaNhanVien FROM NhanVien";
+            String sql = "select MaNhanVien, HoTen from NhanVien where ChucVu = N'Nhân viên tiếp tân' or ChucVu = N'Nhân viên phục vụ';";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maNhanVien = rs.getString("MaNhanVien");
-                result.add(maNhanVien);
+                String tenNhanVien = rs.getString("HoTen");
+                String maVaTen = maNhanVien + "-" + tenNhanVien;
+                result.add(maVaTen);
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
+
 
     public static boolean capNhatThongTinNhanVien(NhanVien nv) {
         ConnectDB.getInstance();
