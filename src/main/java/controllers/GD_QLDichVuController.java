@@ -10,16 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import java.time.LocalDate;
 import java.util.Optional;
-=======
->>>>>>> origin/main
-=======
-import java.time.LocalDate;
-import java.util.Optional;
->>>>>>> origin/main
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,18 +22,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-=======
->>>>>>> origin/main
-=======
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
->>>>>>> origin/main
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -55,7 +36,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import model.DichVu;
 
 /**
@@ -166,7 +146,7 @@ public class GD_QLDichVuController implements Initializable {
         txtDonViTinh.setText(dv.getDonViTinh());
         imgDichVu.setImage(new Image("file:src/main/resources/image/dich-vu/" + dv.getAnhMinhHoa()));
         String imagePath = "file:src/main/resources/image/dich-vu/" + dv.getAnhMinhHoa();
-        System.out.println("Loading image from path: " + imagePath);
+        //System.out.println("Loading image from path: " + imagePath);
     }
 
     private boolean kiemTraRong() throws Exception {
@@ -263,8 +243,8 @@ public class GD_QLDichVuController implements Initializable {
         return true;
     }
 
-    public void xuLyLamMoiThongTinDichVu() {
-        txtMaDichVu.setText("");
+    public void xuLyLamMoiThongTinDichVu() throws SQLException {
+        txtMaDichVu.setText(phatSinhMaDichVu());
         txtTenDichVu.setText("");
         txtSoLuong.setText("");
         txtDonGia.setText("");

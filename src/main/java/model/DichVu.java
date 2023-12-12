@@ -120,11 +120,7 @@ public final class DichVu {
     }
 
     public void setAnhMinhHoa(String anhMinhHoa) throws Exception {
-        if (anhMinhHoa == null || anhMinhHoa.trim().equals("")) {
-            throw new Exception("Ảnh minh họa của dịch vụ  không được rỗng");
-        } else {
             this.anhMinhHoa = anhMinhHoa;
-        }
     }
 
     @Override

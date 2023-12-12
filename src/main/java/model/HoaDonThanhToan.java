@@ -133,6 +133,7 @@ public final class HoaDonThanhToan {
 	}
 
 	public void tinhTongTien() {
+            
 	}
 
 	//    Get Data From DB
@@ -156,12 +157,12 @@ public final class HoaDonThanhToan {
 				String sdtKH = rs.getString("SoDienThoai");
 				int namSinhKH = rs.getInt("NamSinh");
 				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
-
+                                long tongTien = rs.getLong("TongTien");
 				dsHoaDon.add(new HoaDonThanhToan(maHD,
 						NhanVien.getNhanVienTheoMaNhanVien(maNV),
 						new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
 						new CT_KhuyenMai(maKM), ngayLap));
-			}
+                        }
 		} catch (SQLException ex) {
 			Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (Exception ex) {
@@ -245,6 +246,7 @@ public final class HoaDonThanhToan {
 				String sdtResult = rs.getString("SoDienThoai");
 				int namSinhKH = rs.getInt("NamSinh");
 				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+                                long tongTien = rs.getLong("TongTien");
 
 				ketQuaTimKiem.add(new HoaDonThanhToan(maHD,
 						NhanVien.getNhanVienTheoMaNhanVien(maNV),
@@ -287,6 +289,7 @@ public final class HoaDonThanhToan {
 				String sdt = rs.getString("SoDienThoai");
 				int namSinh = rs.getInt("NamSinh");
 				boolean gioiTinh = rs.getBoolean("GioiTinh");
+                                long tongTien = rs.getLong("TongTien");
 				bill = new HoaDonThanhToan(billID,
 						NhanVien.getNhanVienTheoMaNhanVien(maNV),
 						new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh),

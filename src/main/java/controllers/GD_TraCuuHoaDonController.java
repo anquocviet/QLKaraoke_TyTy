@@ -54,6 +54,7 @@ public class GD_TraCuuHoaDonController implements Initializable {
             return new ReadOnlyStringWrapper(soDienThoai);
         });
         ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
+        tongTienCol.setCellValueFactory(new PropertyValueFactory<>("tongTien"));
 
         danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
         tableHoaDon.setItems(danhSach_HoaDon);
@@ -250,6 +251,8 @@ public class GD_TraCuuHoaDonController implements Initializable {
     private TableColumn<HoaDonThanhToan, String> sdtCol;
     @FXML
     private TableColumn<HoaDonThanhToan, String> ngayLapCol;
+    @FXML
+    private TableColumn<HoaDonThanhToan, Long> tongTienCol;
 
     @FXML
     private TextField txtMaHoaDon;
