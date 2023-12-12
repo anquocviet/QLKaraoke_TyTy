@@ -43,7 +43,6 @@ import model.HoaDonThanhToan;
 public class GD_TraCuuHoaDonController implements Initializable {
 
     private DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
-    private long tongTien;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,22 +57,6 @@ public class GD_TraCuuHoaDonController implements Initializable {
         });
         ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
         tongTienCol.setCellValueFactory(new PropertyValueFactory<>("tongTien"));
-        /*
-        tongTienCol.setCellValueFactory(cellData -> {
-            long tienDV = 0;
-            long tienPhong = 0;
-            for (ChiTietHD_DichVu ct : tableDichVu.getItems()) {
-                tienDV += ct.getThanhTien();
-            }
-            for (ChiTietHD_Phong ct : tablePhong.getItems()) {
-                tienPhong += ct.tinhThanhTien();
-            }
-            tongTien = tienPhong + tienDV;
-            long tienVAT = (long) (tongTien * (App.VAT / 100.0));
-            tongTien = tongTien + tienVAT;
-            return new ReadOnlyObjectWrapper(tongTien);
-        });
-        */
 
         danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
         tableHoaDon.setItems(danhSach_HoaDon);
