@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import main.App;
 import model.ChiTietHD_DichVu;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
@@ -41,7 +43,7 @@ import model.HoaDonThanhToan;
 public class GD_TraCuuHoaDonController implements Initializable {
 
     private DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         maHoaDonCol.setCellValueFactory(new PropertyValueFactory<>("maHoaDon"));
@@ -54,6 +56,7 @@ public class GD_TraCuuHoaDonController implements Initializable {
             return new ReadOnlyStringWrapper(soDienThoai);
         });
         ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
+        tongTienCol.setCellValueFactory(new PropertyValueFactory<>("tongTien"));
 
         danhSach_HoaDon = HoaDonThanhToan.getAllHoaDon();
         tableHoaDon.setItems(danhSach_HoaDon);
@@ -129,13 +132,6 @@ public class GD_TraCuuHoaDonController implements Initializable {
                     });
 
                     ObservableList<ChiTietHD_Phong> dsPhong = ChiTietHD_Phong.getCT_PhongTheoMaHD(maHD);
-                    dsPhong.forEach(ct -> {
-                        try {
-                            ct.setGioRa(LocalDateTime.now());
-                        } catch (Exception ex) {
-                            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    });
                     tablePhong.setItems(dsPhong);
                 } catch (Exception ex) {
                     Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -250,6 +246,8 @@ public class GD_TraCuuHoaDonController implements Initializable {
     private TableColumn<HoaDonThanhToan, String> sdtCol;
     @FXML
     private TableColumn<HoaDonThanhToan, String> ngayLapCol;
+    @FXML
+    private TableColumn<HoaDonThanhToan, String> tongTienCol;
 
     @FXML
     private TextField txtMaHoaDon;
