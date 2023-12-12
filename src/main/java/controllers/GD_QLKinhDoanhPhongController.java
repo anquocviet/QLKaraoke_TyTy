@@ -195,10 +195,19 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 					roomID = phong.getMaPhong();
 					moGDNhanPhongCho();
 				});
+			{
+				try {
+					if (PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong()) == null) {
+						btnRight.setDisable(true);
+					}
+				} catch (Exception ex) {
+					Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
 				break;
+
 		}
 		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
-
 		HBox hbox = new HBox(btnLeft, btnRight);
 		hbox.setSpacing(30);
 		hbox.setPadding(new Insets(0, 0, 8, 0));

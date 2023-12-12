@@ -5,6 +5,7 @@
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/BillController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLDichVuController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/model/CT_KhuyenMai.java
+/Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLTaiKhoanController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThongKeNamController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLKhachHangController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/enums/Enum_TrangThaiLamViec.java
@@ -18,7 +19,6 @@
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/enums/Enum_LoaiPhong.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/enums/Enum_ChucVu.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/model/NhanVien.java
-/Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_DangKyController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_QLCTKhuyenMaiController.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/model/PhieuDatPhong.java
 /Volumes/VIE_Data/Study/Year_3_Semester1/PTUD/QLKaraoke_TyTy/src/main/java/controllers/GD_ThongKeNgayController.java
