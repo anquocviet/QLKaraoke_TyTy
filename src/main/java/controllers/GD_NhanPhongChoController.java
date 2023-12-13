@@ -68,6 +68,10 @@ public class GD_NhanPhongChoController implements Initializable {
     @FXML
     private Button btnExit;
 
+    private boolean kiemTra = false;
+
+    PhieuDatPhong phieu = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txtSoPhong.setText(roomID);
@@ -84,7 +88,7 @@ public class GD_NhanPhongChoController implements Initializable {
 
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
         if (khachHang != null) {
-            PhieuDatPhong phieu = null;
+
             ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
             Phong phong = Phong.getPhongTheoMaPhong(roomID);
             for (PhieuDatPhong phieuDatPhong : listPhieu) {
@@ -103,6 +107,7 @@ public class GD_NhanPhongChoController implements Initializable {
             txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
             ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
             btnKiemTra.setDisable(true);
+            kiemTra = true;
         } else {
             showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này. Vui lòng thêm khách hàng trước khi đặt phòng!");
         }
@@ -140,6 +145,10 @@ public class GD_NhanPhongChoController implements Initializable {
 
     @FXML
     public void handleNhanPhong(ActionEvent event) throws Exception {
+        if (kiemTra == false) {
+            showAlert("Lỗi!", "Vui lòng kiểm tra thông tin trước khi thực hiện Nhận phòng");
+            return;
+        }
         String soPhong = txtSoPhong.getText();
         String maPhieuDat = txtMaPhieuDat.getText();
         String soDienThoai = txtSDTKhachHang.getText();
@@ -155,13 +164,14 @@ public class GD_NhanPhongChoController implements Initializable {
         } else if (!isValidPhoneNumber(soDienThoai)) {
             showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
             return;
-        } else if (ngayNhanPhong.isAfter(LocalDateTime.now())) {
+        } else if (LocalDateTime.now().isBefore(phieu.getThoiGianNhan()) == true) {
+
             showAlert("Chưa đến giờ nhận phòng", "Vui lòng chờ đến giờ nhận phòng.");
             return;
         }
 
         Phong.updateStatusRoom(soPhong, 1);
-        PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, false);
+        PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, true);
         String maHoaDon;
         CT_KhuyenMai khuyenMai = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM("DEFAULT");
         String maNV = App.user;
@@ -175,8 +185,8 @@ public class GD_NhanPhongChoController implements Initializable {
 
         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
 
-        ChiTietHD_Phong.themChiTietHoaDon(ctP);
         HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+        ChiTietHD_Phong.themChiTietHoaDon(ctP);
         showSuccessAlert();
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -197,7 +207,7 @@ public class GD_NhanPhongChoController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-		alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         alert.showAndWait();
     }
 

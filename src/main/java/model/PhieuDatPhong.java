@@ -173,7 +173,7 @@ public final class PhieuDatPhong {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1 AND MaKhachHang = '" + maKhachHang + "' ";
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0 AND MaKhachHang = '" + maKhachHang + "' ";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhieu = rs.getString("MaPhieuDat");
@@ -204,7 +204,7 @@ public final class PhieuDatPhong {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1 AND MaPhieuDat = '" + maPhieuDat + "' ";
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0 AND MaPhieuDat = '" + maPhieuDat + "' ";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhieu = rs.getString("MaPhieuDat");
@@ -260,13 +260,13 @@ public final class PhieuDatPhong {
         return dsPhieu;
     }
 
-    public static ObservableList<PhieuDatPhong> getAllBookingTicketWithTinhTrang1() throws Exception {
+    public static ObservableList<PhieuDatPhong> getAllBookingTicketChuaDuocSuDung() throws Exception {
         ObservableList<PhieuDatPhong> dsPhieu = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1";
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhieu = rs.getString("MaPhieuDat");
