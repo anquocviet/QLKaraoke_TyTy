@@ -173,7 +173,7 @@ public final class PhieuDatPhong {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1 AND MaKhachHang = '" + maKhachHang + "' ";
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0 AND MaKhachHang = '" + maKhachHang + "' ";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhieu = rs.getString("MaPhieuDat");
@@ -204,7 +204,7 @@ public final class PhieuDatPhong {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 1 AND MaPhieuDat = '" + maPhieuDat + "' ";
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0 AND MaPhieuDat = '" + maPhieuDat + "' ";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maPhieu = rs.getString("MaPhieuDat");
@@ -260,6 +260,37 @@ public final class PhieuDatPhong {
         return dsPhieu;
     }
 
+    public static ObservableList<PhieuDatPhong> getAllBookingTicketChuaDuocSuDung() throws Exception {
+        ObservableList<PhieuDatPhong> dsPhieu = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM PhieuDatPhong WHERE TinhTrang = 0";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maPhieu = rs.getString("MaPhieuDat");
+                String maPhong = rs.getString("MaPhong");
+                String maKH = rs.getString("MaKhachHang");
+                String maNV = rs.getString("MaNhanVien");
+                LocalDateTime thoiGianLap = rs.getTimestamp("ThoiGianLap").toLocalDateTime();
+                LocalDateTime thoiGianNhan = rs.getTimestamp("ThoiGianNhan").toLocalDateTime();
+                boolean tinhTrang = rs.getBoolean("TinhTrang");
+                String ghiChu = rs.getString("GhiChu");
+                dsPhieu.add(new PhieuDatPhong(maPhieu, new KhachHang(maKH), new Phong(maPhong), new NhanVien(maNV), thoiGianLap, thoiGianNhan, tinhTrang, ghiChu));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLKhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dsPhieu;
+    }
+    
     public static PhieuDatPhong getBookingTicketOfRoom(String roomID) throws Exception {
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
