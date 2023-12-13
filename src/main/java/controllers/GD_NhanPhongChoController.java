@@ -87,15 +87,20 @@ public class GD_NhanPhongChoController implements Initializable {
         }
 
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-        if (khachHang != null) {
 
+        if (khachHang != null) {
             ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
+            
             Phong phong = Phong.getPhongTheoMaPhong(roomID);
             for (PhieuDatPhong phieuDatPhong : listPhieu) {
                 if (phieuDatPhong.getPhong().equals(phong)) {
                     phieu = PhieuDatPhong.getBookingTicketByID(phieuDatPhong.getMaPhieuDat());
                     break;
                 }
+            }
+            if (listPhieu == null || phieu == null) {
+                showAlert("Không tìm thấy phòng đặt", "Vui lòng nhập chính xác số điện thoại");
+                return;
             }
             txtMaPhieuDat.setText(phieu.getMaPhieuDat());
             LocalDate ngayNhanTmp = phieu.getThoiGianNhan().toLocalDate();
@@ -124,6 +129,7 @@ public class GD_NhanPhongChoController implements Initializable {
 
     @FXML
     public void handleRefresh(ActionEvent event) {
+        phieu = null;
         txtMaPhieuDat.setText("");
         txtSDTKhachHang.setText("");
         txtTenKhachHang.clear();
@@ -137,6 +143,7 @@ public class GD_NhanPhongChoController implements Initializable {
 
     @FXML
     public void handleExit(ActionEvent event) {
+        phieu = null;
         ccbGender.getItems().clear();
         btnKiemTra.setDisable(false);
         Stage stage = (Stage) btnExit.getScene().getWindow();
