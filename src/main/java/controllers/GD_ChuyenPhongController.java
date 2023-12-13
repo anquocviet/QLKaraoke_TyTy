@@ -206,7 +206,7 @@ public class GD_ChuyenPhongController implements Initializable {
 
             hdPhongHienTai.setGioRa(LocalDateTime.now());
             ChiTietHD_Phong.updateCTHD_Phong(hdPhongHienTai);
-            LocalDateTime gioVaoMoi = hdPhongHienTai.getGioRa().plus(5, ChronoUnit.MINUTES);
+            LocalDateTime gioVaoMoi = hdPhongHienTai.getGioRa();
             ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, gioVaoMoi, LocalDateTime.of(2050, Month.JANUARY, 1, 0, 0));
             ChiTietHD_Phong.themChiTietHD_Phong(hdPhongMoi);
             showSuccessAlert();

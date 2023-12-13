@@ -418,7 +418,8 @@ public final class HoaDonThanhToan {
                 bill = new HoaDonThanhToan(billID,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh),
-                        new CT_KhuyenMai(maKM), ngayLap);
+                        CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(maKM),
+						ngayLap);
             }
         } catch (Exception e) {
             e.printStackTrace();
