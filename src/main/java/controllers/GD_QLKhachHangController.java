@@ -230,12 +230,6 @@ public class GD_QLKhachHangController implements Initializable {
 	@FXML
 	private ToggleGroup genderGroup;
 	@FXML
-	private Button btnThem;
-	@FXML
-	private Button btnSua;
-	@FXML
-	private Button btnLamMoi;
-	@FXML
 	private TableView<KhachHang> table;
 	@FXML
 	private TableColumn<String, Integer> sttCol;

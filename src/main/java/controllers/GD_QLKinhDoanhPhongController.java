@@ -157,64 +157,64 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             }
         }
 
-		String strBtnLeft = phong.getTinhTrang() == 0 ? "Thuê phòng"
-				: phong.getTinhTrang() == 1 ? "Đặt dịch vụ" : "Hủy phòng";
-		String strBtnRight = phong.getTinhTrang() == 0 ? "Đặt phòng"
-				: phong.getTinhTrang() == 1 ? "Thanh toán" : "Nhận phòng";
-		Button btnLeft = new Button(strBtnLeft);
-		Button btnRight = new Button(strBtnRight);
-		switch (phong.getTinhTrang()) {
-			case 0:
-				btnLeft.setStyle("-fx-background-color: #FBFF16; -fx-font-size: 16");
-				btnLeft.setOnAction((event) -> {
-					roomID = phong.getMaPhong();
-					moGDThuePhong();
-				});
-				btnRight.setOnAction((event) -> {
-					roomID = phong.getMaPhong();
-					moGDDatPhongCho();
-				});
-				break;
-			case 1:
-				btnLeft.setStyle("-fx-background-color: #4078E3; -fx-text-fill: #fff; -fx-font-size: 16");
-				btnLeft.setOnAction(((event) -> {
-					roomID = phong.getMaPhong();
-					moGDDatDichVu();
-				}));
-				btnRight.setOnAction((event) -> {
-					roomID = phong.getMaPhong();
-					moGDThanhToan();
-				});
-				break;
-			default:
-				btnLeft.setStyle("-fx-background-color: #CF2A27; -fx-text-fill: #fff; -fx-font-size: 16");
-				btnLeft.setOnAction((event) -> {
-					roomID = phong.getMaPhong();
-					huyPhongCho();
-				});
-				btnRight.setOnAction((event) -> {
-					roomID = phong.getMaPhong();
-					moGDNhanPhongCho();
-				});
-			{
-				try {
-					if (PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong()) == null) {
-						btnRight.setDisable(true);
-					}
-				} catch (Exception ex) {
-					Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			}
-				break;
+        String strBtnLeft = phong.getTinhTrang() == 0 ? "Thuê phòng"
+                : phong.getTinhTrang() == 1 ? "Đặt dịch vụ" : "Hủy phòng";
+        String strBtnRight = phong.getTinhTrang() == 0 ? "Đặt phòng"
+                : phong.getTinhTrang() == 1 ? "Thanh toán" : "Nhận phòng";
+        Button btnLeft = new Button(strBtnLeft);
+        Button btnRight = new Button(strBtnRight);
+        switch (phong.getTinhTrang()) {
+            case 0:
+                btnLeft.setStyle("-fx-background-color: #FBFF16; -fx-font-size: 16");
+                btnLeft.setOnAction((event) -> {
+                    roomID = phong.getMaPhong();
+                    moGDThuePhong();
+                });
+                btnRight.setOnAction((event) -> {
+                    roomID = phong.getMaPhong();
+                    moGDDatPhongCho();
+                });
+                break;
+            case 1:
+                btnLeft.setStyle("-fx-background-color: #4078E3; -fx-text-fill: #fff; -fx-font-size: 16");
+                btnLeft.setOnAction(((event) -> {
+                    roomID = phong.getMaPhong();
+                    moGDDatDichVu();
+                }));
+                btnRight.setOnAction((event) -> {
+                    roomID = phong.getMaPhong();
+                    moGDThanhToan();
+                });
+                break;
+            default:
+                btnLeft.setStyle("-fx-background-color: #CF2A27; -fx-text-fill: #fff; -fx-font-size: 16");
+                btnLeft.setOnAction((event) -> {
+                    roomID = phong.getMaPhong();
+                    huyPhongCho();
+                });
+                btnRight.setOnAction((event) -> {
+                    roomID = phong.getMaPhong();
+                    moGDNhanPhongCho();
+                });
+                 {
+                    try {
+                        if (PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong()) == null) {
+                            btnRight.setDisable(true);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
 
-		}
-		btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
-		HBox hbox = new HBox(btnLeft, btnRight);
-		hbox.setSpacing(30);
-		hbox.setPadding(new Insets(0, 0, 8, 0));
-		hbox.setAlignment(Pos.CENTER);
-		hbox.setVisible(false);
-		roomItem.getChildren().add(hbox);
+        }
+        btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
+        HBox hbox = new HBox(btnLeft, btnRight);
+        hbox.setSpacing(30);
+        hbox.setPadding(new Insets(0, 0, 8, 0));
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setVisible(false);
+        roomItem.getChildren().add(hbox);
 
         roomItem.setAlignment(Pos.CENTER);
         roomItem.getStyleClass().add("itemRoom");
@@ -437,6 +437,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                 showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng chờ để nhận phòng!");
             } else {
                 App.openModal("GD_NhanPhongCho", App.widthModal, App.heightModal);
+                gridPane.getChildren().clear();
+                renderArrayPhong(Phong.getAllPhong());
             }
         } catch (Exception ex) {
             Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
@@ -538,7 +540,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-		alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
         alert.showAndWait();
     }
 

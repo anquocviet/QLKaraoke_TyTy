@@ -120,7 +120,7 @@ public class GD_ChuyenPhongController implements Initializable {
         lblPhongMoi.setText("");
         txtSearch.setText("");
     }
-    
+
     public void docDuLieuTuTable() {
         Phong cp = table.getSelectionModel().getSelectedItem();
         if (cp == null) {
@@ -197,22 +197,18 @@ public class GD_ChuyenPhongController implements Initializable {
     void handleChuyenPhong(ActionEvent event) throws Exception {
         Phong phongDuocChon = table.getSelectionModel().getSelectedItem();
         String maHoaDon = HoaDonThanhToan.getBillIDByRoomID(roomID);
-        System.out.println(maHoaDon);
         Phong phongHienTai = Phong.getPhongTheoMaPhong(roomID);
 
         if (phongDuocChon != null) {
             phongDuocChon.updateStatusRoom(phongDuocChon.getMaPhong(), 1);
             phongHienTai.updateStatusRoom(phongHienTai.getMaPhong(), 2);
             ChiTietHD_Phong hdPhongHienTai = ChiTietHD_Phong.getChiTietHD_PhongTheoMaPhongVaMaHoaDon(maHoaDon, phongHienTai.getMaPhong());
-            System.out.println(hdPhongHienTai);
 
             hdPhongHienTai.setGioRa(LocalDateTime.now());
             ChiTietHD_Phong.updateCTHD_Phong(hdPhongHienTai);
-            System.out.println(hdPhongHienTai);
             LocalDateTime gioVaoMoi = hdPhongHienTai.getGioRa().plus(5, ChronoUnit.MINUTES);
             ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(hdPhongHienTai.getHoaDon(), phongDuocChon, gioVaoMoi, LocalDateTime.of(2050, Month.JANUARY, 1, 0, 0));
             ChiTietHD_Phong.themChiTietHD_Phong(hdPhongMoi);
-            System.out.println(hdPhongMoi);
             showSuccessAlert();
 
         } else {
@@ -278,16 +274,7 @@ public class GD_ChuyenPhongController implements Initializable {
     private TextField txtSearch;
 
     @FXML
-    private Button refreshButton;
-
-    @FXML
     private Button exitButton;
-
-    @FXML
-    private Button chuyenPhongButton;
-
-    @FXML
-    private Button searchButton;
 
     ObservableList<Phong> listPhong;
 

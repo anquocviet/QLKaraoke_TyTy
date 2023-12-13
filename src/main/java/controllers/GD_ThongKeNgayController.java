@@ -22,12 +22,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
 import model.KhachHang;
-import model.Phong;
 
 /**
  * FXML Controller class
@@ -113,11 +111,11 @@ public class GD_ThongKeNgayController implements Initializable {
             return new ReadOnlyObjectWrapper<>(gioRa != null ? gioRa.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         });
         colThanhTien.setCellValueFactory((param) -> {
-            return new ReadOnlyObjectWrapper<>(df.format(param.getValue().tinhThanhTien()));
+            String maHD = param.getValue().getHoaDon().getMaHoaDon();
+            return new ReadOnlyObjectWrapper<>(df.format(HoaDonThanhToan.calcMoney(maHD)));
         });
         try {
             ObservableList<ChiTietHD_Phong> ds = ChiTietHD_Phong.getCT_PhongTheoNgay(LocalDateTime.now());
-            System.out.println(ds);
             table.setItems(ds);
         } catch (Exception ex) {
             Logger.getLogger(GD_ThongKeNgayController.class.getName()).log(Level.SEVERE, null, ex);
