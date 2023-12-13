@@ -310,5 +310,41 @@ public final class DichVu {
 
         return n > 0;
     }
+	
+	public static boolean capNhatSoLuongDichVu(DichVu dv) {
+        ConnectDB.getInstance();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement pstm = null;
+        int n = 0;
+
+        String sql = "UPDATE DichVu "
+                + "SET SoLuongTon = ? "
+                + "WHERE MaDichVu = ?";
+
+        try {
+            pstm = conn.prepareStatement(sql);
+            if (pstm != null) {
+                pstm.setInt(1, dv.getSoLuong());
+                pstm.setString(2, dv.getMaDichVu());
+
+                n = pstm.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLDichVuController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_QLDichVuController.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return n > 0;
+    }
 
 }

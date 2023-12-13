@@ -379,7 +379,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
     private void moGDThuePhong() {
         try {
             LocalDateTime gioMoCua = LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)); // Giờ mở cửa là 8AM
-            LocalDateTime gioDongCua = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 0)); // Giờ đóng cửa là 11PM
+            LocalDateTime gioDongCua = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 30)); // Giờ đóng cửa là 11:30PM
 
             LocalDateTime thoiGianHienTai = LocalDateTime.now();
 

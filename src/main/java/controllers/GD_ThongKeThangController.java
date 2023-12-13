@@ -87,6 +87,7 @@ public class GD_ThongKeThangController implements Initializable {
 		txtTongHDThang.setText(HoaDonThanhToan.countBillByMonth(datePicker.getValue()) + "");
 		txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBillByMonth(datePicker.getValue())) + " VNĐ");
 		// Create data
+		chart.setAnimated(true);
 		XYChart.Series series = new XYChart.Series();
 		series.setName("Doanh thu trong ngày");
 		ObservableList arr = HoaDonThanhToan.statisticalByMonth(datePicker.getValue());
@@ -95,6 +96,7 @@ public class GD_ThongKeThangController implements Initializable {
 		}
 		chart.getData().clear();
 		chart.getData().add(series);
+		chart.setAnimated(false);
 	}
 	
 	DecimalFormat df = new DecimalFormat("#,###,###,##0");
