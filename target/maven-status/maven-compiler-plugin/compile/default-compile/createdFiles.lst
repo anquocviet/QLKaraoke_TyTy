@@ -59,6 +59,7 @@ controllers\GD_QLNhanVienController.class
 controllers\GD_DatDichVuController$4.class
 controllers\GD_DatDichVuController.class
 controllers\GD_ThanhToanController$1.class
+controllers\GD_TraCuuHoaDonController$5.class
 controllers\GD_QLNhanVienController$2.class
 controllers\GD_DatDichVuController$3.class
 controllers\GD_QLDichVuController.class

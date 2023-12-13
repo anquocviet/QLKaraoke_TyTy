@@ -68,8 +68,4 @@ public class GD_DangNhapController implements Initializable {
     private TextField txtUsername;
     @FXML
     private TextField txtPassword;
-    @FXML
-    private Text lblForgotPassword;
-    @FXML
-    private Button btnDangNhap;
 }

@@ -116,6 +116,7 @@ public final class HoaDonThanhToan {
     }
 
     public long getTongTien() {
+        
         return tongTien;
     }
 
@@ -674,6 +675,31 @@ public final class HoaDonThanhToan {
         Statement stmt = null;
         long tongTien = 0;
         String sql = "SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+    public static long calcMoney(String maHD) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = "SELECT TongTien AS Tien FROM HoaDonThanhToan WHERE MaHoaDon = '" + maHD + "'";
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);

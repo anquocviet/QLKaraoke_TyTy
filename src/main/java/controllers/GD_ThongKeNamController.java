@@ -77,8 +77,6 @@ public class GD_ThongKeNamController implements Initializable {
 	@FXML
 	private Label txtTongHDTheoNam;
 	@FXML
-	private Label tongDTTheoNam;
-	@FXML
 	private Label txtTongKhachHang;
 	@FXML
 	private Label txtTongHoaDon;
@@ -88,8 +86,6 @@ public class GD_ThongKeNamController implements Initializable {
 	private StackedBarChart chart;
 	@FXML
 	private CategoryAxis xAxis;
-	@FXML
-	private NumberAxis yAxis;
 	@FXML
 	private ComboBox<Integer> comboBoxNam;
 
