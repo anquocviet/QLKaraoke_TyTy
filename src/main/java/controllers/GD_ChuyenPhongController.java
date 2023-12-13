@@ -52,8 +52,54 @@ public class GD_ChuyenPhongController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         lblMaPhong.setText(roomID);
-        maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
-        //loaiPhongCol.setCellValueFactory(new PropertyValueFactory<>("loaiPhong"));
+        maPhongCol.setCellValueFactory(cellData -> {
+            Phong phong = cellData.getValue();
+            String maPhong = phong.getMaPhong();
+            tongGioSuDungCol.setCellValueFactory(cellData2 -> {
+                if (phong.getTinhTrang() == 2) {
+                    PhieuDatPhong phieu;
+                    try {
+                        phieu = PhieuDatPhong.getBookingTicketOfRoom(maPhong);
+                        if (phieu.isTinhTrang() == false) {
+                            return new ReadOnlyStringWrapper(tinhTongGioSuDung(phong, phieu));
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                return new ReadOnlyStringWrapper("Đến khi trả phòng hoặc đóng cửa");
+
+            });
+            return new ReadOnlyStringWrapper(maPhong);
+        });
+        tongGioSuDungCol.setCellFactory(column -> {
+            return new javafx.scene.control.TableCell<Phong, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        Phong phong = getTableView().getItems().get(getIndex());
+                        if (phong.getTinhTrang() == 2) {
+                            PhieuDatPhong phieu;
+                            try {
+                                phieu = PhieuDatPhong.getBookingTicketOfRoom(phong.getMaPhong());
+                                if (phieu.isTinhTrang() == false) {
+                                    setText(tinhTongGioSuDung(phong, phieu));
+                                    return;
+                                }
+                            } catch (Exception ex) {
+                                Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        }
+                        setText("Đến khi trả phòng hoặc đóng cửa");
+                    }
+                }
+            };
+        });
         loaiPhongCol.setCellValueFactory(cellData -> {
             int loaiPhong = cellData.getValue().getLoaiPhong();
             String loaiPhongString;
@@ -133,7 +179,7 @@ public class GD_ChuyenPhongController implements Initializable {
     public void dataPhong() throws Exception {
         listPhong = Phong.getListPhongByStatus(0);
         listPhong.addAll(Phong.getListPhongByStatus(2));
-        ObservableList<PhieuDatPhong> listPhieuPhongDaDat = PhieuDatPhong.getAllBookingTicket();
+        ObservableList<PhieuDatPhong> listPhieuPhongDaDat = PhieuDatPhong.getAllBookingTicketChuaDuocSuDung();
 
         ObservableList<String> listTongGio = FXCollections.observableArrayList();
         ObservableList<Phong> listXoa = FXCollections.observableArrayList();
@@ -164,7 +210,19 @@ public class GD_ChuyenPhongController implements Initializable {
 
         }
         listPhong.removeAll(listXoa);
-        tongGioSuDungCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(listTongGio.get(table.getItems().indexOf(param.getValue()))));
+//        tongGioSuDungCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(listTongGio.get(table.getItems().indexOf(param.getValue()))));
+    }
+
+    private String tinhTongGioSuDung(Phong phong, PhieuDatPhong phieuDatPhong) {
+        String result = "";
+        float time = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 3600;
+        if (time >= 2) {
+            float gioSuDung = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 60;
+            long minus = (long) gioSuDung % 60;
+            long hour = ((long) gioSuDung - minus) / 60;
+            result = hour + " giờ " + minus + " phút";
+        }
+        return result;
     }
 
     @FXML
