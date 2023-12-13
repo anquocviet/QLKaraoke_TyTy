@@ -42,6 +42,7 @@ controllers\GD_TraCuuHoaDonController$3.class
 controllers\GD_QLPhongController$1.class
 enums\Enum_Nvien.class
 controllers\GD_QLKinhDoanhPhongController.class
+controllers\GD_ChuyenPhongController$3.class
 controllers\AppFrameController.class
 controllers\GD_ThongKeThangController$1.class
 controllers\GD_NhanPhongChoController.class
