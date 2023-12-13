@@ -35,7 +35,7 @@ import javax.swing.plaf.TableUI;
  *
  * @author thach
  */
-public class GD_DangKyController implements Initializable {
+public class GD_QLTaiKhoanController implements Initializable {
     @FXML
     private Button btnUpdate;
     @FXML
@@ -66,7 +66,7 @@ public class GD_DangKyController implements Initializable {
             try {
                 addDuLieuVaoTable();
             } catch (Exception ex) {
-                Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLTaiKhoanController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -76,7 +76,7 @@ public class GD_DangKyController implements Initializable {
                 updateDuLieuVaoTable();
                 table.setItems(TaiKhoan.getAllTaiKhoanFull());
             } catch (Exception ex) {
-                Logger.getLogger(GD_DangKyController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GD_QLTaiKhoanController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 

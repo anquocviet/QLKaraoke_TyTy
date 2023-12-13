@@ -65,7 +65,15 @@ public class GD_DatDichVuController implements Initializable {
 		ttDonViTinhCol.setCellValueFactory(new PropertyValueFactory<>("donViTinh"));
 		ttThemCol.setCellValueFactory(new PropertyValueFactory<>(""));
 		ttThemCol.setCellFactory(handleBtnAddTableThongTin());
-		tableThongTinDichVu.setItems(DichVu.getAllDichVu());
+		ObservableList<DichVu> dsDichVu = DichVu.getAllDichVu();
+		dsDichVu.forEach(dv -> {
+			try {
+				dv.setDonGia(dv.getDonGia() + dv.getDonGia() * App.VATDV / 100 + dv.getDonGia() * App.TIENLOI / 100);
+			} catch (Exception ex) {
+				Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		});
+		tableThongTinDichVu.setItems(dsDichVu);
 		tableThongTinDichVu.requestFocus();
 		tableThongTinDichVu.getSelectionModel().select(0);
 		tableThongTinDichVu.getSelectionModel().focus(0);
@@ -500,7 +508,6 @@ public class GD_DatDichVuController implements Initializable {
 	public void calcMoney() {
 		long money = 0;
 		for (ChiTietHD_DichVu ct : dsDichVuDaDat) {
-			System.out.println(ct.toString());
 			money += ct.getThanhTien();
 		}
 		DecimalFormat df = new DecimalFormat("#,###,###,##0.## VND");

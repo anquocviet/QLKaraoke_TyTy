@@ -15,24 +15,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -125,8 +120,19 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
         col_sttKhuyenMai.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(tableView_CTKhuyenMai.getItems().indexOf(param.getValue()) + 1));
         col_maKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("maKhuyenMai"));
         col_tenKhuyenMai.setCellValueFactory(new PropertyValueFactory<>("tenKhuyenMai"));
-        col_ngayBatDau.setCellValueFactory(new PropertyValueFactory<>("ngayBatDau"));
-        col_ngayKetThuc.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
+        col_ngayBatDau.setCellValueFactory(cellData -> {
+            LocalDate ngaySinh = cellData.getValue().getNgayBatDau();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ngaySinhFormatted = ngaySinh.format(formatter);
+            return new ReadOnlyStringWrapper(ngaySinhFormatted);
+        });
+        col_ngayKetThuc.setCellValueFactory(cellData -> {
+            LocalDate ngaySinh = cellData.getValue().getNgayKetThuc();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ngaySinhFormatted = ngaySinh.format(formatter);
+            return new ReadOnlyStringWrapper(ngaySinhFormatted);
+        });
+        
         col_luotSuDungConLai.setCellValueFactory(new PropertyValueFactory<>("luotSuDungConLai"));
         col_chietKhau.setCellValueFactory(new PropertyValueFactory<>("chietKhau"));
 
@@ -523,7 +529,6 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 //        Matcher matcher = pattern.matcher(input);
 //        return matcher.matches();
 //    }
-
 // check Luot su dung va Chiet khau
     private boolean validateNumber(String input) {
         String regexPattern = "^[0-9]+$";

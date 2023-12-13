@@ -10,7 +10,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,7 +31,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.skin.TableViewSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import main.App;
 import model.CT_KhuyenMai;
@@ -69,12 +67,12 @@ public class GD_ThanhToanController implements Initializable {
 
 			tableDichVu.setItems(ChiTietHD_DichVu.getCTDichVuTheoMaHD(maHD));
 			tableDichVu.setSkin(new TableViewSkin<ChiTietHD_DichVu>(tableDichVu) {
-			@Override
-			public int getItemCount() {
-				int r = super.getItemCount();
-				return r == 0 ? 1 : r;
-			}
-		});
+				@Override
+				public int getItemCount() {
+					int r = super.getItemCount();
+					return r == 0 ? 1 : r;
+				}
+			});
 		} catch (Exception ex) {
 			Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -136,11 +134,13 @@ public class GD_ThanhToanController implements Initializable {
 		txtTienDichVu.setText(df.format(tienDV) + " VNĐ");
 		txtTienPhong.setText(df.format(tienPhong) + " VNĐ");
 
-		long tongTien = tienPhong + tienDV;
+		tongTien = tienPhong + tienDV;
 		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
-		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
-		tongTien = tongTien + tienVAT + tienThueTTDB;
-		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+//		long tienThueTTDB = (long) (tongTien - (tongTien / (1 + App.TTDB / 100.0)));
+//		tongTien = tongTien + tienVAT + tienThueTTDB;
+//		txtTienThue.setText(df.format(tienVAT + tienThueTTDB) + " VNĐ");
+		tongTien = tongTien + tienVAT;
+		txtTienThue.setText(df.format(tienVAT) + " VNĐ");
 		txtTongTien.setText(df.format(tongTien) + " VNĐ");
 		handleEventInInput();
 		handleEventInBtn();
@@ -178,24 +178,17 @@ public class GD_ThanhToanController implements Initializable {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		});
-		txtMaKhuyenMai.setOnKeyPressed((evt) -> {
-			if (evt.getCode() == KeyCode.ENTER) {
-				CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
-				try {
-					long tongTien = df.parse(txtTongTien.getText()).longValue();
-					if (checkUseVoucher(ctkm)) {
-						tongTien = tongTien - (tongTien * ctkm.getChietKhau() / 100);
-						txtTienDaGiam.setText(df.format(tongTien * ctkm.getChietKhau() / 100) + " VND");
-						imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
-					} else {
-						imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
-						txtTienDaGiam.setText(0 + " VND");
-					}
-					txtTongTien.setText(df.format(tongTien) + " VND");
-				} catch (ParseException ex) {
-					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
-				}
+		txtMaKhuyenMai.setOnKeyReleased((evt) -> {
+			CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
+			if (checkUseVoucher(ctkm)) {
+				long tienGiam = tongTien - (tongTien * ctkm.getChietKhau() / 100);
+				txtTienDaGiam.setText(df.format(tienGiam) + " VND");
+				imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
+			} else {
+				imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
+				txtTienDaGiam.setText(0 + " VND");
 			}
+			txtTongTien.setText(df.format(tongTien) + " VND");
 		});
 	}
 
@@ -218,25 +211,30 @@ public class GD_ThanhToanController implements Initializable {
 				}
 				tablePhong.getItems().forEach((ct) -> {
 					ChiTietHD_Phong.updateCTHD_Phong(ct);
-					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 0);
+					Phong.updateStatusRoom(ct.getPhong().getMaPhong(), 2);
 				});
 				String maHD = HoaDonThanhToan.getBillIDByRoomID(GD_QLKinhDoanhPhongController.roomID);
 				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
 				hd.setKhuyenMai(km);
 				hd.setNgayLap(LocalDateTime.now());
-				HoaDonThanhToan.updateHoaDonThanhToan(hd);
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-				alert.setTitle("Thanh toán phòng thành công");
-				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
-				alert.showAndWait();
+				try {
+					long tongTien = df.parse(txtTongTien.getText()).longValue();
+					HoaDonThanhToan.updateHoaDonThanhToan(hd, tongTien);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+					alert.setTitle("Thanh toán phòng thành công");
+					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+					alert.showAndWait();
 
 //				Xuat hoa don
-				if (checkBoxInHD.isSelected()) {
-					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
-				}
+					if (checkBoxInHD.isSelected()) {
+						App.openModal("Bill", App.widthModalBill, App.heightModalBill);
+					}
 
-				App.setRoot("GD_QLKinhDoanhPhong");
+					App.setRoot("GD_QLKinhDoanhPhong");
+				} catch (ParseException ex) {
+					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				}
 			} catch (IOException | IllegalArgumentException ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -254,6 +252,7 @@ public class GD_ThanhToanController implements Initializable {
 		return km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now());
 	}
 
+	private long tongTien;
 	public static long tienNhan = 0;
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 

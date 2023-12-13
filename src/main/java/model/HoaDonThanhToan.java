@@ -7,13 +7,14 @@ package model;
 import connect.ConnectDB;
 import controllers.GD_TraCuuHoaDonController;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.IsoFields;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class HoaDonThanhToan {
+public final class HoaDonThanhToan {
 
     private String maHoaDon;
     private NhanVien nhanVienLap;
@@ -39,6 +40,15 @@ public class HoaDonThanhToan {
         setKhachHang(khachHang);
         setKhuyenMai(khuyenMai);
         setNgayLap(ngayLap);
+    }
+
+    public HoaDonThanhToan(String maHoaDon, NhanVien nhanVienLap, KhachHang khachHang, CT_KhuyenMai khuyenMai, LocalDateTime ngayLap, long tongTien) {
+        setMaHoaDon(maHoaDon);
+        setNhanVienLap(nhanVienLap);
+        setKhachHang(khachHang);
+        setKhuyenMai(khuyenMai);
+        setNgayLap(ngayLap);
+        this.tongTien = tongTien;
     }
 
     public HoaDonThanhToan() {
@@ -105,6 +115,10 @@ public class HoaDonThanhToan {
         }
     }
 
+    public long getTongTien() {
+        return tongTien;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -154,13 +168,14 @@ public class HoaDonThanhToan {
                 LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
                 String tenKH = rs.getString("TenKhachHang");
                 String sdtKH = rs.getString("SoDienThoai");
-				int namSinhKH = rs.getInt("NamSinh");
-				boolean gioiTinhKH = rs.getBoolean("GioiTinh");
-                
+                int namSinhKH = rs.getInt("NamSinh");
+                boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+                long tongTien = rs.getLong("TongTien");
+
                 dsHoaDon.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLap));             
+                        new CT_KhuyenMai(maKM), ngayLap, tongTien));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,6 +190,150 @@ public class HoaDonThanhToan {
             }
         }
         return dsHoaDon;
+    }
+
+    public static ObservableList<HoaDonThanhToan> getBillByDate(LocalDateTime ngay) {
+        ObservableList<HoaDonThanhToan> dsHoaDon = FXCollections.observableArrayList();
+        Connection conn = ConnectDB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String sql = "SELECT * FROM HoaDonThanhToan "
+                    + "JOIN KhachHang ON HoaDonThanhToan.MaKhachHang = KhachHang.MaKhachHang "
+                    + "WHERE CAST(HoaDonThanhToan.NgayLap AS DATE) = CAST(? AS DATE)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setTimestamp(1, Timestamp.valueOf(ngay));
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    String maHD = rs.getString("MaHoaDon");
+                    String maKH = rs.getString("MaKhachHang");
+                    String maNV = rs.getString("MaNhanVien");
+                    String maKM = rs.getString("MaKhuyenMai");
+                    LocalDateTime ngayLap = rs.getTimestamp("NgayLap").toLocalDateTime();
+                    String tenKH = rs.getString("TenKhachHang");
+                    String sdtKH = rs.getString("SoDienThoai");
+                    int namSinhKH = rs.getInt("NamSinh");
+                    boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+
+                    dsHoaDon.add(new HoaDonThanhToan(maHD,
+                            NhanVien.getNhanVienTheoMaNhanVien(maNV),
+                            new KhachHang(maKH, tenKH, sdtKH, namSinhKH, gioiTinhKH),
+                            new CT_KhuyenMai(maKM), ngayLap));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return dsHoaDon;
+    }
+
+    public static ObservableList statisticalByMonth(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        ObservableList arr = FXCollections.observableArrayList();
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT DAY(NgayLap) AS Ngay, SUM(TongTien) AS TongTien "
+                    + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d AND MONTH(NgayLap) = %d "
+                    + "GROUP BY DAY(NgayLap)", date.getYear(), date.getMonthValue());
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int ngay = rs.getInt("Ngay");
+                long tongTien = rs.getLong("TongTien");
+                arr.add(ngay);
+                arr.add(tongTien);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return arr;
+    }
+
+    public static ObservableList statisticalByQuarter(int year) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        ObservableList arr = FXCollections.observableArrayList();
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT DATEPART(QUARTER, NgayLap) AS Quy, SUM(TongTien) AS TongTien "
+                    + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
+                    + "GROUP BY DATEPART(QUARTER, NgayLap)", year);
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int quy = rs.getInt("Quy");
+                long tongTien = rs.getLong("TongTien");
+                arr.add(quy);
+                arr.add(tongTien);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return arr;
+    }
+
+    public static ObservableList statisticalByYear(int year) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        ObservableList arr = FXCollections.observableArrayList();
+        try {
+            stmt = conn.createStatement();
+            String sql = String.format("SELECT MONTH(NgayLap) AS Thang, SUM(TongTien) AS TongTien "
+                    + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d "
+                    + "GROUP BY MONTH(NgayLap)", year);
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int thang = rs.getInt("Thang");
+                long tongTien = rs.getLong("TongTien");
+                arr.add(thang);
+                arr.add(tongTien);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return arr;
     }
 
     public static ObservableList<HoaDonThanhToan> timHoaDon(String maHoaDon, String tenKH, String sdt, LocalDateTime ngayLap) {
@@ -212,11 +371,12 @@ public class HoaDonThanhToan {
                 String sdtResult = rs.getString("SoDienThoai");
                 int namSinhKH = rs.getInt("NamSinh");
                 boolean gioiTinhKH = rs.getBoolean("GioiTinh");
+                long tongTien = rs.getLong("TongTien");
 
                 ketQuaTimKiem.add(new HoaDonThanhToan(maHD,
                         NhanVien.getNhanVienTheoMaNhanVien(maNV),
                         new KhachHang(maKH, tenKHResult, sdtResult, namSinhKH, gioiTinhKH),
-                        new CT_KhuyenMai(maKM), ngayLapResult));
+                        new CT_KhuyenMai(maKM), ngayLapResult, tongTien));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,6 +507,331 @@ public class HoaDonThanhToan {
         return soLuong;
     }
 
+    public static int countBill() {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = "SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+
+    public static int countBillByMonth(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+                + "FROM HoaDonThanhToan WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+
+    public static int countBillByDay(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+                + "FROM HoaDonThanhToan WHERE DAY(NgayLap) = %d AND MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+
+    public static int countBillByQuarterInYear(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        int quarter = date.get(IsoFields.QUARTER_OF_YEAR);
+        int year = date.getYear();
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+                + "FROM HoaDonThanhToan WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d", quarter, year);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+
+    public static int countBillByYear(int year) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong "
+                + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+	
+	public static int countBillOfCustomer(String customerID) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        int soLuong = 0;
+        String sql = String.format("SELECT COUNT(MaHoaDon) AS SoLuong FROM HoaDonThanhToan WHERE MaKhachHang = '%s'", customerID);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return soLuong;
+    }
+
+    public static long calcTotalMoneyOfBill() {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = "SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+
+    public static long calcTotalMoneyOfBillByDay(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
+                + "WHERE DAY(NgayLap) = %d AND MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getDayOfMonth(), date.getMonthValue(), date.getYear());
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+
+    public static long calcTotalMoneyOfBillByMonth(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
+                + "WHERE MONTH(NgayLap) = %d AND YEAR(NgayLap) = %d", date.getMonthValue(), date.getYear());
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+
+    public static long calcTotalMoneyOfBillByQuarterInYear(LocalDate date) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        int quarter = date.get(IsoFields.QUARTER_OF_YEAR);
+        int year = date.getYear();
+        String sql = String.format("SELECT SUM(TongTien) AS Tien FROM HoaDonThanhToan "
+                + "WHERE DATEPART(QUARTER, NgayLap) = %d AND YEAR(NgayLap) = %d", quarter, year);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+
+    public static long calcTotalMoneyOfBillByYear(int year) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = String.format("SELECT SUM(TongTien) AS Tien "
+                + "FROM HoaDonThanhToan WHERE YEAR(NgayLap) = %d", year);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+	
+	public static long calcTotalMoneyOfBillOfCustomer(String customerID) {
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        long tongTien = 0;
+        String sql = String.format("SELECT SUM(TongTien) AS Tien "
+                + "FROM HoaDonThanhToan WHERE MaKhachHang = '%s'", customerID);
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tongTien = rs.getInt("Tien");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                assert stmt != null;
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GD_TraCuuHoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tongTien;
+    }
+
     public static boolean themHoaDonThanhToan(HoaDonThanhToan hoaDon) {
         Connection conn = ConnectDB.getConnection();
         PreparedStatement preparedStatement = null;
@@ -382,11 +867,11 @@ public class HoaDonThanhToan {
         }
     }
 
-    public static boolean updateHoaDonThanhToan(HoaDonThanhToan hd) {
+    public static boolean updateHoaDonThanhToan(HoaDonThanhToan hd, long tongTien) {
         Connection conn = ConnectDB.getConnection();
         PreparedStatement pstm = null;
         int n = 0;
-        String sql = "UPDATE HoaDonThanhToan SET MaKhachHang = ?, MaNhanVien = ?, MaKhuyenMai = ?, NgayLap = ? WHERE MaHoaDon = ?";
+        String sql = "UPDATE HoaDonThanhToan SET MaKhachHang = ?, MaNhanVien = ?, MaKhuyenMai = ?, NgayLap = ?, TongTien = ? WHERE MaHoaDon = ?";
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, hd.getKhachHang().getMaKhachHang());
@@ -394,7 +879,8 @@ public class HoaDonThanhToan {
             System.out.println(hd.getKhuyenMai().getMaKhuyenMai());
             pstm.setString(3, hd.getKhuyenMai().getMaKhuyenMai());
             pstm.setTimestamp(4, Timestamp.valueOf(hd.getNgayLap()));
-            pstm.setString(5, hd.getMaHoaDon());
+            pstm.setLong(5, tongTien);
+            pstm.setString(6, hd.getMaHoaDon());
             n = pstm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(HoaDonThanhToan.class.getName()).log(Level.SEVERE, null, ex);

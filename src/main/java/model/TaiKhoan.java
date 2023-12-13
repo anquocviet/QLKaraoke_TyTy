@@ -26,7 +26,7 @@ import javafx.collections.ObservableList;
 /**
  * @author vie
  */
-public class TaiKhoan {
+public final class TaiKhoan {
 
     private String maTaiKhoan;
     private String tenDangNhap;
@@ -37,16 +37,16 @@ public class TaiKhoan {
     }
 
     public TaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau, NhanVien nhanVien) {
-        this.maTaiKhoan = maTaiKhoan;
-        this.tenDangNhap = tenDangNhap;
-        this.matKhau = matKhau;
-        this.nhanVien = nhanVien;
+		setMaTaiKhoan(maTaiKhoan);
+		setTenDangNhap(tenDangNhap);
+		setMatKhau(matKhau);
+		setNhanVien(nhanVien);
     }
 
     public TaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau) {
-        this.maTaiKhoan = maTaiKhoan;
-        this.tenDangNhap = tenDangNhap;
-        this.matKhau = matKhau;
+		setMaTaiKhoan(maTaiKhoan);
+		setTenDangNhap(tenDangNhap);
+		setMatKhau(matKhau);
 
     }
 

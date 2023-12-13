@@ -86,9 +86,10 @@ public class AppFrameController implements Initializable {
 	}
 
 	@FXML
-	private void moGDDangKy(ActionEvent event) throws IOException {
-		App.setRoot("GD_DangKy");
+	private void moGDQLTaiKhoan(ActionEvent event) throws IOException {
+		App.setRoot("GD_QLTaiKhoan");
 	}
+
 
 	@FXML
 	private void dangXuat(ActionEvent event) throws IOException {

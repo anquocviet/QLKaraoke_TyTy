@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class NhanVien {
+public final class NhanVien {
 
     private String maNhanVien;
     private String cccd;
@@ -206,6 +205,27 @@ public class NhanVien {
     }
 
 //    Get Data From DB
+
+    public static ObservableList<String> getAllMaVaTenNhanVien(){
+        ObservableList<String> result = FXCollections.observableArrayList();
+
+        Connection conn = ConnectDB.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "select MaNhanVien, HoTen from NhanVien where ChucVu = N'Nhân viên tiếp tân' or ChucVu = N'Nhân viên phục vụ';";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String maNhanVien = rs.getString("MaNhanVien");
+                String tenNhanVien = rs.getString("HoTen");
+                String maVaTen = maNhanVien + "-" + tenNhanVien;
+                result.add(maVaTen);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
     public static ObservableList<NhanVien> getAllNhanVien() throws Exception {
         ObservableList<NhanVien> dsNhanVien = FXCollections.observableArrayList();
         Connection conn = ConnectDB.getConnection();
@@ -384,27 +404,25 @@ public class NhanVien {
         return n > 0;
     }
 
-    public static ObservableList<String> getAllMaVaTenNhanVien(){
+    public static ObservableList<String> getAllMaNhanVien(){
         ObservableList<String> result = FXCollections.observableArrayList();
 
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-            String sql = "select MaNhanVien, HoTen from NhanVien where ChucVu = N'Nhân viên tiếp tân' or ChucVu = N'Nhân viên phục vụ';";
+            String sql = "select * from NhanVien where ChucVu = N'Nhân viên tiếp tân'\n" +
+                    "                          or ChucVu = N'Nhân viên phục vụ';";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String maNhanVien = rs.getString("MaNhanVien");
-                String tenNhanVien = rs.getString("HoTen");
-                String maVaTen = maNhanVien + "-" + tenNhanVien;
-                result.add(maVaTen);
+                result.add(maNhanVien);
             }
         } catch (SQLException ex) {
             Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-
 
     public static boolean capNhatThongTinNhanVien(NhanVien nv) {
         ConnectDB.getInstance();

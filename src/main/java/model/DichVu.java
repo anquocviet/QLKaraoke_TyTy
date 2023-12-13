@@ -21,7 +21,7 @@ import javafx.collections.ObservableList;
  *
  * @author vie
  */
-public class DichVu {
+public final class DichVu {
 
     private String maDichVu;
     private String tenDichVu;
@@ -120,11 +120,7 @@ public class DichVu {
     }
 
     public void setAnhMinhHoa(String anhMinhHoa) throws Exception {
-        if (anhMinhHoa == null || anhMinhHoa.trim().equals("")) {
-            throw new Exception("Ảnh minh họa của dịch vụ  không được rỗng");
-        } else {
             this.anhMinhHoa = anhMinhHoa;
-        }
     }
 
     @Override
