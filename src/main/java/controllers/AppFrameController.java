@@ -12,6 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import main.App;
 import enums.Enum_ChucVu;
+import java.awt.Desktop;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -88,6 +92,19 @@ public class AppFrameController implements Initializable {
 	@FXML
 	private void moGDQLTaiKhoan(ActionEvent event) throws IOException {
 		App.setRoot("GD_QLTaiKhoan");
+	}
+	
+	@FXML private void moHuongDanSuDung(ActionEvent event) throws IOException {
+		String initial = "src/main/resources/huongdansudung/HuongDanSuDung.pdf";
+		Path initialDirectory = Paths.get(initial).toAbsolutePath();
+		File file = new File(initial);
+
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 
