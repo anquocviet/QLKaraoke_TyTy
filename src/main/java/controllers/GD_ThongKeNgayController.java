@@ -113,7 +113,8 @@ public class GD_ThongKeNgayController implements Initializable {
             return new ReadOnlyObjectWrapper<>(gioRa != null ? gioRa.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         });
         colThanhTien.setCellValueFactory((param) -> {
-            return new ReadOnlyObjectWrapper<>(df.format(param.getValue().tinhThanhTien()));
+            String maHD = param.getValue().getHoaDon().getMaHoaDon();
+            return new ReadOnlyObjectWrapper<>(df.format(HoaDonThanhToan.calcMoney(maHD)));
         });
         try {
             ObservableList<ChiTietHD_Phong> ds = ChiTietHD_Phong.getCT_PhongTheoNgay(LocalDateTime.now());
