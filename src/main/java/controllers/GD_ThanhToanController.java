@@ -187,11 +187,12 @@ public class GD_ThanhToanController implements Initializable {
 			long tienVAT = (long) (tong * (App.VAT / 100.0));
 			tongTien = tong + tienVAT;
 			if (checkUseVoucher(ctkm)) {
-				long tienGiam = tong * ctkm.getChietKhau() / 100;
+				tienGiam = tong * ctkm.getChietKhau() / 100;
 				txtTienDaGiam.setText(df.format(tienGiam) + " VND");
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
 				tongTien = tong - tienGiam;
 			} else {
+				tienGiam = 0;
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
 				txtTienDaGiam.setText(0 + " VND");
 			}
@@ -254,8 +255,9 @@ public class GD_ThanhToanController implements Initializable {
 		return km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now());
 	}
 
-	public static long tongTien;
+	private long tongTien;
 	public static long tienNhan = 0;
+	public static long tienGiam = 0;
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 
 	@FXML
