@@ -114,7 +114,5 @@ public class GD_ThongKeThangController implements Initializable {
 	private LineChart chart;
 	@FXML
 	private NumberAxis xAxis;
-	@FXML
-	private NumberAxis yAxis;
 
 }

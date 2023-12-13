@@ -101,7 +101,7 @@ public class BillController implements Initializable {
 		txtTongTienDichVu.setText(df.format(tienDV) + "đ");
 		
 //		Tinh tien
-		long tongTien = tienPhong + tienDV;
+		long tongTien = GD_ThanhToanController.tongTien;
 		txtTongTien.setText(df.format(tongTien) + "đ");
 		long tienVAT = (long) (tongTien * (App.VAT / 100.0));
 		txtTienThueVAT.setText(df.format(tienVAT) + "đ");

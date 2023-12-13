@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="TrangChu" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="TrangChu" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView layoutY="53.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../image/tyty.png" />

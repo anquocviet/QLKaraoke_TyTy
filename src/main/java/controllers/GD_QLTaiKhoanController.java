@@ -5,7 +5,6 @@
 package controllers;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -171,7 +170,6 @@ public class GD_QLTaiKhoanController implements Initializable {
 
         table.setItems(TaiKhoan.getAllTaiKhoanFull());
         table.refresh();
-        System.out.println("thanh cong");
 
 
 

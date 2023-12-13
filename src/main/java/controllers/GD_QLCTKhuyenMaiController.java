@@ -353,7 +353,6 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
 
     private void xuLyTimKhuyenMai() throws IOException, Exception {
         String maTimKiem = txtTimMaKhuyenMai.getText();
-        System.out.println(maTimKiem);
         if (!kiemTraRong()) {
             return;
         }
@@ -474,16 +473,7 @@ public class GD_QLCTKhuyenMaiController implements Initializable {
             }
 
         });
-
-//        dateNgayBatDau.setOnKeyTyped((event) -> {
-//            String text = dateNgayBatDau.getEditor().getText();
-//            System.out.println(text);
-//            if (text.isEmpty()) {
-//                lblErrorTen.setText("Chuỗi chỉ chấp nhận với định dạng dd/mm/yyyy");
-//            } else if (validateDate(text)) {
-//                lblErrorTen.setText("");
-//            }
-//        });
+		
         txtLuotSuDung.setOnKeyTyped((event) -> {
             String text = txtLuotSuDung.getText();
             if (text.isEmpty()) {

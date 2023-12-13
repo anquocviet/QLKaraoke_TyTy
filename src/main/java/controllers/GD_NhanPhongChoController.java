@@ -15,12 +15,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -71,10 +67,6 @@ public class GD_NhanPhongChoController implements Initializable {
     private Button btnKiemTra;
     @FXML
     private Button btnExit;
-    @FXML
-    private Button btnRefresh;
-    @FXML
-    private Button btnNhanPhong;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

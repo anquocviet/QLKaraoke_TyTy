@@ -449,7 +449,6 @@ public class GD_QLNhanVienController implements Initializable {
         String anhDaiDienUrl = imgNV.getImage().getUrl();
         File file = new File(anhDaiDienUrl);
         String anhDaiDien = file.getName();
-        System.out.println(anhDaiDien);
         NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
         NhanVien.capNhatThongTinNhanVien(nv);
 

@@ -80,6 +80,7 @@ public class GD_QLPhongController implements Initializable {
         });
 
         table.setItems(Phong.getAllPhong());
+		table.getSelectionModel().select(0);
         handleEventInTable();
         docDuLieuTuTable();
 
@@ -125,7 +126,6 @@ public class GD_QLPhongController implements Initializable {
             if(loaiPhongDb.equals("1")){
                 maPhong = maPhong + "VIP";
             }
-            System.out.println(maPhong);
 
             Phong.addPhong(maPhong, loaiPhongDb, tinhTrangDb, sucChua, giaPhong);
             table.setItems(Phong.getAllPhong());

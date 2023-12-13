@@ -164,26 +164,33 @@ public class GD_ThanhToanController implements Initializable {
 					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
-			try {
-				long tongTien = df.parse(txtTongTien.getText().trim()).longValue();
-				long tienThua = tienNhan - tongTien;
-				if (tienThua > 0) {
-					btnThanhToan.setDisable(false);
-					txtTienThua.setText(df.format(tienThua) + " VND");
-				} else {
-					btnThanhToan.setDisable(true);
-					txtTienThua.setText("0 VND");
-				}
-			} catch (ParseException ex) {
-				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+			long tienThua = tienNhan - tongTien;
+			if (tienThua > 0) {
+				btnThanhToan.setDisable(false);
+				txtTienThua.setText(df.format(tienThua) + " VND");
+			} else {
+				btnThanhToan.setDisable(true);
+				txtTienThua.setText("0 VND");
 			}
 		});
 		txtMaKhuyenMai.setOnKeyReleased((evt) -> {
 			CT_KhuyenMai ctkm = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM(txtMaKhuyenMai.getText().trim());
+			long tienDV = 0;
+			long tienPhong = 0;
+			for (ChiTietHD_DichVu ct : tableDichVu.getItems()) {
+				tienDV += ct.getThanhTien();
+			}
+			for (ChiTietHD_Phong ct : tablePhong.getItems()) {
+				tienPhong += ct.tinhThanhTien();
+			}
+			long tong = tienPhong + tienDV;
+			long tienVAT = (long) (tong * (App.VAT / 100.0));
+			tongTien = tong + tienVAT;
 			if (checkUseVoucher(ctkm)) {
-				long tienGiam = tongTien - (tongTien * ctkm.getChietKhau() / 100);
+				long tienGiam = tong * ctkm.getChietKhau() / 100;
 				txtTienDaGiam.setText(df.format(tienGiam) + " VND");
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
+				tongTien = tong - tienGiam;
 			} else {
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
 				txtTienDaGiam.setText(0 + " VND");
@@ -217,24 +224,19 @@ public class GD_ThanhToanController implements Initializable {
 				HoaDonThanhToan hd = HoaDonThanhToan.getBillByID(maHD);
 				hd.setKhuyenMai(km);
 				hd.setNgayLap(LocalDateTime.now());
-				try {
-					long tongTien = df.parse(txtTongTien.getText()).longValue();
-					HoaDonThanhToan.updateHoaDonThanhToan(hd, tongTien);
-					Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-					alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-					alert.setTitle("Thanh toán phòng thành công");
-					alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
-					alert.showAndWait();
+				HoaDonThanhToan.updateHoaDonThanhToan(hd, tongTien);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+				alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+				alert.setTitle("Thanh toán phòng thành công");
+				alert.setHeaderText("Bạn đã thanh toán phòng thành công!");
+				alert.showAndWait();
 
 //				Xuat hoa don
-					if (checkBoxInHD.isSelected()) {
-						App.openModal("Bill", App.widthModalBill, App.heightModalBill);
-					}
-
-					App.setRoot("GD_QLKinhDoanhPhong");
-				} catch (ParseException ex) {
-					Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
+				if (checkBoxInHD.isSelected()) {
+					App.openModal("Bill", App.widthModalBill, App.heightModalBill);
 				}
+
+				App.setRoot("GD_QLKinhDoanhPhong");
 			} catch (IOException | IllegalArgumentException ex) {
 				Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -252,7 +254,7 @@ public class GD_ThanhToanController implements Initializable {
 		return km != null && km.getLuotSuDungConLai() > 0 && km.getNgayKetThuc().isAfter(LocalDate.now());
 	}
 
-	private long tongTien;
+	public static long tongTien;
 	public static long tienNhan = 0;
 	DecimalFormat df = new DecimalFormat("#,###,###,##0.##");
 

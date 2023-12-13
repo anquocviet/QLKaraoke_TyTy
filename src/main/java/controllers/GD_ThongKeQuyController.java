@@ -86,6 +86,4 @@ public class GD_ThongKeQuyController implements Initializable {
 	private StackedBarChart chart;
 	@FXML
 	private CategoryAxis xAxis;
-	@FXML
-	private NumberAxis yAxis;
 }

@@ -8,7 +8,6 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,9 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import model.ChiTietHD_Phong;
 import model.HoaDonThanhToan;
 import model.KhachHang;
@@ -79,9 +75,6 @@ public class GD_ThongKeKhachHangController implements Initializable {
     private Label txtTongHD;
     @FXML
     private Label txtTongDoanhThu;
-    @FXML
-    private ComboBox<Integer> comboBoxSDTvaKH;
-
     @FXML
     private TableView<KhachHang> tableTKKH;
     @FXML

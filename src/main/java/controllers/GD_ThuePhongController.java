@@ -166,7 +166,6 @@ public class GD_ThuePhongController implements Initializable {
         KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 
         HoaDonThanhToan existingHoaDon = HoaDonThanhToan.getBillByCustomer(khachHang.getMaKhachHang());
-        System.out.println(existingHoaDon);
         if (existingHoaDon != null) {
             // Nếu đã có hóa đơn, sử dụng mã hóa đơn đã có
             maHoaDon = existingHoaDon.getMaHoaDon();
@@ -174,7 +173,6 @@ public class GD_ThuePhongController implements Initializable {
             Phong p = Phong.getPhongTheoMaPhong(soPhong);
 
             ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-            System.out.println("da có hoa don thanh toan");
             ChiTietHD_Phong.themChiTietHoaDon(ctP);
         } else {
             // Nếu chưa có hóa đơn, tạo mới mã hóa đơn
@@ -183,10 +181,9 @@ public class GD_ThuePhongController implements Initializable {
             HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
             Phong p = Phong.getPhongTheoMaPhong(soPhong);
 
+			HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
             ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-            System.out.println("chưa có hoa don thanh toan");
             ChiTietHD_Phong.themChiTietHoaDon(ctP);
-            HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
         }
 
         showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");

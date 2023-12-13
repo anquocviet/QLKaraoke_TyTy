@@ -43,7 +43,7 @@ public class GD_DatPhongChoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         String roomID = GD_QLKinhDoanhPhongController.roomID;
         txtMaPhong.setText(roomID);
-        for (int i = 0; i < 23; i++) {
+        for (int i = 0; i < 24; i++) {
             cbGioNhan.getItems().add(i);
         }
         for (int i = 0; i < 60; i++) {
@@ -106,6 +106,14 @@ public class GD_DatPhongChoController implements Initializable {
 				NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
 				LocalDateTime thoiGianLap = LocalDateTime.now();
 				LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
+				if (thoiGianNhan.isAfter(LocalDateTime.of(thoiGianLap.toLocalDate().plusDays(1), LocalTime.of(0, 0)))) {
+					Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
+                    alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                    alert.setTitle("Không thể đặt phòng chờ");
+                    alert.setHeaderText("Thời gian nhận phòng chỉ cho hôm nay và ngày mai!");
+                    alert.showAndWait();
+					return;
+				}
 				String ghiChu = "";
 
                 boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
@@ -152,8 +160,6 @@ public class GD_DatPhongChoController implements Initializable {
     private Button btnRefresh;
     @FXML
     private Button btnBookWaitingRoom;
-    @FXML
-    private CheckBox ckbPrintTicket;
     @FXML
     private TextField txtMaPhong;
     @FXML
