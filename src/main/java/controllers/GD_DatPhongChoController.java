@@ -19,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -43,7 +42,7 @@ public class GD_DatPhongChoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         String roomID = GD_QLKinhDoanhPhongController.roomID;
         txtMaPhong.setText(roomID);
-        for (int i = 0; i < 24; i++) {
+        for (int i = 8; i < 24; i++) {
             cbGioNhan.getItems().add(i);
         }
         for (int i = 0; i < 60; i++) {

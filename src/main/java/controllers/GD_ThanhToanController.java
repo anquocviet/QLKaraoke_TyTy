@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -100,6 +102,10 @@ public class GD_ThanhToanController implements Initializable {
 			});
 			donGiaCol.setCellValueFactory((param) -> {
 				long donGia = param.getValue().getPhong().getGiaPhong();
+				LocalDateTime gioVao = param.getValue().getGioVao();
+				if (gioVao.isAfter(LocalDateTime.of(gioVao.toLocalDate(), LocalTime.of(18, 0)))) {
+					donGia += 50000;
+				}
 				return new ReadOnlyObjectWrapper<>(df.format(donGia));
 			});
 			thanhTienCol.setCellValueFactory((param) -> {
@@ -185,14 +191,14 @@ public class GD_ThanhToanController implements Initializable {
 			}
 			long tong = tienPhong + tienDV;
 			long tienVAT = (long) (tong * (App.VAT / 100.0));
-			tongTien = tong + tienVAT;
+			tong += tienVAT;
+			tongTien = tong;
 			if (checkUseVoucher(ctkm)) {
 				tienGiam = tong * ctkm.getChietKhau() / 100;
 				txtTienDaGiam.setText(df.format(tienGiam) + " VND");
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check.png"));
 				tongTien = tong - tienGiam;
 			} else {
-				tienGiam = 0;
 				imgCheckKM.setImage(new Image("file:src/main/resources/image/check_false.png"));
 				txtTienDaGiam.setText(0 + " VND");
 			}

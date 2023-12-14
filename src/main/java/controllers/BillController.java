@@ -108,7 +108,6 @@ public class BillController implements Initializable {
 		txtLuongGiamGia.setText(String.format("Giảm giá (%s%%):", hd.getKhuyenMai().getChietKhau()));
 		long tienGiamGia = (long) (tongTien * hd.getKhuyenMai().getChietKhau() / 100.0);
 		txtGiamGia.setText(df.format(tienGiamGia) + "đ");
-//		long thanhToan = tongTien + tienVAT + tienThueTTDB - tienGiamGia;
 		long thanhToan = tongTien + tienVAT - tienGiamGia;
 		txtThanhToan.setText(df.format(thanhToan) + "đ");
 		txtTienKhach.setText(df.format(GD_ThanhToanController.tienNhan) + "đ");

@@ -66,13 +66,6 @@ public class GD_DatDichVuController implements Initializable {
 		ttThemCol.setCellValueFactory(new PropertyValueFactory<>(""));
 		ttThemCol.setCellFactory(handleBtnAddTableThongTin());
 		ObservableList<DichVu> dsDichVu = DichVu.getAllDichVu();
-		dsDichVu.forEach(dv -> {
-			try {
-				dv.setDonGia(dv.getDonGia() + dv.getDonGia() * App.VATDV / 100 + dv.getDonGia() * App.TIENLOI / 100);
-			} catch (Exception ex) {
-				Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		});
 		tableThongTinDichVu.setItems(dsDichVu);
 		tableThongTinDichVu.requestFocus();
 		tableThongTinDichVu.getSelectionModel().select(0);
@@ -449,7 +442,7 @@ public class GD_DatDichVuController implements Initializable {
 			String orderID = txtMaHoaDon.getText();
 			dsDichVuDaDat.forEach(ct -> {
 				try {
-					DichVu.capNhatThongTinDichVu(tableThongTinDichVu.getItems().get(tableThongTinDichVu.getItems().indexOf(ct.getDichVu())));
+					DichVu.capNhatSoLuongDichVu(tableThongTinDichVu.getItems().get(tableThongTinDichVu.getItems().indexOf(ct.getDichVu())));
 					if (ChiTietHD_DichVu.getCTDichVuTheoMaHD(orderID).contains(ct)) {
 						ChiTietHD_DichVu.updateChiTietHD_DichVu(ct);
 					} else {
