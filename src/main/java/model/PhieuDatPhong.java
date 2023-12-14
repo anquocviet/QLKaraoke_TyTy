@@ -291,7 +291,7 @@ public final class PhieuDatPhong {
         return dsPhieu;
     }
     
-    public static PhieuDatPhong getBookingTicketOfRoom(String roomID) throws Exception {
+   public static PhieuDatPhong getBookingTicketOfRoom(String roomID) throws Exception {
         Connection conn = ConnectDB.getConnection();
         Statement stmt = null;
         PhieuDatPhong phieu = null;
@@ -434,5 +434,6 @@ public final class PhieuDatPhong {
 
         return customer;
     }
-
+    
+    
 }
