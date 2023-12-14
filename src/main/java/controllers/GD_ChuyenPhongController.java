@@ -178,38 +178,12 @@ public class GD_ChuyenPhongController implements Initializable {
 //  lấy dữ liệu phòng có thể chuyển 
     public void dataPhong() throws Exception {
         listPhong = Phong.getListPhongByStatus(0);
-        listPhong.addAll(Phong.getListPhongByStatus(2));
+
         ObservableList<PhieuDatPhong> listPhieuPhongDaDat = PhieuDatPhong.getAllBookingTicketChuaDuocSuDung();
-
-        ObservableList<String> listTongGio = FXCollections.observableArrayList();
-        ObservableList<Phong> listXoa = FXCollections.observableArrayList();
-        for (Phong phong : listPhong) {
-            boolean hasMatchingPhieuDatPhong = false;
-            boolean checkXoa = false;
-            for (PhieuDatPhong phieuDatPhong : listPhieuPhongDaDat) {
-                if (phong.equals(phieuDatPhong.getPhong())) {
-                    float time = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 3600;
-                    if (time >= 2) {
-                        float gioSuDung = ((float) Duration.between(LocalDateTime.now(), phieuDatPhong.getThoiGianNhan()).toMillis()) / 1000 / 60;
-                        long minus = (long) gioSuDung % 60;
-                        long hour = ((long) gioSuDung - minus) / 60;
-                        listTongGio.add(hour + " giờ " + minus + " phút");
-                        listPhieuPhongDaDat.remove(phieuDatPhong);
-                        hasMatchingPhieuDatPhong = true;
-                        break;
-                    } else {
-                        checkXoa = true;
-                        listXoa.add(phong);
-                        break;
-                    }
-                }
-            }
-            if (!hasMatchingPhieuDatPhong && checkXoa == false) {
-                listTongGio.add("Đến khi trả phòng hoặc đóng cửa");
-            }
-
+        for (PhieuDatPhong phieuDatPhong : listPhieuPhongDaDat) {
+            listPhong.add(Phong.getPhongTheoMaPhong(phieuDatPhong.getPhong().getMaPhong()));
         }
-        listPhong.removeAll(listXoa);
+        
 //        tongGioSuDungCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(listTongGio.get(table.getItems().indexOf(param.getValue()))));
     }
 
@@ -221,6 +195,9 @@ public class GD_ChuyenPhongController implements Initializable {
             long minus = (long) gioSuDung % 60;
             long hour = ((long) gioSuDung - minus) / 60;
             result = hour + " giờ " + minus + " phút";
+        } else {
+            phieuDatPhong.updateTrangThaiPhieuDat(phieuDatPhong.getMaPhieuDat(), true);
+            listPhong.remove(phong);
         }
         return result;
     }
