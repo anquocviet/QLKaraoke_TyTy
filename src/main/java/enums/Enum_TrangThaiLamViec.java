@@ -5,10 +5,9 @@
 package enums;
 
 /**
- *
  * @author vie
  */
 public enum Enum_TrangThaiLamViec {
-    CONLAMVIEC,
-    DANGHI
+   CONLAMVIEC,
+   DANGHI
 }

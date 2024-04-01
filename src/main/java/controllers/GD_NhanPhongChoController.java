@@ -4,17 +4,6 @@
  */
 package controllers;
 
-import static controllers.GD_QLKinhDoanhPhongController.roomID;
-import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +27,19 @@ import model.NhanVien;
 import model.PhieuDatPhong;
 import model.Phong;
 
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static controllers.GD_QLKinhDoanhPhongController.roomID;
+
 /**
  * FXML Controller class
  *
@@ -45,224 +47,224 @@ import model.Phong;
  */
 public class GD_NhanPhongChoController implements Initializable {
 
-    @FXML
-    private TextField txtSoPhong;
-    @FXML
-    private TextField txtMaPhieuDat;
-    @FXML
-    private TextField txtSDTKhachHang;
-    @FXML
-    private TextField txtTenKhachHang;
-    @FXML
-    private TextField txtNamSinh;
-    @FXML
-    private Text timeNhanPhong;
+   @FXML
+   private TextField txtSoPhong;
+   @FXML
+   private TextField txtMaPhieuDat;
+   @FXML
+   private TextField txtSDTKhachHang;
+   @FXML
+   private TextField txtTenKhachHang;
+   @FXML
+   private TextField txtNamSinh;
+   @FXML
+   private Text timeNhanPhong;
 
-    @FXML
-    private ComboBox ccbGender;
-    @FXML
-    private DatePicker dateNhanPhong;
+   @FXML
+   private ComboBox ccbGender;
+   @FXML
+   private DatePicker dateNhanPhong;
 
-    @FXML
-    private Button btnKiemTra;
-    @FXML
-    private Button btnExit;
+   @FXML
+   private Button btnKiemTra;
+   @FXML
+   private Button btnExit;
 
-    private boolean kiemTra = false;
+   private boolean kiemTra = false;
 
-    PhieuDatPhong phieu = null;
+   PhieuDatPhong phieu = null;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        txtSoPhong.setText(roomID);
+   @Override
+   public void initialize(URL location, ResourceBundle resources) {
+      txtSoPhong.setText(roomID);
 
-    }
+   }
 
-    @FXML
-    public void handleKiemTraSDT(ActionEvent event) throws Exception {
-        String soDienThoai = txtSDTKhachHang.getText().trim();
-        if (!isValidPhoneNumber(soDienThoai)) {
-            showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
-            return;
-        }
+   @FXML
+   public void handleKiemTraSDT(ActionEvent event) throws Exception {
+      String soDienThoai = txtSDTKhachHang.getText().trim();
+      if (!isValidPhoneNumber(soDienThoai)) {
+         showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
+         return;
+      }
 
-        KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 
-        if (khachHang != null) {
-            ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
-            
-            Phong phong = Phong.getPhongTheoMaPhong(roomID);
-            for (PhieuDatPhong phieuDatPhong : listPhieu) {
-                if (phieuDatPhong.getPhong().equals(phong)) {
-                    phieu = PhieuDatPhong.getBookingTicketByID(phieuDatPhong.getMaPhieuDat());
-                    break;
-                }
+      if (khachHang != null) {
+         ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
+
+         Phong phong = Phong.getPhongTheoMaPhong(roomID);
+         for (PhieuDatPhong phieuDatPhong : listPhieu) {
+            if (phieuDatPhong.getPhong().equals(phong)) {
+               phieu = PhieuDatPhong.getBookingTicketByID(phieuDatPhong.getMaPhieuDat());
+               break;
             }
-            if (listPhieu == null || phieu == null) {
-                showAlert("Không tìm thấy phòng đặt", "Vui lòng nhập chính xác số điện thoại");
-                return;
-            }
-            txtMaPhieuDat.setText(phieu.getMaPhieuDat());
-            LocalDate ngayNhanTmp = phieu.getThoiGianNhan().toLocalDate();
-            dateNhanPhong.setValue(ngayNhanTmp);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH 'giờ':mm 'phút'");
-            String formattedTime = phieu.getThoiGianNhan().format(formatter);
-            timeNhanPhong.setText(formattedTime);
-            txtTenKhachHang.setText(khachHang.getTenKhachHang());
-            txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
-            ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
-            btnKiemTra.setDisable(true);
-            kiemTra = true;
-        } else {
-            showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này. Vui lòng thêm khách hàng trước khi đặt phòng!");
-        }
-    }
-
-    public PhieuDatPhong getPhieuByMaPhieu(ObservableList<PhieuDatPhong> list, String maPhieu) {
-        for (PhieuDatPhong phieu : list) {
-            if (phieu.getMaPhieuDat().equals(maPhieu)) {
-                return phieu;
-            }
-        }
-        return null;
-    }
-
-    @FXML
-    public void handleRefresh(ActionEvent event) {
-        phieu = null;
-        txtMaPhieuDat.setText("");
-        txtSDTKhachHang.setText("");
-        txtTenKhachHang.clear();
-        txtNamSinh.clear();
-        ccbGender.getItems().clear();
-        ccbGender.setValue("");
-        dateNhanPhong.setValue(null);
-        timeNhanPhong.setText("00 : 00");
-        btnKiemTra.setDisable(false);
-    }
-
-    @FXML
-    public void handleExit(ActionEvent event) {
-        phieu = null;
-        ccbGender.getItems().clear();
-        btnKiemTra.setDisable(false);
-        Stage stage = (Stage) btnExit.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    public void handleNhanPhong(ActionEvent event) throws Exception {
-        if (kiemTra == false) {
-            showAlert("Lỗi!", "Vui lòng kiểm tra thông tin trước khi thực hiện Nhận phòng");
+         }
+         if (listPhieu == null || phieu == null) {
+            showAlert("Không tìm thấy phòng đặt", "Vui lòng nhập chính xác số điện thoại");
             return;
-        }
-        String soPhong = txtSoPhong.getText();
-        String maPhieuDat = txtMaPhieuDat.getText();
-        String soDienThoai = txtSDTKhachHang.getText();
-        String tenKhachHang = txtTenKhachHang.getText();
-        String namSinh = txtNamSinh.getText();
-        String gioiTinh = ccbGender.getValue().toString();
-        LocalDateTime ngayNhanPhong = dateNhanPhong.getValue().atStartOfDay();
-        String gioNhan = timeNhanPhong.getText();
+         }
+         txtMaPhieuDat.setText(phieu.getMaPhieuDat());
+         LocalDate ngayNhanTmp = phieu.getThoiGianNhan().toLocalDate();
+         dateNhanPhong.setValue(ngayNhanTmp);
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH 'giờ':mm 'phút'");
+         String formattedTime = phieu.getThoiGianNhan().format(formatter);
+         timeNhanPhong.setText(formattedTime);
+         txtTenKhachHang.setText(khachHang.getTenKhachHang());
+         txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
+         ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+         btnKiemTra.setDisable(true);
+         kiemTra = true;
+      } else {
+         showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này. Vui lòng thêm khách hàng trước khi đặt phòng!");
+      }
+   }
 
-        if (soDienThoai.equals(null)) {
-            showAlert("Lỗi!", "Không được để trống Số điện thoại");
-            return;
-        } else if (!isValidPhoneNumber(soDienThoai)) {
-            showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
-            return;
-        } else if (LocalDateTime.now().isBefore(phieu.getThoiGianNhan()) == true) {
+   public PhieuDatPhong getPhieuByMaPhieu(ObservableList<PhieuDatPhong> list, String maPhieu) {
+      for (PhieuDatPhong phieu : list) {
+         if (phieu.getMaPhieuDat().equals(maPhieu)) {
+            return phieu;
+         }
+      }
+      return null;
+   }
 
-            showAlert("Chưa đến giờ nhận phòng", "Vui lòng chờ đến giờ nhận phòng.");
-            return;
-        }
+   @FXML
+   public void handleRefresh(ActionEvent event) {
+      phieu = null;
+      txtMaPhieuDat.setText("");
+      txtSDTKhachHang.setText("");
+      txtTenKhachHang.clear();
+      txtNamSinh.clear();
+      ccbGender.getItems().clear();
+      ccbGender.setValue("");
+      dateNhanPhong.setValue(null);
+      timeNhanPhong.setText("00 : 00");
+      btnKiemTra.setDisable(false);
+   }
 
-        Phong.updateStatusRoom(soPhong, 1);
-        PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, true);
-        String maHoaDon;
-        CT_KhuyenMai khuyenMai = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM("DEFAULT");
-        String maNV = App.user;
-        NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
-        KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+   @FXML
+   public void handleExit(ActionEvent event) {
+      phieu = null;
+      ccbGender.getItems().clear();
+      btnKiemTra.setDisable(false);
+      Stage stage = (Stage) btnExit.getScene().getWindow();
+      stage.close();
+   }
 
-        int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayNhanPhong);
-        maHoaDon = phatSinhMaHoaDon(slHoaDon);
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, khuyenMai, LocalDateTime.now());
-        Phong p = Phong.getPhongTheoMaPhong(roomID);
+   @FXML
+   public void handleNhanPhong(ActionEvent event) throws Exception {
+      if (kiemTra == false) {
+         showAlert("Lỗi!", "Vui lòng kiểm tra thông tin trước khi thực hiện Nhận phòng");
+         return;
+      }
+      String soPhong = txtSoPhong.getText();
+      String maPhieuDat = txtMaPhieuDat.getText();
+      String soDienThoai = txtSDTKhachHang.getText();
+      String tenKhachHang = txtTenKhachHang.getText();
+      String namSinh = txtNamSinh.getText();
+      String gioiTinh = ccbGender.getValue().toString();
+      LocalDateTime ngayNhanPhong = dateNhanPhong.getValue().atStartOfDay();
+      String gioNhan = timeNhanPhong.getText();
 
-        ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+      if (soDienThoai.equals(null)) {
+         showAlert("Lỗi!", "Không được để trống Số điện thoại");
+         return;
+      } else if (!isValidPhoneNumber(soDienThoai)) {
+         showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
+         return;
+      } else if (LocalDateTime.now().isBefore(phieu.getThoiGianNhan()) == true) {
 
-        HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
-        ChiTietHD_Phong.themChiTietHoaDon(ctP);
-        showSuccessAlert();
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+         showAlert("Chưa đến giờ nhận phòng", "Vui lòng chờ đến giờ nhận phòng.");
+         return;
+      }
 
-        try {
-            App.setRoot("GD_QLKinhDoanhPhong");
-        } catch (IOException ex) {
-            Logger.getLogger(GD_NhanPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      Phong.updateStatusRoom(soPhong, 1);
+      PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, true);
+      String maHoaDon;
+      CT_KhuyenMai khuyenMai = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM("DEFAULT");
+      String maNV = App.user;
+      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
+      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 
-    }
+      int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayNhanPhong);
+      maHoaDon = phatSinhMaHoaDon(slHoaDon);
+      HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, khuyenMai, LocalDateTime.now());
+      Phong p = Phong.getPhongTheoMaPhong(roomID);
 
-    public boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("\\d{10}");
-    }
+      ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
 
-    public void showAlert(String title, String content) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-        alert.showAndWait();
-    }
+      HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+      ChiTietHD_Phong.themChiTietHoaDon(ctP);
+      showSuccessAlert();
+      Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-    private void showSuccessAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
-        configureAlert(alert, "Nhận phòng thành công!");
-        alert.showAndWait();
-    }
+      try {
+         App.setRoot("GD_QLKinhDoanhPhong");
+      } catch (IOException ex) {
+         Logger.getLogger(GD_NhanPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
+      }
 
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        configureAlert(alert, "Có lỗi xảy ra");
-        alert.showAndWait();
-    }
+   }
 
-    private void configureAlert(Alert alert, String title) {
-        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-        alert.setTitle("Thông báo");
-        alert.setHeaderText(title);
+   public boolean isValidPhoneNumber(String phoneNumber) {
+      return phoneNumber.matches("\\d{10}");
+   }
 
-        // Xử lý sự kiện khi nút "OK" được nhấn
-        ButtonType buttonTypeOK = alert.getButtonTypes().stream()
-                .filter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE)
-                .findFirst()
-                .orElse(null);
+   public void showAlert(String title, String content) {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle(title);
+      alert.setHeaderText(null);
+      alert.setContentText(content);
+      alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+      alert.showAndWait();
+   }
 
-        if (buttonTypeOK != null) {
-            Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
-            buttonOK.setOnAction(event -> {
-                handleExit(event);
-                alert.close();
-            });
-        }
-    }
+   private void showSuccessAlert() {
+      Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+      configureAlert(alert, "Nhận phòng thành công!");
+      alert.showAndWait();
+   }
 
-    public String phatSinhMaHoaDon(int stt) {
-        Date ngayLap = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMM");
-        String ngayThangNam = dateFormat.format(ngayLap);
+   private void showErrorAlert(String message) {
+      Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+      configureAlert(alert, "Có lỗi xảy ra");
+      alert.showAndWait();
+   }
 
-        String strSTT = String.format("%02d", stt + 1);
+   private void configureAlert(Alert alert, String title) {
+      alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+      alert.setTitle("Thông báo");
+      alert.setHeaderText(title);
 
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
-        String namCuoi = yearFormat.format(ngayLap);
+      // Xử lý sự kiện khi nút "OK" được nhấn
+      ButtonType buttonTypeOK = alert.getButtonTypes().stream()
+                                      .filter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE)
+                                      .findFirst()
+                                      .orElse(null);
 
-        String maHoaDon = "HD" + strSTT + ngayThangNam + namCuoi;
+      if (buttonTypeOK != null) {
+         Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
+         buttonOK.setOnAction(event -> {
+            handleExit(event);
+            alert.close();
+         });
+      }
+   }
 
-        return maHoaDon;
-    }
+   public String phatSinhMaHoaDon(int stt) {
+      Date ngayLap = new Date();
+      SimpleDateFormat dateFormat = new SimpleDateFormat("ddMM");
+      String ngayThangNam = dateFormat.format(ngayLap);
+
+      String strSTT = String.format("%02d", stt + 1);
+
+      SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+      String namCuoi = yearFormat.format(ngayLap);
+
+      String maHoaDon = "HD" + strSTT + ngayThangNam + namCuoi;
+
+      return maHoaDon;
+   }
 
 }

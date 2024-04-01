@@ -10,60 +10,70 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="GD_DangNhap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyboardEvent" prefHeight="517.0" prefWidth="732.0" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_DangNhapController">
+<Pane fx:id="GD_DangNhap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      onKeyPressed="#handleKeyboardEvent" prefHeight="517.0" prefWidth="732.0" stylesheets="@../styles/base.css"
+      xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.GD_DangNhapController">
 
     <children>
         <ImageView fitHeight="68.0" fitWidth="732.0" pickOnBounds="true">
             <image>
-                <Image url="@../image/Screenshot%202023-10-04%20162447.png" />
+                <Image url="@../image/Screenshot%202023-10-04%20162447.png"/>
             </image>
         </ImageView>
-        <ImageView fitHeight="174.0" fitWidth="182.0" layoutX="275.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="174.0" fitWidth="182.0" layoutX="275.0" layoutY="68.0" pickOnBounds="true"
+                   preserveRatio="true">
             <image>
-                <Image url="@../image/Screenshot%202023-10-04%20162017.png" />
+                <Image url="@../image/Screenshot%202023-10-04%20162017.png"/>
             </image>
         </ImageView>
-        <Text layoutX="166.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập">
+        <Text layoutX="166.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập">
             <font>
-                <Font size="16.0" />
+                <Font size="16.0"/>
             </font>
         </Text>
-        <ImageView fitHeight="20.0" fitWidth="15.0" layoutX="86.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="20.0" fitWidth="15.0" layoutX="86.0" layoutY="278.0" pickOnBounds="true"
+                   preserveRatio="true">
             <image>
-                <Image url="@../image/user.png" />
+                <Image url="@../image/user.png"/>
             </image>
         </ImageView>
         <Text layoutX="110.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên đăng nhập">
             <font>
-                <Font size="16.0" />
+                <Font size="16.0"/>
             </font>
         </Text>
-        <TextField fx:id="txtUsername" layoutX="86.0" layoutY="306.0" prefHeight="36.0" prefWidth="580.0" promptText="Tên đăng nhập" style="-fx-font-size: 18;" text="anquocviet">
+        <TextField fx:id="txtUsername" layoutX="86.0" layoutY="306.0" prefHeight="36.0" prefWidth="580.0"
+                   promptText="Tên đăng nhập" style="-fx-font-size: 18;" text="anquocviet">
             <font>
-                <Font size="18.0" />
+                <Font size="18.0"/>
             </font>
         </TextField>
         <ImageView fitHeight="18.0" fitWidth="13.0" layoutX="91.0" layoutY="362.0">
             <image>
-                <Image url="@../image/key.png" />
+                <Image url="@../image/key.png"/>
             </image>
         </ImageView>
         <Text layoutX="111.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu">
             <font>
-                <Font size="16.0" />
+                <Font size="16.0"/>
             </font>
         </Text>
-        <PasswordField fx:id="txtPassword" layoutX="85.0" layoutY="390.0" prefHeight="36.0" prefWidth="580.0" promptText="Mật khẩu" style="-fx-font-size: 18;" text="123">
+        <PasswordField fx:id="txtPassword" layoutX="85.0" layoutY="390.0" prefHeight="36.0" prefWidth="580.0"
+                       promptText="Mật khẩu" style="-fx-font-size: 18;" text="123">
             <font>
-                <Font size="18.0" />
+                <Font size="18.0"/>
             </font>
         </PasswordField>
-        <Button fx:id="btnDangNhap" layoutX="546.0" layoutY="462.0" mnemonicParsing="false" onAction="#dangNhap" prefHeight="30.0" prefWidth="126.0" style="-fx-font-size: 20; -fx-background-color: orange;" text="Đăng nhập">
+        <Button fx:id="btnDangNhap" layoutX="546.0" layoutY="462.0" mnemonicParsing="false" onAction="#dangNhap"
+                prefHeight="30.0" prefWidth="126.0" style="-fx-font-size: 20; -fx-background-color: orange;"
+                text="Đăng nhập">
             <font>
-                <Font size="20.0" />
+                <Font size="20.0"/>
             </font>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
         </Button>
 

@@ -39,7 +39,7 @@
     -fx-font-size: 7pt;
 }
 
- /*Css for radio button*/ 
+/*Css for radio button*/
 .radio-button .radio {
     -fx-border-width: 1px;
     -fx-border-color: #000;
@@ -48,26 +48,33 @@
     -fx-border-radius: 15px;
     -fx-padding: 4px;
 }
+
 .radio-button .radio:selected {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:armed {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:determinate {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:indeterminate {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button .dot {
     -fx-background-radius: 15px;
     -fx-padding: 5px;
-}.radio-button .radio {
+}
+
+.radio-button .radio {
     -fx-border-width: 1px;
     -fx-border-color: #000;
     -fx-background-color: white;
@@ -75,22 +82,27 @@
     -fx-border-radius: 15px;
     -fx-padding: 4px;
 }
+
 .radio-button .radio:selected {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:armed {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:determinate {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button -radio:indeterminate {
     -fx-background-color: white;
     -fx-background-image: null;
 }
+
 .radio-button .dot {
     -fx-background-radius: 15px;
     -fx-padding: 5px;
@@ -132,16 +144,16 @@
 }
 
 .tableBill .table-row-cell:filled:selected {
-    -fx-background: -fx-control-inner-background ;
-    -fx-background-color: -fx-table-cell-border-color, -fx-background ;
-    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 0, 0 0 1 0;
     -fx-table-cell-border-color: derive(-fx-color, 5%);
 }
 
 .tableBill .table-row-cell:odd:filled:selected {
-    -fx-background: -fx-control-inner-background-alt ;
+    -fx-background: -fx-control-inner-background-alt;
 }
- 
+
 .tableBill .table-row-cell:empty {
     -fx-border-style: none;
     -fx-border-width: 0;
@@ -152,12 +164,12 @@
 .tableBill .scroll-bar:horizontal .decrement-arrow,
 .tableBill .scroll-bar:horizontal .increment-button,
 .tableBill .scroll-bar:horizontal .decrement-button {
-    -fx-padding:0;
+    -fx-padding: 0;
 }
 
 .tableBill .scroll-bar:vertical .increment-arrow,
 .tableBill .scroll-bar:vertical .decrement-arrow,
 .tableBill .scroll-bar:vertical .increment-button,
 .tableBill .scroll-bar:vertical .decrement-button {
-    -fx-padding:0;
+    -fx-padding: 0;
 }
