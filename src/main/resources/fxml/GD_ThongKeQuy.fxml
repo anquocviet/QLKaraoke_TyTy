@@ -9,58 +9,64 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane id="GD_ThongKeQuy" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0" style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO QUÝ" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GD_ThongKeQuyController">
-   <content>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-         <children>
-            <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê DT theo quý trong năm:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="txtTongKhachHang" layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0" style="-fx-font-size: 20;" text="0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="txtTongHoaDon" layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="txtTongDoanhThu" layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0" style="-fx-font-size: 20;" text="0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <StackedBarChart fx:id="chart" layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
-               <xAxis>
-                  <CategoryAxis label="Quý" side="BOTTOM" fx:id="xAxis" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis fx:id="yAxis" label="Doanh thu" side="LEFT" />
-               </yAxis>
-            </StackedBarChart>
-            <ComboBox fx:id="comboBoxNam" layoutX="328.0" layoutY="14.0" prefWidth="150.0" />
-         </children>
-      </AnchorPane>
-   </content>
-   <font>
-      <Font size="14.0" />
-   </font>
+<TitledPane id="GD_ThongKeQuy" animated="false" collapsible="false" prefHeight="580.0" prefWidth="1280.0"
+            style="-fx-font-size: 14;" stylesheets="@../styles/base.css" text="THỐNG KÊ DOANH THU THEO QUÝ"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.GD_ThongKeQuyController">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <Label layoutX="15.0" layoutY="15.0" style="-fx-font-size: 20;" text="Thống kê DT theo quý trong năm:">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="680.0" layoutY="15.0" style="-fx-font-size: 20;" text="Tổng khách hàng hiện tại:">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="txtTongKhachHang" layoutX="998.0" layoutY="17.0" prefHeight="30.0" prefWidth="166.0"
+                       style="-fx-font-size: 20;" text="0">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="680.0" layoutY="65.0" style="-fx-font-size: 20;" text="Tổng hóa đơn hiện tại:">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="txtTongHoaDon" layoutX="998.0" layoutY="67.0" prefHeight="30.0" prefWidth="205.0"
+                       style="-fx-font-size: 20;" text="0">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="680.0" layoutY="115.0" style="-fx-font-size: 20;" text="Tổng doanh thu hiện tại:">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="txtTongDoanhThu" layoutX="998.0" layoutY="115.0" prefHeight="30.0" prefWidth="205.0"
+                       style="-fx-font-size: 20;" text="0">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+                <StackedBarChart fx:id="chart" layoutY="163.0" prefHeight="384.0" prefWidth="1280.0">
+                    <xAxis>
+                        <CategoryAxis label="Quý" side="BOTTOM" fx:id="xAxis"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" label="Doanh thu" side="LEFT"/>
+                    </yAxis>
+                </StackedBarChart>
+                <ComboBox fx:id="comboBoxNam" layoutX="328.0" layoutY="14.0" prefWidth="150.0"/>
+            </children>
+        </AnchorPane>
+    </content>
+    <font>
+        <Font size="14.0"/>
+    </font>
 </TitledPane>

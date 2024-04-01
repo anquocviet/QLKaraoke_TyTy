@@ -5,13 +5,11 @@
 package enums;
 
 /**
- *
  * @author Thạch
  */
 public enum Enum_Nvien {
-    NV001anquocviet,
-    NV002nvt
-    
-    
-    
+   NV001anquocviet,
+   NV002nvt
+
+
 }
