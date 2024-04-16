@@ -4,17 +4,13 @@
  */
 package controllers;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.util.StringConverter;
-import model.HoaDonThanhToan;
-import model.KhachHang;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -56,9 +52,9 @@ public class GD_ThongKeThangController implements Initializable {
             }
          }
       });
-      txtTongHoaDon.setText(HoaDonThanhToan.countBill() + "");
-      txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
-      txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
+//      txtTongHoaDon.setText(HoaDonThanhToan.countBill() + "");
+//      txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
+//      txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
       xAxis.setTickLabelFormatter(new StringConverter<Number>() {
          @Override
          public String toString(Number object) {
@@ -74,31 +70,31 @@ public class GD_ThongKeThangController implements Initializable {
             return val.intValue();
          }
       });
-      loadDataWhenChangeDate();
-      handleInDatePicker();
+//      loadDataWhenChangeDate();
+//      handleInDatePicker();
    }
 
-   public void handleInDatePicker() {
-      datePicker.setOnAction((event) -> {
-         loadDataWhenChangeDate();
-      });
-   }
+//   public void handleInDatePicker() {
+//      datePicker.setOnAction((event) -> {
+//         loadDataWhenChangeDate();
+//      });
+//   }
 
-   public void loadDataWhenChangeDate() {
-      txtTongHDThang.setText(HoaDonThanhToan.countBillByMonth(datePicker.getValue()) + "");
-      txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBillByMonth(datePicker.getValue())) + " VNĐ");
-      // Create data
-      chart.setAnimated(true);
-      XYChart.Series series = new XYChart.Series();
-      series.setName("Doanh thu trong ngày");
-      ObservableList arr = HoaDonThanhToan.statisticalByMonth(datePicker.getValue());
-      for (int i = 0; i < arr.size(); i = i + 2) {
-         series.getData().add(new XYChart.Data(arr.get(i), arr.get(i + 1)));
-      }
-      chart.getData().clear();
-      chart.getData().add(series);
-      chart.setAnimated(false);
-   }
+//   public void loadDataWhenChangeDate() {
+//      txtTongHDThang.setText(HoaDonThanhToan.countBillByMonth(datePicker.getValue()) + "");
+//      txtTongDoanhThuThang.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBillByMonth(datePicker.getValue())) + " VNĐ");
+//      // Create data
+//      chart.setAnimated(true);
+//      XYChart.Series series = new XYChart.Series();
+//      series.setName("Doanh thu trong ngày");
+//      ObservableList arr = HoaDonThanhToan.statisticalByMonth(datePicker.getValue());
+//      for (int i = 0; i < arr.size(); i = i + 2) {
+//         series.getData().add(new XYChart.Data(arr.get(i), arr.get(i + 1)));
+//      }
+//      chart.getData().clear();
+//      chart.getData().add(series);
+//      chart.setAnimated(false);
+//   }
 
    DecimalFormat df = new DecimalFormat("#,###,###,##0");
    @FXML

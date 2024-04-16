@@ -3,20 +3,16 @@
  */
 package controllers;
 
-import enums.Enum_ChucVu;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.App;
-import model.NhanVien;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -35,19 +31,19 @@ public class AppFrameController implements Initializable {
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
-      if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
-         taiKhoanMenuItem.setDisable(false);
-         qlNhanVienMenuItem.setDisable(false);
-         qlPhongMenuItem.setDisable(false);
-         qlDichVuMenuItem.setDisable(false);
-         qlCTKhuyenMaiMenuItem.setDisable(false);
-         thongKeMenu.setDisable(false);
-         txtNhanVien.setText("QL: " + nv.getHoTen());
-      } else {
-         txtNhanVien.setText("NV: " + nv.getHoTen());
-      }
-      circleAvt.setFill(new ImagePattern(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien())));
+//      NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
+//      if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
+//         taiKhoanMenuItem.setDisable(false);
+//         qlNhanVienMenuItem.setDisable(false);
+//         qlPhongMenuItem.setDisable(false);
+//         qlDichVuMenuItem.setDisable(false);
+//         qlCTKhuyenMaiMenuItem.setDisable(false);
+//         thongKeMenu.setDisable(false);
+//         txtNhanVien.setText("QL: " + nv.getHoTen());
+//      } else {
+//         txtNhanVien.setText("NV: " + nv.getHoTen());
+//      }
+//      circleAvt.setFill(new ImagePattern(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien())));
    }
 
    @FXML

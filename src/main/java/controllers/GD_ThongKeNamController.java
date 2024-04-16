@@ -5,16 +5,12 @@
 package controllers;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import model.HoaDonThanhToan;
-import model.KhachHang;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -37,9 +33,9 @@ public class GD_ThongKeNamController implements Initializable {
          comboBoxNam.getItems().add(LocalDate.now().getYear() - i);
       }
       comboBoxNam.getSelectionModel().select(0);
-      txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
-      txtTongHoaDon.setText(df.format(HoaDonThanhToan.countBill()));
-      txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
+//      txtTongDoanhThu.setText(df.format(HoaDonThanhToan.calcTotalMoneyOfBill()) + " VNĐ");
+//      txtTongHoaDon.setText(df.format(HoaDonThanhToan.countBill()));
+//      txtTongKhachHang.setText(KhachHang.demSoLuongKhachHang() + "");
       setMaxCategoryWidth(50, 10);
       chart.widthProperty().addListener((obs, b, b1) -> {
          Platform.runLater(() -> setMaxCategoryWidth(40, 10));
@@ -49,17 +45,17 @@ public class GD_ThongKeNamController implements Initializable {
    }
 
    public void loadDataWhenChangeYear() {
-      txtTongHDTheoNam.setText(HoaDonThanhToan.countBillByYear(comboBoxNam.getValue()) + "");
-      chart.setAnimated(true);
-      chart.getData().clear();
-      ObservableList arr = HoaDonThanhToan.statisticalByYear(comboBoxNam.getValue());
-      for (int i = 0; i < arr.size(); i = i + 2) {
-         XYChart.Series series = new XYChart.Series();
-         series.setName("Tháng " + arr.get(i));
-         series.getData().add(new XYChart.Data(String.valueOf(arr.get(i)), arr.get(i + 1)));
-         chart.getData().add(series);
-      }
-      chart.setAnimated(false);
+//      txtTongHDTheoNam.setText(HoaDonThanhToan.countBillByYear(comboBoxNam.getValue()) + "");
+//      chart.setAnimated(true);
+//      chart.getData().clear();
+//      ObservableList arr = HoaDonThanhToan.statisticalByYear(comboBoxNam.getValue());
+//      for (int i = 0; i < arr.size(); i = i + 2) {
+//         XYChart.Series series = new XYChart.Series();
+//         series.setName("Tháng " + arr.get(i));
+//         series.getData().add(new XYChart.Data(String.valueOf(arr.get(i)), arr.get(i + 1)));
+//         chart.getData().add(series);
+//      }
+//      chart.setAnimated(false);
    }
 
    public void handleEventInCombomBox() {

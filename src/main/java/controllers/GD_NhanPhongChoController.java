@@ -4,7 +4,6 @@
  */
 package controllers;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,28 +16,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import main.App;
-import model.CT_KhuyenMai;
-import model.ChiTietHD_Phong;
-import model.HoaDonThanhToan;
-import model.KhachHang;
-import model.NhanVien;
-import model.PhieuDatPhong;
-import model.Phong;
 
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import static controllers.GD_QLKinhDoanhPhongController.roomID;
+//import static controllers.GD_QLKinhDoanhPhongController.roomID;
 
 /**
  * FXML Controller class
@@ -72,11 +56,11 @@ public class GD_NhanPhongChoController implements Initializable {
 
    private boolean kiemTra = false;
 
-   PhieuDatPhong phieu = null;
+//   PhieuDatPhong phieu = null;
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      txtSoPhong.setText(roomID);
+//      txtSoPhong.setText(roomID);
 
    }
 
@@ -88,124 +72,124 @@ public class GD_NhanPhongChoController implements Initializable {
          return;
       }
 
-      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-
-      if (khachHang != null) {
-         ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
-
-         Phong phong = Phong.getPhongTheoMaPhong(roomID);
-         for (PhieuDatPhong phieuDatPhong : listPhieu) {
-            if (phieuDatPhong.getPhong().equals(phong)) {
-               phieu = PhieuDatPhong.getBookingTicketByID(phieuDatPhong.getMaPhieuDat());
-               break;
-            }
-         }
-         if (listPhieu == null || phieu == null) {
-            showAlert("Không tìm thấy phòng đặt", "Vui lòng nhập chính xác số điện thoại");
-            return;
-         }
-         txtMaPhieuDat.setText(phieu.getMaPhieuDat());
-         LocalDate ngayNhanTmp = phieu.getThoiGianNhan().toLocalDate();
-         dateNhanPhong.setValue(ngayNhanTmp);
-         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH 'giờ':mm 'phút'");
-         String formattedTime = phieu.getThoiGianNhan().format(formatter);
-         timeNhanPhong.setText(formattedTime);
-         txtTenKhachHang.setText(khachHang.getTenKhachHang());
-         txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
-         ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
-         btnKiemTra.setDisable(true);
-         kiemTra = true;
-      } else {
-         showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này. Vui lòng thêm khách hàng trước khi đặt phòng!");
-      }
+//      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+//
+//      if (khachHang != null) {
+//         ObservableList<PhieuDatPhong> listPhieu = PhieuDatPhong.getAllBookingTicketByIDKhachHang(khachHang.getMaKhachHang());
+//
+//         Phong phong = Phong.getPhongTheoMaPhong(roomID);
+//         for (PhieuDatPhong phieuDatPhong : listPhieu) {
+//            if (phieuDatPhong.getPhong().equals(phong)) {
+//               phieu = PhieuDatPhong.getBookingTicketByID(phieuDatPhong.getMaPhieuDat());
+//               break;
+//            }
+//         }
+//         if (listPhieu == null || phieu == null) {
+//            showAlert("Không tìm thấy phòng đặt", "Vui lòng nhập chính xác số điện thoại");
+//            return;
+//         }
+//         txtMaPhieuDat.setText(phieu.getMaPhieuDat());
+//         LocalDate ngayNhanTmp = phieu.getThoiGianNhan().toLocalDate();
+//         dateNhanPhong.setValue(ngayNhanTmp);
+//         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH 'giờ':mm 'phút'");
+//         String formattedTime = phieu.getThoiGianNhan().format(formatter);
+//         timeNhanPhong.setText(formattedTime);
+//         txtTenKhachHang.setText(khachHang.getTenKhachHang());
+//         txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
+//         ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+//         btnKiemTra.setDisable(true);
+//         kiemTra = true;
+//      } else {
+//         showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này. Vui lòng thêm khách hàng trước khi đặt phòng!");
+//      }
    }
 
-   public PhieuDatPhong getPhieuByMaPhieu(ObservableList<PhieuDatPhong> list, String maPhieu) {
-      for (PhieuDatPhong phieu : list) {
-         if (phieu.getMaPhieuDat().equals(maPhieu)) {
-            return phieu;
-         }
-      }
-      return null;
-   }
+//   public PhieuDatPhong getPhieuByMaPhieu(ObservableList<PhieuDatPhong> list, String maPhieu) {
+//      for (PhieuDatPhong phieu : list) {
+//         if (phieu.getMaPhieuDat().equals(maPhieu)) {
+//            return phieu;
+//         }
+//      }
+//      return null;
+//   }
 
-   @FXML
-   public void handleRefresh(ActionEvent event) {
-      phieu = null;
-      txtMaPhieuDat.setText("");
-      txtSDTKhachHang.setText("");
-      txtTenKhachHang.clear();
-      txtNamSinh.clear();
-      ccbGender.getItems().clear();
-      ccbGender.setValue("");
-      dateNhanPhong.setValue(null);
-      timeNhanPhong.setText("00 : 00");
-      btnKiemTra.setDisable(false);
-   }
+//   @FXML
+//   public void handleRefresh(ActionEvent event) {
+//      phieu = null;
+//      txtMaPhieuDat.setText("");
+//      txtSDTKhachHang.setText("");
+//      txtTenKhachHang.clear();
+//      txtNamSinh.clear();
+//      ccbGender.getItems().clear();
+//      ccbGender.setValue("");
+//      dateNhanPhong.setValue(null);
+//      timeNhanPhong.setText("00 : 00");
+//      btnKiemTra.setDisable(false);
+//   }
 
-   @FXML
-   public void handleExit(ActionEvent event) {
-      phieu = null;
-      ccbGender.getItems().clear();
-      btnKiemTra.setDisable(false);
-      Stage stage = (Stage) btnExit.getScene().getWindow();
-      stage.close();
-   }
-
-   @FXML
-   public void handleNhanPhong(ActionEvent event) throws Exception {
-      if (kiemTra == false) {
-         showAlert("Lỗi!", "Vui lòng kiểm tra thông tin trước khi thực hiện Nhận phòng");
-         return;
-      }
-      String soPhong = txtSoPhong.getText();
-      String maPhieuDat = txtMaPhieuDat.getText();
-      String soDienThoai = txtSDTKhachHang.getText();
-      String tenKhachHang = txtTenKhachHang.getText();
-      String namSinh = txtNamSinh.getText();
-      String gioiTinh = ccbGender.getValue().toString();
-      LocalDateTime ngayNhanPhong = dateNhanPhong.getValue().atStartOfDay();
-      String gioNhan = timeNhanPhong.getText();
-
-      if (soDienThoai.equals(null)) {
-         showAlert("Lỗi!", "Không được để trống Số điện thoại");
-         return;
-      } else if (!isValidPhoneNumber(soDienThoai)) {
-         showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
-         return;
-      } else if (LocalDateTime.now().isBefore(phieu.getThoiGianNhan()) == true) {
-
-         showAlert("Chưa đến giờ nhận phòng", "Vui lòng chờ đến giờ nhận phòng.");
-         return;
-      }
-
-      Phong.updateStatusRoom(soPhong, 1);
-      PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, true);
-      String maHoaDon;
-      CT_KhuyenMai khuyenMai = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM("DEFAULT");
-      String maNV = App.user;
-      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
-      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-
-      int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayNhanPhong);
-      maHoaDon = phatSinhMaHoaDon(slHoaDon);
-      HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, khuyenMai, LocalDateTime.now());
-      Phong p = Phong.getPhongTheoMaPhong(roomID);
-
-      ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-
-      HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
-      ChiTietHD_Phong.themChiTietHoaDon(ctP);
-      showSuccessAlert();
-      Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
-      try {
-         App.setRoot("GD_QLKinhDoanhPhong");
-      } catch (IOException ex) {
-         Logger.getLogger(GD_NhanPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
-      }
-
-   }
+//   @FXML
+//   public void handleExit(ActionEvent event) {
+//      phieu = null;
+//      ccbGender.getItems().clear();
+//      btnKiemTra.setDisable(false);
+//      Stage stage = (Stage) btnExit.getScene().getWindow();
+//      stage.close();
+//   }
+//
+//   @FXML
+//   public void handleNhanPhong(ActionEvent event) throws Exception {
+//      if (kiemTra == false) {
+//         showAlert("Lỗi!", "Vui lòng kiểm tra thông tin trước khi thực hiện Nhận phòng");
+//         return;
+//      }
+//      String soPhong = txtSoPhong.getText();
+//      String maPhieuDat = txtMaPhieuDat.getText();
+//      String soDienThoai = txtSDTKhachHang.getText();
+//      String tenKhachHang = txtTenKhachHang.getText();
+//      String namSinh = txtNamSinh.getText();
+//      String gioiTinh = ccbGender.getValue().toString();
+//      LocalDateTime ngayNhanPhong = dateNhanPhong.getValue().atStartOfDay();
+//      String gioNhan = timeNhanPhong.getText();
+//
+//      if (soDienThoai.equals(null)) {
+//         showAlert("Lỗi!", "Không được để trống Số điện thoại");
+//         return;
+//      } else if (!isValidPhoneNumber(soDienThoai)) {
+//         showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
+//         return;
+//      } else if (LocalDateTime.now().isBefore(phieu.getThoiGianNhan()) == true) {
+//
+//         showAlert("Chưa đến giờ nhận phòng", "Vui lòng chờ đến giờ nhận phòng.");
+//         return;
+//      }
+//
+//      Phong.updateStatusRoom(soPhong, 1);
+//      PhieuDatPhong.updateTrangThaiPhieuDat(maPhieuDat, true);
+//      String maHoaDon;
+//      CT_KhuyenMai khuyenMai = CT_KhuyenMai.getCT_KhuyenMaiTheoMaKM("DEFAULT");
+//      String maNV = App.user;
+//      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
+//      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+//
+//      int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayNhanPhong);
+//      maHoaDon = phatSinhMaHoaDon(slHoaDon);
+//      HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, khuyenMai, LocalDateTime.now());
+//      Phong p = Phong.getPhongTheoMaPhong(roomID);
+//
+//      ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+//
+//      HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+//      ChiTietHD_Phong.themChiTietHoaDon(ctP);
+//      showSuccessAlert();
+//      Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+//
+//      try {
+//         App.setRoot("GD_QLKinhDoanhPhong");
+//      } catch (IOException ex) {
+//         Logger.getLogger(GD_NhanPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
+//      }
+//
+//   }
 
    public boolean isValidPhoneNumber(String phoneNumber) {
       return phoneNumber.matches("\\d{10}");
@@ -243,13 +227,13 @@ public class GD_NhanPhongChoController implements Initializable {
                                       .findFirst()
                                       .orElse(null);
 
-      if (buttonTypeOK != null) {
-         Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
-         buttonOK.setOnAction(event -> {
-            handleExit(event);
-            alert.close();
-         });
-      }
+//      if (buttonTypeOK != null) {
+//         Button buttonOK = (Button) alert.getDialogPane().lookupButton(buttonTypeOK);
+//         buttonOK.setOnAction(event -> {
+//            handleExit(event);
+//            alert.close();
+//         });
+//      }
    }
 
    public String phatSinhMaHoaDon(int stt) {

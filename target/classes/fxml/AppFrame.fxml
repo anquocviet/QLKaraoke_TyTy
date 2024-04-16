@@ -15,7 +15,7 @@
 <AnchorPane id="AppFrame" stylesheets="@../styles/base.css" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppFrameController">
     <children>
-        <fx:include fx:id="TrangChu" source="TrangChu.fxml"/>
+        <fx:include fx:id="GD_QLKinhDoanhPhong" source="GD_QLKinhDoanhPhong.fxml"/>
         <MenuBar layoutY="1.0" prefWidth="1280.0" style="-fx-background-color: FFF6F6;">
             <menus>
                 <Menu mnemonicParsing="false" style="-fx-font-size: 20;" text="Hệ Thống">
