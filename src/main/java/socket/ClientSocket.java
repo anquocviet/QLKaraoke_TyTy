@@ -2,8 +2,11 @@ package socket;
 
 import lombok.Getter;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * @description
@@ -11,16 +14,27 @@ import java.util.Scanner;
  * @date: 12/4/24
  */
 public class ClientSocket {
-   @Getter
-   public static Socket socket;
    private final String host = "localhost";
+   @Getter
+   private static Socket socket;
+   @Getter
+   private static DataInputStream dis;
+   @Getter
+   private static DataOutputStream dos;
+   @Getter
+   private static ObjectInputStream in;
+   @Getter
+   private static ObjectOutputStream out;
 
    public void start() {
       try {
          socket = new Socket(host, 8080);
-         Scanner sc = new Scanner(System.in);
          System.out.println("Connected to server");
 
+         dis = new DataInputStream(socket.getInputStream());
+         dos = new DataOutputStream(socket.getOutputStream());
+         out = new ObjectOutputStream(socket.getOutputStream());
+         in = new ObjectInputStream(socket.getInputStream());
       } catch (Exception e) {
          e.printStackTrace();
       }

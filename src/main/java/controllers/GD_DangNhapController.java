@@ -22,6 +22,7 @@ import socket.ClientSocket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -34,14 +35,19 @@ import java.util.ResourceBundle;
  * @author thach
  */
 public class GD_DangNhapController implements Initializable {
+   @FXML
+   private TextField txtUsername;
+   @FXML
+   private TextField txtPassword;
+
+   DataInputStream dis = ClientSocket.getDis();
+   DataOutputStream dos = ClientSocket.getDos();
+   ObjectInputStream in = ClientSocket.getIn();
+   ObjectOutputStream out = ClientSocket.getOut();
 
    @SneakyThrows
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      out = new DataOutputStream(socket.getOutputStream());
-      in = new DataInputStream(socket.getInputStream());
-      oos = new ObjectOutputStream(socket.getOutputStream());
-      ois = new ObjectInputStream(socket.getInputStream());
    }
 
    @FXML
@@ -57,20 +63,21 @@ public class GD_DangNhapController implements Initializable {
    private void dangNhap(ActionEvent event) throws IOException, Exception {
       String username = txtUsername.getText().trim();
       String password = txtPassword.getText().trim();
-      out.writeUTF("login");
+      dos.writeUTF("account-login");
       TaiKhoan tk = new TaiKhoan();
       tk.setTenDangNhap(username);
       tk.setMatKhau(password);
-      oos.writeObject(tk);
+      out.writeObject(tk);
 
-      String line = in.readUTF();
+      String line = dis.readUTF();
       if (line.equals("login-success")) {
-         tk.setNhanVien(((TaiKhoan) ois.readObject()).getNhanVien());
+         tk.setNhanVien(((TaiKhoan) in.readObject()).getNhanVien());
          App.user = tk.getNhanVien().getMaNhanVien();
+         System.out.println(App.user);
          Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
          App.openMainGUI();
          stage.close();
-      } else if (line.equals("login-fail")) {
+      } else {
          Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại tài khoản và mật khẩu của bạn!", ButtonType.OK);
          alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
          alert.setTitle("Đăng nhập thất bại");
@@ -78,31 +85,4 @@ public class GD_DangNhapController implements Initializable {
          alert.showAndWait();
       }
    }
-
-//      if (tk == null)
-//         Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại tài khoản và mật khẩu của bạn!", ButtonType.OK);
-//         alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//         alert.setTitle("Đăng nhập thất bại");
-//         alert.setHeaderText("Sai tài khoản hoặc mật khẩu");
-//         alert.showAndWait();
-//      } else {
-//         App.user = tk.getNhanVien().getMaNhanVien();
-//         Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
-//         App.openMainGUI();
-//         stage.close();
-//
-//      }
-
-   //    Variable
-   @FXML
-   private TextField txtUsername;
-   @FXML
-   private TextField txtPassword;
-
-   Socket socket = ClientSocket.getSocket();
-   //   TaiKhoan tk = null;
-   DataOutputStream out = null;
-   DataInputStream in = null;
-   ObjectOutputStream oos = null;
-   ObjectInputStream ois = null;
 }
