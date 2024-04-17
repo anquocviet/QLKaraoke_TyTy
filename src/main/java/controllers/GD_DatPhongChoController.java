@@ -12,14 +12,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import main.App;
-import model.KhachHang;
-import model.NhanVien;
-import model.PhieuDatPhong;
-import model.Phong;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -41,8 +35,8 @@ public class GD_DatPhongChoController implements Initializable {
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      String roomID = GD_QLKinhDoanhPhongController.roomID;
-      txtMaPhong.setText(roomID);
+//      String roomID = GD_QLKinhDoanhPhongController.roomID;
+//      txtMaPhong.setText(roomID);
       for (int i = 8; i < 24; i++) {
          cbGioNhan.getItems().add(i);
       }
@@ -79,12 +73,12 @@ public class GD_DatPhongChoController implements Initializable {
    }
 
    public void handleEventInTextField() {
-      txtSDT.setOnKeyPressed(evt -> {
-         if (evt.getCode() == KeyCode.ENTER) {
-            KhachHang kh = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
-            txtTenKH.setText(kh.getTenKhachHang());
-         }
-      });
+//      txtSDT.setOnKeyPressed(evt -> {
+//         if (evt.getCode() == KeyCode.ENTER) {
+//            KhachHang kh = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
+//            txtTenKH.setText(kh.getTenKhachHang());
+//         }
+//      });
    }
 
    public void handleEventInButton() {
@@ -100,10 +94,10 @@ public class GD_DatPhongChoController implements Initializable {
       });
       btnBookWaitingRoom.setOnAction(evt -> {
          try {
-            String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countBookingTicketInDay());
-            KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
-            Phong phong = new Phong(txtMaPhong.getText());
-            NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
+//            String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countBookingTicketInDay());
+//            KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
+//            Phong phong = new Phong(txtMaPhong.getText());
+//            NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
             LocalDateTime thoiGianLap = LocalDateTime.now();
             LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
             if (thoiGianNhan.isAfter(LocalDateTime.of(thoiGianLap.toLocalDate().plusDays(1), LocalTime.of(0, 0)))) {
@@ -116,24 +110,24 @@ public class GD_DatPhongChoController implements Initializable {
             }
             String ghiChu = "";
 
-            boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
-            if (result == true) {
-               Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
-               App.setRoot("GD_QLKinhDoanhPhong");
-               Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-               alert.setTitle("Đặt phòng thành công");
-               alert.setHeaderText("Bạn đã đặt phòng thành công!");
-               alert.showAndWait();
-               Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
-               stage.close();
-            } else {
-               Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-               alert.setTitle("Có lỗi xảy ra");
-               alert.setHeaderText("Có lỗi xảy ra khi đặt phòng chờ!");
-               alert.showAndWait();
-            }
+//            boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
+//            if (result == true) {
+//               Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
+//               App.setRoot("GD_QLKinhDoanhPhong");
+//               Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+//               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+//               alert.setTitle("Đặt phòng thành công");
+//               alert.setHeaderText("Bạn đã đặt phòng thành công!");
+//               alert.showAndWait();
+//               Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+//               stage.close();
+//            } else {
+//               Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
+//               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+//               alert.setTitle("Có lỗi xảy ra");
+//               alert.setHeaderText("Có lỗi xảy ra khi đặt phòng chờ!");
+//               alert.showAndWait();
+//            }
          } catch (Exception ex) {
             Logger.getLogger(GD_DatPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
          }

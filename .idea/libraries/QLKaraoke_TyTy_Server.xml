@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="QLKaraoke_TyTy_Server">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/QLKaraoke_TyTy_Server.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

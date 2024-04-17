@@ -1,8 +1,6 @@
-/* * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package controllers;
 
+import entities.NhanVien;
 import enums.Enum_ChucVu;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,12 +13,17 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 import main.App;
-import model.NhanVien;
+import org.mariadb.jdbc.client.Client;
+import socket.ClientSocket;
 
 import java.awt.Desktop;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,10 +35,31 @@ import java.util.ResourceBundle;
  * @author vie
  */
 public class AppFrameController implements Initializable {
+   @FXML
+   private Circle circleAvt;
+   @FXML
+   private Text txtNhanVien;
+   @FXML
+   private MenuItem taiKhoanMenuItem;
+   @FXML
+   private MenuItem qlNhanVienMenuItem;
+   @FXML
+   private MenuItem qlPhongMenuItem;
+   @FXML
+   private MenuItem qlDichVuMenuItem;
+   @FXML
+   private MenuItem qlCTKhuyenMaiMenuItem;
+   @FXML
+   private Menu thongKeMenu;
 
+   DataOutputStream dos = ClientSocket.getDos();
+   ObjectInputStream in = ClientSocket.getIn();
+
+   @SneakyThrows
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
+      dos.writeUTF("employee-find-employee," + App.user);
+      NhanVien nv = (NhanVien) in.readObject();
       if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
          taiKhoanMenuItem.setDisable(false);
          qlNhanVienMenuItem.setDisable(false);
@@ -138,22 +162,4 @@ public class AppFrameController implements Initializable {
    private void moGDThongKe(ActionEvent event) throws IOException {
       App.setRoot("GD_ThongKe");
    }
-
-   //    Variable
-   @FXML
-   private Circle circleAvt;
-   @FXML
-   private Text txtNhanVien;
-   @FXML
-   private MenuItem taiKhoanMenuItem;
-   @FXML
-   private MenuItem qlNhanVienMenuItem;
-   @FXML
-   private MenuItem qlPhongMenuItem;
-   @FXML
-   private MenuItem qlDichVuMenuItem;
-   @FXML
-   private MenuItem qlCTKhuyenMaiMenuItem;
-   @FXML
-   private Menu thongKeMenu;
 }

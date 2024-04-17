@@ -1,6 +1,5 @@
 package main;
 
-import connect.ConnectDB;
 import controllers.SplashController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import socket.ClientSocket;
 
 import java.io.IOException;
 
@@ -40,12 +40,13 @@ public class App extends Application {
    public void init() throws Exception {
       SplashController splash = new SplashController();
       splash.checkFuntions();
-      ConnectDB.getInstance().connect();
+      ClientSocket clientSocket = new ClientSocket();
+      clientSocket.start();
    }
 
    @Override
    public void start(Stage stage) throws IOException {
-      this.primaryStage = stage;
+      primaryStage = stage;
    }
 
    public static void openMainGUI() throws IOException {

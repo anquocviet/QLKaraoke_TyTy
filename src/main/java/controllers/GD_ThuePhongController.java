@@ -16,11 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.App;
-import model.ChiTietHD_Phong;
-import model.HoaDonThanhToan;
-import model.KhachHang;
-import model.NhanVien;
-import model.Phong;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,7 +63,7 @@ public class GD_ThuePhongController implements Initializable {
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
+//      txtSoPhong.setText(GD_QLKinhDoanhPhongController.roomID);
 
 //        try {
 //            if (Phong.getListPhongByStatus(2).contains(new Phong(GD_QLKinhDoanhPhongController.roomID))) {
@@ -104,22 +99,22 @@ public class GD_ThuePhongController implements Initializable {
          return;
       }
 
-      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-
-      if (khachHang != null) {
-         txtTenKhachHang.setText(khachHang.getTenKhachHang());
-         txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
-         ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
-         // Cập nhật dateThue với ngày hiện tại
-         dateThue.setValue(LocalDate.now());
-         // Cập nhật timeThue với thời gian hiện tại
-         LocalTime currentTime = LocalTime.now();
-         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-         String formattedTime = currentTime.format(formatter);
-         timeThue.setText(formattedTime);
-      } else {
-         showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này.Vui lòng thêm khách hàng trước khi đặt phòng!");
-      }
+//      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+//
+//      if (khachHang != null) {
+//         txtTenKhachHang.setText(khachHang.getTenKhachHang());
+//         txtNamSinh.setText(String.valueOf(khachHang.getNamSinh()));
+//         ccbGender.setValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+//         // Cập nhật dateThue với ngày hiện tại
+//         dateThue.setValue(LocalDate.now());
+//         // Cập nhật timeThue với thời gian hiện tại
+//         LocalTime currentTime = LocalTime.now();
+//         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//         String formattedTime = currentTime.format(formatter);
+//         timeThue.setText(formattedTime);
+//      } else {
+//         showAlert("Không tìm thấy khách hàng", "Không có thông tin khách hàng cho số điện thoại này.Vui lòng thêm khách hàng trước khi đặt phòng!");
+//      }
    }
 
    @FXML
@@ -158,34 +153,34 @@ public class GD_ThuePhongController implements Initializable {
          showAlert("Số điện thoại không hợp lệ", "Vui lòng nhập số điện thoại hợp lệ.");
          return;
       } else {
-         Phong.updateStatusRoom(soPhong, 1);
+//         Phong.updateStatusRoom(soPhong, 1);
       }
 
       String maHoaDon;
       String maNV = App.user;
-      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
-      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
-
-      HoaDonThanhToan existingHoaDon = HoaDonThanhToan.getBillByCustomer(khachHang.getMaKhachHang());
-      if (existingHoaDon != null) {
-         // Nếu đã có hóa đơn, sử dụng mã hóa đơn đã có
-         maHoaDon = existingHoaDon.getMaHoaDon();
-         HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
-         Phong p = Phong.getPhongTheoMaPhong(soPhong);
-
-         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-         ChiTietHD_Phong.themChiTietHoaDon(ctP);
-      } else {
-         // Nếu chưa có hóa đơn, tạo mới mã hóa đơn
-         int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
-         maHoaDon = phatSinhMaHoaDon(slHoaDon);
-         HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
-         Phong p = Phong.getPhongTheoMaPhong(soPhong);
-
-         HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
-         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
-         ChiTietHD_Phong.themChiTietHoaDon(ctP);
-      }
+//      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
+//      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
+//
+//      HoaDonThanhToan existingHoaDon = HoaDonThanhToan.getBillByCustomer(khachHang.getMaKhachHang());
+//      if (existingHoaDon != null) {
+//         // Nếu đã có hóa đơn, sử dụng mã hóa đơn đã có
+//         maHoaDon = existingHoaDon.getMaHoaDon();
+//         HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
+//         Phong p = Phong.getPhongTheoMaPhong(soPhong);
+//
+//         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+//         ChiTietHD_Phong.themChiTietHoaDon(ctP);
+//      } else {
+//         // Nếu chưa có hóa đơn, tạo mới mã hóa đơn
+//         int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
+//         maHoaDon = phatSinhMaHoaDon(slHoaDon);
+//         HoaDonThanhToan hoaDon = new HoaDonThanhToan(maHoaDon, nhanVienLap, khachHang, null, LocalDateTime.now());
+//         Phong p = Phong.getPhongTheoMaPhong(soPhong);
+//
+//         HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
+//         ChiTietHD_Phong ctP = new ChiTietHD_Phong(hoaDon, p, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
+//         ChiTietHD_Phong.themChiTietHoaDon(ctP);
+//      }
 
       showAlert("Thông báo", "Đã thực hiện tác vụ thuê phòng!");
       Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
