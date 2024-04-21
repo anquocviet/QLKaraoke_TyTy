@@ -31,8 +31,8 @@ public class ClientSocket {
          socket = new Socket(host, 8080);
          System.out.println("Connected to server");
 
-         dos = new DataOutputStream(socket.getOutputStream());
          dis = new DataInputStream(socket.getInputStream());
+         dos = new DataOutputStream(socket.getOutputStream());
          out = new ObjectOutputStream(socket.getOutputStream());
          in = new ObjectInputStream(socket.getInputStream());
       } catch (Exception e) {

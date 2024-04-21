@@ -42,8 +42,8 @@ public class GD_DangNhapController implements Initializable {
 
    DataInputStream dis = ClientSocket.getDis();
    DataOutputStream dos = ClientSocket.getDos();
-   ObjectInputStream in = ClientSocket.getIn();
    ObjectOutputStream out = ClientSocket.getOut();
+   ObjectInputStream in = ClientSocket.getIn();
 
    @SneakyThrows
    @Override
@@ -72,7 +72,7 @@ public class GD_DangNhapController implements Initializable {
       String line = dis.readUTF();
       if (line.equals("login-success")) {
          tk.setNhanVien(((TaiKhoan) in.readObject()).getNhanVien());
-         App.user = tk.getNhanVien().getMaNhanVien();
+         App.user = tk.getNhanVien();
          System.out.println(App.user);
          Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
          App.openMainGUI();

@@ -1,6 +1,7 @@
 package main;
 
 import controllers.SplashController;
+import entities.NhanVien;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ public class App extends Application {
    public static Stage primaryStage;
    public static Scene primaryScene;
 
-   public static String user;
+   public static NhanVien user;
    public static final int widthModal = 800;
    public static final int heightModal = 684;
    public static final int widthModalLogin = 732;
