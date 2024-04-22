@@ -615,12 +615,14 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                   dos.writeUTF("bookingTicket-update-booking-ticket");
                   phieu.setTinhTrang(1);
                   out.writeObject(phieu);
+                  dis.readBoolean();
                }
                dos.writeUTF("room-find-room," + roomID);
-               Phong room1 = (Phong) in.readObject();
+               Phong room1 = ((List<Phong>) in.readObject()).getFirst();
                dos.writeUTF("room-update-room");
                room1.setTinhTrang(0);
                out.writeObject(room1);
+               dis.readBoolean();
                gridPane.getChildren().clear();
                dos.writeUTF("room-find-all-room");
                renderArrayPhong(FXCollections.observableArrayList((List<Phong>) in.readObject()));
