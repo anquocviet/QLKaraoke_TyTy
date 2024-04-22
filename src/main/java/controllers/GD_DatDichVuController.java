@@ -237,6 +237,7 @@ public class GD_DatDichVuController implements Initializable {
                               ct.setDichVu(dv);
                               ct.setHoaDon(bill);
                               ct.setSoLuong(1);
+                              ct.setThanhTien(dv.getDonGia() * ct.getSoLuong());
                               dsDichVuDaDat.add(ct);
                            }
                            dv.setSoLuongTon(dv.getSoLuongTon() - 1);

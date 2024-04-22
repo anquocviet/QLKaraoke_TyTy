@@ -157,7 +157,7 @@ public class GD_ThuePhongController implements Initializable {
       }
 
       String maHoaDon;
-      String maNV = App.user;
+      String maNV = App.user.getMaNhanVien();
 //      NhanVien nhanVienLap = NhanVien.getNhanVienTheoMaNhanVien(maNV);
 //      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 //

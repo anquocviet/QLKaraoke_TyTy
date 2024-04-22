@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.NhanVien;
 import enums.Enum_ChucVu;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 import main.App;
-import org.mariadb.jdbc.client.Client;
 import socket.ClientSocket;
 
 import java.awt.Desktop;
@@ -23,7 +21,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,26 +49,21 @@ public class AppFrameController implements Initializable {
    @FXML
    private Menu thongKeMenu;
 
-   DataOutputStream dos = ClientSocket.getDos();
-   ObjectInputStream in = ClientSocket.getIn();
-
    @SneakyThrows
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-      dos.writeUTF("employee-find-employee," + App.user);
-      NhanVien nv = (NhanVien) in.readObject();
-      if (nv.getChucVu().equals(Enum_ChucVu.QUANLY)) {
+      if (App.user.getChucVu().equals(Enum_ChucVu.QUANLY)) {
          taiKhoanMenuItem.setDisable(false);
          qlNhanVienMenuItem.setDisable(false);
          qlPhongMenuItem.setDisable(false);
          qlDichVuMenuItem.setDisable(false);
          qlCTKhuyenMaiMenuItem.setDisable(false);
          thongKeMenu.setDisable(false);
-         txtNhanVien.setText("QL: " + nv.getHoTen());
+         txtNhanVien.setText("QL: " + App.user.getHoTen());
       } else {
-         txtNhanVien.setText("NV: " + nv.getHoTen());
+         txtNhanVien.setText("NV: " + App.user.getHoTen());
       }
-      circleAvt.setFill(new ImagePattern(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien())));
+      circleAvt.setFill(new ImagePattern(new Image("file:src/main/resources/image/avt_nv/" + App.user.getAnhDaiDien())));
    }
 
    @FXML
@@ -136,7 +128,7 @@ public class AppFrameController implements Initializable {
 
    @FXML
    private void dangXuat(ActionEvent event) throws IOException {
-      App.user = "";
+      App.user = null;
       Stage stage = (Stage) ((MenuItem) event.getTarget()).getParentPopup().getOwnerWindow();
       stage.close();
       App.openModal("GD_DangNhap", App.widthModalLogin, App.heightModalLogin);

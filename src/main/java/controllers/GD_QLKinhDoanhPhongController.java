@@ -138,12 +138,12 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       roomID = id;
       gridPane.getChildren().get(itemChouted).getStyleClass().add("itemRoomActive");
 
-      dos.writeUTF("room-count-room-status," + 0);
-      txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readUTF()));
-      dos.writeUTF("room-count-room-status," + 2);
-      txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readUTF()));
-      dos.writeUTF("room-count-room-status," + 1);
-      txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", dis.readUTF()));
+      dos.writeUTF("room-count-room-by-status," + 0);
+      txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readLong()));
+      dos.writeUTF("room-count-room-by-status," + 2);
+      txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readLong()));
+      dos.writeUTF("room-count-room-by-status," + 1);
+      txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", dis.readLong()));
 
       handleEventInRadioButton();
       handleEventInSpinner();
@@ -207,7 +207,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 //		Kiểm tra thêm thông tin của phòng chờ
       if (phong.getTinhTrang() == 2) {
          try {
-            dos.writeUTF("bookingTicket-find-booking-ticket-by-room," + phong.getMaPhong());
+            dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
             PhieuDatPhong phieu = (PhieuDatPhong) in.readObject();
             if (phieu != null) {
                Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
@@ -259,17 +259,16 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                roomID = phong.getMaPhong();
                moGDNhanPhongCho();
             });
-         {
             try {
-               dos.writeUTF("bookingTicket-find-booking-ticket-by-room," + phong.getMaPhong());
+               dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
                if (in.readObject() == null) {
                   btnRight.setDisable(true);
                }
             } catch (Exception ex) {
                Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
             }
-         }
-         break;
+
+            break;
 
       }
       btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
@@ -358,10 +357,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
       statusRoomGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
          List<Integer> arrType = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-                                     ? List.of(0, 1)
-                                     : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-                                             ? List.of(0, 0)
-                                             : List.of(1, 1);
+                                       ? List.of(0, 1)
+                                       : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+                                               ? List.of(0, 0)
+                                               : List.of(1, 1);
          ObservableList<Phong> listRoom;
          int capacity = spinnerSucChua.getValue();
          if (newValue.equals(radioStatusAll)) {
@@ -421,17 +420,17 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    public void handleEventInSpinner() {
       spinnerSucChua.valueProperty().addListener((obs, oldVal, newVal) -> {
          List<Integer> arrType = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-                                     ? List.of(0, 1)
-                                     : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-                                             ? List.of(0, 0)
-                                             : List.of(1, 1);
+                                       ? List.of(0, 1)
+                                       : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+                                               ? List.of(0, 0)
+                                               : List.of(1, 1);
          List<Integer> arrStatus = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
-                                           ? List.of(0, 1, 2)
-                                           : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
-                                                    ? List.of(0, 0, 0)
-                                                    : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
-                                                          ? List.of(1, 1, 1)
-                                                          : List.of(2, 2, 2);
+                                         ? List.of(0, 1, 2)
+                                         : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
+                                                 ? List.of(0, 0, 0)
+                                                 : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+                                                         ? List.of(1, 1, 1)
+                                                         : List.of(2, 2, 2);
          gridPane.getChildren().clear();
          ObservableList<Phong> listRoom;
          try {
@@ -588,7 +587,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             App.openModal("GD_NhanPhongCho", App.widthModal, App.heightModal);
             gridPane.getChildren().clear();
             dos.writeUTF("room-find-all-room");
-            renderArrayPhong((ObservableList<Phong>) in.readObject());
+            renderArrayPhong(FXCollections.observableArrayList((List<Phong>) in.readObject()));
          }
       } catch (Exception ex) {
          Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
@@ -614,7 +613,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             alert.setHeaderText("Bạn có chắc muốn hủy phòng chờ này không?");
             alert.showAndWait();
             if (alert.getResult() == ButtonType.YES) {
-               dos.writeUTF("bookingTicket-find-booking-ticket-by-room," + roomID);
+               dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + roomID);
                PhieuDatPhong phieu = (PhieuDatPhong) in.readObject();
                if (phieu != null) {
                   dos.writeUTF("bookingTicket-update-booking-ticket");
@@ -634,9 +633,9 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                alertSucces.setTitle("Thành công");
                alertSucces.setHeaderText("Hủy phòng chờ thành công!");
                alertSucces.showAndWait();
-               dos.writeUTF("room-count-room-status," + 0);
+               dos.writeUTF("room-count-room-by-status," + 0);
                txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readUTF()));
-               dos.writeUTF("room-count-room-status," + 2);
+               dos.writeUTF("room-count-room-by-status," + 2);
                txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readUTF()));
             }
          }
@@ -672,8 +671,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void moGDDatDichVu() {
       try {
          dos.writeUTF("room-find-room-by-status," + 1);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng để đặt dịch vụ", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
