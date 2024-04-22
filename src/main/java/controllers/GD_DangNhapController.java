@@ -71,6 +71,8 @@ public class GD_DangNhapController implements Initializable {
 
       String line = dis.readUTF();
       if (line.equals("login-success")) {
+         if (in == null)
+            in = ClientSocket.getIn();
          tk.setNhanVien(((TaiKhoan) in.readObject()).getNhanVien());
          App.user = tk.getNhanVien();
          System.out.println(App.user);

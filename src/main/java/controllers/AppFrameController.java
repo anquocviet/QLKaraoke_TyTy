@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.NhanVien;
 import enums.Enum_ChucVu;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 import main.App;
-import org.mariadb.jdbc.client.Client;
 import socket.ClientSocket;
 
 import java.awt.Desktop;
@@ -23,11 +21,9 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -52,9 +48,6 @@ public class AppFrameController implements Initializable {
    private MenuItem qlCTKhuyenMaiMenuItem;
    @FXML
    private Menu thongKeMenu;
-
-   DataOutputStream dos = ClientSocket.getDos();
-   ObjectInputStream in = ClientSocket.getIn();
 
    @SneakyThrows
    @Override

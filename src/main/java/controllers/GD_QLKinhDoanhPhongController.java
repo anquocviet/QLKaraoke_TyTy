@@ -139,11 +139,11 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       gridPane.getChildren().get(itemChouted).getStyleClass().add("itemRoomActive");
 
       dos.writeUTF("room-count-room-by-status," + 0);
-      txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readUTF()));
+      txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readLong()));
       dos.writeUTF("room-count-room-by-status," + 2);
-      txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readUTF()));
+      txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readLong()));
       dos.writeUTF("room-count-room-by-status," + 1);
-      txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", dis.readUTF()));
+      txtPhongDangSD.setText(String.format("Phòng đang sử dụng(%s)", dis.readLong()));
 
       handleEventInRadioButton();
       handleEventInSpinner();
@@ -259,7 +259,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                roomID = phong.getMaPhong();
                moGDNhanPhongCho();
             });
-         {
             try {
                dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
                if (in.readObject() == null) {
@@ -268,8 +267,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             } catch (Exception ex) {
                Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
             }
-         }
-         break;
+
+            break;
 
       }
       btnRight.setStyle("-fx-background-color: #379F10; -fx-text-fill: #fff; -fx-font-size: 16");
@@ -358,10 +357,10 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
       statusRoomGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
          List<Integer> arrType = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-                                     ? List.of(0, 1)
-                                     : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-                                             ? List.of(0, 0)
-                                             : List.of(1, 1);
+                                       ? List.of(0, 1)
+                                       : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+                                               ? List.of(0, 0)
+                                               : List.of(1, 1);
          ObservableList<Phong> listRoom;
          int capacity = spinnerSucChua.getValue();
          if (newValue.equals(radioStatusAll)) {
@@ -421,17 +420,17 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    public void handleEventInSpinner() {
       spinnerSucChua.valueProperty().addListener((obs, oldVal, newVal) -> {
          List<Integer> arrType = typeRoomGroup.getSelectedToggle().equals(radioTypeAll)
-                                     ? List.of(0, 1)
-                                     : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
-                                             ? List.of(0, 0)
-                                             : List.of(1, 1);
+                                       ? List.of(0, 1)
+                                       : typeRoomGroup.getSelectedToggle().equals(radioTypeNormal)
+                                               ? List.of(0, 0)
+                                               : List.of(1, 1);
          List<Integer> arrStatus = statusRoomGroup.getSelectedToggle().equals(radioStatusAll)
-                                           ? List.of(0, 1, 2)
-                                           : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
-                                                    ? List.of(0, 0, 0)
-                                                    : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
-                                                          ? List.of(1, 1, 1)
-                                                          : List.of(2, 2, 2);
+                                         ? List.of(0, 1, 2)
+                                         : statusRoomGroup.getSelectedToggle().equals(radioStatusEmpty)
+                                                 ? List.of(0, 0, 0)
+                                                 : statusRoomGroup.getSelectedToggle().equals(radioStatusUsing)
+                                                         ? List.of(1, 1, 1)
+                                                         : List.of(2, 2, 2);
          gridPane.getChildren().clear();
          ObservableList<Phong> listRoom;
          try {
@@ -588,7 +587,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             App.openModal("GD_NhanPhongCho", App.widthModal, App.heightModal);
             gridPane.getChildren().clear();
             dos.writeUTF("room-find-all-room");
-            renderArrayPhong((ObservableList<Phong>) in.readObject());
+            renderArrayPhong(FXCollections.observableArrayList((List<Phong>) in.readObject()));
          }
       } catch (Exception ex) {
          Logger.getLogger(GD_QLKinhDoanhPhongController.class.getName()).log(Level.SEVERE, null, ex);
