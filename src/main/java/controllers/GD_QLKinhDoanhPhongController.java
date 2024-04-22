@@ -518,8 +518,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
          LocalDateTime thoiGianHienTai = LocalDateTime.now();
 
          if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
-            Phong room = new Phong();
-            room.setMaPhong(roomID);
+            Phong room = new Phong(roomID);
             dos.writeUTF("room-find-room-by-status," + 1);
             if (((List<Phong>) in.readObject()).contains(room)) {
                showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng trống thuê để thuê phòng!");
@@ -558,8 +557,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void moGDDatPhongCho() {
       try {
          dos.writeUTF("room-find-room-by-status," + 0);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng trống để đặt.", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -579,8 +577,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void moGDNhanPhongCho() {
       try {
          dos.writeUTF("room-find-room-by-status," + 2);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             showAlert("Phòng không phù hợp!", "Vui lòng chọn phòng chờ để nhận phòng!");
          } else {
@@ -598,8 +595,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void huyPhongCho() {
       try {
          dos.writeUTF("room-find-room-by-status," + 2);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng chờ để hủy làm phòng chờ.", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -648,8 +644,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void moGDChuyenPhong() {
       try {
          dos.writeUTF("room-find-room-by-status," + 1);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng hoặc phòng chờ để chuyển", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -690,8 +685,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private void moGDThanhToan() {
       try {
          dos.writeUTF("room-find-room-by-status," + 1);
-         Phong room = new Phong();
-         room.setMaPhong(roomID);
+         Phong room = new Phong(roomID);
          if (!((List<Phong>) in.readObject()).contains(room)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng chọn phòng đang được sử dụng để thanh toán", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
