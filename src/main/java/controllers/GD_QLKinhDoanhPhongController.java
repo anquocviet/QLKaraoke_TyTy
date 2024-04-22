@@ -4,9 +4,11 @@
  */
 package controllers;
 
+import entities.NhanVien;
 import entities.PhieuDatPhong;
 import entities.Phong;
 import enums.Enum_LoaiPhong;
+import enums.Enum_TrangThaiLamViec;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ObservableValue;
@@ -127,6 +129,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       radioStatusWaiting.setToggleGroup(statusRoomGroup);
       spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
 
+      dos.writeUTF("employee-find-all-employee");
+      ((List<NhanVien>) in.readObject()).forEach(System.out::println);
       createClockView();
       dos.writeUTF("room-find-all-room");
       listPhong = (List<Phong>) in.readObject();
@@ -632,9 +636,9 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                alertSucces.setHeaderText("Hủy phòng chờ thành công!");
                alertSucces.showAndWait();
                dos.writeUTF("room-count-room-by-status," + 0);
-               txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readUTF()));
+               txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readLong()));
                dos.writeUTF("room-count-room-by-status," + 2);
-               txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readUTF()));
+               txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readLong()));
             }
          }
       } catch (Exception ex) {
