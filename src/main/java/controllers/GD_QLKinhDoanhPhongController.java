@@ -517,7 +517,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
          LocalDateTime thoiGianHienTai = LocalDateTime.now();
 
-         if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
+//         if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
+         if (true) {
             Phong room = new Phong();
             room.setMaPhong(roomID);
             dos.writeUTF("room-find-room-by-status," + 1);
@@ -634,9 +635,9 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
                alertSucces.setHeaderText("Hủy phòng chờ thành công!");
                alertSucces.showAndWait();
                dos.writeUTF("room-count-room-by-status," + 0);
-               txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readUTF()));
+               txtPhongTrong.setText(String.format("Phòng trống(%s)", dis.readLong()));
                dos.writeUTF("room-count-room-by-status," + 2);
-               txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readUTF()));
+               txtPhongCho.setText(String.format("Phòng chờ(%s)", dis.readLong()));
             }
          }
       } catch (Exception ex) {
