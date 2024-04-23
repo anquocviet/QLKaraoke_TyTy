@@ -24,10 +24,7 @@ import socket.ClientSocket;
 import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -200,11 +197,13 @@ public class GD_ThuePhongController implements Initializable {
 //      KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(soDienThoai);
 
         dos.writeUTF("bill-find-bill-by-customer-id," + khachHang.getMaKhachHang());
-        List<HoaDonThanhToan> list2 = (List<HoaDonThanhToan>) in.readObject();
-        HoaDonThanhToan existingHoaDon = list2.get(0);
+        System.out.println(khachHang.getMaKhachHang());
+        List<HoaDonThanhToan> listHD = (List<HoaDonThanhToan>) in.readObject();
+        System.out.println(listHD);
+
 //        HoaDonThanhToan existingHoaDon = HoaDonThanhToan.getBillByCustomer(khachHang.getMaKhachHang());
-        if (existingHoaDon != null) {
-            // Nếu đã có hóa đơn, sử dụng mã hóa đơn đã có
+        if (!listHD.isEmpty()) {
+            HoaDonThanhToan existingHoaDon = listHD.get(0);
             maHoaDon = existingHoaDon.getMaHoaDon();
             HoaDonThanhToan hoaDon = new HoaDonThanhToan();
             hoaDon.setMaHoaDon(maHoaDon);
@@ -229,10 +228,14 @@ public class GD_ThuePhongController implements Initializable {
 //            ChiTietHD_Phong.themChiTietHoaDon(ctP);
         } else {
             // Nếu chưa có hóa đơn, tạo mới mã hóa đơn
-            dos.writeUTF("bill-count-by-date," + ngayThue);
+            Instant ngayThues = ngayThue.toInstant(ZoneOffset.UTC);
+            dos.writeUTF("bill-count-by-date," + ngayThues);
+            System.out.println(ngayThue);
             Long slHoaDon = dis.readLong();
+
 //            int slHoaDon = HoaDonThanhToan.getDemSoLuongHoaDonTheoNgay(ngayThue);
             maHoaDon = phatSinhMaHoaDon(slHoaDon);
+            System.out.println("Ma Hoa Don" + maHoaDon);
             HoaDonThanhToan hoaDon = new HoaDonThanhToan();
             hoaDon.setMaHoaDon(maHoaDon);
             hoaDon.setNhanVien(nhanVienLap);
@@ -241,7 +244,8 @@ public class GD_ThuePhongController implements Initializable {
 
 //            Phong p = Phong.getPhongTheoMaPhong(soPhong);
             dos.writeUTF("room-find-room," + soPhong);
-            Phong p = (Phong) in.readObject();
+            List<Phong> listRoom = (List<Phong>) in.readObject();
+            Phong p = listRoom.get(0);
 //            HoaDonThanhToan.themHoaDonThanhToan(hoaDon);
             dos.writeUTF("bill-add-bill");
             out.writeObject(hoaDon);
