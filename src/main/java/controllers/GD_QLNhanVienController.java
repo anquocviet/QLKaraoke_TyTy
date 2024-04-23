@@ -4,30 +4,40 @@
  */
 package controllers;
 
+import entities.NhanVien;
 import enums.Enum_ChucVu;
 import enums.Enum_TrangThaiLamViec;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import socket.ClientSocket;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,8 +49,8 @@ import java.util.logging.Logger;
  */
 public class GD_QLNhanVienController implements Initializable {
 
-//   @FXML
-//   private TableView<NhanVien> table;
+   @FXML
+   private TableView<NhanVien> table;
 
    @FXML
    private ImageView imgNV;
@@ -59,22 +69,22 @@ public class GD_QLNhanVienController implements Initializable {
    @FXML
    private ComboBox cbbChucVu;
 
-//   @FXML
-//   private TableColumn<NhanVien, String> colMaNV;
-//   @FXML
-//   private TableColumn<NhanVien, String> colCCCD;
-//   @FXML
-//   private TableColumn<NhanVien, String> colHoTen;
-//   @FXML
-//   private TableColumn<NhanVien, String> colNgaySinh;
-//   @FXML
-//   private TableColumn<NhanVien, String> colSoDienThoai;
-//   @FXML
-//   private TableColumn<NhanVien, String> colDiaChi;
-//   @FXML
-//   private TableColumn<NhanVien, String> colChucVu;
-//   @FXML
-//   private TableColumn<NhanVien, String> colGioiTinh;
+   @FXML
+   private TableColumn<NhanVien, String> colMaNV;
+   @FXML
+   private TableColumn<NhanVien, String> colCCCD;
+   @FXML
+   private TableColumn<NhanVien, String> colHoTen;
+   @FXML
+   private TableColumn<NhanVien, String> colNgaySinh;
+   @FXML
+   private TableColumn<NhanVien, String> colSoDienThoai;
+   @FXML
+   private TableColumn<NhanVien, String> colDiaChi;
+   @FXML
+   private TableColumn<NhanVien, String> colChucVu;
+   @FXML
+   private TableColumn<NhanVien, String> colGioiTinh;
    @FXML
    private ToggleGroup genderGroup;
    @FXML
@@ -91,6 +101,11 @@ public class GD_QLNhanVienController implements Initializable {
 
    private String currentMaNhanVien;
 
+   DataInputStream dis = ClientSocket.getDis();
+   DataOutputStream dos = ClientSocket.getDos();
+   ObjectInputStream in = ClientSocket.getIn();
+   ObjectOutputStream out = ClientSocket.getOut();
+
    @Override
    public void initialize(URL location, ResourceBundle resources) {
       genderGroup = new ToggleGroup();
@@ -98,67 +113,80 @@ public class GD_QLNhanVienController implements Initializable {
       radioButtonNu.setToggleGroup(genderGroup);
 
       dateNgaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
-//         try {
-//            NhanVien nv = table.getSelectionModel().getSelectedItem();
-//            if (nv == null) {
-//               currentMaNhanVien = phatSinhMaNhanVien();
-//               txtMaNhanVien.setText(currentMaNhanVien);
-//            }
-//         } catch (SQLException ex) {
-//            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-//         }
+         try {
+            NhanVien nv = table.getSelectionModel().getSelectedItem();
+            if (nv == null) {
+               currentMaNhanVien = phatSinhMaNhanVien();
+               txtMaNhanVien.setText(currentMaNhanVien);
+            }
+         } catch (SQLException ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+         }
       });
 
-//      colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
-//      colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
-//      colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
-//      colNgaySinh.setCellValueFactory(cellData -> {
-//         LocalDate ngaySinh = cellData.getValue().getNgaySinh();
-//         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//         String ngaySinhFormatted = ngaySinh.format(formatter);
-//         return new ReadOnlyStringWrapper(ngaySinhFormatted);
-//      });
+      colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
+      colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
+      colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
+      colNgaySinh.setCellValueFactory(cellData -> {
 
-//      colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
-//      colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
-//      //colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
-//      colChucVu.setCellValueFactory(cellData -> {
-//         Enum_ChucVu chucVu = cellData.getValue().getChucVu();
-//         String chucVuString;
-//         if (chucVu == Enum_ChucVu.BAOVE) {
-//            chucVuString = "Bảo vệ";
-//         } else if (chucVu == Enum_ChucVu.NHANVIENPHUCVU) {
-//            chucVuString = "NV phục vụ";
-//         } else if (chucVu == Enum_ChucVu.NHANVIENTIEPTAN) {
-//            chucVuString = "NV tiếp tân";
-//         } else {
-//            chucVuString = "Quản lý";
-//         }
-//         return new ReadOnlyStringWrapper(chucVuString);
-//      });
-//      colGioiTinh.setCellValueFactory(cellData -> {
-//         boolean gioiTinh = cellData.getValue().isGioiTinh();
-//         String gioiTinhString;
-//         if (gioiTinh) {
-//            gioiTinhString = "Nam";
-//         } else {
-//            gioiTinhString = "Nữ";
-//         }
-//         return new ReadOnlyStringWrapper(gioiTinhString);
-//
-//      });
-//
-//      try {
-//         table.setItems(NhanVien.getAllNhanVien());
-//      } catch (Exception ex) {
-//         Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-//      }
+         Instant ngaySinh = cellData.getValue().getNgaySinh();
 
-//      table.requestFocus();
-//      table.getSelectionModel().select(0);
-//      table.getSelectionModel().focus(0);
-//      docDuLieuTuTable();
-//      handleEventInTable();
+         // Chuyển đổi Instant sang LocalDateTime
+         LocalDateTime ngaySinhLocalDateTime = ngaySinh.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+         // Định dạng ngày tháng
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+         String ngaySinhFormatted = ngaySinhLocalDateTime.format(formatter);
+
+         return new ReadOnlyStringWrapper(ngaySinhFormatted);
+      });
+
+      colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+      colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+      colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
+      colChucVu.setCellValueFactory(cellData -> {
+         Enum_ChucVu chucVu = cellData.getValue().getChucVu();
+         String chucVuString;
+         if (chucVu == Enum_ChucVu.BAOVE) {
+            chucVuString = "Bảo vệ";
+         } else if (chucVu == Enum_ChucVu.NHANVIENPHUCVU) {
+            chucVuString = "NV phục vụ";
+         } else if (chucVu == Enum_ChucVu.NHANVIENTIEPTAN) {
+            chucVuString = "NV tiếp tân";
+         } else {
+            chucVuString = "Quản lý";
+         }
+         return new ReadOnlyStringWrapper(chucVuString);
+      });
+      colGioiTinh.setCellValueFactory(cellData -> {
+//         boolean gioiTinh = true;
+         boolean gioiTinh = cellData.getValue().getGioiTinh() == 1;
+         String gioiTinhString;
+         if (gioiTinh) {
+            gioiTinhString = "Nam";
+         } else {
+            gioiTinhString = "Nữ";
+         }
+         return new ReadOnlyStringWrapper(gioiTinhString);
+
+      });
+
+      try {
+         dos.writeUTF("employee-find-all-employee");
+         dos.flush();
+            List<NhanVien> dsNhanVien = (List<NhanVien>) in.readObject();
+         ObservableList<NhanVien> observableList = FXCollections.observableArrayList(dsNhanVien);
+            table.setItems(observableList);
+
+      } catch (Exception ex) {
+         Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+      table.requestFocus();
+      table.getSelectionModel().select(0);
+      table.getSelectionModel().focus(0);
+      docDuLieuTuTable();
+      handleEventInTable();
       handleEventChangesImgNV();
 
       btnRefresh.setOnAction(this::handleLamMoiButtonAction);
@@ -166,32 +194,39 @@ public class GD_QLNhanVienController implements Initializable {
       btnUpdate.setOnAction(this::handleCapNhatNhanVienButtonAction);
    }
 
-//   public void docDuLieuTuTable() {
-//      NhanVien nv = table.getSelectionModel().getSelectedItem();
-//      if (nv == null) {
-//         return;
-//      }
-//      txtMaNhanVien.setText(nv.getMaNhanVien());
-//      txtCCCD.setText(nv.getCccd());
-//      txtHoTen.setText(nv.getHoTen());
-//      dateNgaySinh.setValue(nv.getNgaySinh());
-////        cbbChucVu.getItems().clear();
-////        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
-////        cbbChucVu.setValue(nv.getChucVu());
-//      cbbChucVu.getItems().clear();
-//      for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
-//         cbbChucVu.getItems().add(chucVuToString(chucVu));
-//      }
-//      cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
-//      txtSoDienThoaiNV.setText(nv.getSoDienThoai());
-//      txtDiaChi.setText(nv.getDiaChi());
-//      if (nv.isGioiTinh()) {
-//         genderGroup.selectToggle(genderGroup.getToggles().get(0));
-//      } else {
-//         genderGroup.selectToggle(genderGroup.getToggles().get(1));
-//      }
-//      imgNV.setImage(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien()));
-//   }
+   public void docDuLieuTuTable() {
+      NhanVien nv = table.getSelectionModel().getSelectedItem();
+      if (nv == null) {
+         return;
+      }
+      txtMaNhanVien.setText(nv.getMaNhanVien());
+      txtCCCD.setText(nv.getCccd());
+      txtHoTen.setText(nv.getHoTen());
+
+//        dateNgaySinh.setValue(nv.getNgaySinh().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+// Xử lý ngày sinh
+      Instant ngaySinhInstant = nv.getNgaySinh();
+      LocalDateTime ngaySinhLocalDateTime = ngaySinhInstant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+      LocalDate ngaySinhLocalDate = ngaySinhLocalDateTime.toLocalDate();
+      dateNgaySinh.setValue(ngaySinhLocalDate);
+
+     cbbChucVu.getItems().clear();
+     cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+     cbbChucVu.setValue(nv.getChucVu());
+      cbbChucVu.getItems().clear();
+      for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
+         cbbChucVu.getItems().add(chucVuToString(chucVu));
+      }
+      cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
+      txtSoDienThoaiNV.setText(String.valueOf(nv.getSoDienThoai()));
+      txtDiaChi.setText(nv.getDiaChi());
+      if (nv.getGioiTinh() == 1) {
+         genderGroup.selectToggle(genderGroup.getToggles().get(0));
+      } else {
+         genderGroup.selectToggle(genderGroup.getToggles().get(1));
+      }
+      imgNV.setImage(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien()));
+   }
 
    public void handleLamMoiButtonAction(ActionEvent event) {
       try {
@@ -235,7 +270,7 @@ public class GD_QLNhanVienController implements Initializable {
       FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Chọn ảnh");
       fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Ảnh Files", "*.png", "*.jpg", "*.gif")
+              new FileChooser.ExtensionFilter("Ảnh Files", "*.png", "*.jpg", "*.gif")
       );
 
       String initialDirectoryPath = "src/main/resources/image/avt_nv/";
@@ -251,23 +286,23 @@ public class GD_QLNhanVienController implements Initializable {
       }
    }
 
-//   public void handleEventInTable() {
-//      table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//         @Override
-//         public void handle(MouseEvent event) {
-//            docDuLieuTuTable();
-//         }
-//
-//      });
-//      table.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//         @Override
-//         public void handle(KeyEvent event) {
-//            if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
-//               docDuLieuTuTable();
-//            }
-//         }
-//      });
-//   }
+   public void handleEventInTable() {
+      table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+         @Override
+         public void handle(MouseEvent event) {
+            docDuLieuTuTable();
+         }
+
+      });
+      table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+         @Override
+         public void handle(KeyEvent event) {
+            if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+               docDuLieuTuTable();
+            }
+         }
+      });
+   }
 
    public void xuLyLamMoiThongTinNhanVien() throws Exception {
       txtMaNhanVien.setText("");
@@ -279,15 +314,15 @@ public class GD_QLNhanVienController implements Initializable {
       genderGroup.getToggles().get(0).setSelected(true);
       cbbChucVu.setValue(null);
       imgNV.setImage(new Image("file:src/main/resources/image/employe.png"));
-//      table.getSelectionModel().clearSelection();
+      table.getSelectionModel().clearSelection();
       cbbChucVu.getItems().clear();
-      //cbbChucVu.getItems().addAll(Enum_ChucVu.values());
-//        cbbChucVu.getItems().clear();
+      cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+        cbbChucVu.getItems().clear();
       for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
          cbbChucVu.getItems().add(chucVuToString(chucVu));
       }
       cbbChucVu.getSelectionModel().selectFirst();
-      //cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
+//      cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
    }
 
    public boolean kiemTraDuLieu() throws Exception {
@@ -379,8 +414,11 @@ public class GD_QLNhanVienController implements Initializable {
       String maNhanVien = currentMaNhanVien;
       String hoTen = txtHoTen.getText();
       String cccd = txtCCCD.getText();
-      String soDienThoai = txtSoDienThoaiNV.getText();
-      LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+      int soDienThoai = Integer.parseInt(txtSoDienThoaiNV.getText());
+
+      // Xử lý ngày sinh
+      Instant ngaySinh = dateNgaySinh.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant();
+
       String diaChi = txtDiaChi.getText();
       boolean gioiTinh = true;
       if (genderGroup.getToggles().get(1).isSelected()) {
@@ -395,36 +433,50 @@ public class GD_QLNhanVienController implements Initializable {
       File file = new File(anhDaiDienUrl);
       String anhDaiDien = file.getName();
 
-//      if (!kiemTraTrungCCCD(cccd)) {
-//         showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
-//         txtCCCD.selectAll();
-//         txtCCCD.requestFocus();
-//         return false;
-//      }
-//
-//      if (!kiemTraTrungSDT(soDienThoai)) {
-//         showAlert("Lỗi nhập dữ liệu", "Số điện thoại không được phép trùng!");
-//         txtSoDienThoaiNV.selectAll();
-//         txtSoDienThoaiNV.requestFocus();
-//         return false;
-//      }
+      if (!kiemTraTrungCCCD(cccd)) {
+         showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
+         txtCCCD.selectAll();
+         txtCCCD.requestFocus();
+         return false;
+      }
 
-//      nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
-//      NhanVien.themNhanVien(nv);
-//      table.setItems(NhanVien.getAllNhanVien());
+      if (!kiemTraTrungSDT(soDienThoai+"")) {
+         showAlert("Lỗi nhập dữ liệu", "Số điện thoại không được phép trùng!");
+         txtSoDienThoaiNV.selectAll();
+         txtSoDienThoaiNV.requestFocus();
+         return false;
+      }
+
+      NhanVien nv = new NhanVien(maNhanVien, hoTen, cccd, soDienThoai, ngaySinh, diaChi, gioiTinh==true ? 1: 0, chucVu, trangThai,anhDaiDien);
+
+      System.out.println("thêm nhân viên"+nv);
+
+        dos.writeUTF("employee-add-employee");
+        dos.flush();
+        out.writeObject(nv);
+        boolean result = dis.readBoolean();
+        if (!result) {
+             showAlert("Lỗi nhập dữ liệu", "Thêm nhân viên không thành công");
+             return false;
+        }
+      table.getItems().add(nv);
       showAlert("Thông báo", "Thêm nhân viên thành công");
       return true;
    }
 
    public boolean xuLySuaThongTinNhanVien() throws SQLException, Exception {
-      if (!kiemTraDuLieu()) {
-         return false;
-      }
+//      if (!kiemTraDuLieu()) {
+//         return false;
+//      }
       String maNhanVien = txtMaNhanVien.getText();
       String hoTen = txtHoTen.getText();
       String cccd = txtCCCD.getText();
       String soDienThoai = txtSoDienThoaiNV.getText();
-      LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+
+
+      Instant ngaySinh = dateNgaySinh.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+
       String diaChi = txtDiaChi.getText();
       boolean gioiTinh = true;
       if (genderGroup.getToggles().get(1).isSelected()) {
@@ -440,56 +492,74 @@ public class GD_QLNhanVienController implements Initializable {
       String anhDaiDienUrl = imgNV.getImage().getUrl();
       File file = new File(anhDaiDienUrl);
       String anhDaiDien = file.getName();
-//      NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
-//      NhanVien.capNhatThongTinNhanVien(nv);
-//
-//      table.setItems(NhanVien.getAllNhanVien());
-//      table.refresh();
+
+
+      NhanVien nv = new NhanVien(maNhanVien, hoTen, cccd, Integer.parseInt(soDienThoai), ngaySinh, diaChi, gioiTinh==true ? 1: 0, chucVu, trangThai,anhDaiDien);
+      System.out.println("sửa nhân viên"+nv);
+        dos.writeUTF("employee-update-employee");
+        dos.flush();
+        out.writeObject(nv);
+        boolean result = dis.readBoolean();
+        if (!result) {
+             showAlert("Lỗi nhập dữ liệu", "Cập nhật nhân viên không thành công");
+             return false;
+        }
+        int index = table.getSelectionModel().getSelectedIndex();
+        table.getItems().set(index, nv);
       showAlert("Thông báo", "Đã cập nhật");
       return true;
    }
 
-//   public String phatSinhMaNhanVien() throws SQLException {
-//      String maNhanVien = "NV";
-//      LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
-//      int namSinh = ngaySinh.getYear();
-//      int totalEmployees = NhanVien.demSLNhanVien(namSinh);
-//      DecimalFormat dfSoThuTu = new DecimalFormat("00");
-//      String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
-//      String namSinhSuffix = String.valueOf(namSinh).substring(2);
-//      maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
-//      return maNhanVien;
-//   }
+      public String phatSinhMaNhanVien() throws SQLException {
+      String maNhanVien = "NV";
+      LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+      int namSinh = ngaySinh.getYear();
+
+      DecimalFormat dfSoThuTu = new DecimalFormat("00");
+      String soThuTuFormatted = dfSoThuTu.format(Math.random()*10 + 1);
+      String namSinhSuffix = String.valueOf(namSinh).substring(2);
+      maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
+      return maNhanVien;
+   }
 //
-//   public boolean kiemTraTrungCCCD(String cc) throws Exception {
-//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
-//      for (NhanVien NV : dsNhanVien) {
-//         if (cc.trim().equals(NV.getCccd())) {
-//            return false;
-//         }
-//      }
-//      return true;
-//   }
+   public boolean kiemTraTrungCCCD(String cc) throws Exception {
+        dos.writeUTF("employee-find-all-employee");
+        dos.flush();
+        List<NhanVien> dsNhanVien = (List<NhanVien>) in.readObject();
+
+      for (NhanVien NV : dsNhanVien) {
+         if (cc.trim().equals(NV.getCccd())) {
+            return false;
+         }
+      }
+      return true;
+   }
 //
-//   public boolean kiemTraTrungSDT(String dt) throws Exception {
-//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
-//      for (NhanVien NV : dsNhanVien) {
-//         if (dt.equals(NV.getSoDienThoai())) {
-//            return false;
-//         }
-//      }
-//      return true;
-//   }
+   public boolean kiemTraTrungSDT(String dt) throws Exception {
+      dos.writeUTF("employee-find-all-employee");
+      dos.flush();
+      List<NhanVien> dsNhanVien = (List<NhanVien>) in.readObject();
+
+      for (NhanVien NV : dsNhanVien) {
+         if (dt.equals(NV.getSoDienThoai())) {
+            return false;
+         }
+      }
+      return true;
+   }
 //
-//   public boolean kiemTraTrungMaNV(String maNV) throws Exception {
-//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
-//      for (NhanVien NV : dsNhanVien) {
-//         if (maNV.equals(NV.getMaNhanVien())) {
-//            return false;
-//         }
-//      }
-//      return true;
-//   }
+   public boolean kiemTraTrungMaNV(String maNV) throws Exception {
+      // get all nhan vien
+      dos.writeUTF("employee-find-all-employee");
+      dos.flush();
+      List<NhanVien> dsNhanVien = (List<NhanVien>) in.readObject();
+      for (NhanVien NV : dsNhanVien) {
+         if (maNV.equals(NV.getMaNhanVien())) {
+            return false;
+         }
+      }
+      return true;
+   }
 
    public String chucVuToString(Enum_ChucVu chucVu) {
       switch (chucVu) {
