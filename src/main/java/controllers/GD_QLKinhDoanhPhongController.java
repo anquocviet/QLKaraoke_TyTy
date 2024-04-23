@@ -4,11 +4,9 @@
  */
 package controllers;
 
-import entities.NhanVien;
 import entities.PhieuDatPhong;
 import entities.Phong;
 import enums.Enum_LoaiPhong;
-import enums.Enum_TrangThaiLamViec;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ObservableValue;
@@ -519,7 +517,8 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
          LocalDateTime thoiGianHienTai = LocalDateTime.now();
 
-         if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
+//         if (thoiGianHienTai.isAfter(gioMoCua) && thoiGianHienTai.isBefore(gioDongCua)) {
+         if (true) {
             Phong room = new Phong(roomID);
             dos.writeUTF("room-find-room-by-status," + 1);
             if (((List<Phong>) in.readObject()).contains(room)) {

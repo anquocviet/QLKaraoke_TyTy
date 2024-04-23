@@ -132,6 +132,7 @@ public class GD_ThanhToanController implements Initializable {
    @SneakyThrows
    @Override
    public void initialize(URL location, ResourceBundle resources) {
+
       dos.writeUTF(("bill-find-bill-by-room-id," + GD_QLKinhDoanhPhongController.roomID));
       HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
       try {
@@ -331,10 +332,10 @@ public class GD_ThanhToanController implements Initializable {
                   logAlertError();
                   return;
                }
-               Phong room = ct.getPhong();
-               room.setTinhTrang(2);
+               ct.getPhong().setTinhTrang(2);
                dos.writeUTF("room-update-room");
-               out.writeObject(room);
+               out.reset();
+               out.writeObject(ct.getPhong());
                if (!dis.readBoolean()) {
                   logAlertError();
                   return;
@@ -345,7 +346,7 @@ public class GD_ThanhToanController implements Initializable {
             HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
             hd.setKhuyenMai(km);
 
-            hd.setNgayLap(ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant());
+            hd.setNgayLap(Instant.now());
             hd.setTongTien((int) tongTien);
             dos.writeUTF("bill-update-bill");
             out.writeObject(hd);
