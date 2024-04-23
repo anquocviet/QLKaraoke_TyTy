@@ -29,6 +29,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -102,7 +103,7 @@ public class BillController implements Initializable {
       dos.writeUTF("bill-find-bill-by-room-id," + GD_QLKinhDoanhPhongController.roomID);
       HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
       txtHoaDon.setText(hd.getMaHoaDon());
-      txtThoiGianLap.setText(dtf.format(hd.getNgayLap()));
+//      txtThoiGianLap.setText(dtf.format(hd.getNgayLap()));
       txtNhanVien.setText(hd.getNhanVien().getHoTen());
       txtKhachHang.setText(hd.getKhachHang().getTenKhachHang());
 
@@ -119,8 +120,8 @@ public class BillController implements Initializable {
          float minutesFloat = (gioSD - hours) * 60;
          int minutes = Math.round(minutesFloat);
          String kqHienThi = String.format("%s\n - %s\n=> %s\n\n",
-               dtf.format(gioVao),
-               dtf.format(gioRa),
+               dtf.format(gioVao.atZone(ZoneId.systemDefault()).toLocalDateTime()),
+               dtf.format(gioRa.atZone(ZoneId.systemDefault()).toLocalDateTime()),
                String.format("%dgiờ:%dphút", hours, minutes));
          return new ReadOnlyObjectWrapper<>(kqHienThi);
       });
