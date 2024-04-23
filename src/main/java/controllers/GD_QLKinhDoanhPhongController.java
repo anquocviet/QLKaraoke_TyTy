@@ -129,8 +129,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       radioStatusWaiting.setToggleGroup(statusRoomGroup);
       spinnerSucChua.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
 
-      dos.writeUTF("employee-find-all-employee");
-      ((List<NhanVien>) in.readObject()).forEach(System.out::println);
       createClockView();
       dos.writeUTF("room-find-all-room");
       listPhong = (List<Phong>) in.readObject();

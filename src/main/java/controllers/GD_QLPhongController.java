@@ -35,8 +35,8 @@ public class GD_QLPhongController implements Initializable {
    @Override
    public void initialize(URL location, ResourceBundle resources) {
       cbbTinhTrang.getItems().addAll("PHÒNG TRỐNG", "PHÒNG ĐANG SỬ DỤNG", "PHÒNG CHỜ");
-      cbbLoaiPhong.setItems(Enum_LoaiPhong.getListLoaiPhong());
-//      sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
+//      cbbLoaiPhong.setItems(Enum_LoaiPhong.getListLoaiPhong());
+//      sttCol.setCellValueFactory(param ->new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
 //      maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
 //      sucChuaCol.setCellValueFactory(new PropertyValueFactory<>("sucChua"));
 //      tinhTrangCol.setCellValueFactory(cellData -> {
