@@ -116,7 +116,7 @@ public class GD_TraCuuHoaDonController implements Initializable {
          return new ReadOnlyStringWrapper(tenKhachHang);
       });
       sdtCol.setCellValueFactory(cellData -> {
-         String soDienThoai = String.valueOf(cellData.getValue().getKhachHang().getSoDienThoai());
+         String soDienThoai = "0" + String.valueOf(cellData.getValue().getKhachHang().getSoDienThoai());
          return new ReadOnlyStringWrapper(soDienThoai);
       });
       ngayLapCol.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
@@ -161,6 +161,9 @@ public class GD_TraCuuHoaDonController implements Initializable {
       } else if (!tenKH.isEmpty()) {
          dos.writeUTF("bill-find-bill-by-name-customer," + tenKH);
       } else if (!sdt.isEmpty()) {
+         if (sdt.charAt(0) == '0') {
+            sdt = sdt.substring(1);
+         }
          dos.writeUTF("bill-find-bill-by-phone-customer," + sdt);
       } else if (ngayLap != null) {
          Instant ngayLapInstant = ngayLap.atStartOfDay(ZoneId.of("UTC")).toInstant();
@@ -196,7 +199,8 @@ public class GD_TraCuuHoaDonController implements Initializable {
       HoaDonThanhToan hd = tableHoaDon.getSelectionModel().getSelectedItem();
       txtMaHoaDon.setText(hd.getMaHoaDon());
       txtTenKH.setText(hd.getKhachHang().getTenKhachHang());
-      txtSDT.setText(String.valueOf(hd.getKhachHang().getSoDienThoai()));
+      // Thêm số 0 vào đầu số điện thoại khi đặt giá trị cho TextField txtSDT
+      txtSDT.setText("0" + String.valueOf(hd.getKhachHang().getSoDienThoai()));
       ZonedDateTime zdt = hd.getNgayLap().atZone(ZoneId.systemDefault());
       LocalDate localDate = zdt.toLocalDate();
       txtNgayLap.setValue(localDate);

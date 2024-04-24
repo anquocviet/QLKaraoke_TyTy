@@ -368,4 +368,3 @@ public class GD_QLPhongController implements Initializable {
    private TextField txtGiaPhong;
 
 }
-
