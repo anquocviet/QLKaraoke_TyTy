@@ -45,6 +45,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -131,6 +132,7 @@ public class GD_ThanhToanController implements Initializable {
    @SneakyThrows
    @Override
    public void initialize(URL location, ResourceBundle resources) {
+
       dos.writeUTF(("bill-find-bill-by-room-id," + GD_QLKinhDoanhPhongController.roomID));
       HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
       try {
@@ -179,18 +181,10 @@ public class GD_ThanhToanController implements Initializable {
             return new ReadOnlyObjectWrapper<>(gioRa);
          });
          gioSuDungCol.setCellValueFactory((param) -> {
-            float time = ((float) Duration.between(param.getValue().getGioVao(), param.getValue().getGioRa()).toMillis()) / 1000 / 3600;
-            String gioSuDung = df.format(time);
+            String gioSuDung = df.format(param.getValue().getTongGioSuDung());
             return new ReadOnlyObjectWrapper<>(gioSuDung);
          });
-         donGiaCol.setCellValueFactory((param) -> {
-            long donGia = param.getValue().getPhong().getGiaPhong();
-            Instant gioVao = param.getValue().getGioVao();
-            if (gioVao.atZone(ZoneId.systemDefault()).toLocalTime().isAfter(LocalTime.of(18, 0, 0))) {
-               donGia += App.TIENPHONGTHEMDEM;
-            }
-            return new ReadOnlyObjectWrapper<>(df.format(donGia));
-         });
+         donGiaCol.setCellValueFactory((param) -> new ReadOnlyObjectWrapper<>(df.format(param.getValue().getThanhTien())));
          thanhTienCol.setCellValueFactory((param) -> new ReadOnlyObjectWrapper<>(
                df.format(tinhThanhTien(param.getValue().getGioVao(), param.getValue().getGioRa(), param.getValue().getPhong())))
          );
@@ -200,6 +194,13 @@ public class GD_ThanhToanController implements Initializable {
          dsPhong.forEach(ct -> {
             try {
                ct.setGioRa(Instant.now());
+               ct.setTongGioSuDung((double) (Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis()) / 1000 / 3600);
+               long donGia = ct.getPhong().getGiaPhong();
+               Instant gioVao = ct.getGioVao();
+               if (gioVao.atZone(ZoneId.systemDefault()).toLocalTime().isAfter(LocalTime.of(18, 0, 0))) {
+                  donGia += App.TIENPHONGTHEMDEM;
+               }
+               ct.setThanhTien((int) (ct.getTongGioSuDung() * donGia));
             } catch (Exception ex) {
                Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -333,6 +334,7 @@ public class GD_ThanhToanController implements Initializable {
                }
                ct.getPhong().setTinhTrang(2);
                dos.writeUTF("room-update-room");
+               out.reset();
                out.writeObject(ct.getPhong());
                if (!dis.readBoolean()) {
                   logAlertError();
@@ -343,6 +345,7 @@ public class GD_ThanhToanController implements Initializable {
             dos.writeUTF("bill-find-bill-by-room-id," + GD_QLKinhDoanhPhongController.roomID);
             HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
             hd.setKhuyenMai(km);
+
             hd.setNgayLap(Instant.now());
             hd.setTongTien((int) tongTien);
             dos.writeUTF("bill-update-bill");

@@ -5,6 +5,7 @@
 package controllers;
 
 import entities.ChiTietHD_DichVu;
+import entities.ChiTietHD_DichVuId;
 import entities.DichVu;
 import entities.HoaDonThanhToan;
 import entities.Phong;
@@ -520,39 +521,52 @@ public class GD_DatDichVuController implements Initializable {
             try {
                DichVu dichVu = tableThongTinDichVu.getItems().get(tableThongTinDichVu.getItems().indexOf(ct.getDichVu()));
                dos.writeUTF("service-update-service");
+               out.reset();
                out.writeObject(dichVu);
+               if (!dis.readBoolean()) {
+                  Alert alert = new Alert(Alert.AlertType.ERROR, "Có lỗi xảy ra, vui lòng thử lại sau", ButtonType.OK);
+                  alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                  alert.setTitle("Lỗi");
+                  alert.setHeaderText("Dịch vụ " + dichVu.getTenDichVu() + " không thể cập nhật số lượng tồn");
+                  alert.showAndWait();
+                  return;
+               }
                dos.writeUTF("serviceDetail-find-by-bill-id," + orderID);
-               if (((List<ChiTietHD_DichVu>) in.readObject()).contains(ct)) {
+               List<ChiTietHD_DichVu> ds = (List<ChiTietHD_DichVu>) in.readObject();
+               if (ds.stream().filter(e -> e.getDichVu().equals(ct.getDichVu())).findFirst().isPresent()) {
+                  ChiTietHD_DichVu ctOld = ds.stream().filter(e -> e.getDichVu().equals(ct.getDichVu())).findFirst().get();
+                  ctOld.setSoLuong(ct.getSoLuong());
                   dos.writeUTF("serviceDetail-update-serviceDetail");
-                  out.writeObject(ct);
+                  out.writeObject(ctOld);
+                  if (!dis.readBoolean()) {
+                     Alert alert = new Alert(Alert.AlertType.ERROR, "Có lỗi xảy ra, vui lòng thử lại sau", ButtonType.OK);
+                     alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                     alert.setTitle("Lỗi");
+                     alert.setHeaderText("Dịch vụ " + dichVu.getTenDichVu() + " không thể cập nhật vào hóa đơn");
+                     alert.showAndWait();
+                  }
                } else {
+                  ct.setId(new ChiTietHD_DichVuId());
                   dos.writeUTF("serviceDetail-add-serviceDetail");
                   out.writeObject(ct);
+                  if (!dis.readBoolean()) {
+                     Alert alert = new Alert(Alert.AlertType.ERROR, "Có lỗi xảy ra, vui lòng thử lại sau", ButtonType.OK);
+                     alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+                     alert.setTitle("Lỗi");
+                     alert.setHeaderText("Dịch vụ " + dichVu.getTenDichVu() + " không thể thêm vào hóa đơn");
+                     alert.showAndWait();
+                  }
                }
             } catch (Exception ex) {
                Logger.getLogger(GD_DatDichVuController.class.getName()).log(Level.SEVERE, null, ex);
             }
          });
-         try {
-            dos.writeUTF("service-find-by-bill-id," + orderID);
-            ((List<ChiTietHD_DichVu>) in.readObject()).forEach(ct -> {
-               if (!dsDichVuDaDat.contains(ct)) {
-                  try {
-                     dos.writeUTF("service-delete-service");
-                     out.writeObject(ct);
-                  } catch (IOException e) {
-                     throw new RuntimeException(e);
-                  }
-               }
-            });
-            Alert alertSucces = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-            alertSucces.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-            alertSucces.setTitle("Thành công");
-            alertSucces.setHeaderText("Đặt dịch vụ cho khách hàng thành công!");
-            alertSucces.showAndWait();
-         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-         }
+
+         Alert alertSucces = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
+         alertSucces.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+         alertSucces.setTitle("Thành công");
+         alertSucces.setHeaderText("Đặt dịch vụ cho khách hàng thành công!");
+         alertSucces.showAndWait();
       });
    }
 

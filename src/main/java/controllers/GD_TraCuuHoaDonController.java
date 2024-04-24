@@ -149,24 +149,34 @@ public class GD_TraCuuHoaDonController implements Initializable {
    }
 
    private void xuLyTimHoaDon() throws IOException, Exception {
-//      String maHoaDon = txtMaHoaDon.getText();
-//      String tenKH = txtTenKH.getText();
-//      String sdt = txtSDT.getText();
-//      DatePicker ngayLapPicker = txtNgayLap;
-//      LocalDate ngayLapDate = ngayLapPicker.getValue();
-//
-//      ObservableList<HoaDonThanhToan> ketQuaTimKiem;
-//      if (ngayLapDate != null) {
-//
-//         LocalDateTime ngayLap = ngayLapDate.atStartOfDay();
-//
-//         ketQuaTimKiem = HoaDonThanhToan.timHoaDon(maHoaDon, tenKH, sdt, ngayLap);
-//      } else {
-//         // Nếu ngày không được chọn, thực hiện tìm kiếm không sử dụng ngày
-//         ketQuaTimKiem = HoaDonThanhToan.timHoaDon(maHoaDon, tenKH, sdt, null);
-//      }
-//      tableHoaDon.setItems(ketQuaTimKiem);
-//      tableHoaDon.refresh();
+      // Lấy thông tin từ các TextField
+      String maHoaDon = txtMaHoaDon.getText().trim();
+      String tenKH = txtTenKH.getText().trim();
+      String sdt = txtSDT.getText().trim();
+      LocalDate ngayLap = txtNgayLap.getValue();
+
+      // Gửi yêu cầu tìm hóa đơn theo mã hóa đơn
+      if (!maHoaDon.isEmpty()) {
+         dos.writeUTF("bill-find-bill," + maHoaDon);
+      } else if (!tenKH.isEmpty()) {
+         dos.writeUTF("bill-find-bill-by-name-customer," + tenKH);
+      } else if (!sdt.isEmpty()) {
+         dos.writeUTF("bill-find-bill-by-phone-customer," + sdt);
+      } else if (ngayLap != null) {
+         Instant ngayLapInstant = ngayLap.atStartOfDay(ZoneId.of("UTC")).toInstant();
+         System.out.println(ngayLapInstant);
+         dos.writeUTF("bill-find-bill-by-date," + ngayLapInstant.toString());
+      }
+      Object obj = in.readObject();
+      if (obj != null) {
+         danhSach_HoaDon = FXCollections.observableArrayList((ArrayList<HoaDonThanhToan>) obj);
+         tableHoaDon.setItems(danhSach_HoaDon);
+         tableHoaDon.refresh();
+      } else {
+         // Xử lý trường hợp không nhận được dữ liệu từ server
+         System.out.println("Không nhận được dữ liệu từ server");
+      }
+
    }
 
    private void xoaTrangVaHienDanhSach() throws IOException, ClassNotFoundException {
@@ -177,19 +187,19 @@ public class GD_TraCuuHoaDonController implements Initializable {
       txtNgayLap.setValue(null);
       // Lấy lại toàn bộ danh sách hóa đơn và hiển thị
       dos.writeUTF("bill-find-all-bill");
-      danhSach_HoaDon = FXCollections.observableArrayList((ObservableList<HoaDonThanhToan>) in.readObject());
+      danhSach_HoaDon = FXCollections.observableArrayList((ArrayList<HoaDonThanhToan>) in.readObject());
       tableHoaDon.setItems(danhSach_HoaDon);
       tableHoaDon.refresh();
    }
 
    public void loadDataToForm() {
-//      HoaDonThanhToan hd = tableHoaDon.getSelectionModel().getSelectedItem();
-//      txtMaHoaDon.setText(hd.getMaHoaDon());
-//      txtTenKH.setText(hd.getKhachHang().getTenKhachHang());
-//      txtSDT.setText(String.valueOf(hd.getKhachHang().getSoDienThoai()));
-//      ZonedDateTime zdt = hd.getNgayLap().atZone(ZoneId.systemDefault());
-//      LocalDate localDate = zdt.toLocalDate();
-//      txtNgayLap.setValue(localDate);
+      HoaDonThanhToan hd = tableHoaDon.getSelectionModel().getSelectedItem();
+      txtMaHoaDon.setText(hd.getMaHoaDon());
+      txtTenKH.setText(hd.getKhachHang().getTenKhachHang());
+      txtSDT.setText(String.valueOf(hd.getKhachHang().getSoDienThoai()));
+      ZonedDateTime zdt = hd.getNgayLap().atZone(ZoneId.systemDefault());
+      LocalDate localDate = zdt.toLocalDate();
+      txtNgayLap.setValue(localDate);
    }
 
    public void handleEventInButton() {
