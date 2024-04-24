@@ -136,6 +136,7 @@ public class GD_DatPhongChoController implements Initializable {
          cbGioNhan.getSelectionModel().selectFirst();
          cbPhutNhan.getSelectionModel().selectFirst();
       });
+
       btnBookWaitingRoom.setOnAction(evt -> {
 
       });
