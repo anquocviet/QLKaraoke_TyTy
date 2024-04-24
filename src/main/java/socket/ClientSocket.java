@@ -14,7 +14,7 @@ import java.net.Socket;
  * @date: 12/4/24
  */
 public class ClientSocket {
-   private final String host = "localhost";
+   private final String host = "172.20.10.3";
    @Getter
    private static Socket socket;
    @Getter
