@@ -52,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -215,7 +216,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
             dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
             PhieuDatPhong phieu = (PhieuDatPhong) in.readObject();
             if (phieu != null) {
-               Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan()));
+               Label lblGioNhan = new Label("Giờ nhận: " + dtf.format(phieu.getThoiGianNhan().atZone(ZoneId.systemDefault()).toLocalDateTime()));
                lblGioNhan.setStyle("-fx-font-size: 16; -fx-font-weight: 600");
                lblGioNhan.setPadding(new Insets(0, 0, 8, 0));
                roomItem.getChildren().add(lblGioNhan);
