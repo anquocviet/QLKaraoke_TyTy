@@ -108,6 +108,10 @@ public class GD_DatPhongChoController implements Initializable {
             if (evt.getCode() == KeyCode.ENTER) {
                 try {
                     String sdt = txtSDT.getText().trim();
+                    // Loại bỏ số 0 đầu tiên nếu có
+                    if (sdt.startsWith("0")) {
+                        sdt = sdt.substring(1);
+                    }
                     dos.writeUTF("customer-find-customer-by-phone," + sdt);
                     List<KhachHang> khachHangList = (List<KhachHang>) in.readObject();
                     if (!khachHangList.isEmpty()) {
