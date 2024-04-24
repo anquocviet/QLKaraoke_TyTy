@@ -51,7 +51,12 @@ public class GD_QLKhachHangController implements Initializable {
       sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
       maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
       tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
-      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+//      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+      sdtCol.setCellValueFactory(cellData -> {
+         Integer soDienThoai = cellData.getValue().getSoDienThoai();
+         String soDienThoaiString = "0" + soDienThoai;
+         return new ReadOnlyStringWrapper(soDienThoaiString);
+      });
       namSinhCol.setCellValueFactory(new PropertyValueFactory<>("namSinh"));
       gioiTinhCol.setCellValueFactory(cellData -> {
          boolean gioiTinh = cellData.getValue().getGioiTinh() == 1;
@@ -171,7 +176,7 @@ public class GD_QLKhachHangController implements Initializable {
       }
       txtMaKhachHang.setText(kh.getMaKhachHang());
       txtTenKhachHang.setText(kh.getTenKhachHang());
-      txtSDT.setText(kh.getSoDienThoai()+"");
+      txtSDT.setText("0"+kh.getSoDienThoai());
       spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
       if (kh.getGioiTinh() == 1) {
          genderGroup.getToggles().get(0).setSelected(true);
@@ -190,6 +195,15 @@ public class GD_QLKhachHangController implements Initializable {
          gioiTinh = false;
       }
       // check
+       if (kiemTraHoaKyTuDau(tenKH) == false) {
+           Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
+           alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+           alert.setTitle("Thêm khách hàng thất bại");
+           alert.setHeaderText("Tên khách hàng phải viết hoa ký tự đầu");
+           alert.showAndWait();
+           return;
+       }
+
       dos.writeUTF("customer-find-customer,"+maKH);
       dos.flush();
       List<KhachHang> khachHangExist = (List<KhachHang>) in.readObject();
@@ -217,6 +231,7 @@ public class GD_QLKhachHangController implements Initializable {
             VirtualFlow<?> vf = ((VirtualFlow<?>) ((TableViewSkin<?>) table.getSkin()).getChildren().get(1));
             vf.scrollTo(vf.getLastVisibleCell().getIndex());
             table.getSelectionModel().select(kh);
+           xuLyLamMoiThongTinKhachHang();
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -238,6 +253,15 @@ public class GD_QLKhachHangController implements Initializable {
 //      if (!validateData()){
 //         return;
 //      }
+      if (kiemTraHoaKyTuDau(tenKH) == false) {
+         Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
+         alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+         alert.setTitle("Thêm khách hàng thất bại");
+         alert.setHeaderText("Tên khách hàng phải viết hoa ký tự đầu");
+         alert.showAndWait();
+         return;
+      }
+
       KhachHang kh = new KhachHang(maKH, tenKH, Integer.parseInt(sdt), namSinh, gioiTinh==true ? 1 : 0);
 
       dos.writeUTF("customer-update-customer");
@@ -250,6 +274,7 @@ public class GD_QLKhachHangController implements Initializable {
             table.setItems(FXCollections.observableArrayList(khachHangs));
             table.getSelectionModel().select(kh);
            table.refresh();
+           xuLyLamMoiThongTinKhachHang();
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
             alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
@@ -268,11 +293,27 @@ public class GD_QLKhachHangController implements Initializable {
       genderGroup.getToggles().get(0).setSelected(true);
       table.getSelectionModel().clearSelection();
    }
+   public boolean kiemTraHoaKyTuDau(String ten) {
+      // Kiểm tra xem chuỗi có rỗng không
+      if (ten.isEmpty()) {
+         return false;
+      }
 
-   public boolean kiemTraThongTinNhapVao() {
-//		String 
+      // Tách chuỗi thành các từ bằng dấu cách
+      String[] tu = ten.split(" ");
+
+      // Kiểm tra từng từ trong chuỗi
+      for (String word : tu) {
+         // Kiểm tra xem từ có ít nhất một kí tự không phải là chữ hoa không
+         if (!Character.isUpperCase(word.charAt(0))) {
+            return false;
+         }
+      }
+
+      // Nếu tất cả các từ đều viết hoa kí tự đầu, trả về true
       return true;
    }
+
 
    public String phatSinhMaKhachHang(){
       String maKH = "KH";
