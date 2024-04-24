@@ -51,7 +51,12 @@ public class GD_QLKhachHangController implements Initializable {
       sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
       maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
       tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
-      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+//      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+      sdtCol.setCellValueFactory(cellData -> {
+         Integer soDienThoai = cellData.getValue().getSoDienThoai();
+         String soDienThoaiString = "0" + soDienThoai;
+         return new ReadOnlyStringWrapper(soDienThoaiString);
+      });
       namSinhCol.setCellValueFactory(new PropertyValueFactory<>("namSinh"));
       gioiTinhCol.setCellValueFactory(cellData -> {
          boolean gioiTinh = cellData.getValue().getGioiTinh() == 1;
@@ -171,7 +176,7 @@ public class GD_QLKhachHangController implements Initializable {
       }
       txtMaKhachHang.setText(kh.getMaKhachHang());
       txtTenKhachHang.setText(kh.getTenKhachHang());
-      txtSDT.setText(kh.getSoDienThoai()+"");
+      txtSDT.setText("0"+kh.getSoDienThoai());
       spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
       if (kh.getGioiTinh() == 1) {
          genderGroup.getToggles().get(0).setSelected(true);
