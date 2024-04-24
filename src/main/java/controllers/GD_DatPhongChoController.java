@@ -4,6 +4,10 @@
  */
 package controllers;
 
+import entities.KhachHang;
+import entities.NhanVien;
+import entities.PhieuDatPhong;
+import entities.Phong;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,9 +16,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import main.App;
+import socket.ClientSocket;
 
+import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,10 +42,34 @@ import java.util.logging.Logger;
  */
 public class GD_DatPhongChoController implements Initializable {
 
+   @FXML
+   private Button btnClose;
+   @FXML
+   private Button btnRefresh;
+   @FXML
+   private Button btnBookWaitingRoom;
+   @FXML
+   private TextField txtMaPhong;
+   @FXML
+   private TextField txtSDT;
+   @FXML
+   private TextField txtTenKH;
+   @FXML
+   private DatePicker dpNgayNhan;
+   @FXML
+   private ComboBox<Integer> cbGioNhan;
+   @FXML
+   private ComboBox<Integer> cbPhutNhan;
+
+   DataInputStream dis = ClientSocket.getDis();
+   DataOutputStream dos = ClientSocket.getDos();
+   ObjectInputStream in = ClientSocket.getIn();
+   ObjectOutputStream out = ClientSocket.getOut();
+
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-//      String roomID = GD_QLKinhDoanhPhongController.roomID;
-//      txtMaPhong.setText(roomID);
+      String roomID = GD_QLKinhDoanhPhongController.roomID;
+      txtMaPhong.setText(roomID);
       for (int i = 8; i < 24; i++) {
          cbGioNhan.getItems().add(i);
       }
@@ -47,7 +80,7 @@ public class GD_DatPhongChoController implements Initializable {
       cbPhutNhan.getSelectionModel().selectFirst();
       dpNgayNhan.setValue(LocalDate.now());
       dpNgayNhan.setConverter(new StringConverter<LocalDate>() {
-         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+         final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
          @Override
          public String toString(LocalDate date) {
@@ -73,12 +106,23 @@ public class GD_DatPhongChoController implements Initializable {
    }
 
    public void handleEventInTextField() {
-//      txtSDT.setOnKeyPressed(evt -> {
-//         if (evt.getCode() == KeyCode.ENTER) {
-//            KhachHang kh = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
-//            txtTenKH.setText(kh.getTenKhachHang());
-//         }
-//      });
+      txtSDT.setOnKeyPressed(evt -> {
+         if (evt.getCode() == KeyCode.ENTER) {
+            try {
+               String sdt = txtSDT.getText().trim();
+               dos.writeUTF("customer-find-customer-by-phone," + sdt);
+               List<KhachHang> khachHangList = (List<KhachHang>) in.readObject();
+               if (!khachHangList.isEmpty()) {
+                  KhachHang kh = khachHangList.get(0);
+                  txtTenKH.setText(kh.getTenKhachHang());
+               } else {
+                  txtTenKH.setText("");
+               }
+            } catch (IOException | ClassNotFoundException e) {
+               throw new RuntimeException(e);
+            }
+         }
+      });
    }
 
    public void handleEventInButton() {
@@ -93,44 +137,7 @@ public class GD_DatPhongChoController implements Initializable {
          cbPhutNhan.getSelectionModel().selectFirst();
       });
       btnBookWaitingRoom.setOnAction(evt -> {
-         try {
-//            String maPhieuDat = phatSinhMaPhieuDat(PhieuDatPhong.countBookingTicketInDay());
-//            KhachHang khachHang = KhachHang.getKhachHangTheoSoDienThoai(txtSDT.getText().trim());
-//            Phong phong = new Phong(txtMaPhong.getText());
-//            NhanVien nv = NhanVien.getNhanVienTheoMaNhanVien(App.user);
-            LocalDateTime thoiGianLap = LocalDateTime.now();
-            LocalDateTime thoiGianNhan = LocalDateTime.of(dpNgayNhan.getValue(), LocalTime.of(cbGioNhan.getValue(), cbPhutNhan.getValue()));
-            if (thoiGianNhan.isAfter(LocalDateTime.of(thoiGianLap.toLocalDate().plusDays(1), LocalTime.of(0, 0)))) {
-               Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-               alert.setTitle("Không thể đặt phòng chờ");
-               alert.setHeaderText("Thời gian nhận phòng chỉ cho hôm nay và ngày mai!");
-               alert.showAndWait();
-               return;
-            }
-            String ghiChu = "";
 
-//            boolean result = PhieuDatPhong.themPhieDat(new PhieuDatPhong(maPhieuDat, khachHang, phong, nv, thoiGianLap, thoiGianNhan, false, ghiChu));
-//            if (result == true) {
-//               Phong.updateStatusRoom(GD_QLKinhDoanhPhongController.roomID, 2);
-//               App.setRoot("GD_QLKinhDoanhPhong");
-//               Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.OK);
-//               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//               alert.setTitle("Đặt phòng thành công");
-//               alert.setHeaderText("Bạn đã đặt phòng thành công!");
-//               alert.showAndWait();
-//               Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
-//               stage.close();
-//            } else {
-//               Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-//               alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//               alert.setTitle("Có lỗi xảy ra");
-//               alert.setHeaderText("Có lỗi xảy ra khi đặt phòng chờ!");
-//               alert.showAndWait();
-//            }
-         } catch (Exception ex) {
-            Logger.getLogger(GD_DatPhongChoController.class.getName()).log(Level.SEVERE, null, ex);
-         }
       });
    }
 
@@ -148,23 +155,5 @@ public class GD_DatPhongChoController implements Initializable {
       return maHoaDon;
    }
 
-   @FXML
-   private Button btnClose;
-   @FXML
-   private Button btnRefresh;
-   @FXML
-   private Button btnBookWaitingRoom;
-   @FXML
-   private TextField txtMaPhong;
-   @FXML
-   private TextField txtSDT;
-   @FXML
-   private TextField txtTenKH;
-   @FXML
-   private DatePicker dpNgayNhan;
-   @FXML
-   private ComboBox<Integer> cbGioNhan;
-   @FXML
-   private ComboBox<Integer> cbPhutNhan;
 
 }
