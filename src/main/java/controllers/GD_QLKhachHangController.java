@@ -4,17 +4,27 @@
  */
 package controllers;
 
+import entities.KhachHang;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableViewSkin;
+import javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import socket.ClientSocket;
 
+import java.io.*;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -24,6 +34,11 @@ import java.util.regex.Pattern;
  * @author vie
  */
 public class GD_QLKhachHangController implements Initializable {
+   DataInputStream dis = ClientSocket.getDis();
+   DataOutputStream dos = ClientSocket.getDos();
+   ObjectOutputStream out = ClientSocket.getOut();
+   ObjectInputStream in = ClientSocket.getIn();
+   private List<KhachHang> khachHangs;
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
@@ -33,42 +48,54 @@ public class GD_QLKhachHangController implements Initializable {
       radioButtonNu.setToggleGroup(genderGroup);
 
 //        Tạo index column
-//      sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
-//      maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
-//      tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
-//      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
-//      namSinhCol.setCellValueFactory(new PropertyValueFactory<>("namSinh"));
-//      gioiTinhCol.setCellValueFactory(cellData -> {
-//         boolean gioiTinh = cellData.getValue().isGioiTinh();
-//         String gioiTinhString;
-//         if (gioiTinh) {
-//            gioiTinhString = "Nam";
-//         } else {
-//            gioiTinhString = "Nữ";
-//         }
-//         return new ReadOnlyStringWrapper(gioiTinhString);
-//
-//      });
-//      spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
-//      table.setItems(KhachHang.getAllKhachHang());
-//      table.requestFocus();
-//      table.getSelectionModel().select(0);
-//      table.getSelectionModel().focus(0);
-//      docDuLieuTuTable();
-//      handleEventInTextField();
-//      handleEventInTable();
+      sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
+      maKHCol.setCellValueFactory(new PropertyValueFactory<>("maKhachHang"));
+      tenKHCol.setCellValueFactory(new PropertyValueFactory<>("tenKhachHang"));
+      sdtCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+      namSinhCol.setCellValueFactory(new PropertyValueFactory<>("namSinh"));
+      gioiTinhCol.setCellValueFactory(cellData -> {
+         boolean gioiTinh = cellData.getValue().getGioiTinh() == 1;
+         String gioiTinhString;
+         if (gioiTinh) {
+            gioiTinhString = "Nam";
+         } else {
+            gioiTinhString = "Nữ";
+         }
+         return new ReadOnlyStringWrapper(gioiTinhString);
+      });
+      spinnerNamSinh.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1000, 3000, 2000));
+      khachHangs = getAllKhachHang();
+      FXCollections.observableArrayList(khachHangs);
+      table.getItems().addAll(khachHangs);
+
+      table.requestFocus();
+      table.getSelectionModel().select(0);
+      table.getSelectionModel().focus(0);
+      docDuLieuTuTable();
+      handleEventInTextField();
+      handleEventInTable();
    }
 
-//   public void handleEventInTable() {
-//      table.setOnMouseClicked((MouseEvent event) -> {
-//         docDuLieuTuTable();
-//      });
-//      table.setOnKeyPressed((KeyEvent event) -> {
-//         if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
-//            docDuLieuTuTable();
-//         }
-//      });
-//   }
+   private List<KhachHang> getAllKhachHang()  {
+      try {
+         dos.writeUTF("customer-find-all-customer");
+         return (List<KhachHang>) in.readObject();
+      } catch (IOException | ClassNotFoundException e) {
+         e.printStackTrace();
+     }
+       return null;
+   }
+
+   public void handleEventInTable() {
+      table.setOnMouseClicked((MouseEvent event) -> {
+         docDuLieuTuTable();
+      });
+      table.setOnKeyPressed((KeyEvent event) -> {
+         if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+            docDuLieuTuTable();
+         }
+      });
+   }
 
    public void handleEventInTextField() {
       txtSDT.setOnKeyTyped((event) -> {
@@ -91,15 +118,17 @@ public class GD_QLKhachHangController implements Initializable {
          }
          txtNamSinh.positionCaret(txtNamSinh.getText().length());
       });
-//      inputTimKiem.setOnKeyPressed((event) -> {
-//         if (event.getCode() == KeyCode.ENTER) {
+      inputTimKiem.setOnKeyPressed((event) -> {
+         if (event.getCode() == KeyCode.ENTER) {
 //            table.setItems(KhachHang.fillterCustomerByID_NameOrPhoneNumber(inputTimKiem.getText().trim()));
-//            table.refresh();
-//         }
-//      });
+            table.setItems(FXCollections.observableArrayList(fillterCustomerByID_NameOrPhoneNumber(inputTimKiem.getText().trim())));
+            table.refresh();
+         }
+      });
 //      inputTimKiem.focusedProperty().addListener((obs, oldVal, newVal) -> {
 //         if (!newVal) {
-//            table.setItems(KhachHang.fillterCustomerByID_NameOrPhoneNumber(inputTimKiem.getText().trim()));
+////            table.setItems(KhachHang.fillterCustomerByID_NameOrPhoneNumber(inputTimKiem.getText().trim()));
+//            table.setItems(FXCollections.observableArrayList(fillterCustomerByID_NameOrPhoneNumber(inputTimKiem.getText().trim())));
 //            table.refresh();
 //         }
 //      });
@@ -118,52 +147,40 @@ public class GD_QLKhachHangController implements Initializable {
       return true;
    }
 
-   //  Render and handle in View'
-//   public void docDuLieuTuTable() {
-//      KhachHang kh = table.getSelectionModel().getSelectedItem();
-//      if (kh == null) {
-//         return;
-//      }
-//      txtMaKhachHang.setText(kh.getMaKhachHang());
-//      txtTenKhachHang.setText(kh.getTenKhachHang());
-//      txtSDT.setText(kh.getSoDienThoai());
-//      spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
-//      if (kh.isGioiTinh()) {
-//         genderGroup.getToggles().get(0).setSelected(true);
-//      } else {
-//         genderGroup.getToggles().get(1).setSelected(true);
-//      }
-//   }
-
-   public void xuLyThemKhachHang() {
-      String maKH = txtMaKhachHang.getText();
-      String tenKH = txtTenKhachHang.getText().trim();
-      String sdt = txtSDT.getText().trim();
-      int namSinh = (Integer) spinnerNamSinh.getValue();
-      boolean gioiTinh = true;
-      if (genderGroup.getToggles().get(1).isSelected()) {
-         gioiTinh = false;
+   private List<KhachHang> fillterCustomerByID_NameOrPhoneNumber(String text) {
+      try {
+         List<KhachHang> khachHangsIsFilter = new ArrayList<>();
+         // filter
+         khachHangs.forEach(khachHang -> {
+            if (khachHang.getMaKhachHang().contains(text) || khachHang.getTenKhachHang().contains(text) || (khachHang.getSoDienThoai()+"").contains(text)) {
+               khachHangsIsFilter.add(khachHang);
+            }
+         });
+            return khachHangsIsFilter;
+      } catch (Exception e) {
+         e.printStackTrace();
       }
-//      if (KhachHang.getKhachHangTheoMaKhachHang(maKH) != null) {
-//         Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
-//         alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-//         alert.setTitle("Thêm khách hàng thất bại");
-//         alert.setHeaderText("Đã có thông tin khách hàng trong hệ thống");
-//         alert.showAndWait();
-//         return;
-//      }
-      if (!validateData()) {
-         return;
-      }
-//      KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
-//      KhachHang.themKhachHang(kh);
-//      table.setItems(KhachHang.getAllKhachHang());
-//      VirtualFlow<?> vf = ((VirtualFlow<?>) ((TableViewSkin<?>) table.getSkin()).getChildren().get(1));
-//      vf.scrollTo(vf.getLastVisibleCell().getIndex());
-//      table.getSelectionModel().select(kh);
+      return null;
    }
 
-   public void xuLySuaThongTinKhachHang() {
+   //  Render and handle in View'
+   public void docDuLieuTuTable() {
+      KhachHang kh = table.getSelectionModel().getSelectedItem();
+      if (kh == null) {
+         return;
+      }
+      txtMaKhachHang.setText(kh.getMaKhachHang());
+      txtTenKhachHang.setText(kh.getTenKhachHang());
+      txtSDT.setText(kh.getSoDienThoai()+"");
+      spinnerNamSinh.getValueFactory().setValue(kh.getNamSinh());
+      if (kh.getGioiTinh() == 1) {
+         genderGroup.getToggles().get(0).setSelected(true);
+      } else {
+         genderGroup.getToggles().get(1).setSelected(true);
+      }
+   }
+
+   public void xuLyThemKhachHang() throws IOException, ClassNotFoundException {
       String maKH = txtMaKhachHang.getText();
       String tenKH = txtTenKhachHang.getText().trim();
       String sdt = txtSDT.getText().trim();
@@ -172,13 +189,75 @@ public class GD_QLKhachHangController implements Initializable {
       if (genderGroup.getToggles().get(1).isSelected()) {
          gioiTinh = false;
       }
+      // check
+      dos.writeUTF("customer-find-customer,"+maKH);
+      dos.flush();
+      List<KhachHang> khachHangExist = (List<KhachHang>) in.readObject();
+
+      if (khachHangExist.size() > 0){
+         Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
+         alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+         alert.setTitle("Thêm khách hàng thất bại");
+         alert.setHeaderText("Đã có thông tin khách hàng trong hệ thống");
+         alert.showAndWait();
+         return;
+      }
       if (!validateData()) {
          return;
       }
-//      KhachHang kh = new KhachHang(maKH, tenKH, sdt, namSinh, gioiTinh);
-//      KhachHang.suaKhachHang(kh);
-//      table.setItems(KhachHang.getAllKhachHang());
-//      table.refresh();
+      KhachHang kh = new KhachHang(maKH, tenKH, Integer.parseInt(sdt), namSinh, gioiTinh==true?1:0);
+
+        dos.writeUTF("customer-add-customer");
+        dos.flush();
+        out.writeObject(kh);
+        boolean isAdd = dis.readBoolean();
+        if (isAdd){
+         khachHangs.add(kh);
+            table.setItems(FXCollections.observableArrayList(khachHangs));
+            VirtualFlow<?> vf = ((VirtualFlow<?>) ((TableViewSkin<?>) table.getSkin()).getChildren().get(1));
+            vf.scrollTo(vf.getLastVisibleCell().getIndex());
+            table.getSelectionModel().select(kh);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Thêm khách hàng thất bại");
+            alert.setHeaderText("Thêm khách hàng thất bại");
+            alert.showAndWait();
+        }
+   }
+
+   public void xuLySuaThongTinKhachHang() throws IOException {
+      String maKH = txtMaKhachHang.getText();
+      String tenKH = txtTenKhachHang.getText().trim();
+      String sdt = txtSDT.getText().trim();
+      int namSinh = (Integer) spinnerNamSinh.getValue();
+      boolean gioiTinh = true;
+      if (genderGroup.getToggles().get(1).isSelected()) {
+         gioiTinh = false;
+      }
+//      if (!validateData()){
+//         return;
+//      }
+      KhachHang kh = new KhachHang(maKH, tenKH, Integer.parseInt(sdt), namSinh, gioiTinh==true ? 1 : 0);
+
+      dos.writeUTF("customer-update-customer");
+        dos.flush();
+        out.writeObject(kh);
+        boolean isUpdate = dis.readBoolean();
+        if (isUpdate){
+            int index = khachHangs.indexOf(kh);
+            khachHangs.set(index, kh);
+            table.setItems(FXCollections.observableArrayList(khachHangs));
+            table.getSelectionModel().select(kh);
+           table.refresh();
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng kiểm tra lại thông tin khách hàng", ButtonType.OK);
+            alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+            alert.setTitle("Sửa thông tin khách hàng thất bại");
+            alert.setHeaderText("Sửa thông tin khách hàng thất bại");
+            alert.showAndWait();
+        }
+
    }
 
    public void xuLyLamMoiThongTinKhachHang() {
@@ -187,7 +266,7 @@ public class GD_QLKhachHangController implements Initializable {
       txtSDT.setText("");
       spinnerNamSinh.getValueFactory().setValue(2000);
       genderGroup.getToggles().get(0).setSelected(true);
-//      table.getSelectionModel().clearSelection();
+      table.getSelectionModel().clearSelection();
    }
 
    public boolean kiemTraThongTinNhapVao() {
@@ -195,11 +274,23 @@ public class GD_QLKhachHangController implements Initializable {
       return true;
    }
 
-   public String phatSinhMaKhachHang() {
+   public String phatSinhMaKhachHang(){
       String maKH = "KH";
       DecimalFormat df = new DecimalFormat("0000");
-//      maKH = maKH.concat(df.format(KhachHang.demSoLuongKhachHang() + 1));
-      return maKH;
+      // generate random number
+       try {
+           dos.writeUTF("customer-find-all-customer");
+          dos.flush();
+          List<KhachHang> list = (List<KhachHang>) in.readObject();
+          KhachHang lasted = list.get(list.size() - 1);
+          String maKHLasted = lasted.getMaKhachHang();
+          int number = Integer.parseInt(maKHLasted.substring(2)) + 1;
+          maKH += df.format(number);
+       } catch (IOException | ClassNotFoundException e) {
+           throw new RuntimeException(e);
+       }
+
+       return maKH;
    }
 
    //    Variable
@@ -217,20 +308,20 @@ public class GD_QLKhachHangController implements Initializable {
    private RadioButton radioButtonNu;
    @FXML
    private ToggleGroup genderGroup;
-//   @FXML
-//   private TableView<KhachHang> table;
-//   @FXML
-//   private TableColumn<String, Integer> sttCol;
-//   @FXML
-//   private TableColumn<KhachHang, String> maKHCol;
-//   @FXML
-//   private TableColumn<KhachHang, String> tenKHCol;
-//   @FXML
-//   private TableColumn<KhachHang, String> sdtCol;
-//   @FXML
-//   private TableColumn<KhachHang, Integer> namSinhCol;
-//   @FXML
-//   private TableColumn<KhachHang, String> gioiTinhCol;
+   @FXML
+   private TableView<KhachHang> table;
+   @FXML
+   private TableColumn<String, Integer> sttCol;
+   @FXML
+   private TableColumn<KhachHang, String> maKHCol;
+   @FXML
+   private TableColumn<KhachHang, String> tenKHCol;
+   @FXML
+   private TableColumn<KhachHang, String> sdtCol;
+   @FXML
+   private TableColumn<KhachHang, Integer> namSinhCol;
+   @FXML
+   private TableColumn<KhachHang, String> gioiTinhCol;
    @FXML
    private TextField inputTimKiem;
 }
