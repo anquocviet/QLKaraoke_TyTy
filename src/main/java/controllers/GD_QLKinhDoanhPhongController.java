@@ -113,7 +113,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
    private static short itemChouted = 0;
    public static String roomID;
-   private List<Phong> listPhong;
+   private List<Phong> listPhong = null;
 
    @SneakyThrows
    @Override
@@ -131,6 +131,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
 
       createClockView();
       dos.writeUTF("room-find-all-room");
+      listPhong = null;
       listPhong = (List<Phong>) in.readObject();
       renderArrayPhong(FXCollections.observableArrayList(listPhong));
 

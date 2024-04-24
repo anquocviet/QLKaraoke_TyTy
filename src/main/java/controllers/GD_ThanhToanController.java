@@ -123,6 +123,7 @@ public class GD_ThanhToanController implements Initializable {
    private ImageView imgCheckKM;
    @FXML
    private CheckBox checkBoxInHD;
+   public static HoaDonThanhToan bill = null;
 
    DataInputStream dis = ClientSocket.getDis();
    DataOutputStream dos = ClientSocket.getDos();
@@ -367,6 +368,7 @@ public class GD_ThanhToanController implements Initializable {
 
 //				Xuat hoa don
             if (checkBoxInHD.isSelected()) {
+               bill = hd;
                App.openModal("Bill", App.widthModalBill, App.heightModalBill);
             }
 

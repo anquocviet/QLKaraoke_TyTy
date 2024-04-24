@@ -100,8 +100,7 @@ public class BillController implements Initializable {
    @SneakyThrows
    @Override
    public void initialize(URL url, ResourceBundle rb) {
-      dos.writeUTF("bill-find-bill-by-room-id," + GD_QLKinhDoanhPhongController.roomID);
-      HoaDonThanhToan hd = (HoaDonThanhToan) in.readObject();
+      HoaDonThanhToan hd = GD_ThanhToanController.bill;
       txtHoaDon.setText(hd.getMaHoaDon());
 //      txtThoiGianLap.setText(dtf.format(hd.getNgayLap()));
       txtNhanVien.setText(hd.getNhanVien().getHoTen());

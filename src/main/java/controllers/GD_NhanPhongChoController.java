@@ -193,6 +193,7 @@ public class GD_NhanPhongChoController implements Initializable {
             showErrorAlert("Có lỗi xảy ra khi cập nhật trạng thái phòng!");
             return;
         }
+        phieu.setTinhTrang(1);
         dos.writeUTF("bookingTicket-update-booking-ticket");
         out.reset();
         out.writeObject(phieu);
