@@ -41,8 +41,6 @@ public class App extends Application {
    public void init() throws Exception {
       SplashController splash = new SplashController();
       splash.checkFuntions();
-      ClientSocket clientSocket = new ClientSocket();
-      clientSocket.start();
    }
 
    @Override

@@ -150,10 +150,6 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       handleEventInRadioButton();
       handleEventInSpinner();
       handleEventInButton();
-
-      dos.writeUTF("bill-find-bill-by-name-customer," + "Nguyễn");
-      List<HoaDonThanhToan> list = (List<HoaDonThanhToan>) in.readObject();
-      list.forEach(item -> System.out.println(item.getKhachHang()));
    }
 
    public void renderArrayPhong(ObservableList<Phong> listPhong) {

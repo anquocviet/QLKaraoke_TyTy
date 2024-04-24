@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -104,7 +105,7 @@ public class GD_ChuyenPhongController implements Initializable {
                try {
                   dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + maPhong);
                   phieu = (PhieuDatPhong) in.readObject();
-                  if (phieu.getTinhTrang() == 0) {
+                  if (phieu != null && phieu.getTinhTrang() == 0) {
                      return new ReadOnlyStringWrapper(tinhTongGioSuDung(phong, phieu));
                   }
                } catch (Exception ex) {
@@ -117,33 +118,31 @@ public class GD_ChuyenPhongController implements Initializable {
          });
          return new ReadOnlyStringWrapper(maPhong);
       });
-      tongGioSuDungCol.setCellFactory(column -> {
-         return new javafx.scene.control.TableCell<Phong, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-               super.updateItem(item, empty);
-               if (empty || item == null) {
-                  setText(null);
-               } else {
-                  Phong phong = getTableView().getItems().get(getIndex());
-                  if (phong.getTinhTrang() == 2) {
-                     PhieuDatPhong phieu;
-                     try {
-                        dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
-                        phieu = (PhieuDatPhong) in.readObject();
-                        if (phieu.getTinhTrang() == 0) {
-                           setText(tinhTongGioSuDung(phong, phieu));
-                           return;
-                        }
-                     } catch (Exception ex) {
-                        Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
+      tongGioSuDungCol.setCellFactory(column -> new TableCell<>() {
+         @Override
+         protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+               setText(null);
+            } else {
+               Phong phong = getTableView().getItems().get(getIndex());
+               if (phong.getTinhTrang() == 2) {
+                  PhieuDatPhong phieu;
+                  try {
+                     dos.writeUTF("bookingTicket-find-booking-ticket-by-room-id," + phong.getMaPhong());
+                     phieu = (PhieuDatPhong) in.readObject();
+                     if (phieu != null && phieu.getTinhTrang() == 0) {
+                        setText(tinhTongGioSuDung(phong, phieu));
+                        return;
                      }
-
+                  } catch (Exception ex) {
+                     Logger.getLogger(GD_ChuyenPhongController.class.getName()).log(Level.SEVERE, null, ex);
                   }
-                  setText("Đến khi trả phòng hoặc đóng cửa");
+
                }
+               setText("Đến khi trả phòng hoặc đóng cửa");
             }
-         };
+         }
       });
       loaiPhongCol.setCellValueFactory(cellData -> {
          Enum_LoaiPhong loaiPhong = cellData.getValue().getLoaiPhong();
@@ -282,14 +281,12 @@ public class GD_ChuyenPhongController implements Initializable {
 
    @SneakyThrows
    @FXML
-   public void handleSearch(ActionEvent event
-   ) {
-
+   public void handleSearch(ActionEvent event) {
       String searchCode = txtSearch.getText().trim();
       dos.writeUTF("room-find-room," + searchCode);
       ObservableList<Phong> danhSachMaPhong = FXCollections.observableArrayList((List<Phong>) in.readObject());
 
-      if (danhSachMaPhong.size() > 0) {
+      if (!danhSachMaPhong.isEmpty()) {
          table.setItems(danhSachMaPhong);
       } else {
          Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng Nhập mã lại ", ButtonType.OK);
@@ -315,18 +312,37 @@ public class GD_ChuyenPhongController implements Initializable {
          phongHienTai.setTinhTrang(2);
          dos.writeUTF("room-update-room");
          out.writeObject(phongDuocChon);
+         if (!dis.readBoolean()) {
+            showErrorAlert("Chuyển phòng thất bại");
+            return;
+         }
          dos.writeUTF("room-update-room");
          out.writeObject(phongHienTai);
+         if (!dis.readBoolean()) {
+            showErrorAlert("Chuyển phòng thất bại");
+            return;
+         }
          dos.writeUTF("roomDetail-find-by-room-bill-id," + phongHienTai.getMaPhong() + "_" + maHoaDon);
          ChiTietHD_Phong hdPhongHienTai = (ChiTietHD_Phong) in.readObject();
 
-         hdPhongHienTai.setGioRa(Instant.from(LocalDateTime.now()));
+         hdPhongHienTai.setGioRa(Instant.now());
+         double time = ((double) Duration.between(hdPhongHienTai.getGioVao(), Instant.now()).toMillis()) / 1000 / 3600;
+         hdPhongHienTai.setTongGioSuDung(time);
+         hdPhongHienTai.setThanhTien((int) (time * phongHienTai.getGiaPhong()));
          dos.writeUTF("roomDetail-update-roomDetail");
          out.writeObject(hdPhongHienTai);
+         if (!dis.readBoolean()) {
+            showErrorAlert("Chuyển phòng thất bại");
+            return;
+         }
          Instant gioVaoMoi = hdPhongHienTai.getGioRa();
-         ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(new ChiTietHD_PhongId(), hdPhongHienTai.getHoaDon(), phongDuocChon, gioVaoMoi, Instant.parse("9999-12-31T23:59:59Z"), 0.0, 0);
+         ChiTietHD_Phong hdPhongMoi = new ChiTietHD_Phong(new ChiTietHD_PhongId(), hdPhongHienTai.getHoaDon(), phongDuocChon, gioVaoMoi, Instant.now().plusSeconds(1), 0.0, 0);
          dos.writeUTF("roomDetail-add-roomDetail");
          out.writeObject(hdPhongMoi);
+         if (!dis.readBoolean()) {
+            showErrorAlert("Chuyển phòng thất bại");
+            return;
+         }
          showSuccessAlert();
 
       } else {

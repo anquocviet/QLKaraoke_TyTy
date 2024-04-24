@@ -193,14 +193,18 @@ public class GD_ThanhToanController implements Initializable {
          ObservableList<ChiTietHD_Phong> dsPhong = FXCollections.observableArrayList((List<ChiTietHD_Phong>) in.readObject());
          dsPhong.forEach(ct -> {
             try {
-               ct.setGioRa(Instant.now());
-               ct.setTongGioSuDung((double) (Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis()) / 1000 / 3600);
+               if (ct.getTongGioSuDung() == 0) {
+                  ct.setGioRa(Instant.now());
+                  ct.setTongGioSuDung((double) (Duration.between(ct.getGioVao(), ct.getGioRa()).toMillis()) / 1000 / 3600);
+               }
                long donGia = ct.getPhong().getGiaPhong();
                Instant gioVao = ct.getGioVao();
                if (gioVao.atZone(ZoneId.systemDefault()).toLocalTime().isAfter(LocalTime.of(18, 0, 0))) {
                   donGia += App.TIENPHONGTHEMDEM;
                }
-               ct.setThanhTien((int) (ct.getTongGioSuDung() * donGia));
+               if (ct.getThanhTien() == 0) {
+                  ct.setThanhTien((int) (ct.getTongGioSuDung() * donGia));
+               }
             } catch (Exception ex) {
                Logger.getLogger(GD_ThanhToanController.class.getName()).log(Level.SEVERE, null, ex);
             }

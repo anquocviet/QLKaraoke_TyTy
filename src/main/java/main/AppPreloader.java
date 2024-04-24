@@ -8,6 +8,7 @@ import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import socket.ClientSocket;
 
 /**
  * @author vie
@@ -18,6 +19,8 @@ public class AppPreloader extends Preloader {
 
    @Override
    public void start(Stage primaryStage) throws Exception {
+      ClientSocket clientSocket = new ClientSocket();
+      clientSocket.start();
       this.preloaderStage = primaryStage;
       primaryStage.initStyle(StageStyle.UNDECORATED);
       Scene scene = new Scene(App.loadFXML("Splash"));
