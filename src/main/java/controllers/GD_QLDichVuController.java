@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -241,39 +242,48 @@ public class GD_QLDichVuController implements Initializable {
       return maDichVu;
    }
 
-   public void xuLyThemDichVu() throws Exception {
-      if (!kiemTraRong()) {
-         return;
-      }
-      String maDichVu = phatSinhMaDichVu();
-      String tenDichVu = txtTenDichVu.getText();
-      Integer soLuongTon = Integer.parseInt(txtSoLuong.getText());
-      String donViTinh = txtDonViTinh.getText();
-      Integer donGia = Integer.parseInt(txtDonGia.getText());
-      String anhMinhHoa = tenAnhMinhHoa;
+   public void xuLyThemDichVu() {
+      try {
+         if (!kiemTraRong()) {
+            return;
+         }
+         String maDichVu = phatSinhMaDichVu();
+         String tenDichVu = txtTenDichVu.getText();
+         Integer soLuongTon = Integer.parseInt(txtSoLuong.getText());
+         String donViTinh = txtDonViTinh.getText();
+         Integer donGia = Integer.parseInt(txtDonGia.getText());
+         String anhMinhHoa = tenAnhMinhHoa;
 
-      if (!kiemTraTrungDichVu(tenDichVu, donViTinh)) {
-         showAlert("Dịch vụ này đã có trên hệ thống!", AlertType.ERROR);
-         txtTenDichVu.selectAll();
-         txtTenDichVu.requestFocus();
-         return;
-      }
+         if (!kiemTraTrungDichVu(tenDichVu, donViTinh)) {
+            showAlert("Dịch vụ này đã có trên hệ thống!", AlertType.ERROR);
+            txtTenDichVu.selectAll();
+            txtTenDichVu.requestFocus();
+            return;
+         }
 
-      DichVu dv = new DichVu(maDichVu, tenDichVu, soLuongTon, donViTinh, donGia, anhMinhHoa);
-      dos.writeUTF("service-add-service");
-      out.writeObject(dv);
-        boolean result = dis.readBoolean();
-        if (result) {
+         dos.writeUTF("service-add-service");
+         DichVu dv = new DichVu(maDichVu, tenDichVu, soLuongTon, donViTinh, donGia, anhMinhHoa);
+         out.writeObject(dv);
+         boolean result = dis.readBoolean();
+         if (result) {
             showAlert("Thêm thông tin dịch vụ thành công", AlertType.NONE);
             dos.writeUTF("service-find-all-service");
             danhSach_DichVu = FXCollections.observableArrayList((List<DichVu>) in.readObject());
             tableView_DichVu.setItems(danhSach_DichVu);
-        } else {
+         } else {
             showAlert("Thêm thông tin dịch vụ thất bại", AlertType.ERROR);
-        }
+         }
 
-      tableView_DichVu.refresh();
-
+         tableView_DichVu.refresh();
+      } catch (NumberFormatException e) {
+         showAlert("Vui lòng nhập số nguyên hợp lệ cho số lượng và đơn giá", AlertType.ERROR);
+      } catch (IOException e) {
+         showAlert("Có lỗi xảy ra khi giao tiếp với máy chủ", AlertType.ERROR);
+      } catch (ClassCastException e) {
+         showAlert("Có lỗi xảy ra khi nhận dữ liệu từ máy chủ", AlertType.ERROR);
+      } catch (Exception e) {
+         showAlert("Có lỗi không xác định xảy ra", AlertType.ERROR);
+      }
    }
 
    public boolean kiemTraTrungDichVu(String tenDichVu, String donViTinh) throws Exception {
@@ -288,13 +298,14 @@ public class GD_QLDichVuController implements Initializable {
       return true;
    }
 
-   public void xuLyLamMoiThongTinDichVu() throws SQLException {
+   public void xuLyLamMoiThongTinDichVu() throws SQLException, IOException, ClassNotFoundException {
       txtMaDichVu.setText(phatSinhMaDichVu());
       txtTenDichVu.setText("");
       txtSoLuong.setText("");
       txtDonGia.setText("");
       txtDonViTinh.setText("");
       tableView_DichVu.getSelectionModel().clearSelection();
+
    }
 
    public void xuLySuaThongTinDichVu() throws SQLException, Exception {
@@ -315,11 +326,11 @@ public class GD_QLDichVuController implements Initializable {
       if (result) {
          showAlert("Cập nhật thông tin dịch vụ thành công", AlertType.NONE);
 
-         // Reload data from database and update TableView
          dos.writeUTF("service-find-all-service");
          danhSach_DichVu = FXCollections.observableArrayList((List<DichVu>) in.readObject());
          tableView_DichVu.setItems(danhSach_DichVu);
          tableView_DichVu.refresh();
+
       } else {
          showAlert("Cập nhật thông tin dịch vụ thất bại", AlertType.ERROR);
       }
