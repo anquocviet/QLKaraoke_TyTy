@@ -75,7 +75,7 @@ public class GD_DangNhapController implements Initializable {
             in = ClientSocket.getIn();
          tk.setNhanVien(((TaiKhoan) in.readObject()).getNhanVien());
          App.user = tk.getNhanVien();
-         System.out.println(App.user);
+//         System.out.println(App.user);
          Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
          App.openMainGUI();
          stage.close();
