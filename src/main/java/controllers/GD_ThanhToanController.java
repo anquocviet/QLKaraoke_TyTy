@@ -329,6 +329,7 @@ public class GD_ThanhToanController implements Initializable {
             } else {
                km = new CT_KhuyenMai();
                km.setMaKhuyenMai("DEFAULT");
+               km.setChietKhau(0);
             }
             for (ChiTietHD_Phong ct : tablePhong.getItems()) {
                dos.writeUTF("roomDetail-update-roomDetail");

@@ -133,6 +133,7 @@ public class GD_QLKinhDoanhPhongController implements Initializable {
       dos.writeUTF("room-find-all-room");
       listPhong = null;
       listPhong = (List<Phong>) in.readObject();
+      listPhong.forEach(System.out::println);
       renderArrayPhong(FXCollections.observableArrayList(listPhong));
 
       String id = listPhong.get(itemChouted).getMaPhong();
