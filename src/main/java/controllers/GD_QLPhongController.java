@@ -51,6 +51,7 @@ public class GD_QLPhongController implements Initializable {
    @Override
    public void initialize(URL location, ResourceBundle resources) {
       cbbTinhTrang.getItems().addAll("PHÒNG TRỐNG", "PHÒNG ĐANG SỬ DỤNG", "PHÒNG CHỜ");
+<<<<<<< HEAD
 
       // Khởi tạo một ObservableList để chứa danh sách các loại phòng
       ObservableList<Enum_LoaiPhong> loaiPhongList = FXCollections.observableArrayList();
@@ -63,6 +64,14 @@ public class GD_QLPhongController implements Initializable {
       sucChuaCol.setCellValueFactory(new PropertyValueFactory<>("sucChua"));
       tinhTrangCol.setCellValueFactory(cellData -> {
          int tinhTrang = cellData.getValue().getTinhTrang();
+=======
+//      cbbLoaiPhong.setItems(Enum_LoaiPhong.getListLoaiPhong());
+//      sttCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(param.getValue()) + 1));
+//      maPhongCol.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
+//      sucChuaCol.setCellValueFactory(new PropertyValueFactory<>("sucChua"));
+//      tinhTrangCol.setCellValueFactory(cellData -> {
+//         int tinhTrang = cellData.getValue().getTinhTrang();
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
          String tinhTrangString;
          if (tinhTrang == 0) {
             tinhTrangString = "PHÒNG TRỐNG";

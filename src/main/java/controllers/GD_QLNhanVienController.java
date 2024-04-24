@@ -24,6 +24,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+<<<<<<< HEAD
+=======
+import lombok.SneakyThrows;
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 import socket.ClientSocket;
 
 import java.io.*;
@@ -34,7 +38,10 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+<<<<<<< HEAD
 import java.time.LocalDateTime;
+=======
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -49,26 +56,32 @@ import java.util.logging.Logger;
  */
 public class GD_QLNhanVienController implements Initializable {
 
+<<<<<<< HEAD
    @FXML
    private TableView<NhanVien> table;
+=======
+    @FXML
+    private TableView<NhanVien> table;
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 
-   @FXML
-   private ImageView imgNV;
-   @FXML
-   private TextField txtMaNhanVien;
-   @FXML
-   private TextField txtCCCD;
-   @FXML
-   private TextField txtHoTen;
-   @FXML
-   private DatePicker dateNgaySinh;
-   @FXML
-   private TextField txtSoDienThoaiNV;
-   @FXML
-   private TextField txtDiaChi;
-   @FXML
-   private ComboBox cbbChucVu;
+    @FXML
+    private ImageView imgNV;
+    @FXML
+    private TextField txtMaNhanVien;
+    @FXML
+    private TextField txtCCCD;
+    @FXML
+    private TextField txtHoTen;
+    @FXML
+    private DatePicker dateNgaySinh;
+    @FXML
+    private TextField txtSoDienThoaiNV;
+    @FXML
+    private TextField txtDiaChi;
+    @FXML
+    private ComboBox cbbChucVu;
 
+<<<<<<< HEAD
    @FXML
    private TableColumn<NhanVien, String> colMaNV;
    @FXML
@@ -91,16 +104,40 @@ public class GD_QLNhanVienController implements Initializable {
    private RadioButton radioButtonNam;
    @FXML
    private RadioButton radioButtonNu;
+=======
+    @FXML
+    private TableColumn<NhanVien, String> colMaNV;
+    @FXML
+    private TableColumn<NhanVien, String> colCCCD;
+    @FXML
+    private TableColumn<NhanVien, String> colHoTen;
+    @FXML
+    private TableColumn<NhanVien, String> colNgaySinh;
+    @FXML
+    private TableColumn<NhanVien, String> colSoDienThoai;
+    @FXML
+    private TableColumn<NhanVien, String> colDiaChi;
+    @FXML
+    private TableColumn<NhanVien, String> colChucVu;
+    @FXML
+    private TableColumn<NhanVien, String> colGioiTinh;
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 
-   @FXML
-   private Button btnRefresh;
-   @FXML
-   private Button btnAddNV;
-   @FXML
-   private Button btnUpdate;
+    @FXML
+    private ToggleGroup genderGroup;
+    @FXML
+    private RadioButton radioButtonNam;
+    @FXML
+    private RadioButton radioButtonNu;
 
-   private String currentMaNhanVien;
+    @FXML
+    private Button btnRefresh;
+    @FXML
+    private Button btnAddNV;
+    @FXML
+    private Button btnUpdate;
 
+<<<<<<< HEAD
    DataInputStream dis = ClientSocket.getDis();
    DataOutputStream dos = ClientSocket.getDos();
    ObjectInputStream in = ClientSocket.getIn();
@@ -188,12 +225,102 @@ public class GD_QLNhanVienController implements Initializable {
       docDuLieuTuTable();
       handleEventInTable();
       handleEventChangesImgNV();
+=======
+    private String currentMaNhanVien;
+    DataInputStream dis = ClientSocket.getDis();
+    DataOutputStream dos = ClientSocket.getDos();
+    ObjectInputStream in = ClientSocket.getIn();
+    ObjectOutputStream out = ClientSocket.getOut();
 
-      btnRefresh.setOnAction(this::handleLamMoiButtonAction);
-      btnAddNV.setOnAction(this::handleThemNhanVienButtonAction);
-      btnUpdate.setOnAction(this::handleCapNhatNhanVienButtonAction);
-   }
+    @SneakyThrows
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        genderGroup = new ToggleGroup();
+        radioButtonNam.setToggleGroup(genderGroup);
+        radioButtonNu.setToggleGroup(genderGroup);
 
+        dateNgaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                NhanVien nv = table.getSelectionModel().getSelectedItem();
+                if (nv == null) {
+                    currentMaNhanVien = phatSinhMaNhanVien();
+                    txtMaNhanVien.setText(currentMaNhanVien);
+                }
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        colMaNV.setCellValueFactory(new PropertyValueFactory<>("maNhanVien"));
+        colCCCD.setCellValueFactory(new PropertyValueFactory<>("cccd"));
+        colHoTen.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
+        colNgaySinh.setCellValueFactory(cellData -> {
+            LocalDate ngaySinh = cellData.getValue().getNgaySinh().atZone(ZoneId.systemDefault()).toLocalDate();//chage Instant to LocalDate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ngaySinhFormatted = ngaySinh.format(formatter);
+            return new ReadOnlyStringWrapper(ngaySinhFormatted);
+        });
+
+//        colSoDienThoai.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
+        colSoDienThoai.setCellValueFactory(cellData -> {
+            Integer soDienThoai = cellData.getValue().getSoDienThoai();
+            String soDienThoaiString = "0" + soDienThoai;
+            return new ReadOnlyStringWrapper(soDienThoaiString);
+        });
+        colDiaChi.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+        //colChucVu.setCellValueFactory(new PropertyValueFactory<>("chucVu"));
+        colChucVu.setCellValueFactory(cellData -> {
+            Enum_ChucVu chucVu = cellData.getValue().getChucVu();
+            String chucVuString;
+            if (chucVu == Enum_ChucVu.BAOVE) {
+                chucVuString = "Bảo vệ";
+            } else if (chucVu == Enum_ChucVu.NHANVIENPHUCVU) {
+                chucVuString = "NV phục vụ";
+            } else if (chucVu == Enum_ChucVu.NHANVIENTIEPTAN) {
+                chucVuString = "NV tiếp tân";
+            } else {
+                chucVuString = "Quản lý";
+            }
+            return new ReadOnlyStringWrapper(chucVuString);
+        });
+        colGioiTinh.setCellValueFactory(cellData -> {
+            int gioiTinh = cellData.getValue().getGioiTinh();
+            String gioiTinhString;
+
+            if (gioiTinh == 1) {
+                gioiTinhString = "Nam";
+            } else {
+                gioiTinhString = "Nữ";
+            }
+            return new ReadOnlyStringWrapper(gioiTinhString);
+
+        });
+
+        try {
+//         employee-find-all-employee <List<NhanVien> >: lấy toàn bộ nhân viên
+            dos.writeUTF("employee-find-all-employee");
+            List<NhanVien> nhanViens = (List<NhanVien>) in.readObject();
+            FXCollections.observableArrayList(nhanViens);
+            table.getItems().addAll(nhanViens);
+//         table.setItems(NhanVien.getAllNhanVien());
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        table.requestFocus();
+        table.getSelectionModel().select(0);
+        table.getSelectionModel().focus(0);
+        docDuLieuTuTable();
+        handleEventInTable();
+        handleEventChangesImgNV();
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
+
+        btnRefresh.setOnAction(this::handleLamMoiButtonAction);
+        btnAddNV.setOnAction(this::handleThemNhanVienButtonAction);
+        btnUpdate.setOnAction(this::handleCapNhatNhanVienButtonAction);
+    }
+
+<<<<<<< HEAD
    public void docDuLieuTuTable() {
       NhanVien nv = table.getSelectionModel().getSelectedItem();
       if (nv == null) {
@@ -324,93 +451,228 @@ public class GD_QLNhanVienController implements Initializable {
       cbbChucVu.getSelectionModel().selectFirst();
 //      cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
    }
+=======
+    public void docDuLieuTuTable() {
+        NhanVien nv = table.getSelectionModel().getSelectedItem();
+        if (nv == null) {
+            return;
+        }
+        txtMaNhanVien.setText(nv.getMaNhanVien());
+        txtCCCD.setText(nv.getCccd());
+        txtHoTen.setText(nv.getHoTen());
+//      dateNgaySinh.setValue(nv.getNgaySinh());
+        dateNgaySinh.setValue(nv.getNgaySinh().atZone(ZoneId.systemDefault()).toLocalDate());
+//        cbbChucVu.getItems().clear();
+//        cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+//        cbbChucVu.setValue(nv.getChucVu());
+        cbbChucVu.getItems().clear();
+        for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
+            cbbChucVu.getItems().add(chucVuToString(chucVu));
+        }
+        cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
+//        txtSoDienThoaiNV.setText(String.valueOf(nv.getSoDienThoai()));
+        txtSoDienThoaiNV.setText("0" + nv.getSoDienThoai());
+        txtDiaChi.setText(nv.getDiaChi());
+        if (nv.getGioiTinh() == 1) {
+            genderGroup.selectToggle(genderGroup.getToggles().get(0));
+        } else {
+            genderGroup.selectToggle(genderGroup.getToggles().get(1));
+        }
+        imgNV.setImage(new Image("file:src/main/resources/image/avt_nv/" + nv.getAnhDaiDien()));
+    }
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 
-   public boolean kiemTraDuLieu() throws Exception {
+    public void handleLamMoiButtonAction(ActionEvent event) {
+        try {
+            xuLyLamMoiThongTinNhanVien();
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-      if (txtMaNhanVien.getText().equals("")) {
-         showAlert("Lỗi nhập dữ liệu", "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
-         dateNgaySinh.requestFocus();
-         return false;
-      }
-      if (!txtCCCD.getText().matches("\\d{12}")) {
-         showAlert("Lỗi nhập dữ liệu", "CCCD là một dãy gồm 12 số");
-         txtCCCD.selectAll();
-         txtCCCD.requestFocus();
-         return false;
-      }
-      if (txtCCCD.getText().equals("")) {
-         showAlert("Lỗi nhập dữ liệu", "CCCD nhân viên không được rỗng");
-         txtCCCD.selectAll();
-         txtCCCD.requestFocus();
-         return false;
-      }
+    public void handleThemNhanVienButtonAction(ActionEvent event) {
+        try {
+            if (!xuLyThemNhanVien()) {
+                showAlert("Thông báo", "Thêm nhân viên không thành công");
+            }
+            ;
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-      if (txtHoTen.getText().equals("")) {
-         showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên không được rỗng");
-         txtHoTen.selectAll();
-         txtHoTen.requestFocus();
-         return false;
-      }
-      if (!isNameFormatValid(txtHoTen.getText())) {
-         showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên phải in hoa ký tự đầu");
-         txtHoTen.selectAll();
-         txtHoTen.requestFocus();
-         return false;
-      }
-      if (dateNgaySinh.getValue() == null) {
-         showAlert("Lỗi nhập dữ liệu", "Ngày sinh không được rỗng");
-         dateNgaySinh.requestFocus();
-         return false;
-      }
+    public void handleCapNhatNhanVienButtonAction(ActionEvent event) {
+        try {
+            if (!xuLySuaThongTinNhanVien()) {
+                showAlert("Thông báo", "Cập nhật không thành công");
+            }
+            ;
+        } catch (Exception ex) {
+            Logger.getLogger(GD_QLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-      if ((LocalDate.now().getYear() - dateNgaySinh.getValue().getYear()) < 18) {
-         showAlert("Lỗi nhập dữ liệu", "Nhân viên phải từ 18 trở lên");
-         dateNgaySinh.requestFocus();
-         return false;
-      }
+    public void handleEventChangesImgNV() {
+        imgNV.setOnMouseClicked((event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                openFileChooser();
+            }
+        });
+    }
 
-      if (txtSoDienThoaiNV.getText().equals("")) {
-         showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên không được rỗng");
-         txtSoDienThoaiNV.selectAll();
-         txtSoDienThoaiNV.requestFocus();
-         return false;
-      }
-      if (!txtSoDienThoaiNV.getText().matches("0[23789]\\d{8}")) {
-         showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên là dãy gồm 10 ký số. 2 ký số đầu là {02, 03, 05, 07, 08, 09}");
-         txtSoDienThoaiNV.selectAll();
-         txtSoDienThoaiNV.requestFocus();
-         return false;
-      }
+    public void openFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Chọn ảnh");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Ảnh Files", "*.png", "*.jpg", "*.gif")
+        );
 
-      if (txtDiaChi.getText().equals("")) {
-         showAlert("Lỗi nhập dữ liệu", "Địa chỉ nhân viên không được rỗng");
-         txtDiaChi.selectAll();
-         txtDiaChi.requestFocus();
-         return false;
-      }
+        String initialDirectoryPath = "src/main/resources/image/avt_nv/";
+        Path initialDirectory = Paths.get(initialDirectoryPath).toAbsolutePath();
 
-      if (cbbChucVu.getValue() == null) {
-         showAlert("Lỗi nhập dữ liệu", "Vui lòng chọn chức vụ");
-         cbbChucVu.requestFocus();
-         return false;
-      }
+        fileChooser.setInitialDirectory(initialDirectory.toFile());
+        Stage stage = new Stage();
+        File selectedFile = fileChooser.showOpenDialog(stage);
 
-      Image img = new Image("file:src/main/resources/image/employe.png");
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            imgNV.setImage(image);
+        }
+    }
 
-      if (imgNV.getImage() != null && imgNV.getImage().getUrl().equals(img.getUrl())) {
-         showAlert("Lỗi nhập dữ liệu", "Vui lòng nhấn đúp chuột trái vào ảnh nhân viên minh họa để chọn ảnh!");
-         return false;
-      }
+    public void handleEventInTable() {
+        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                docDuLieuTuTable();
+            }
 
-      return true;
-   }
+        });
+        table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.ENTER) {
+                    docDuLieuTuTable();
+                }
+            }
+        });
+    }
 
-   public boolean xuLyThemNhanVien() throws Exception {
-      if (!kiemTraDuLieu()) {
-         return false;
-      }
-//      NhanVien nv = null;
+    public void xuLyLamMoiThongTinNhanVien() throws Exception {
+        txtMaNhanVien.setText("");
+        txtCCCD.setText("");
+        txtHoTen.setText("");
+        dateNgaySinh.setValue(LocalDate.now());
+        txtSoDienThoaiNV.setText("");
+        txtDiaChi.setText("");
+        genderGroup.getToggles().get(0).setSelected(true);
+        cbbChucVu.setValue(null);
+        imgNV.setImage(new Image("file:src/main/resources/image/employe.png"));
+        table.getSelectionModel().clearSelection();
+        cbbChucVu.getItems().clear();
+        //cbbChucVu.getItems().addAll(Enum_ChucVu.values());
+//        cbbChucVu.getItems().clear();
+        for (Enum_ChucVu chucVu : Enum_ChucVu.values()) {
+            cbbChucVu.getItems().add(chucVuToString(chucVu));
+        }
+        cbbChucVu.getSelectionModel().selectFirst();
+        //cbbChucVu.setValue(chucVuToString(nv.getChucVu()));
+    }
+
+    public boolean kiemTraDuLieu() throws Exception {
+
+        if (txtMaNhanVien.getText().equals("")) {
+            showAlert("Lỗi nhập dữ liệu", "Mã nhân viên hiện chưa thể tạo!Bạn vui lòng kiểm tra lại ngày sinh");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+        if (!txtCCCD.getText().matches("\\d{12}")) {
+            showAlert("Lỗi nhập dữ liệu", "CCCD là một dãy gồm 12 số");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return false;
+        }
+        if (txtCCCD.getText().equals("")) {
+            showAlert("Lỗi nhập dữ liệu", "CCCD nhân viên không được rỗng");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return false;
+        }
+
+        if (txtHoTen.getText().equals("")) {
+            showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên không được rỗng");
+            txtHoTen.selectAll();
+            txtHoTen.requestFocus();
+            return false;
+        }
+        if (!isNameFormatValid(txtHoTen.getText())) {
+            showAlert("Lỗi nhập dữ liệu", "Họ tên nhân viên phải in hoa ký tự đầu");
+            txtHoTen.selectAll();
+            txtHoTen.requestFocus();
+            return false;
+        }
+        if (dateNgaySinh.getValue() == null) {
+            showAlert("Lỗi nhập dữ liệu", "Ngày sinh không được rỗng");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+
+        if ((LocalDate.now().getYear() - dateNgaySinh.getValue().getYear()) < 18) {
+            showAlert("Lỗi nhập dữ liệu", "Nhân viên phải từ 18 trở lên");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+
+        if (txtSoDienThoaiNV.getText().equals("")) {
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên không được rỗng");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return false;
+        }
+        if (!txtSoDienThoaiNV.getText().matches("0[23789]\\d{8}")) {
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại nhân viên là dãy gồm 10 ký số. 2 ký số đầu là {02, 03, 05, 07, 08, 09}");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return false;
+        }
+
+        if (txtDiaChi.getText().equals("")) {
+            showAlert("Lỗi nhập dữ liệu", "Địa chỉ nhân viên không được rỗng");
+            txtDiaChi.selectAll();
+            txtDiaChi.requestFocus();
+            return false;
+        }
+
+        if (cbbChucVu.getValue() == null) {
+            showAlert("Lỗi nhập dữ liệu", "Vui lòng chọn chức vụ");
+            cbbChucVu.requestFocus();
+            return false;
+        }
+
+        Image img = new Image("file:src/main/resources/image/employe.png");
+
+        if (imgNV.getImage() != null && imgNV.getImage().getUrl().equals(img.getUrl())) {
+            showAlert("Lỗi nhập dữ liệu", "Vui lòng nhấn đúp chuột trái vào ảnh nhân viên minh họa để chọn ảnh!");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean xuLyThemNhanVien() throws Exception {
+        if (!kiemTraDuLieu()) {
+            return false;
+        }
+        NhanVien nv = null;
+        LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+        if (ngaySinh == null) {
+            showAlert("Lỗi nhập dữ liệu", "Ngày sinh không được rỗng");
+            dateNgaySinh.requestFocus();
+            return false;
+        }
+        String maNhanVien = phatSinhMaNhanVien();
 //        String maNhanVien = phatSinhMaNhanVien();
+<<<<<<< HEAD
       String maNhanVien = currentMaNhanVien;
       String hoTen = txtHoTen.getText();
       String cccd = txtCCCD.getText();
@@ -424,15 +686,28 @@ public class GD_QLNhanVienController implements Initializable {
       if (genderGroup.getToggles().get(1).isSelected()) {
          gioiTinh = false;
       }
+=======
+//      String maNhanVien = currentMaNhanVien;
+        String hoTen = txtHoTen.getText();
+        String cccd = txtCCCD.getText();
+        String soDienThoai = txtSoDienThoaiNV.getText();
+//      LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+        String diaChi = txtDiaChi.getText();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
 //        Enum_ChucVu chucVu = (Enum_ChucVu) cbbChucVu.getValue();
-      String chucVuString = (String) cbbChucVu.getValue();
-      Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
-      Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
-      //String anhDaiDien = imgNV.getImage().getUrl();
-      String anhDaiDienUrl = imgNV.getImage().getUrl();
-      File file = new File(anhDaiDienUrl);
-      String anhDaiDien = file.getName();
+        String chucVuString = (String) cbbChucVu.getValue();
+        Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
+        Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
+        //String anhDaiDien = imgNV.getImage().getUrl();
+        String anhDaiDienUrl = imgNV.getImage().getUrl();
+        File file = new File(anhDaiDienUrl);
+        String anhDaiDien = file.getName();
 
+<<<<<<< HEAD
       if (!kiemTraTrungCCCD(cccd)) {
          showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
          txtCCCD.selectAll();
@@ -482,13 +757,62 @@ public class GD_QLNhanVienController implements Initializable {
       if (genderGroup.getToggles().get(1).isSelected()) {
          gioiTinh = false;
       }
+=======
+        if (!kiemTraTrungCCCD(cccd)) {
+            showAlert("Lỗi nhập dữ liệu", "Mã căn cước công dân không được phép trùng!");
+            txtCCCD.selectAll();
+            txtCCCD.requestFocus();
+            return false;
+        }
 
-      String chucVuString = (String) cbbChucVu.getValue();
-      Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
+        if (!kiemTraTrungSDT(soDienThoai)) {
+            showAlert("Lỗi nhập dữ liệu", "Số điện thoại không được phép trùng!");
+            txtSoDienThoaiNV.selectAll();
+            txtSoDienThoaiNV.requestFocus();
+            return false;
+        }
+        Instant ngaySinhInstant = ngaySinh.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
-      Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
+        // Convert String to Integer
+        Integer soDienThoaiInteger = Integer.parseInt(soDienThoai);
+//      NhanVien(String maNhanVien, String hoTen, String cccd, Integer soDienThoai, Instant ngaySinh, String diaChi, Integer gioiTinh, Enum_ChucVu chucVu, Enum_TrangThaiLamViec trangThai, String anhDaiDien)
+        nv = new NhanVien(maNhanVien, hoTen, cccd, soDienThoaiInteger, ngaySinhInstant, diaChi, gioiTinh ? 1 : 0, chucVu, trangThai, anhDaiDien);
+        dos.writeUTF("employee-add-employee");
+        out.writeObject(nv);
+        dis.readBoolean();
+//      NhanVien.themNhanVien(nv);
+        dos.writeUTF("employee-find-all-employee");
+        table.getItems().clear();
+        table.getItems().addAll((List<NhanVien>) in.readObject());
+
+//      table.setItems(NhanVien.getAllNhanVien());
+        showAlert("Thông báo", "Thêm nhân viên thành công");
+        return true;
+    }
+
+    public boolean xuLySuaThongTinNhanVien() throws SQLException, Exception {
+        if (!kiemTraDuLieu()) {
+            return false;
+        }
+        String maNhanVien = txtMaNhanVien.getText();
+        String hoTen = txtHoTen.getText();
+        String cccd = txtCCCD.getText();
+        String soDienThoai = txtSoDienThoaiNV.getText();
+        LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+        String diaChi = txtDiaChi.getText();
+        boolean gioiTinh = true;
+        if (genderGroup.getToggles().get(1).isSelected()) {
+            gioiTinh = false;
+        }
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
+
+        String chucVuString = (String) cbbChucVu.getValue();
+        Enum_ChucVu chucVu = (Enum_ChucVu) chucVuToStringDB(chucVuString);
+
+        Enum_TrangThaiLamViec trangThai = Enum_TrangThaiLamViec.CONLAMVIEC;
 
 //        String anhDaiDien = imgNV.getStyle();
+<<<<<<< HEAD
       String anhDaiDienUrl = imgNV.getImage().getUrl();
       File file = new File(anhDaiDienUrl);
       String anhDaiDien = file.getName();
@@ -560,54 +884,141 @@ public class GD_QLNhanVienController implements Initializable {
       }
       return true;
    }
+=======
+        String anhDaiDienUrl = imgNV.getImage().getUrl();
+        File file = new File(anhDaiDienUrl);
+        String anhDaiDien = file.getName();
+        NhanVien nv = new NhanVien(maNhanVien, hoTen, cccd, Integer.parseInt(soDienThoai), ngaySinh.atStartOfDay(ZoneId.systemDefault()).toInstant(), diaChi, gioiTinh ? 1 : 0, chucVu, trangThai, anhDaiDien);
+//      NhanVien nv = new NhanVien(maNhanVien, cccd, hoTen, diaChi, ngaySinh, soDienThoai, chucVu, gioiTinh, anhDaiDien, trangThai);
+        dos.writeUTF("employee-update-employee");
+        out.writeObject(nv);
+        dis.readBoolean();
+//      NhanVien.capNhatThongTinNhanVien(nv);
+//
+        try {
+            dos.writeUTF("employee-find-all-employee");
+            Object o = in.readObject();
+            if (o instanceof List) {
+                List<NhanVien> nhanViens = (List<NhanVien>) o;
+                FXCollections.observableArrayList(nhanViens);
+                table.getItems().clear();
+                table.getItems().addAll(nhanViens);
+                table.refresh();
+            } else {
+                showAlert("Thông báo", "Không thể cập nhật");
+                return false;
+            }
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        }
 
-   public String chucVuToString(Enum_ChucVu chucVu) {
-      switch (chucVu) {
-         case BAOVE:
-            return "Bảo vệ";
-         case NHANVIENPHUCVU:
-            return "Nhân viên phục vụ";
-         case NHANVIENTIEPTAN:
-            return "Nhân viên tiếp tân";
-         case QUANLY:
-            return "Quản lý";
-         default:
-            return "";
-      }
-   }
 
-   public Enum_ChucVu chucVuToStringDB(String chucVu) {
-      switch (chucVu) {
-         case "Bảo vệ":
-            return Enum_ChucVu.BAOVE;
-         case "Nhân viên phục vụ":
-            return Enum_ChucVu.NHANVIENPHUCVU;
-         case "Nhân viên tiếp tân":
-            return Enum_ChucVu.NHANVIENTIEPTAN;
-         case "Quản lý":
-            return Enum_ChucVu.QUANLY;
-         default:
-            return null;
-      }
-   }
+//      table.setItems(NhanVien.getAllNhanVien());
+//      table.refresh();
+        showAlert("Thông báo", "Đã cập nhật");
+        return true;
+    }
 
-   public void showAlert(String title, String content) {
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle(title);
-      alert.setHeaderText(null);
-      alert.setContentText(content);
-      alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
-      alert.showAndWait();
-   }
+    public String phatSinhMaNhanVien() throws SQLException, IOException {
+        String maNhanVien = "NV";
+        LocalDate ngaySinh = (LocalDate) dateNgaySinh.getValue();
+        int namSinh = ngaySinh.getYear();
+        dos.writeUTF("employee-count-employee," + namSinh);
+        long totalEmployees = dis.readLong();
+////      int totalEmployees = NhanVien.demSLNhanVien(namSinh);
+        DecimalFormat dfSoThuTu = new DecimalFormat("00");
+        String soThuTuFormatted = dfSoThuTu.format(totalEmployees + 1);
+        String namSinhSuffix = String.valueOf(namSinh).substring(2);
+        maNhanVien = maNhanVien.concat(soThuTuFormatted).concat(namSinhSuffix);
+        return maNhanVien;
+    }
 
-   public boolean isNameFormatValid(String name) {
-      String[] words = name.split("\\s+");
-      for (String word : words) {
-         if (!word.matches("\\p{Lu}\\p{Ll}*")) {
-            return false;
-         }
-      }
-      return true;
-   }
+
+    public boolean kiemTraTrungCCCD(String cc) throws Exception {
+
+//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        dos.writeUTF("employee-find-all-employee");
+        ObservableList<NhanVien> dsNhanVien = FXCollections.observableArrayList((List<NhanVien>) in.readObject());
+        for (NhanVien NV : dsNhanVien) {
+            if (cc.trim().equals(NV.getCccd())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean kiemTraTrungSDT(String dt) throws Exception {
+//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        dos.writeUTF("employee-find-all-employee");
+        ObservableList<NhanVien> dsNhanVien = FXCollections.observableArrayList((List<NhanVien>) in.readObject());
+        for (NhanVien NV : dsNhanVien) {
+            if (dt.equals(NV.getSoDienThoai())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean kiemTraTrungMaNV(String maNV) throws Exception {
+//      ObservableList<NhanVien> dsNhanVien = NhanVien.getAllNhanVien();
+        dos.writeUTF("employee-find-all-employee");
+        ObservableList<NhanVien> dsNhanVien = FXCollections.observableArrayList((List<NhanVien>) in.readObject());
+        for (NhanVien NV : dsNhanVien) {
+            if (maNV.equals(NV.getMaNhanVien())) {
+                return false;
+            }
+        }
+        return true;
+    }
+>>>>>>> 2a823cc7a1829cf4b9d0bf974d4879c776daea4b
+
+    public String chucVuToString(Enum_ChucVu chucVu) {
+        switch (chucVu) {
+            case BAOVE:
+                return "Bảo vệ";
+            case NHANVIENPHUCVU:
+                return "Nhân viên phục vụ";
+            case NHANVIENTIEPTAN:
+                return "Nhân viên tiếp tân";
+            case QUANLY:
+                return "Quản lý";
+            default:
+                return "";
+        }
+    }
+
+    public Enum_ChucVu chucVuToStringDB(String chucVu) {
+        switch (chucVu) {
+            case "Bảo vệ":
+                return Enum_ChucVu.BAOVE;
+            case "Nhân viên phục vụ":
+                return Enum_ChucVu.NHANVIENPHUCVU;
+            case "Nhân viên tiếp tân":
+                return Enum_ChucVu.NHANVIENTIEPTAN;
+            case "Quản lý":
+                return Enum_ChucVu.QUANLY;
+            default:
+                return null;
+        }
+    }
+
+    public void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.getDialogPane().setStyle("-fx-font-family: 'sans-serif';");
+        alert.showAndWait();
+    }
+
+    public boolean isNameFormatValid(String name) {
+        String[] words = name.split("\\s+");
+        for (String word : words) {
+            if (!word.matches("\\p{Lu}\\p{Ll}*")) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
